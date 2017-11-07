@@ -275,6 +275,7 @@
 			<version>${jetty.version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- jetty -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -475,19 +476,7 @@
 		    <version>1.4</version> 
 		</dependency>
 		
-		<!-- jetty -->
-		<dependency>
-			<groupId>org.eclipse.jetty.aggregate</groupId>
-			<artifactId>jetty-webapp</artifactId>
-			<version>${jetty.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-jsp</artifactId>
-			<version>${jetty.version}</version>
-			<scope>provided</scope>
-		</dependency>
+		
 	
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>

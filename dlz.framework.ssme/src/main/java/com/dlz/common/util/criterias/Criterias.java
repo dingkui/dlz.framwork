@@ -16,7 +16,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.common.util.system.Reflections;
 import com.dlz.common.util.web.Servlets;
 import com.dlz.framework.db.modal.Page;

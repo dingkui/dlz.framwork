@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.dlz.common.util.string.Collections3;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 
 public class SearchFilter {
 

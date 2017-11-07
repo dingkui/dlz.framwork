@@ -2,7 +2,7 @@ package com.dlz.common.util.encry;
 
 import java.util.UUID;
 
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import org.joda.time.DateTime;
 
 public class UUIDs {

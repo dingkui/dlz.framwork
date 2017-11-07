@@ -14,9 +14,9 @@ import com.dlz.commbiz.sets.model.ProvinceAndCityCriteria;
 import com.dlz.commbiz.sets.service.ProvinceAndCityService;
 import com.dlz.common.base.controller.BaseController;
 import com.dlz.common.util.criterias.Criterias;
-import com.dlz.common.util.string.JacksonUtil;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.util.JacksonUtil;
 
 /**
  * 区域设置

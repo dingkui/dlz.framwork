@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.db.SqlUtil;
+import com.dlz.framework.util.StringUtils;
 
 public class Page extends PageMiniUi {
 	public static final int DEFAULT_PAGE_SIZE = 20;
@@ -50,10 +51,10 @@ public class Page extends PageMiniUi {
 	}
 	
 	public String getOrderBy() {
-		return orderBy==null?(StringUtils.isEmpty(sortField)?null:(StringUtils.converStr2ClumnStr(sortField)+" "+(sortOrder==null?"":sortOrder))):orderBy;
+		return orderBy==null?(StringUtils.isEmpty(sortField)?null:(SqlUtil.converStr2ClumnStr(sortField)+" "+(sortOrder==null?"":sortOrder))):orderBy;
 	}
 	public void setOrderBy(String orderBy) {
-		this.orderBy = StringUtils.converStr2ClumnStr(orderBy);
+		this.orderBy = SqlUtil.converStr2ClumnStr(orderBy);
 	}
 	public Map<String, Object> getAtrrs() {
 		return atrrs;

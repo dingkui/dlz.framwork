@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dlz.common.util.config.ConfigUtil;
-import com.dlz.common.util.string.JacksonUtil;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.JacksonUtil;
 
 public class DistanceUtil {
 	

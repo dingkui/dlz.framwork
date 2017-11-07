@@ -7,7 +7,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.io.Charsets;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

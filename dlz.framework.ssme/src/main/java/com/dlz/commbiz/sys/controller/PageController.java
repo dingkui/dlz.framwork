@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dlz.common.base.controller.BaseController;
 import com.dlz.common.logic.interfaces.IWapLogic;
 import com.dlz.common.shiro.ShiroUser;
-import com.dlz.common.util.string.JacksonUtil;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.util.JacksonUtil;
 @Controller
 @RequestMapping(value = "")
 public class PageController extends BaseController{

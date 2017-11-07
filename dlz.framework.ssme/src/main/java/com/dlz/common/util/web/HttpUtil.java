@@ -27,7 +27,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dlz.common.util.string.JacksonUtil;
+import com.dlz.framework.util.JacksonUtil;
  
 /**
  * 这个Https协议工具类，采用HttpsURLConnection实现。

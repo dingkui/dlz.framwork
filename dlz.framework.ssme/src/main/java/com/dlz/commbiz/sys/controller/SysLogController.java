@@ -19,7 +19,7 @@ import com.dlz.commbiz.sys.rbac.model.SysLogCriteria;
 import com.dlz.commbiz.sys.rbac.service.SysLogService;
 import com.dlz.common.util.criterias.Criterias;
 import com.dlz.common.util.office.Excels;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.db.modal.Page;
 import com.google.common.collect.ImmutableMap;
 

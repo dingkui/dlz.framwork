@@ -17,8 +17,8 @@ import com.dlz.commbiz.dict.model.DictDetailCriteria;
 import com.dlz.commbiz.dict.model.DictDetailKey;
 import com.dlz.commbiz.dict.service.DictDetailService;
 import com.dlz.common.util.criterias.Criterias;
-import com.dlz.common.util.string.JacksonUtil;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.util.JacksonUtil;
 
 @Controller
 @RequestMapping(value = "/rbac/dictDetail")

@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dlz.common.interfaces.IConfigInterface;
-import com.dlz.common.util.string.StringUtils;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.util.StringUtils;
 
 
 public class ConfigUtil {

@@ -19,7 +19,7 @@ import com.dlz.commbiz.dict.model.BaseSetCriteria;
 import com.dlz.commbiz.dict.service.BaseSetService;
 import com.dlz.common.shiro.ShiroUser;
 import com.dlz.common.util.criterias.Criterias;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.db.modal.Page;
 
 /**

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.dlz.common.util.config.ConfigUtil;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.CommServiceImpl;

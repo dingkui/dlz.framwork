@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.common.util.system.Exceptions;
 import com.dlz.common.util.system.Reflections;
 import com.dlz.common.util.xml.wrapper.CollectionWrapper;

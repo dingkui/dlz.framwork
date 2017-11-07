@@ -16,9 +16,9 @@ import com.dlz.commbiz.notice.model.AnnounceCriteria;
 import com.dlz.commbiz.notice.service.AnnounceService;
 import com.dlz.common.base.controller.BaseController;
 import com.dlz.common.util.criterias.Criterias;
-import com.dlz.common.util.string.JacksonUtil;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.util.JacksonUtil;
 /**
  * 通告
  * @author Administrator

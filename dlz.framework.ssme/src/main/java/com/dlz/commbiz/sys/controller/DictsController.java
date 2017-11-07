@@ -14,18 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.commbiz.dict.cache.DictsCache;
 import com.dlz.commbiz.dict.model.Dicts;
 import com.dlz.commbiz.dict.model.DictsCriteria;
 import com.dlz.commbiz.dict.service.DictsService;
 import com.dlz.commbiz.sys.rbac.service.RbacService;
 import com.dlz.common.base.controller.BaseController;
-import com.dlz.common.util.bean.MapUtil;
 import com.dlz.common.util.criterias.Criterias;
-import com.dlz.common.util.string.JacksonUtil;
-import com.dlz.common.util.string.StringUtils;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.util.JacksonUtil;
+import com.dlz.framework.util.MapUtil;
+import com.dlz.framework.util.StringUtils;
 @SuppressWarnings("unchecked")
 @Controller
 @RequestMapping(value = "/dicts")
@@ -36,6 +37,8 @@ public class DictsController extends BaseController {
 	DictsService dictsService;
 	@Autowired
 	RbacService rbacService;
+	@Autowired
+	DictsCache dictsCache;
 
 	/*
 	 * 列表首页
@@ -119,6 +122,7 @@ public class DictsController extends BaseController {
 			pm.addPara("isLeaf", 0l);
 			commService.excuteSql(pm);
 		}
+		dictsCache.remove(dicts.getPid());
 		return "OK";
 	}
 	
@@ -157,6 +161,7 @@ public class DictsController extends BaseController {
 		pm.addPara("pid", d.getPid());
 		pm.addPara("isLeaf", 1l);
 		commService.excuteSql(pm);
+		dictsCache.remove(d.getPid());
 		return "OK";
 	}
 	
@@ -188,10 +193,7 @@ public class DictsController extends BaseController {
 		return catTree;
 	}
 	private void add2Map(List<Map> catTree,Long id,boolean showAll) throws Exception{
-		DictsCriteria dcc = new DictsCriteria();
-		dcc.getCurrentCriteria().andPidEqualTo(id);
-		dcc.setOrderByClause("ord");
-		List<Dicts> treeData = dictsService.selectByExample(dcc);
+		List<Dicts> treeData = dictsCache.get(id);
 		if(!CollectionUtils.isEmpty(treeData)){
 			for(Dicts cat : treeData){
 				Map data = MapUtil.convertBean(cat);

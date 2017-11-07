@@ -3,8 +3,8 @@ package com.dlz.common.util.string;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.dlz.common.util.string.DateUtil;
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.DateUtil;
+import com.dlz.framework.util.StringUtils;
 
 
 public class CreateCode{

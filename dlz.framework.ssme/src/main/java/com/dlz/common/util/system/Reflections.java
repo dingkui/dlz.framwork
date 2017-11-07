@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.dlz.common.util.string.StringUtils;
+import com.dlz.framework.util.StringUtils;
 
 /**
  * 反射工具类.

@@ -1,5 +1,6 @@
 package com.dlz.commbiz.sys.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +54,22 @@ public class MainController extends BaseController{
 		paramMap.put("roles", user.getRoleList());
 		model.addAttribute("menuList", funOptService.getOptsByRoles(paramMap));
 		return "index";
+	}
+	/*
+	 * 左边树形菜单通过此方法跳转至页面
+	 * 
+	 * @return 2013-8-25
+	 */
+	@RequestMapping("index1")
+	public String index1(Model model) {
+		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+		Map<String, Object> paramMap = Maps.newHashMap();
+		paramMap.put("pidCondition", "and parent_fun_opt_id =0");
+		paramMap.put("fCode", "");
+		paramMap.put("roles", user.getRoleList());
+		List<Map<String, Object>> rootMenuList = funOptService.getOptsByRoles(paramMap);
+		model.addAttribute("menuList", rootMenuList);
+		return "index1";
 	}
 
 	@ResponseBody
