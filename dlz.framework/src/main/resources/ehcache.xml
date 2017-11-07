@@ -1,0 +1,8 @@
+<ehcache>
+	<diskStore path="${user.dir}/caches" />
+	<defaultCache maxElementsInMemory="25600" eternal="true" overflowToDisk="true" />
+    <cache name="urlCache" maxElementsInMemory="25600" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="30" />
+    <cache name="equipmentCache" maxElementsInMemory="25600" timeToLiveSeconds="30"  eternal="true" overflowToDisk="true"/>
+    <cache name="hotelCache" maxElementsInMemory="25600" timeToLiveSeconds="30" eternal="true" overflowToDisk="true"/>
+    <cache name="roomCache" maxElementsInMemory="25600" timeToLiveSeconds="30" eternal="true" overflowToDisk="true"/>
+</ehcache>

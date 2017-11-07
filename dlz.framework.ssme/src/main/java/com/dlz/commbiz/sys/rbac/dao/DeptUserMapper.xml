@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.rbac.dao.DeptUserMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.sys.rbac.model.DeptUser" >
+    <id column="DU_ID" property="duId" jdbcType="DECIMAL" />
+    <result column="DU_D_ID" property="duDId" jdbcType="DECIMAL" />
+    <result column="DU_U_ID" property="duUId" jdbcType="DECIMAL" />
+    <result column="DU_DUTY_DES" property="duDutyDes" jdbcType="VARCHAR" />
+    <result column="DU_ADD_TIME" property="duAddTime" jdbcType="TIMESTAMP" />
+    <result column="DU_ADD_USER_ID" property="duAddUserId" jdbcType="DECIMAL" />
+    <result column="DU_DUTY" property="duDuty" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DU_ID, DU_D_ID, DU_U_ID, DU_DUTY_DES, DU_ADD_TIME, DU_ADD_USER_ID, DU_DUTY
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUserCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_P_DEPT_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_P_DEPT_USER
+    where DU_ID = #{duId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from T_P_DEPT_USER
+    where DU_ID = #{duId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUserCriteria" >
+    delete from T_P_DEPT_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUser" >
+    insert into T_P_DEPT_USER (DU_ID, DU_D_ID, DU_U_ID, 
+      DU_DUTY_DES, DU_ADD_TIME, DU_ADD_USER_ID, 
+      DU_DUTY)
+    values (#{duId,jdbcType=DECIMAL}, #{duDId,jdbcType=DECIMAL}, #{duUId,jdbcType=DECIMAL}, 
+      #{duDutyDes,jdbcType=VARCHAR}, #{duAddTime,jdbcType=TIMESTAMP}, #{duAddUserId,jdbcType=DECIMAL}, 
+      #{duDuty,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUser" >
+    insert into T_P_DEPT_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="duId != null" >
+        DU_ID,
+      </if>
+      <if test="duDId != null" >
+        DU_D_ID,
+      </if>
+      <if test="duUId != null" >
+        DU_U_ID,
+      </if>
+      <if test="duDutyDes != null" >
+        DU_DUTY_DES,
+      </if>
+      <if test="duAddTime != null" >
+        DU_ADD_TIME,
+      </if>
+      <if test="duAddUserId != null" >
+        DU_ADD_USER_ID,
+      </if>
+      <if test="duDuty != null" >
+        DU_DUTY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="duId != null" >
+        #{duId,jdbcType=DECIMAL},
+      </if>
+      <if test="duDId != null" >
+        #{duDId,jdbcType=DECIMAL},
+      </if>
+      <if test="duUId != null" >
+        #{duUId,jdbcType=DECIMAL},
+      </if>
+      <if test="duDutyDes != null" >
+        #{duDutyDes,jdbcType=VARCHAR},
+      </if>
+      <if test="duAddTime != null" >
+        #{duAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duAddUserId != null" >
+        #{duAddUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="duDuty != null" >
+        #{duDuty,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUserCriteria" >
+    select count(*) from T_P_DEPT_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_P_DEPT_USER
+    <set >
+      <if test="record.duId != null" >
+        DU_ID = #{record.duId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.duDId != null" >
+        DU_D_ID = #{record.duDId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.duUId != null" >
+        DU_U_ID = #{record.duUId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.duDutyDes != null" >
+        DU_DUTY_DES = #{record.duDutyDes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duAddTime != null" >
+        DU_ADD_TIME = #{record.duAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.duAddUserId != null" >
+        DU_ADD_USER_ID = #{record.duAddUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.duDuty != null" >
+        DU_DUTY = #{record.duDuty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_P_DEPT_USER
+    set DU_ID = #{record.duId,jdbcType=DECIMAL},
+      DU_D_ID = #{record.duDId,jdbcType=DECIMAL},
+      DU_U_ID = #{record.duUId,jdbcType=DECIMAL},
+      DU_DUTY_DES = #{record.duDutyDes,jdbcType=VARCHAR},
+      DU_ADD_TIME = #{record.duAddTime,jdbcType=TIMESTAMP},
+      DU_ADD_USER_ID = #{record.duAddUserId,jdbcType=DECIMAL},
+      DU_DUTY = #{record.duDuty,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUser" >
+    update T_P_DEPT_USER
+    <set >
+      <if test="duDId != null" >
+        DU_D_ID = #{duDId,jdbcType=DECIMAL},
+      </if>
+      <if test="duUId != null" >
+        DU_U_ID = #{duUId,jdbcType=DECIMAL},
+      </if>
+      <if test="duDutyDes != null" >
+        DU_DUTY_DES = #{duDutyDes,jdbcType=VARCHAR},
+      </if>
+      <if test="duAddTime != null" >
+        DU_ADD_TIME = #{duAddTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="duAddUserId != null" >
+        DU_ADD_USER_ID = #{duAddUserId,jdbcType=DECIMAL},
+      </if>
+      <if test="duDuty != null" >
+        DU_DUTY = #{duDuty,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DU_ID = #{duId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.sys.rbac.model.DeptUser" >
+    update T_P_DEPT_USER
+    set DU_D_ID = #{duDId,jdbcType=DECIMAL},
+      DU_U_ID = #{duUId,jdbcType=DECIMAL},
+      DU_DUTY_DES = #{duDutyDes,jdbcType=VARCHAR},
+      DU_ADD_TIME = #{duAddTime,jdbcType=TIMESTAMP},
+      DU_ADD_USER_ID = #{duAddUserId,jdbcType=DECIMAL},
+      DU_DUTY = #{duDuty,jdbcType=VARCHAR}
+    where DU_ID = #{duId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

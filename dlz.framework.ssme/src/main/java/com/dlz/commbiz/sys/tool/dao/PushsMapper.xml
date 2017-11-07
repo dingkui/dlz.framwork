@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.tool.dao.PushsMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.sys.tool.model.Pushs" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="CLIENT_ID" property="clientId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="TXT" property="txt" jdbcType="VARCHAR" />
+    <result column="TP" property="tp" jdbcType="VARCHAR" />
+    <result column="PARA" property="para" jdbcType="VARCHAR" />
+    <result column="STA" property="sta" jdbcType="VARCHAR" />
+    <result column="MSG" property="msg" jdbcType="VARCHAR" />
+    <result column="SEND_RESULT" property="sendResult" jdbcType="VARCHAR" />
+    <result column="LAST_SEND_TIME" property="lastSendTime" jdbcType="TIMESTAMP" />
+    <result column="RECIVE_TIME" property="reciveTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, CLIENT_ID, TITLE, TXT, TP, PARA, STA, MSG, SEND_RESULT, LAST_SEND_TIME, 
+    RECIVE_TIME, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.sys.tool.model.PushsCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from S_PUSHS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from S_PUSHS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from S_PUSHS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.sys.tool.model.PushsCriteria" >
+    delete from S_PUSHS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.sys.tool.model.Pushs" >
+    insert into S_PUSHS (ID, USER_ID, CLIENT_ID, 
+      TITLE, TXT, TP, 
+      PARA, STA, MSG, 
+      SEND_RESULT, LAST_SEND_TIME, RECIVE_TIME, 
+      CREATE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{clientId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{txt,jdbcType=VARCHAR}, #{tp,jdbcType=VARCHAR}, 
+      #{para,jdbcType=VARCHAR}, #{sta,jdbcType=VARCHAR}, #{msg,jdbcType=VARCHAR}, 
+      #{sendResult,jdbcType=VARCHAR}, #{lastSendTime,jdbcType=TIMESTAMP}, #{reciveTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.sys.tool.model.Pushs" >
+    insert into S_PUSHS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="clientId != null" >
+        CLIENT_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="txt != null" >
+        TXT,
+      </if>
+      <if test="tp != null" >
+        TP,
+      </if>
+      <if test="para != null" >
+        PARA,
+      </if>
+      <if test="sta != null" >
+        STA,
+      </if>
+      <if test="msg != null" >
+        MSG,
+      </if>
+      <if test="sendResult != null" >
+        SEND_RESULT,
+      </if>
+      <if test="lastSendTime != null" >
+        LAST_SEND_TIME,
+      </if>
+      <if test="reciveTime != null" >
+        RECIVE_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="clientId != null" >
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="txt != null" >
+        #{txt,jdbcType=VARCHAR},
+      </if>
+      <if test="tp != null" >
+        #{tp,jdbcType=VARCHAR},
+      </if>
+      <if test="para != null" >
+        #{para,jdbcType=VARCHAR},
+      </if>
+      <if test="sta != null" >
+        #{sta,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sendResult != null" >
+        #{sendResult,jdbcType=VARCHAR},
+      </if>
+      <if test="lastSendTime != null" >
+        #{lastSendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reciveTime != null" >
+        #{reciveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.sys.tool.model.PushsCriteria" >
+    select count(*) from S_PUSHS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update S_PUSHS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clientId != null" >
+        CLIENT_ID = #{record.clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.txt != null" >
+        TXT = #{record.txt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tp != null" >
+        TP = #{record.tp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.para != null" >
+        PARA = #{record.para,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sta != null" >
+        STA = #{record.sta,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msg != null" >
+        MSG = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendResult != null" >
+        SEND_RESULT = #{record.sendResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastSendTime != null" >
+        LAST_SEND_TIME = #{record.lastSendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reciveTime != null" >
+        RECIVE_TIME = #{record.reciveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update S_PUSHS
+    set ID = #{record.id,jdbcType=DECIMAL},
+      USER_ID = #{record.userId,jdbcType=DECIMAL},
+      CLIENT_ID = #{record.clientId,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      TXT = #{record.txt,jdbcType=VARCHAR},
+      TP = #{record.tp,jdbcType=VARCHAR},
+      PARA = #{record.para,jdbcType=VARCHAR},
+      STA = #{record.sta,jdbcType=VARCHAR},
+      MSG = #{record.msg,jdbcType=VARCHAR},
+      SEND_RESULT = #{record.sendResult,jdbcType=VARCHAR},
+      LAST_SEND_TIME = #{record.lastSendTime,jdbcType=TIMESTAMP},
+      RECIVE_TIME = #{record.reciveTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.sys.tool.model.Pushs" >
+    update S_PUSHS
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="clientId != null" >
+        CLIENT_ID = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="txt != null" >
+        TXT = #{txt,jdbcType=VARCHAR},
+      </if>
+      <if test="tp != null" >
+        TP = #{tp,jdbcType=VARCHAR},
+      </if>
+      <if test="para != null" >
+        PARA = #{para,jdbcType=VARCHAR},
+      </if>
+      <if test="sta != null" >
+        STA = #{sta,jdbcType=VARCHAR},
+      </if>
+      <if test="msg != null" >
+        MSG = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="sendResult != null" >
+        SEND_RESULT = #{sendResult,jdbcType=VARCHAR},
+      </if>
+      <if test="lastSendTime != null" >
+        LAST_SEND_TIME = #{lastSendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reciveTime != null" >
+        RECIVE_TIME = #{reciveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.sys.tool.model.Pushs" >
+    update S_PUSHS
+    set USER_ID = #{userId,jdbcType=DECIMAL},
+      CLIENT_ID = #{clientId,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      TXT = #{txt,jdbcType=VARCHAR},
+      TP = #{tp,jdbcType=VARCHAR},
+      PARA = #{para,jdbcType=VARCHAR},
+      STA = #{sta,jdbcType=VARCHAR},
+      MSG = #{msg,jdbcType=VARCHAR},
+      SEND_RESULT = #{sendResult,jdbcType=VARCHAR},
+      LAST_SEND_TIME = #{lastSendTime,jdbcType=TIMESTAMP},
+      RECIVE_TIME = #{reciveTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

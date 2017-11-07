@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.meb.dao.MebLinkedMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.sys.meb.model.MebLinked" >
+    <id column="L_ID" property="lId" jdbcType="DECIMAL" />
+    <result column="L_MID" property="lMid" jdbcType="DECIMAL" />
+    <result column="L_OPENID" property="lOpenid" jdbcType="VARCHAR" />
+    <result column="L_TYPE" property="lType" jdbcType="DECIMAL" />
+    <result column="L_TIMESTAMP" property="lTimestamp" jdbcType="TIMESTAMP" />
+    <result column="L_FLAG" property="lFlag" jdbcType="DECIMAL" />
+    <result column="L_OPENNAME" property="lOpenname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    L_ID, L_MID, L_OPENID, L_TYPE, L_TIMESTAMP, L_FLAG, L_OPENNAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.sys.meb.model.MebLinkedCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from S_MEB_LINKED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from S_MEB_LINKED
+    where L_ID = #{lId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from S_MEB_LINKED
+    where L_ID = #{lId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.sys.meb.model.MebLinkedCriteria" >
+    delete from S_MEB_LINKED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.sys.meb.model.MebLinked" >
+    insert into S_MEB_LINKED (L_ID, L_MID, L_OPENID, 
+      L_TYPE, L_TIMESTAMP, L_FLAG, 
+      L_OPENNAME)
+    values (#{lId,jdbcType=DECIMAL}, #{lMid,jdbcType=DECIMAL}, #{lOpenid,jdbcType=VARCHAR}, 
+      #{lType,jdbcType=DECIMAL}, #{lTimestamp,jdbcType=TIMESTAMP}, #{lFlag,jdbcType=DECIMAL}, 
+      #{lOpenname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.sys.meb.model.MebLinked" >
+    insert into S_MEB_LINKED
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="lId != null" >
+        L_ID,
+      </if>
+      <if test="lMid != null" >
+        L_MID,
+      </if>
+      <if test="lOpenid != null" >
+        L_OPENID,
+      </if>
+      <if test="lType != null" >
+        L_TYPE,
+      </if>
+      <if test="lTimestamp != null" >
+        L_TIMESTAMP,
+      </if>
+      <if test="lFlag != null" >
+        L_FLAG,
+      </if>
+      <if test="lOpenname != null" >
+        L_OPENNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="lId != null" >
+        #{lId,jdbcType=DECIMAL},
+      </if>
+      <if test="lMid != null" >
+        #{lMid,jdbcType=DECIMAL},
+      </if>
+      <if test="lOpenid != null" >
+        #{lOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="lType != null" >
+        #{lType,jdbcType=DECIMAL},
+      </if>
+      <if test="lTimestamp != null" >
+        #{lTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lFlag != null" >
+        #{lFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="lOpenname != null" >
+        #{lOpenname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.sys.meb.model.MebLinkedCriteria" >
+    select count(*) from S_MEB_LINKED
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update S_MEB_LINKED
+    <set >
+      <if test="record.lId != null" >
+        L_ID = #{record.lId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lMid != null" >
+        L_MID = #{record.lMid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lOpenid != null" >
+        L_OPENID = #{record.lOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lType != null" >
+        L_TYPE = #{record.lType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lTimestamp != null" >
+        L_TIMESTAMP = #{record.lTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lFlag != null" >
+        L_FLAG = #{record.lFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lOpenname != null" >
+        L_OPENNAME = #{record.lOpenname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update S_MEB_LINKED
+    set L_ID = #{record.lId,jdbcType=DECIMAL},
+      L_MID = #{record.lMid,jdbcType=DECIMAL},
+      L_OPENID = #{record.lOpenid,jdbcType=VARCHAR},
+      L_TYPE = #{record.lType,jdbcType=DECIMAL},
+      L_TIMESTAMP = #{record.lTimestamp,jdbcType=TIMESTAMP},
+      L_FLAG = #{record.lFlag,jdbcType=DECIMAL},
+      L_OPENNAME = #{record.lOpenname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.sys.meb.model.MebLinked" >
+    update S_MEB_LINKED
+    <set >
+      <if test="lMid != null" >
+        L_MID = #{lMid,jdbcType=DECIMAL},
+      </if>
+      <if test="lOpenid != null" >
+        L_OPENID = #{lOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="lType != null" >
+        L_TYPE = #{lType,jdbcType=DECIMAL},
+      </if>
+      <if test="lTimestamp != null" >
+        L_TIMESTAMP = #{lTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lFlag != null" >
+        L_FLAG = #{lFlag,jdbcType=DECIMAL},
+      </if>
+      <if test="lOpenname != null" >
+        L_OPENNAME = #{lOpenname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where L_ID = #{lId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.sys.meb.model.MebLinked" >
+    update S_MEB_LINKED
+    set L_MID = #{lMid,jdbcType=DECIMAL},
+      L_OPENID = #{lOpenid,jdbcType=VARCHAR},
+      L_TYPE = #{lType,jdbcType=DECIMAL},
+      L_TIMESTAMP = #{lTimestamp,jdbcType=TIMESTAMP},
+      L_FLAG = #{lFlag,jdbcType=DECIMAL},
+      L_OPENNAME = #{lOpenname,jdbcType=VARCHAR}
+    where L_ID = #{lId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

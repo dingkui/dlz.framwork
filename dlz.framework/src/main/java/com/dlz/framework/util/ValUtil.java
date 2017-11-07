@@ -1,0 +1,154 @@
+package com.dlz.framework.util;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * 对象转换工具类
+ * @author dk 2017-11-03
+ */
+@SuppressWarnings({ "rawtypes", "unchecked" })
+public class ValUtil{
+	
+	public static BigDecimal getBigDecimal(Object input,BigDecimal defaultV){
+		Number o=getNumber(input,null);
+		if(o==null){
+			return defaultV;
+		}
+		if (o instanceof BigDecimal) {
+			return (BigDecimal)o;
+		}
+		return new BigDecimal(o.toString());
+	}
+	public static BigDecimal getBigDecimal(Object input){
+		return getBigDecimal(input,null);
+	}
+	
+	public static Double getDouble(Object input){
+		return getDouble(input, null);
+	}
+	public static Double getDouble(Object input,Double defaultV){
+		Number o=getNumber(input,null);
+		if(o==null){
+			return defaultV;
+		}
+		return o.doubleValue();
+	}
+	
+	public static Float getFloat(Object input){
+		return getFloat(input, null);
+	}
+	public static Float getFloat(Object input,Float defaultV){
+		Number o=getNumber(input,null);
+		if(o==null){
+			return defaultV;
+		}
+		return o.floatValue();
+	}
+	
+	public static Integer getInt(Object input){
+		return getInt(input,null);
+	}
+	public static Integer getInt(Object input,Integer defaultV){
+		Number o=getNumber(input,null);
+		if(o==null){
+			return defaultV;
+		}
+		return o.intValue();
+	}
+	
+	public static Long getLong(Object input){
+		return getLong(input, null);
+	}
+	public static Long getLong(Object input,Long defaultV){
+		Number o=getNumber(input,null);
+		if(o==null){
+			return defaultV;
+		}
+		return o.longValue();
+	}
+	
+
+	public static Object[] getArray(Object input){
+		return getArray(input, null);
+	}
+	public static List getList(Object input){
+		return getList(input, null);
+	}
+	
+	public static String getStr(Object input){
+		return getStr(input, null);
+	}
+	public static Boolean getBoolean(Object input){
+		return getBoolean(input,false);
+	}
+	
+	
+	public static String getStr(Object input,String defaultV){
+		if(input==null){
+			return defaultV;
+		}
+		if (input instanceof CharSequence) {
+			return ((CharSequence)input).toString();
+		}
+		return input.toString();
+	}
+	public static Boolean getBoolean(Object input,Boolean defaultV){
+		if(input==null){
+			return defaultV;
+		}
+		if (input instanceof Boolean) {
+			return (Boolean)input;
+		}
+		String r=input.toString();
+		
+		return !"false".equals(r)&&!"0".equals(r)&&!"".equals(r);
+	}
+	private static Number getNumber(Object input,Number defaultV){
+		if(input==null){
+			return defaultV;
+		}
+		if (input instanceof Number) {
+			return (Number)input;
+		}
+		return new BigDecimal(input.toString());
+	}
+	public static List getList(Object input,List defaultV){
+		if(input==null){
+			return defaultV;
+		}
+		if (input instanceof List) {
+			return (List)input;
+		}else if(input instanceof Collection) {
+			List list=new ArrayList();
+			list.addAll((Collection)input);
+			return list;
+		}else if(input instanceof Object[]) {
+			List list=new ArrayList();
+			Collections.addAll(list, (Object[])input);
+			return list;
+		}
+		return defaultV;
+	}
+	public static Object[] getArray(Object input,Object[] defaultV){
+		if(input==null){
+			return defaultV;
+		}
+		if(input instanceof Object[]) {
+			return (Object[])input;
+		}else if (input instanceof Collection) {
+			return ((Collection)input).toArray();
+		}
+		return defaultV;
+	}
+	public static <T> T getObj(Object input,Class<T> classs){
+		if(input==null){
+			return null;
+		}
+		return JacksonUtil.coverObj(input, classs);
+	}
+
+}
