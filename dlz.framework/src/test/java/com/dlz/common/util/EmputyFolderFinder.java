@@ -21,7 +21,6 @@ public class EmputyFolderFinder {
 		if (dirs != null) {
 			for (int i = 0; i < dirs.length; i++) {
 				if (dirs[i].isDirectory()) {
-					//System.out.println("name:" + dirs[i].getPath());
 					list.add(dirs[i]);
 				}
 				visitAll(dirs[i]);
@@ -51,7 +50,7 @@ public class EmputyFolderFinder {
 	@Test
 	public void find() {
 		EmputyFolderFinder m = new EmputyFolderFinder();
-		List<File> list = m.visitAll(new File("E:\\gits\\erp\\m2cMa"));
+		List<File> list = m.visitAll(new File("D:\\java\\svns\\erp\\m2cMa"));
 		System.out.println(list.size());
 		m.removeNullFile(list);
 		System.out.println("ok");

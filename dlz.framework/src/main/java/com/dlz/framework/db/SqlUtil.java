@@ -224,7 +224,8 @@ public class SqlUtil{
 	}
 	
 	private static boolean isNotEmpty(Map<String,Object> m,String key){
-		return JacksonUtil.at(m,key)!=null;
+		Object o=JacksonUtil.at(m,key);
+		return o!=null&&!"".equals(o) ;
 	}
 	
 	/**
