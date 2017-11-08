@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dlz.commbiz.sys.rbac.dao.RbacMapper;
 import com.dlz.commbiz.sys.rbac.model.User;
 import com.dlz.commbiz.sys.rbac.service.RbacService;
+import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.service.ICommService;
 
@@ -29,6 +30,7 @@ public class RbacServiceImpl implements RbacService {
 	public String getCode(String pCode,String codeName,String tableName) throws Exception{
 		SearchParaMap spm = new SearchParaMap(tableName,"max("+codeName+") as code");
 		spm.addCondition(codeName, "like", new String[]{"",pCode,"__"});
+		spm.setPage(new Page());
 		spm.getPage().setOrderBy("code desc");
 		Object o = commService.getColum(spm);
 		if(o==null || "".equals(o)){
