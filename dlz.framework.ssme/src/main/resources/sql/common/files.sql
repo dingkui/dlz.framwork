@@ -5,32 +5,6 @@
 <!--=========================================================================-->
 
 <sqlList>
-	<sql sqlId="key.time.search">
-	<![CDATA[
-	  select (sysdate-d_time)*24 cha, d_id,d_name,d_type,d_bname from Job_Dynamic  where rownum < 10 order by d_time desc
-	]]>
- 	</sql>
-	<sql sqlId="key.comm.searchTable">
-	<![CDATA[
-	  select ${colums} from ${tableName} ${where} ${otherwhere}
-    ]]>
- 	</sql>
-	<sql sqlId="key.comm.updateTable">
-	<![CDATA[
-	  update ${tableName} set ${sets} ${where} ${otherwhere}
-    ]]>
- 	</sql>
-	<sql sqlId="key.comm.insertTable">
-	<![CDATA[
-	  insert into ${tableName}(${colums}) values(${values})
-    ]]>
- 	</sql>
-	<sql sqlId="key.comm.deleteTable">
-	<![CDATA[
-	  delete from ${tableName} ${where} ${otherwhere}
-    ]]>
- 	</sql>
- 	
  	<!--取得文件最大序号-->
  	<sql sqlId="key.files.getMaxOrd">
 	<![CDATA[
