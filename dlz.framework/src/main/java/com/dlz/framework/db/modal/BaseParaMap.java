@@ -11,6 +11,7 @@ import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@SuppressWarnings("rawtypes")
 public class BaseParaMap implements Serializable{
 	private static final long serialVersionUID = 8374167270612933157L;
 	@JsonIgnore
@@ -135,6 +136,14 @@ public class BaseParaMap implements Serializable{
 	}
 	public void setSql_cnt(String sql_cnt) {
 		this.sql_cnt = sql_cnt;
+	}
+	/**  
+	 * 创建Page
+	 * @return page page  
+	 */
+	public Page createPage() {
+		page=new Page();
+		return page;
 	}
 	/**  
 	 * 获取page

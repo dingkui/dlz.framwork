@@ -82,6 +82,7 @@ public class ValUtil{
 	public static String getStr(Object input){
 		return getStr(input, null);
 	}
+	
 	public static Boolean getBoolean(Object input){
 		return getBoolean(input,false);
 	}

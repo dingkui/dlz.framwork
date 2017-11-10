@@ -1,6 +1,7 @@
 package com.dlz.framework.db.service.impl;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,10 @@ import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.util.ValUtil;
 
 @Service 
+@SuppressWarnings("unchecked")
 public class CommServiceImpl implements ICommService {
 	private static MyLogger logger = MyLogger.getLogger(CommServiceImpl.class);
 	@Autowired
@@ -122,13 +125,13 @@ public class CommServiceImpl implements ICommService {
 		} 
 		return getSeq(seqName);
 	}
-
 	@Override
-	public Page getPage(BaseParaMap paraMap){
-		Page page= paraMap.getPage();
+	public Page<ResultMap> getPage(BaseParaMap paraMap){
+		Page<ResultMap> page= paraMap.getPage();
 		if(page==null){
-			page=new Page();
+			page=new Page<ResultMap>();
 		}
+		paraMap.setPage(page);
 		page.setCount(getCnt(paraMap));
 		if(page.getCount()>0){
 			page.setData(getMapList(paraMap));
@@ -154,27 +157,103 @@ public class CommServiceImpl implements ICommService {
 	
 	@Override
 	public Object getColum(BaseParaMap paraMap){
-		return DbCoverUtil.getStr(getMap( paraMap));
+		return DbCoverUtil.getFistClumn(getOne(getList(paraMap)));
 	}
 	@Override
-	public <T> T getColum(BaseParaMap paraMap,Class<T> t){
-		return DbCoverUtil.converObjWithJackson(getColum(paraMap),t);
+	public String getStr(BaseParaMap paraMap){
+		return ValUtil.getStr(getColum( paraMap));
+	}
+	@Override
+	public Long getLong(BaseParaMap paraMap){
+		return ValUtil.getLong(getColum( paraMap));
+	}
+	@Override
+	public Integer getInt(BaseParaMap paraMap){
+		return ValUtil.getInt(getColum( paraMap));
+	}
+	@Override
+	public Float getFloat(BaseParaMap paraMap){
+		return ValUtil.getFloat(getColum(paraMap));
+	}
+	@Override
+	public BigDecimal getBigDecimal(BaseParaMap paraMap){
+		return ValUtil.getBigDecimal(getColum( paraMap));
 	}
 	@Override
 	public List<Object> getColumList(BaseParaMap paraMap){
-		List<ResultMap> r = getMapList( paraMap);
+		List<ResultMap> r = getList(paraMap);
 		List<Object> l = new ArrayList<Object>();
 		for(ResultMap m : r){
-			l.add(DbCoverUtil.getStr(m));
+			l.add(DbCoverUtil.getFistClumn(m));
 		}
 		return l;
 	}
 	public <T> List<T> getColumList(BaseParaMap paraMap, Class<T> t){
-		List<Object> r = getColumList(paraMap);
+		List<ResultMap> r = getList(paraMap);
 		List<T> l = new ArrayList<T>();
-		for(Object m : r){
-			l.add(DbCoverUtil.converObjWithJackson(m,t));
+		for(ResultMap m : r){
+			l.add(DbCoverUtil.converObjWithJackson(DbCoverUtil.getFistClumn(m),t));
 		}
 		return l;
+	}
+	@Override
+	public List<String> getStrList(BaseParaMap paraMap) {
+		List<ResultMap> r = getList(paraMap);
+		List<String> l = new ArrayList<String>();
+		for(ResultMap m : r){
+			l.add(ValUtil.getStr(DbCoverUtil.getFistClumn(m)));
+		}
+		return l;
+	}
+	@Override
+	public List<BigDecimal> getBigDecimalList(BaseParaMap paraMap) {
+		List<ResultMap> r = getList(paraMap);
+		List<BigDecimal> l = new ArrayList<BigDecimal>();
+		for(ResultMap m : r){
+			l.add(ValUtil.getBigDecimal(DbCoverUtil.getFistClumn(m)));
+		}
+		return l;
+	}
+	@Override
+	public List<Float> getFloatList(BaseParaMap paraMap) {
+		List<ResultMap> r = getList(paraMap);
+		List<Float> l = new ArrayList<Float>();
+		for(ResultMap m : r){
+			l.add(ValUtil.getFloat(DbCoverUtil.getFistClumn(m)));
+		}
+		return l;
+	}
+	@Override
+	public List<Integer> getIntList(BaseParaMap paraMap) {
+		List<ResultMap> r = getList(paraMap);
+		List<Integer> l = new ArrayList<Integer>();
+		for(ResultMap m : r){
+			l.add(ValUtil.getInt(DbCoverUtil.getFistClumn(m)));
+		}
+		return l;
+	}
+	@Override
+	public List<Long> getLongList(BaseParaMap paraMap) {
+		List<ResultMap> r = getList(paraMap);
+		List<Long> l = new ArrayList<Long>();
+		for(ResultMap m : r){
+			l.add(ValUtil.getLong(DbCoverUtil.getFistClumn(m)));
+		}
+		return l;
+	}
+	@Override
+	public <T> Page<T> getPage(BaseParaMap paraMap, Class<T> t) {
+		Page<T> page= paraMap.getPage();
+		if(page==null){
+			page=new Page<T>();
+		}
+		paraMap.setPage(page);
+		page.setCount(getCnt(paraMap));
+		if(page.getCount()>0){
+			page.setData(getBeanList(paraMap,t));
+		}else{
+			page.setData(new ArrayList<T>());
+		}
+		return page;
 	}
 }

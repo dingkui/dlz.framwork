@@ -8,6 +8,7 @@ import com.dlz.framework.db.SqlUtil;
  * @author dingkui
  *
  */
+@SuppressWarnings("rawtypes")
 public class SearchParaMap extends CreateSqlParaMap{
 	private static final long serialVersionUID = 8374167270612933157L;
 	private static final String SQL="key.comm.searchTable";

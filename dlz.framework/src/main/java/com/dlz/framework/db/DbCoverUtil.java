@@ -9,7 +9,6 @@ import com.dlz.framework.db.conver.Convert;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
-import com.dlz.framework.util.MapUtil;
 
 /**
  * 数据库信息转换器
@@ -25,7 +24,7 @@ public class DbCoverUtil {
 	 * @author dk 2015-04-09
 	 * @return
 	 */
-	public static Object getStr(ResultMap m){
+	public static Object getFistClumn(ResultMap m){
 		if(m==null){
 			return null;
 		}

@@ -17,6 +17,7 @@ public class CreateSqlParaMap extends BaseParaMap{
 	protected static final String STR_TABLENAME="tableName";
 	protected static final String STR_WHERE="where";
 	protected static final String STR_COLUMS="colums";
+	@SuppressWarnings("rawtypes")
 	protected CreateSqlParaMap(String Sql,String tableName,Page page){
 		super(Sql,page);
 		addPara(STR_TABLENAME, tableName);

@@ -1,5 +1,6 @@
 package com.dlz.framework.db.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.dlz.framework.db.modal.BaseParaMap;
@@ -28,16 +29,27 @@ public interface ICommService {
 	 * 从数据库中取得单个字段数据
 	 */
 	public Object getColum(BaseParaMap paraMap);
-	public <T> T getColum(BaseParaMap paraMap, Class<T> t);
+	public String getStr(BaseParaMap paraMap);
+	public BigDecimal getBigDecimal(BaseParaMap paraMap);
+	public Float getFloat(BaseParaMap paraMap);
+	public Integer getInt(BaseParaMap paraMap);
+	public Long getLong(BaseParaMap paraMap);
+	
 	public List<Object> getColumList(BaseParaMap paraMap);
-	public <T> List<T> getColumList(BaseParaMap paraMap, Class<T> t);
+	public List<String> getStrList(BaseParaMap paraMap);
+	public List<BigDecimal> getBigDecimalList(BaseParaMap paraMap);
+	public List<Float> getFloatList(BaseParaMap paraMap);
+	public List<Integer> getIntList(BaseParaMap paraMap);
+	public List<Long> getLongList(BaseParaMap paraMap);
 	
 	/**
 	 * 从数据库中取得集合
 	 */
 	public ResultMap getMap(BaseParaMap paraMap);
-	public <T> T getBean(BaseParaMap paraMap, Class<T> t);
 	public List<ResultMap> getMapList(BaseParaMap paraMap);
+	
+	
+	public <T> T getBean(BaseParaMap paraMap, Class<T> t);
 	public <T> List<T> getBeanList(BaseParaMap paraMap, Class<T> t);
 	
 	/**
@@ -45,13 +57,21 @@ public interface ICommService {
 	 * @return
 	 * @throws Exception
 	 */
-	Page getPage(BaseParaMap paraMap);
+	Page<ResultMap> getPage(BaseParaMap paraMap);
+	
+	/**
+	 * 取得分页数据
+	 * @return
+	 * @throws Exception
+	 */
+	<T> Page<T> getPage(BaseParaMap paraMap, Class<T> t);
 	
 	int getCnt( BaseParaMap paraMap);
 	
 	long getSeqWithTime(String seqName);
 	
-	long getSeq(String seqName);
+
 	
-	long getSeq(Class<?> clazz);
+	long getSeq(String seqName);
+	long getSeq(Class<?> clazz); 
 }

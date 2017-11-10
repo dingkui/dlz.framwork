@@ -46,12 +46,6 @@ public class JSONMap extends HashMap<String,Object>{
 	public static JSONMap createJsonMap(Object json){
 		return new JSONMap(json);
 	}
-	public BigDecimal getBigDecimal(String key,BigDecimal defaultV){
-		return ValUtil.getBigDecimal(JacksonUtil.at(this,key),defaultV);
-	}
-	public BigDecimal getBigDecimal(String key){
-		return ValUtil.getBigDecimal(JacksonUtil.at(this,key),null);
-	}
 	public JSONMap clearEmptyProp(){
 		List<String> emputyKeys=new ArrayList<String>();
 		for(Entry<String,Object> entry:this.entrySet()){
@@ -64,51 +58,57 @@ public class JSONMap extends HashMap<String,Object>{
 		}
 		return this;
 	}
-	
+
+	public BigDecimal getBigDecimal(String key){
+		return  getBigDecimal(key,null);
+	}
+	public BigDecimal getBigDecimal(String key,BigDecimal defaultV){
+		return ValUtil.getBigDecimal(JacksonUtil.at(this,key),defaultV);
+	}
 	public Double getDouble(String key){
-		return ValUtil.getDouble(JacksonUtil.at(this,key),null);
+		return getDouble(key,null);
 	}
 	public Double getDouble(String key,Double defaultV){
 		return ValUtil.getDouble(JacksonUtil.at(this,key),defaultV);
 	}
 	public Float getFloat(String key){
-		return ValUtil.getFloat(JacksonUtil.at(this,key),null);
+		return  getFloat(key,null);
 	}
 	public Float getFloat(String key,Float defaultV){
 		return ValUtil.getFloat(JacksonUtil.at(this,key),defaultV);
 	}
 	public Integer getInt(String key){
-		return ValUtil.getInt(JacksonUtil.at(this,key),null);
+		return  getInt(key,null);
 	}
 	public Integer getInt(String key,Integer defaultV){
 		return ValUtil.getInt(JacksonUtil.at(this,key),null);
 	}
 	public Long getLong(String key){
-		return ValUtil.getLong(JacksonUtil.at(this,key),null);
+		return  getLong(key,null);
 	}
 	public Long getLong(String key,Long defaultV){
 		return ValUtil.getLong(JacksonUtil.at(this,key),defaultV);
 	}
 	public Object[] getArray(String key){
-		return ValUtil.getArray(JacksonUtil.at(this,key),null);
+		return  getArray(key,null);
 	}
 	public Object[] getArray(String key,Object[] defaultV){
 		return ValUtil.getArray(JacksonUtil.at(this,key),defaultV);
 	}
 	public List getList(String key){
-		return ValUtil.getList(JacksonUtil.at(this,key),null);
+		return  getList(key,null);
 	}
 	public List getList(String key,List defaultV){
 		return ValUtil.getList(JacksonUtil.at(this,key),defaultV);
 	}
 	public String getStr(String key){
-		return ValUtil.getStr(JacksonUtil.at(this,key),null);
+		return  getStr(key,null);
 	}
 	public String getStr(String key,String defaultV){
 		return ValUtil.getStr(JacksonUtil.at(this,key),defaultV);
 	}
 	public Boolean getBoolean(String key){
-		return ValUtil.getBoolean(JacksonUtil.at(this,key),null);
+		return getBoolean(key,null);
 	}
 	public Boolean getBoolean(String key,Boolean defaultV){
 		return ValUtil.getBoolean(JacksonUtil.at(this,key),defaultV);
@@ -118,6 +118,9 @@ public class JSONMap extends HashMap<String,Object>{
 	}
 	public <T> T getObj(String key,Class<T> classs){
 		return ValUtil.getObj(JacksonUtil.at(this,key),classs);
+	}
+	public <T> T as(String key,Class<T> classs){
+		return JacksonUtil.coverObj(this, classs);
 	}
 	public String toString(){
 		return JacksonUtil.getJson(this);

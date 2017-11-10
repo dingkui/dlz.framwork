@@ -9,6 +9,7 @@ import com.dlz.framework.util.StringUtils;
 public class ParaMap extends BaseParaMap{
 	private static final long serialVersionUID = 8374167270612933157L;
 	
+	@SuppressWarnings("rawtypes")
 	public ParaMap(String sql,Page page){
 		super(sql, page);
 	}

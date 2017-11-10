@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.db.SqlUtil;
-import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 
-public class Page{
+public class Page<T>{
 	public static final int DEFAULT_PAGE_SIZE = 20;
 
 	private Integer pageSize = DEFAULT_PAGE_SIZE;
@@ -26,7 +24,7 @@ public class Page{
 	private String sortField;
 	private String sortOrder;
 	private String orderBy;
-	protected List<?> data;
+	protected List<T> data;
 
 	public Page(int pageIndex,int pageSize,String sortField,String sortOrder){
 		if(pageSize<=0){
@@ -44,7 +42,7 @@ public class Page{
 	public Page(){
 		this(0, DEFAULT_PAGE_SIZE, null, null);
 	}
-	public Page(int count,List<?> data){
+	public Page(int count,List<T> data){
 		setCount(count);
 		setData(data);
 	}
@@ -144,10 +142,10 @@ public class Page{
 		begin=(pageNow-1)*pageSize;
 		end=begin+pageSize;
 	}
-	public List<?> getData() {
+	public List<T> getData() {
 		return data;
 	}
-	public void setData(List<?> data) {
+	public void setData(List<T> data) {
 		this.data = data;
 	}
 }
