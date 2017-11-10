@@ -21,6 +21,7 @@ import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.BaseException;
 import com.dlz.framework.exception.JspException;
+import com.dlz.framework.util.StringUtils;
 
 public class BaseController extends PageDealCommonLogic {
 	private static Logger logger = LoggerFactory.getLogger(BaseController.class);
@@ -48,9 +49,7 @@ public class BaseController extends PageDealCommonLogic {
 		try {
 			String mid = request.getParameter("menu_id");
 			if (mid != null) {
-				// MenuDataOpt m =
-				// (MenuDataOpt)request.getSession().getAttribute("MenuDataOpt"+mid);
-				MenuDataOpt m = null;
+				MenuDataOpt m = (MenuDataOpt)request.getSession().getAttribute("MenuDataOpt"+mid);
 				if (m == null) {
 					m = menuDataOptService.selectByPrimaryKey(Long.valueOf(mid));
 					request.getSession().setAttribute("MenuDataOpt" + mid, m);
@@ -62,12 +61,16 @@ public class BaseController extends PageDealCommonLogic {
 					Set<String> strSet = new HashSet<String>(Arrays.asList(roleids));
 					for (Long role : loginUser.getRoleList()) {
 						if (strSet.contains(String.valueOf(role))) {
-							roleOpt += " or 1=1";
+							roleOpt = null;
 							break;
 						}
 					}
-					request.setAttribute("search_condition_status", m.getCurrentStatus());
-					request.setAttribute("search_condition_userrole", "(" + roleOpt + ")");
+					if(StringUtils.isNotEmpty(m.getCurrentStatus())){
+						request.setAttribute("search_condition_status", m.getCurrentStatus());
+					}
+					if(StringUtils.isNotEmpty(roleOpt)){
+						request.setAttribute("search_condition_userrole", "(" + roleOpt + ")");
+					}
 				}
 			}
 		} catch (Exception e) {

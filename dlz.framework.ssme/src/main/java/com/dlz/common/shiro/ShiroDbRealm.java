@@ -59,8 +59,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			ShiroUser shiroUser = new ShiroUser(user.getUserId(), user.getLoginId(), user.getUserName());
 			
 			//shiroUser.setMenuData(getMenuList(user.getUserId()));
-			HashMap<String,Long> map = new HashMap<String,Long>();
-			map.put("userId", user.getUserId());
 			List<String> roleList=roleService.getRoleNameByUserId(shiroUser.getUserId());
 			List<Long> roleLists=new ArrayList<Long>();
 			for(String role:roleList){
