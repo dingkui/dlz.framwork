@@ -62,7 +62,7 @@ public class MenuController {
 			ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 			Role role = new Role();
 			if(!loginUser.getRoleList().isEmpty()){
-				role = roleService.selectByPrimaryKey(loginUser.getRoleList().get(0));
+				role = roleService.selectByPrimaryKey(loginUser.getRoleList().get(0).longValue());
 			}
 			model.addAttribute("user", loginUser);
 			model.addAttribute("role", role);
@@ -74,7 +74,6 @@ public class MenuController {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@ResponseBody
 	@RequestMapping(value="/outlookmenu/{id}")
 	public List<Map<String, Object>> outlookmenu(@PathVariable("id") Long id) throws Exception{
