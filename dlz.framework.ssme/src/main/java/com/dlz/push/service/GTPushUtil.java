@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.dlz.common.util.config.ConfigUtil;
-import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.CommServiceImpl;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.ssme.util.config.ConfigUtil;
+import com.dlz.framework.util.StringUtils;
 import com.gexin.rp.sdk.base.IPushResult;
 import com.gexin.rp.sdk.base.impl.ListMessage;
 import com.gexin.rp.sdk.base.impl.SingleMessage;

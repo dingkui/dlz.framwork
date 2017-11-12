@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.apps.sys.meb.dao.MebAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.apps.sys.meb.model.MebAccount" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="A_MID" property="aMid" jdbcType="DECIMAL" />
+    <result column="A_TYPE" property="aType" jdbcType="DECIMAL" />
+    <result column="A_NAME" property="aName" jdbcType="VARCHAR" />
+    <result column="A_BALANCE" property="aBalance" jdbcType="DECIMAL" />
+    <result column="A_FREEZ_AMOUNT" property="aFreezAmount" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, A_MID, A_TYPE, A_NAME, A_BALANCE, A_FREEZ_AMOUNT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.apps.sys.meb.model.MebAccountCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from S_MEB_ACCOUNT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from S_MEB_ACCOUNT
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from S_MEB_ACCOUNT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.apps.sys.meb.model.MebAccountCriteria" >
+    delete from S_MEB_ACCOUNT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.apps.sys.meb.model.MebAccount" >
+    insert into S_MEB_ACCOUNT (ID, A_MID, A_TYPE, 
+      A_NAME, A_BALANCE, A_FREEZ_AMOUNT
+      )
+    values (#{id,jdbcType=DECIMAL}, #{aMid,jdbcType=DECIMAL}, #{aType,jdbcType=DECIMAL}, 
+      #{aName,jdbcType=VARCHAR}, #{aBalance,jdbcType=DECIMAL}, #{aFreezAmount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.apps.sys.meb.model.MebAccount" >
+    insert into S_MEB_ACCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="aMid != null" >
+        A_MID,
+      </if>
+      <if test="aType != null" >
+        A_TYPE,
+      </if>
+      <if test="aName != null" >
+        A_NAME,
+      </if>
+      <if test="aBalance != null" >
+        A_BALANCE,
+      </if>
+      <if test="aFreezAmount != null" >
+        A_FREEZ_AMOUNT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="aMid != null" >
+        #{aMid,jdbcType=DECIMAL},
+      </if>
+      <if test="aType != null" >
+        #{aType,jdbcType=DECIMAL},
+      </if>
+      <if test="aName != null" >
+        #{aName,jdbcType=VARCHAR},
+      </if>
+      <if test="aBalance != null" >
+        #{aBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="aFreezAmount != null" >
+        #{aFreezAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.apps.sys.meb.model.MebAccountCriteria" >
+    select count(*) from S_MEB_ACCOUNT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update S_MEB_ACCOUNT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aMid != null" >
+        A_MID = #{record.aMid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aType != null" >
+        A_TYPE = #{record.aType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aName != null" >
+        A_NAME = #{record.aName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aBalance != null" >
+        A_BALANCE = #{record.aBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.aFreezAmount != null" >
+        A_FREEZ_AMOUNT = #{record.aFreezAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update S_MEB_ACCOUNT
+    set ID = #{record.id,jdbcType=DECIMAL},
+      A_MID = #{record.aMid,jdbcType=DECIMAL},
+      A_TYPE = #{record.aType,jdbcType=DECIMAL},
+      A_NAME = #{record.aName,jdbcType=VARCHAR},
+      A_BALANCE = #{record.aBalance,jdbcType=DECIMAL},
+      A_FREEZ_AMOUNT = #{record.aFreezAmount,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.apps.sys.meb.model.MebAccount" >
+    update S_MEB_ACCOUNT
+    <set >
+      <if test="aMid != null" >
+        A_MID = #{aMid,jdbcType=DECIMAL},
+      </if>
+      <if test="aType != null" >
+        A_TYPE = #{aType,jdbcType=DECIMAL},
+      </if>
+      <if test="aName != null" >
+        A_NAME = #{aName,jdbcType=VARCHAR},
+      </if>
+      <if test="aBalance != null" >
+        A_BALANCE = #{aBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="aFreezAmount != null" >
+        A_FREEZ_AMOUNT = #{aFreezAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.apps.sys.meb.model.MebAccount" >
+    update S_MEB_ACCOUNT
+    set A_MID = #{aMid,jdbcType=DECIMAL},
+      A_TYPE = #{aType,jdbcType=DECIMAL},
+      A_NAME = #{aName,jdbcType=VARCHAR},
+      A_BALANCE = #{aBalance,jdbcType=DECIMAL},
+      A_FREEZ_AMOUNT = #{aFreezAmount,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

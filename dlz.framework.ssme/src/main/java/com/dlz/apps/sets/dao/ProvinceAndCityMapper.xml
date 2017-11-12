@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.apps.sets.dao.ProvinceAndCityMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.apps.sets.model.ProvinceAndCity" >
+    <id column="P_ID" property="pId" jdbcType="DECIMAL" />
+    <result column="P_NAME" property="pName" jdbcType="VARCHAR" />
+    <result column="P_ENNAME" property="pEnname" jdbcType="VARCHAR" />
+    <result column="P_FID" property="pFid" jdbcType="DECIMAL" />
+    <result column="P_ORDER" property="pOrder" jdbcType="DECIMAL" />
+    <result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+    <result column="P_FCODE" property="pFcode" jdbcType="VARCHAR" />
+    <result column="P_FLAG" property="pFlag" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    P_ID, P_NAME, P_ENNAME, P_FID, P_ORDER, P_CODE, P_FCODE, P_FLAG
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.apps.sets.model.ProvinceAndCityCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from S_SET_PROVINCE_AND_CITY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from S_SET_PROVINCE_AND_CITY
+    where P_ID = #{pId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from S_SET_PROVINCE_AND_CITY
+    where P_ID = #{pId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.apps.sets.model.ProvinceAndCityCriteria" >
+    delete from S_SET_PROVINCE_AND_CITY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.apps.sets.model.ProvinceAndCity" >
+    insert into S_SET_PROVINCE_AND_CITY (P_ID, P_NAME, P_ENNAME, 
+      P_FID, P_ORDER, P_CODE, 
+      P_FCODE, P_FLAG)
+    values (#{pId,jdbcType=DECIMAL}, #{pName,jdbcType=VARCHAR}, #{pEnname,jdbcType=VARCHAR}, 
+      #{pFid,jdbcType=DECIMAL}, #{pOrder,jdbcType=DECIMAL}, #{pCode,jdbcType=VARCHAR}, 
+      #{pFcode,jdbcType=VARCHAR}, #{pFlag,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.apps.sets.model.ProvinceAndCity" >
+    insert into S_SET_PROVINCE_AND_CITY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        P_ID,
+      </if>
+      <if test="pName != null" >
+        P_NAME,
+      </if>
+      <if test="pEnname != null" >
+        P_ENNAME,
+      </if>
+      <if test="pFid != null" >
+        P_FID,
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER,
+      </if>
+      <if test="pCode != null" >
+        P_CODE,
+      </if>
+      <if test="pFcode != null" >
+        P_FCODE,
+      </if>
+      <if test="pFlag != null" >
+        P_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        #{pId,jdbcType=DECIMAL},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pEnname != null" >
+        #{pEnname,jdbcType=VARCHAR},
+      </if>
+      <if test="pFid != null" >
+        #{pFid,jdbcType=DECIMAL},
+      </if>
+      <if test="pOrder != null" >
+        #{pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pFcode != null" >
+        #{pFcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pFlag != null" >
+        #{pFlag,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.apps.sets.model.ProvinceAndCityCriteria" >
+    select count(*) from S_SET_PROVINCE_AND_CITY
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update S_SET_PROVINCE_AND_CITY
+    <set >
+      <if test="record.pId != null" >
+        P_ID = #{record.pId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pName != null" >
+        P_NAME = #{record.pName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pEnname != null" >
+        P_ENNAME = #{record.pEnname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pFid != null" >
+        P_FID = #{record.pFid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pOrder != null" >
+        P_ORDER = #{record.pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pCode != null" >
+        P_CODE = #{record.pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pFcode != null" >
+        P_FCODE = #{record.pFcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pFlag != null" >
+        P_FLAG = #{record.pFlag,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update S_SET_PROVINCE_AND_CITY
+    set P_ID = #{record.pId,jdbcType=DECIMAL},
+      P_NAME = #{record.pName,jdbcType=VARCHAR},
+      P_ENNAME = #{record.pEnname,jdbcType=VARCHAR},
+      P_FID = #{record.pFid,jdbcType=DECIMAL},
+      P_ORDER = #{record.pOrder,jdbcType=DECIMAL},
+      P_CODE = #{record.pCode,jdbcType=VARCHAR},
+      P_FCODE = #{record.pFcode,jdbcType=VARCHAR},
+      P_FLAG = #{record.pFlag,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.apps.sets.model.ProvinceAndCity" >
+    update S_SET_PROVINCE_AND_CITY
+    <set >
+      <if test="pName != null" >
+        P_NAME = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pEnname != null" >
+        P_ENNAME = #{pEnname,jdbcType=VARCHAR},
+      </if>
+      <if test="pFid != null" >
+        P_FID = #{pFid,jdbcType=DECIMAL},
+      </if>
+      <if test="pOrder != null" >
+        P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="pCode != null" >
+        P_CODE = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pFcode != null" >
+        P_FCODE = #{pFcode,jdbcType=VARCHAR},
+      </if>
+      <if test="pFlag != null" >
+        P_FLAG = #{pFlag,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where P_ID = #{pId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.apps.sets.model.ProvinceAndCity" >
+    update S_SET_PROVINCE_AND_CITY
+    set P_NAME = #{pName,jdbcType=VARCHAR},
+      P_ENNAME = #{pEnname,jdbcType=VARCHAR},
+      P_FID = #{pFid,jdbcType=DECIMAL},
+      P_ORDER = #{pOrder,jdbcType=DECIMAL},
+      P_CODE = #{pCode,jdbcType=VARCHAR},
+      P_FCODE = #{pFcode,jdbcType=VARCHAR},
+      P_FLAG = #{pFlag,jdbcType=DECIMAL}
+    where P_ID = #{pId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

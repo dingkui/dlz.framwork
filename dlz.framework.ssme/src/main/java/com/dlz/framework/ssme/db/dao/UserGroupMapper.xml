@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.framework.ssme.db.dao.UserGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.framework.ssme.db.model.UserGroup" >
+    <id column="GRP_ID" property="grpId" jdbcType="DECIMAL" />
+    <result column="GRP_NM" property="grpNm" jdbcType="VARCHAR" />
+    <result column="GRP_DESC" property="grpDesc" jdbcType="VARCHAR" />
+    <result column="GRP_TYPE" property="grpType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GRP_ID, GRP_NM, GRP_DESC, GRP_TYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.framework.ssme.db.model.UserGroupCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_P_USER_GRP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_P_USER_GRP
+    where GRP_ID = #{grpId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from T_P_USER_GRP
+    where GRP_ID = #{grpId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.framework.ssme.db.model.UserGroupCriteria" >
+    delete from T_P_USER_GRP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.framework.ssme.db.model.UserGroup" >
+    insert into T_P_USER_GRP (GRP_ID, GRP_NM, GRP_DESC, 
+      GRP_TYPE)
+    values (#{grpId,jdbcType=DECIMAL}, #{grpNm,jdbcType=VARCHAR}, #{grpDesc,jdbcType=VARCHAR}, 
+      #{grpType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.framework.ssme.db.model.UserGroup" >
+    insert into T_P_USER_GRP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="grpId != null" >
+        GRP_ID,
+      </if>
+      <if test="grpNm != null" >
+        GRP_NM,
+      </if>
+      <if test="grpDesc != null" >
+        GRP_DESC,
+      </if>
+      <if test="grpType != null" >
+        GRP_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="grpId != null" >
+        #{grpId,jdbcType=DECIMAL},
+      </if>
+      <if test="grpNm != null" >
+        #{grpNm,jdbcType=VARCHAR},
+      </if>
+      <if test="grpDesc != null" >
+        #{grpDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="grpType != null" >
+        #{grpType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.framework.ssme.db.model.UserGroupCriteria" >
+    select count(*) from T_P_USER_GRP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_P_USER_GRP
+    <set >
+      <if test="record.grpId != null" >
+        GRP_ID = #{record.grpId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.grpNm != null" >
+        GRP_NM = #{record.grpNm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grpDesc != null" >
+        GRP_DESC = #{record.grpDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grpType != null" >
+        GRP_TYPE = #{record.grpType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_P_USER_GRP
+    set GRP_ID = #{record.grpId,jdbcType=DECIMAL},
+      GRP_NM = #{record.grpNm,jdbcType=VARCHAR},
+      GRP_DESC = #{record.grpDesc,jdbcType=VARCHAR},
+      GRP_TYPE = #{record.grpType,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.framework.ssme.db.model.UserGroup" >
+    update T_P_USER_GRP
+    <set >
+      <if test="grpNm != null" >
+        GRP_NM = #{grpNm,jdbcType=VARCHAR},
+      </if>
+      <if test="grpDesc != null" >
+        GRP_DESC = #{grpDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="grpType != null" >
+        GRP_TYPE = #{grpType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where GRP_ID = #{grpId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.framework.ssme.db.model.UserGroup" >
+    update T_P_USER_GRP
+    set GRP_NM = #{grpNm,jdbcType=VARCHAR},
+      GRP_DESC = #{grpDesc,jdbcType=VARCHAR},
+      GRP_TYPE = #{grpType,jdbcType=VARCHAR}
+    where GRP_ID = #{grpId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>
