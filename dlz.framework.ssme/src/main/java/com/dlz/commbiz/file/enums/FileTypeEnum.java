@@ -12,7 +12,8 @@ public enum FileTypeEnum {
 	ewm("7"),//二维码
 	jdjyj("8"),//甲定价依据
 	htqd("9"),//项目-合同签订
-	htsc("10");//合同上传&图纸
+	htsc("10"),//合同上传&图纸
+	goodsLogo("11");//商品缩略图
 	/*
 	 * 类型ID
 	 */
