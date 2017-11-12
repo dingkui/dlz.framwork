@@ -81,7 +81,7 @@ public class JSONMap extends HashMap<String,Object>{
 		return  getInt(key,null);
 	}
 	public Integer getInt(String key,Integer defaultV){
-		return ValUtil.getInt(JacksonUtil.at(this,key),null);
+		return ValUtil.getInt(JacksonUtil.at(this,key),defaultV);
 	}
 	public Long getLong(String key){
 		return  getLong(key,null);
