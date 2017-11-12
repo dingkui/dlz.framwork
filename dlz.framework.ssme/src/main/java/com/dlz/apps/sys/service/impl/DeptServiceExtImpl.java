@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dlz.apps.sys.service.DeptServiceExt;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.util.ValUtil;
 
 @Service
@@ -21,5 +22,13 @@ public class DeptServiceExtImpl implements DeptServiceExt {
 		ParaMap pm=new ParaMap(sql);
 		pm.addPara("id", userid);
 		return ValUtil.getLong(commService.getColum(pm));
+	}
+
+	@Override
+	public Dept getDept(Long userid) throws Exception {
+		String sql="select * from t_p_dept pd where exists(select * from t_p_dept_user pdu where pd.d_id = pdu.du_d_id and pdu.du_u_id = #{id})";
+		ParaMap pm = new ParaMap(sql);
+		pm.addPara("id", userid);
+		return commService.getBean(pm, Dept.class);
 	}
 }
