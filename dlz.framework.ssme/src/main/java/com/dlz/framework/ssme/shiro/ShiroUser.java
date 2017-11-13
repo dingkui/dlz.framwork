@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.shiro;
 import java.io.Serializable;
 import java.util.Map;
 
+import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.User;
 import com.dlz.framework.ssme.db.model.UserGroup;
 import com.google.common.base.Objects;
@@ -17,6 +18,15 @@ public class ShiroUser extends User implements Serializable {
 	private Map menuData;
 	private UserGroup userGroup;
 	private UserInfo userInfo;
+	private Dept dept;
+
+	public Dept getDept() {
+		return dept;
+	}
+
+	public void setDept(Dept dept) {
+		this.dept = dept;
+	}
 
 	/**  
 	 * 获取userInfo
