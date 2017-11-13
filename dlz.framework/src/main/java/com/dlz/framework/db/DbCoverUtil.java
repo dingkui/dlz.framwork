@@ -29,7 +29,7 @@ public class DbCoverUtil {
 			return null;
 		}
 		for(String a: m.keySet()){
-			if("rownum".equals(a)){
+			if("ROWNUM_".equals(a)){
 				continue;
 			}
 			return m.get(a);
