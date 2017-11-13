@@ -28,16 +28,14 @@ public class RbacServiceImpl implements RbacService {
 	}
 
 	public String getCode(String pCode,String codeName,String tableName) throws Exception{
-		SearchParaMap spm = new SearchParaMap(tableName,"max("+codeName+") as code");
+		SearchParaMap spm = new SearchParaMap(tableName,"nvl(max("+codeName+"),'') as code");
 		spm.addCondition(codeName, "like", new String[]{"",pCode,"__"});
-		spm.setPage(new Page());
-		spm.getPage().setOrderBy("code desc");
-		Object o = commService.getColum(spm);
+		spm.createPage().setOrderBy("code desc");
+		String o = commService.getStr(spm);
 		if(o==null || "".equals(o)){
 			return pCode+"01";
 		}else{
-			String maxSubCode=String.valueOf(o);
-			int maxSub=Integer.parseInt(maxSubCode.substring(pCode.length()),16)+1;
+			int maxSub=Integer.parseInt(o.substring(pCode.length()),16)+1;
 			String value=Integer.toHexString(maxSub);
 			if(value.length()==1){
 				return pCode+"0"+value.toUpperCase();

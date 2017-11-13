@@ -10,6 +10,7 @@
     <result column="F_STATE" property="fState" jdbcType="DECIMAL" />
     <result column="F_ORDER" property="fOrder" jdbcType="DECIMAL" />
     <result column="F_CODE" property="fCode" jdbcType="VARCHAR" />
+    <result column="F_FLOW" property="fFlow" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    FUN_OPT_ID, FUN_OPT_NM, URL, REMARKS, PARENT_FUN_OPT_ID, F_STATE, F_ORDER, F_CODE
+    FUN_OPT_ID, FUN_OPT_NM, URL, REMARKS, PARENT_FUN_OPT_ID, F_STATE, F_ORDER, F_CODE, 
+    F_FLOW
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.framework.ssme.db.model.FunOptCriteria" >
     <include refid="OracleDialectPrefix" />
@@ -88,13 +90,13 @@
     </if>
     <include refid="OracleDialectSuffix" />
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from T_P_FUN_OPT
     where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from T_P_FUN_OPT
     where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
   </delete>
@@ -107,10 +109,12 @@
   <insert id="insert" parameterType="com.dlz.framework.ssme.db.model.FunOpt" >
     insert into T_P_FUN_OPT (FUN_OPT_ID, FUN_OPT_NM, URL, 
       REMARKS, PARENT_FUN_OPT_ID, F_STATE, 
-      F_ORDER, F_CODE)
+      F_ORDER, F_CODE, F_FLOW
+      )
     values (#{funOptId,jdbcType=DECIMAL}, #{funOptNm,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{parentFunOptId,jdbcType=DECIMAL}, #{fState,jdbcType=DECIMAL}, 
-      #{fOrder,jdbcType=DECIMAL}, #{fCode,jdbcType=VARCHAR})
+      #{fOrder,jdbcType=DECIMAL}, #{fCode,jdbcType=VARCHAR}, #{fFlow,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.dlz.framework.ssme.db.model.FunOpt" >
     insert into T_P_FUN_OPT
@@ -139,6 +143,9 @@
       <if test="fCode != null" >
         F_CODE,
       </if>
+      <if test="fFlow != null" >
+        F_FLOW,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="funOptId != null" >
@@ -165,9 +172,12 @@
       <if test="fCode != null" >
         #{fCode,jdbcType=VARCHAR},
       </if>
+      <if test="fFlow != null" >
+        #{fFlow,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.framework.ssme.db.model.FunOptCriteria" >
+  <select id="countByExample" parameterType="com.dlz.framework.ssme.db.model.FunOptCriteria" resultType="java.lang.Integer" >
     select count(*) from T_P_FUN_OPT
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -200,6 +210,9 @@
       <if test="record.fCode != null" >
         F_CODE = #{record.fCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.fFlow != null" >
+        F_FLOW = #{record.fFlow,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -214,7 +227,8 @@
       PARENT_FUN_OPT_ID = #{record.parentFunOptId,jdbcType=DECIMAL},
       F_STATE = #{record.fState,jdbcType=DECIMAL},
       F_ORDER = #{record.fOrder,jdbcType=DECIMAL},
-      F_CODE = #{record.fCode,jdbcType=VARCHAR}
+      F_CODE = #{record.fCode,jdbcType=VARCHAR},
+      F_FLOW = #{record.fFlow,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -243,6 +257,9 @@
       <if test="fCode != null" >
         F_CODE = #{fCode,jdbcType=VARCHAR},
       </if>
+      <if test="fFlow != null" >
+        F_FLOW = #{fFlow,jdbcType=VARCHAR},
+      </if>
     </set>
     where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
   </update>
@@ -254,7 +271,8 @@
       PARENT_FUN_OPT_ID = #{parentFunOptId,jdbcType=DECIMAL},
       F_STATE = #{fState,jdbcType=DECIMAL},
       F_ORDER = #{fOrder,jdbcType=DECIMAL},
-      F_CODE = #{fCode,jdbcType=VARCHAR}
+      F_CODE = #{fCode,jdbcType=VARCHAR},
+      F_FLOW = #{fFlow,jdbcType=VARCHAR}
     where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
   </update>
   <sql id="OracleDialectPrefix" >

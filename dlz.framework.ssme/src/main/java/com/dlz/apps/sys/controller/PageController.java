@@ -11,14 +11,20 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.common.logic.interfaces.IWapLogic;
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ParaMap;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.shiro.ShiroUser;
@@ -27,6 +33,67 @@ import com.dlz.framework.util.JacksonUtil;
 @RequestMapping(value = "")
 public class PageController extends BaseController{
 	private static Logger logger = LoggerFactory.getLogger(PageController.class);
+	@Autowired
+	private MenuCache menuCahe;
+
+	/*
+	 * 根据菜单配置跳转到指定页面
+	 */
+	@RequestMapping("/flows")
+	public String init(HttpServletRequest request,Long mid,ModelMap model) {
+		if (mid == null) {
+			return null;
+		}
+		Enumeration ms = request.getParameterNames();
+		while(ms.hasMoreElements()){
+			String a = (String)ms.nextElement();
+			model.put(a, request.getParameter(a));
+		}
+		JSONMap flow = new JSONMap(menuCahe.get(mid).getfFlow()); 
+		if(flow.isEmpty()){
+			return null;
+		}
+		model.putAll(flow);
+		return flow.getStr("page");
+	}
+	
+	/**
+	 * 根据菜单配置查询列表
+	 * @param request
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@ResponseBody
+	@RequestMapping("/flows/list")
+	public Page<ResultMap> list(HttpServletRequest request,Page page) throws Exception {
+		ParaMap pm=new ParaMap("",page);
+		addSearchParaFromRequest(request.getParameterMap(), pm);
+		dealFlow(request, pm);
+		addConverFromRequest(request.getParameterMap(), pm);
+		return commService.getPage(pm);
+	}
+	/**
+	 * 根据参数查询列表
+	 * @param request
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@ResponseBody
+	@RequestMapping("/sql/list")
+	public Page<ResultMap> listFromSql(HttpServletRequest request,Page page,String sqlKey) throws Exception {
+		if(sqlKey==null||!sqlKey.startsWith("key")){
+			return page;
+		}
+		ParaMap pm=new ParaMap(sqlKey,page);
+		addSearchParaFromRequest(request.getParameterMap(), pm);
+		dealFlow(request, pm);
+		addConverFromRequest(request.getParameterMap(), pm);
+		return commService.getPage(pm);
+	}
 	/**
 	 * 跳转至页面支持传递参数 2016-07-23
 	 * @return

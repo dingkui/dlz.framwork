@@ -10,7 +10,7 @@ public class FunOpt extends BaseModel {
     public String tableName = "T_P_FUN_OPT";
 
     @JsonIgnore
-    public String tableColums = "FUN_OPT_ID,FUN_OPT_NM,URL,REMARKS,PARENT_FUN_OPT_ID,F_STATE,F_ORDER,F_CODE";
+    public String tableColums = "FUN_OPT_ID,FUN_OPT_NM,URL,REMARKS,PARENT_FUN_OPT_ID,F_STATE,F_ORDER,F_CODE,F_FLOW";
 
     /**
      * T_P_FUN_OPT.FUN_OPT_ID
@@ -59,6 +59,12 @@ public class FunOpt extends BaseModel {
      * 层级码
      */
     private String fCode;
+
+    /**
+     * T_P_FUN_OPT.F_FLOW
+     * 流程设置
+     */
+    private String fFlow;
 
     /**
      * T_P_FUN_OPT.FUN_OPT_ID
@@ -186,5 +192,21 @@ public class FunOpt extends BaseModel {
      */
     public void setfCode(String fCode) {
         this.fCode = fCode == null ? null : fCode.trim();
+    }
+
+    /**
+     * T_P_FUN_OPT.F_FLOW
+     * 流程设置
+     */
+    public String getfFlow() {
+        return fFlow;
+    }
+
+    /**
+     * @param fFlow the value for T_P_FUN_OPT.F_FLOW
+     * 流程设置
+     */
+    public void setfFlow(String fFlow) {
+        this.fFlow = fFlow == null ? null : fFlow.trim();
     }
 }

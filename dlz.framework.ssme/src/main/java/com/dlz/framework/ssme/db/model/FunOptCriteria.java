@@ -1,11 +1,11 @@
 package com.dlz.framework.ssme.db.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.dlz.framework.ssme.base.criteria.BaseCriteria;
 import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
 import com.dlz.framework.ssme.db.model.FunOptCriteria.GeneratedCriteria;
+import java.util.ArrayList;
+import java.util.List;
+
 public class FunOptCriteria extends BaseCriteria<GeneratedCriteria> {
 
     protected GeneratedCriteria createCriteriaInternal1() {
@@ -437,6 +437,62 @@ public class FunOptCriteria extends BaseCriteria<GeneratedCriteria> {
 
         public GeneratedCriteria andFCodeNotBetween(String value1, String value2) {
             addCriterion("F_CODE not between", value1, value2, "fCode");return this;
+        }
+
+        public GeneratedCriteria andFFlowIsNull() {
+            addCriterion("F_FLOW is null");return this;
+        }
+
+        public GeneratedCriteria andFFlowIsNotNull() {
+            addCriterion("F_FLOW is not null");return this;
+        }
+
+        public GeneratedCriteria andFFlowEqualTo(String value) {
+            addCriterion("F_FLOW =", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowNotEqualTo(String value) {
+            addCriterion("F_FLOW <>", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowGreaterThan(String value) {
+            addCriterion("F_FLOW >", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowGreaterThanOrEqualTo(String value) {
+            addCriterion("F_FLOW >=", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowLessThan(String value) {
+            addCriterion("F_FLOW <", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowLessThanOrEqualTo(String value) {
+            addCriterion("F_FLOW <=", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowLike(String value) {
+            addCriterion("F_FLOW like", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowNotLike(String value) {
+            addCriterion("F_FLOW not like", value, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowIn(List<String> values) {
+            addCriterion("F_FLOW in", values, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowNotIn(List<String> values) {
+            addCriterion("F_FLOW not in", values, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowBetween(String value1, String value2) {
+            addCriterion("F_FLOW between", value1, value2, "fFlow");return this;
+        }
+
+        public GeneratedCriteria andFFlowNotBetween(String value1, String value2) {
+            addCriterion("F_FLOW not between", value1, value2, "fFlow");return this;
         }
     }
 }

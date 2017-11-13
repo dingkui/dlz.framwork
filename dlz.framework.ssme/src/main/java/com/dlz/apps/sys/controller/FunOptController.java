@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.db.model.FunOpt;
@@ -36,6 +37,8 @@ public class FunOptController {
 	private FunOptService funOptService;
 	@Autowired
 	private ICommService commService;
+	@Autowired
+	private MenuCache menuCache;
 
 	@Autowired
 	RbacService rbacService;
@@ -122,6 +125,7 @@ public class FunOptController {
 	public String addOrUpdate(HttpServletRequest request,FunOpt funOpt) throws Exception {
 		if (funOpt.getFunOptId() != null) {
 			funOptService.updateByPrimaryKeySelective(funOpt);
+			menuCache.remove(funOpt.getFunOptId());
 		} else {
 			funOpt.setfCode(rbacService.getCode(funOpt.getfCode(), "f_code", "T_P_FUN_OPT"));
 			funOpt.setFunOptId(commService.getSeq(FunOpt.class));
@@ -205,6 +209,7 @@ public class FunOptController {
 	public boolean delete(@PathVariable("funOptId") Long funOptId) {
 		try {
 			funOptService.deleteByPrimaryKey(funOptId);
+			menuCache.remove(funOptId);
 			return true;
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
