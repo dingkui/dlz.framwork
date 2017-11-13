@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.sets.model.ProvinceAndCity;
-import com.dlz.apps.sets.model.ProvinceAndCityCriteria;
-import com.dlz.apps.sets.service.ProvinceAndCityService;
+import com.dlz.apps.sets.db.model.ProvinceAndCity;
+import com.dlz.apps.sets.db.model.ProvinceAndCityCriteria;
+import com.dlz.apps.sets.db.service.ProvinceAndCityService;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.base.controller.BaseController;

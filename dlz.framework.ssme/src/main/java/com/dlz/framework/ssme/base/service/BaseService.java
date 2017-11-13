@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.Page;
 
 public interface BaseService<T, PK extends Serializable> {
@@ -114,7 +115,7 @@ public interface BaseService<T, PK extends Serializable> {
 	   * @return
 	   * @throws Exception
 	   */
-		Page pageByExample(Object example)throws Exception;
+		Page<T>  pageByExample(Object example)throws Exception;
 	  /**
 	   * 构造查询条件查询数据列表（带分页信息）（查询的内容包含大字段）
 	   * @param example Criteria对象
@@ -123,7 +124,7 @@ public interface BaseService<T, PK extends Serializable> {
 	   * @return
 	   * @throws Exception
 	   */		
-		Page pageByExampleWithBlobs(Object example)throws Exception;
+		Page<T>  pageByExampleWithBlobs(Object example)throws Exception;
 	  /**
 	   * 构造查询条件查询数据列表（带分页信息）
 	   * @param example Criteria对象
@@ -132,7 +133,7 @@ public interface BaseService<T, PK extends Serializable> {
 	   * @return
 	   * @throws Exception
 	   */			
-		Page getPageByExample(Object example,Page page) throws Exception;
+		Page<T>  getPageByExample(Object example,Page page) throws Exception;
 	  /**
 	   * 根据主键更新数据（数据对象中所有字段都做更新）（包含大字段）
 	   * @param record 数据对象
@@ -149,6 +150,11 @@ public interface BaseService<T, PK extends Serializable> {
 	   * @return 更新条数
 	   * @throws Exception
 	   */
-		int updateByExampleWithBLOBs(T record, Object example) throws Exception;
-	List<T> selectByExampleWithBLOBs(Object example) throws Exception;
+	   int updateByExampleWithBLOBs(T record, Object example) throws Exception;
+	   List<T> selectByExampleWithBLOBs(Object example) throws Exception;
+
+	   List<T> getBeanList(BaseParaMap pm) throws Exception;
+	   T getBean(BaseParaMap pm) throws Exception;
+	   Page<T> getPage(BaseParaMap pm) throws Exception;
+	   int excute(BaseParaMap pm) throws Exception;
 }

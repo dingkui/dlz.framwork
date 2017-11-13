@@ -2,7 +2,7 @@ package com.dlz.framework.ssme.util.config;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Map;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dlz.framework.ssme.interfaces.IConfigInterface;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.ssme.db.model.BaseSet;
+import com.dlz.framework.ssme.db.model.BaseSetCriteria;
+import com.dlz.framework.ssme.db.service.BaseSetService;
 import com.dlz.framework.util.StringUtils;
 
 
@@ -134,22 +136,15 @@ public class ConfigUtil {
 			InputStream file = new FileInputStream(ConfigUtil.class.getClassLoader().getResource("config.properties").getFile());
 			props.clear();
 			props.load(file);
-			IConfigInterface configUtil=(IConfigInterface)SpringHolder.getBean(IConfigInterface.class);
-			Map<String,String> configUtilMap=configUtil.getConfigMap();
-			for (String subject : configUtilMap.keySet()) {
-				if(!props.containsKey(subject)){
-					props.put(subject, StringUtils.NVL(configUtilMap.get(subject)));
+			BaseSetService baseSetService = (BaseSetService)SpringHolder.getBean(BaseSetService.class);
+			BaseSetCriteria bsc = new BaseSetCriteria();
+			bsc.createCriteria().andStatusEqualTo("1");
+			List<BaseSet> subjectList = baseSetService.selectByExample(bsc);
+			for (BaseSet subject : subjectList) {
+				if(!props.containsKey(subject.getBaseCode())){
+					props.put(subject.getBaseCode(), StringUtils.NVL(subject.getBaseValue()));
 				}
 			}
-//			BaseSetService baseSetService = (BaseSetService)SpringBeanUtils.getInstance(BaseSetService.class);
-//			BaseSetCriteria bsc = new BaseSetCriteria();
-//			bsc.createCriteria().andStatusEqualTo("1");
-//			List<BaseSet> subjectList = baseSetService.selectByExample(bsc);
-//			for (BaseSet subject : subjectList) {
-//				if(!props.containsKey(subject.getBaseCode())){
-//					props.put(subject.getBaseCode(), StringUtils.NVL(subject.getBaseValue()));
-//				}
-//			}
 		} catch (Exception e) {
 			logger.error("读取配置文件出错", e);
 		}

@@ -2,12 +2,12 @@ package com.dlz.framework.db.modal;
 
 import java.util.List;
 
-class PageMiniUi {
+class PageMiniUi<T> {
 	public static final int DEFAULT_PAGE_SIZE = 30;
 	protected int pageSize = DEFAULT_PAGE_SIZE;
 	protected int pageIndex=0;//从0开始
 	protected int total;
-	protected List<?> data;
+	protected List<T> data;
 	
 	/**  
 	 * 获取pageSize
@@ -55,14 +55,14 @@ class PageMiniUi {
 	 * 获取data
 	 * @return data data  
 	 */
-	public List<?> getData() {
+	public List<T> getData() {
 		return data;
 	}
 	/** 
 	 * 设置data 
 	 * @param data data 
 	 */
-	public void setData(List<?> data) {
+	public void setData(List<T> data) {
 		this.data = data;
 	}
 	

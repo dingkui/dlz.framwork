@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.notice.model.Announce;
-import com.dlz.apps.notice.model.AnnounceCriteria;
-import com.dlz.apps.notice.service.AnnounceService;
+import com.dlz.apps.notice.db.model.Announce;
+import com.dlz.apps.notice.db.model.AnnounceCriteria;
+import com.dlz.apps.notice.db.service.AnnounceService;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.base.controller.BaseController;

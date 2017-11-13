@@ -37,7 +37,7 @@ public class SysLogController {
 
 	@RequestMapping()
 	public String init() {
-		return "/rbac/sysLog";
+		return "sys/rbac/sysLog";
 	}
 
 	/*

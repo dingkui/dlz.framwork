@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dlz.apps.notice.model.Mailtemp;
-import com.dlz.apps.notice.model.MailtempCriteria;
-import com.dlz.apps.notice.model.MailtempCriteria.GeneratedCriteria;
-import com.dlz.apps.notice.service.MailtempService;
+import com.dlz.apps.notice.db.model.Mailtemp;
+import com.dlz.apps.notice.db.model.MailtempCriteria;
+import com.dlz.apps.notice.db.model.MailtempCriteria.GeneratedCriteria;
+import com.dlz.apps.notice.db.service.MailtempService;
 import com.dlz.framework.cache.AbstractCache;
 /**
  * 用级别信息缓存

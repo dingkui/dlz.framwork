@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.dict.cache.DictsCache;
+import com.dlz.apps.sys.cache.DictsCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
@@ -45,7 +45,7 @@ public class DictsController extends BaseController {
 	 */
 	@RequestMapping("")
 	public String init() {
-		return "/rbac/dicts";
+		return "sys/rbac/dicts";
 	}
 
 	/*

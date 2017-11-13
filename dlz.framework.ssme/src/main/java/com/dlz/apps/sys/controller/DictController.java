@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.dict.cache.DictCacheSsme;
+import com.dlz.apps.sys.cache.DictCacheSsme;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
 import com.dlz.framework.ssme.db.model.Dict;
@@ -48,7 +48,7 @@ public class DictController {
 
 	@RequestMapping()
 	public String init() {
-		return "/rbac/dict";
+		return "sys/rbac/dict";
 	}
 
 	/*

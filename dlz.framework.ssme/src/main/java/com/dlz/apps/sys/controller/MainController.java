@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.dict.util.DictUtil;
 import com.dlz.apps.freemaker.service.impl.FreemarkerEmailTemplateService;
 import com.dlz.apps.freemaker.service.impl.FreemarkerMsmTemplateService;
 import com.dlz.apps.freemaker.service.impl.FreemarkerResumeTemplateService;
+import com.dlz.apps.sys.util.DictUtil;
 import com.dlz.framework.cache.AbstractCache;
 import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.modal.ParaMap;
@@ -139,7 +139,7 @@ public class MainController extends BaseController{
 
 	@RequestMapping("/clear")
 	public String clear() {
-		return "/rbac/clearCathe";
+		return "sys/rbac/clearCathe";
 	}
 	@RequestMapping("/doing")
 	public String doing() {

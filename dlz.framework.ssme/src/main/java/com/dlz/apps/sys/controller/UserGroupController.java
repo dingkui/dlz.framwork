@@ -68,7 +68,7 @@ public class UserGroupController {
 
 	@RequestMapping()
 	public String init() {
-		return "/rbac/userGroup";
+		return "sys/rbac/userGroup";
 	}
 	/*
 	 * 显示-用户组列表

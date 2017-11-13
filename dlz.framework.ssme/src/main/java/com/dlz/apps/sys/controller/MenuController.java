@@ -15,13 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.sys.meb.service.MebAccDetailService;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.db.model.Role;
 import com.dlz.framework.ssme.db.service.FunOptService;
 import com.dlz.framework.ssme.db.service.RoleService;
-import com.dlz.framework.ssme.db.service.UserRoleService;
-import com.dlz.framework.ssme.db.service.UserService;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.google.common.collect.Maps;
 
@@ -36,22 +33,12 @@ import com.google.common.collect.Maps;
 @RequestMapping("/menu")
 public class MenuController {
 	private static Logger logger = LoggerFactory.getLogger(MenuController.class);
-	
 	@Autowired
-	UserService userService;
-	
-	@Autowired
-	RoleService roleService;
-	
-	@Autowired
-	UserRoleService userRoleService;
+	private RoleService roleService;
 	@Autowired
 	private FunOptService funOptService;
-	
 	@Autowired
 	ICommService commService;
-	@Autowired
-	MebAccDetailService mebAccDetailService;
 	
 	/*
 	 * 菜单初始页面-首页

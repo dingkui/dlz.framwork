@@ -47,7 +47,7 @@ public class FunOptController {
 	 */
 	@RequestMapping()
 	public String init() {
-		return "/rbac/funOpt";
+		return "/sys/rbac/funOpt";
 	}
 
 	/*

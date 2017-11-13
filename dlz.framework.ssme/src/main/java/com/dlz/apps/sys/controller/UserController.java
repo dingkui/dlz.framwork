@@ -74,7 +74,7 @@ public class UserController extends BaseController{
 	private ICommService commService;
 	@RequestMapping()
 	public String init() {
-		return "/rbac/user";
+		return "sys/rbac/user";
 
 	}
 

@@ -7,7 +7,7 @@ import java.util.Map;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.util.StringUtils;
 
-public class Page extends PageMiniUi {
+public class Page<T> extends PageMiniUi<T> {
 	public static final int DEFAULT_PAGE_SIZE = 20;
 
 	private int pageSize = DEFAULT_PAGE_SIZE;
@@ -41,7 +41,7 @@ public class Page extends PageMiniUi {
 	public Page(){
 		this(0, DEFAULT_PAGE_SIZE, null, null);
 	}
-	public Page(int count,List<?> data){
+	public Page(int count,List<T> data){
 		setCount(count);
 		setData(data);
 	}
