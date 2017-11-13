@@ -273,6 +273,22 @@ public class DateUtil {
 	 * @return Date
 	 * @throws ParseException
 	 */
+	static public Date parseDate(String s,String format){
+		try {
+			return new SimpleDateFormat(format).parse(s);
+		} catch (ParseException e) {
+			logger.error(e.getMessage(),e);
+		}
+		return null ;
+	}
+	/**
+	 * Parses text in 'YYYY-MM-DD' format to produce a date.
+	 * 
+	 * @param s
+	 *            the text
+	 * @return Date
+	 * @throws ParseException
+	 */
 	static public Date parseDateTime(String s){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -283,9 +299,14 @@ public class DateUtil {
 		return null ;
 	}
 
-	static public Date parseDateTimeC(String s) throws ParseException {
+	static public Date parseDateTimeC(String s)  {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-		return format.parse(s);
+		try {
+			return format.parse(s);
+		} catch (ParseException e) {
+			logger.error(e.getMessage(),e);
+		}
+		return null ;
 	}
 
 	/**

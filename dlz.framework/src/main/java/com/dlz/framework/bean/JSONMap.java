@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +112,12 @@ public class JSONMap extends HashMap<String,Object>{
 	}
 	public Boolean getBoolean(String key,Boolean defaultV){
 		return ValUtil.getBoolean(JacksonUtil.at(this,key),defaultV);
+	}
+	public Date getDate(String key){
+		return ValUtil.getDate(JacksonUtil.at(this,key));
+	}
+	public Date getDate(String key,String format){
+		return ValUtil.getDate(JacksonUtil.at(this,key),format);
 	}
 	public JSONMap getObj(String key){
 		return getObj(key,JSONMap.class);

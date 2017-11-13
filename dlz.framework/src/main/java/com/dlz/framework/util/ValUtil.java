@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -133,6 +134,26 @@ public class ValUtil{
 			return list;
 		}
 		return defaultV;
+	}
+	public static Date getDate(Object input){
+		if(input==null){
+			return null;
+		}
+		String  value = getStr(input,"").replaceAll("/", "-");
+		if (value.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.*")) {
+			return DateUtil.parseDateTime(value.substring(0, 18));
+		} else if (value.matches("^\\d{4}年\\d{2}月\\d{2}日 \\d{2}时\\d{2}分\\d{2}秒")) {
+			return DateUtil.parseDateTimeC(value);
+		} else if (value.matches("^\\d{4}-\\d{2}-\\d{2}")) {
+			return DateUtil.parseDate(value);
+		}
+		return null;
+	}
+	public static Date getDate(Object input,String format){
+		if(input==null){
+			return null;
+		}
+		return DateUtil.parseDate( getStr(input,""),format);
 	}
 	public static Object[] getArray(Object input,Object[] defaultV){
 		if(input==null){
