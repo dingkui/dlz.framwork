@@ -48,7 +48,7 @@ public class DictController {
 
 	@RequestMapping()
 	public String init() {
-		return "/sys/rbac/dict";
+		return "/rbac/dict";
 	}
 
 	/*

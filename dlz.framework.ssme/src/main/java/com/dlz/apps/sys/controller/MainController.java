@@ -139,7 +139,7 @@ public class MainController extends BaseController{
 
 	@RequestMapping("/clear")
 	public String clear() {
-		return "/sys/rbac/clearCathe";
+		return "/rbac/clearCathe";
 	}
 	@RequestMapping("/doing")
 	public String doing() {

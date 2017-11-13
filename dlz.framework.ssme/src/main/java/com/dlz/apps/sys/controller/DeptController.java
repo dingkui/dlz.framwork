@@ -63,7 +63,7 @@ public class DeptController {
 	@RequestMapping()
 	public String init(Model model, HttpServletRequest request) {
 		try {
-			return "/sys/rbac/dept";
+			return "/rbac/dept";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			return null;
@@ -75,7 +75,7 @@ public class DeptController {
 	@RequestMapping("/edit")
 	public String edit(Model m,HttpServletRequest request) {
 		try {
-			return "/sys/rbac/deptEdit";
+			return "/rbac/deptEdit";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			return null;
@@ -202,7 +202,7 @@ public class DeptController {
 	public String addUsers(HttpServletRequest request,Model m,Long dId) throws Exception {
 		m.addAttribute("dId", dId);
 		m.addAttribute("addZg",request.getParameter("addZg"));
-		return "/sys/rbac/userListCheck";
+		return "/rbac/userListCheck";
 	}
 	/**
 	 * 保存用户信息

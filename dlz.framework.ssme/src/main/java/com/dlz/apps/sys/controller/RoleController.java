@@ -73,7 +73,7 @@ public class RoleController {
 	 */
 	@RequestMapping()
 	public String init() {
-		return "/sys/rbac/role";
+		return "/rbac/role";
 	}
 
 	/*

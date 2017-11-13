@@ -45,7 +45,7 @@ public class DictsController extends BaseController {
 	 */
 	@RequestMapping("")
 	public String init() {
-		return "/sys/rbac/dicts";
+		return "/rbac/dicts";
 	}
 
 	/*

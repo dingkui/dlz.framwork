@@ -42,7 +42,7 @@ public class BaseSetController {
 	 */
 	@RequestMapping()
 	public String init(){
-		return "/sys/rbac/baseMsgSet";
+		return "/rbac/baseMsgSet";
 	}
 	
 	/*

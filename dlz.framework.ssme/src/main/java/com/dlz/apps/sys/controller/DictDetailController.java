@@ -32,7 +32,7 @@ public class DictDetailController {
 	@RequestMapping()
 	public String init(String dictId, Model model) {
 		model.addAttribute("dictId", dictId);
-		return "/sys/rbac/dict_detail";
+		return "/rbac/dict_detail";
 	}
 
 	/*
