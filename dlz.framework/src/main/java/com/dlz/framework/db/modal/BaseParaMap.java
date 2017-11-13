@@ -82,7 +82,7 @@ public class BaseParaMap implements Serializable{
 	 * @param pte
 	 * @return
 	 */
-	protected BaseParaMap addPara(String key,String value,ParaTypeEnum pte){
+	public BaseParaMap addPara(String key,String value,ParaTypeEnum pte){
 		para.put(key, SqlUtil.coverString2Object(value, pte));
 		return this;
 	}
