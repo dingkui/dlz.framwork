@@ -41,7 +41,7 @@ public class ProvinceAndCityController extends BaseController {
 			pFid=0l;
 		}
 		m.addAttribute("pFid",pFid);
-		return "/conf/provinceandCity";
+		return "/job/conf/provinceandCity";
 	}
 
 	/*

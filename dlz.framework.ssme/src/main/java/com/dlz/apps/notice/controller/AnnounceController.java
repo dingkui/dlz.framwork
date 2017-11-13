@@ -39,7 +39,7 @@ public class AnnounceController extends BaseController{
 	 */
 	@RequestMapping()
 	public String init() {
-		return "/news/announce";
+		return "msg/news/announce";
 	}
 
 	/**
