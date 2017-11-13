@@ -9,6 +9,7 @@
     <result column="D_SC_FLG" property="dScFlg" jdbcType="VARCHAR" />
     <result column="D_MANAGER_ID" property="dManagerId" jdbcType="DECIMAL" />
     <result column="D_MANAGER_NAME" property="dManagerName" jdbcType="VARCHAR" />
+    <result column="D_TYPE" property="dType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    D_ID, D_CODE, D_NAME, D_FID, D_SC_FLG, D_MANAGER_ID, D_MANAGER_NAME
+    D_ID, D_CODE, D_NAME, D_FID, D_SC_FLG, D_MANAGER_ID, D_MANAGER_NAME, D_TYPE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.framework.ssme.db.model.DeptCriteria" >
     <include refid="OracleDialectPrefix" />
@@ -87,13 +88,13 @@
     </if>
     <include refid="OracleDialectSuffix" />
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from T_P_DEPT
     where D_ID = #{dId,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from T_P_DEPT
     where D_ID = #{dId,jdbcType=DECIMAL}
   </delete>
@@ -106,10 +107,10 @@
   <insert id="insert" parameterType="com.dlz.framework.ssme.db.model.Dept" >
     insert into T_P_DEPT (D_ID, D_CODE, D_NAME, 
       D_FID, D_SC_FLG, D_MANAGER_ID, 
-      D_MANAGER_NAME)
+      D_MANAGER_NAME, D_TYPE)
     values (#{dId,jdbcType=DECIMAL}, #{dCode,jdbcType=VARCHAR}, #{dName,jdbcType=VARCHAR}, 
       #{dFid,jdbcType=DECIMAL}, #{dScFlg,jdbcType=VARCHAR}, #{dManagerId,jdbcType=DECIMAL}, 
-      #{dManagerName,jdbcType=VARCHAR})
+      #{dManagerName,jdbcType=VARCHAR}, #{dType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.dlz.framework.ssme.db.model.Dept" >
     insert into T_P_DEPT
@@ -135,6 +136,9 @@
       <if test="dManagerName != null" >
         D_MANAGER_NAME,
       </if>
+      <if test="dType != null" >
+        D_TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="dId != null" >
@@ -158,9 +162,12 @@
       <if test="dManagerName != null" >
         #{dManagerName,jdbcType=VARCHAR},
       </if>
+      <if test="dType != null" >
+        #{dType,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.framework.ssme.db.model.DeptCriteria" >
+  <select id="countByExample" parameterType="com.dlz.framework.ssme.db.model.DeptCriteria" resultType="java.lang.Integer" >
     select count(*) from T_P_DEPT
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -190,6 +197,9 @@
       <if test="record.dManagerName != null" >
         D_MANAGER_NAME = #{record.dManagerName,jdbcType=VARCHAR},
       </if>
+      <if test="record.dType != null" >
+        D_TYPE = #{record.dType,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -203,7 +213,8 @@
       D_FID = #{record.dFid,jdbcType=DECIMAL},
       D_SC_FLG = #{record.dScFlg,jdbcType=VARCHAR},
       D_MANAGER_ID = #{record.dManagerId,jdbcType=DECIMAL},
-      D_MANAGER_NAME = #{record.dManagerName,jdbcType=VARCHAR}
+      D_MANAGER_NAME = #{record.dManagerName,jdbcType=VARCHAR},
+      D_TYPE = #{record.dType,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -229,6 +240,9 @@
       <if test="dManagerName != null" >
         D_MANAGER_NAME = #{dManagerName,jdbcType=VARCHAR},
       </if>
+      <if test="dType != null" >
+        D_TYPE = #{dType,jdbcType=VARCHAR},
+      </if>
     </set>
     where D_ID = #{dId,jdbcType=DECIMAL}
   </update>
@@ -239,7 +253,8 @@
       D_FID = #{dFid,jdbcType=DECIMAL},
       D_SC_FLG = #{dScFlg,jdbcType=VARCHAR},
       D_MANAGER_ID = #{dManagerId,jdbcType=DECIMAL},
-      D_MANAGER_NAME = #{dManagerName,jdbcType=VARCHAR}
+      D_MANAGER_NAME = #{dManagerName,jdbcType=VARCHAR},
+      D_TYPE = #{dType,jdbcType=VARCHAR}
     where D_ID = #{dId,jdbcType=DECIMAL}
   </update>
   <sql id="OracleDialectPrefix" >

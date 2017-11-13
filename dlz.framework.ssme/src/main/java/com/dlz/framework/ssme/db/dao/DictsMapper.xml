@@ -89,13 +89,13 @@
     </if>
     <include refid="OracleDialectSuffix" />
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from T_B_DICTS
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from T_B_DICTS
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
@@ -174,7 +174,7 @@
       </if>
     </trim>
   </insert>
-  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.framework.ssme.db.model.DictsCriteria" >
+  <select id="countByExample" parameterType="com.dlz.framework.ssme.db.model.DictsCriteria" resultType="java.lang.Integer" >
     select count(*) from T_B_DICTS
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

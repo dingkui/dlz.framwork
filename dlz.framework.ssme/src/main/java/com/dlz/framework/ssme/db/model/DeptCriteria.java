@@ -1,12 +1,10 @@
 package com.dlz.framework.ssme.db.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import com.dlz.framework.ssme.base.criteria.BaseCriteria;
 import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
 import com.dlz.framework.ssme.db.model.DeptCriteria.GeneratedCriteria;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeptCriteria extends BaseCriteria<GeneratedCriteria> {
 
@@ -391,6 +389,62 @@ public class DeptCriteria extends BaseCriteria<GeneratedCriteria> {
 
         public GeneratedCriteria andDManagerNameNotBetween(String value1, String value2) {
             addCriterion("D_MANAGER_NAME not between", value1, value2, "dManagerName");return this;
+        }
+
+        public GeneratedCriteria andDTypeIsNull() {
+            addCriterion("D_TYPE is null");return this;
+        }
+
+        public GeneratedCriteria andDTypeIsNotNull() {
+            addCriterion("D_TYPE is not null");return this;
+        }
+
+        public GeneratedCriteria andDTypeEqualTo(String value) {
+            addCriterion("D_TYPE =", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeNotEqualTo(String value) {
+            addCriterion("D_TYPE <>", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeGreaterThan(String value) {
+            addCriterion("D_TYPE >", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("D_TYPE >=", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeLessThan(String value) {
+            addCriterion("D_TYPE <", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeLessThanOrEqualTo(String value) {
+            addCriterion("D_TYPE <=", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeLike(String value) {
+            addCriterion("D_TYPE like", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeNotLike(String value) {
+            addCriterion("D_TYPE not like", value, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeIn(List<String> values) {
+            addCriterion("D_TYPE in", values, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeNotIn(List<String> values) {
+            addCriterion("D_TYPE not in", values, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeBetween(String value1, String value2) {
+            addCriterion("D_TYPE between", value1, value2, "dType");return this;
+        }
+
+        public GeneratedCriteria andDTypeNotBetween(String value1, String value2) {
+            addCriterion("D_TYPE not between", value1, value2, "dType");return this;
         }
     }
 }

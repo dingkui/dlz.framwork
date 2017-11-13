@@ -87,13 +87,13 @@
     </if>
     <include refid="OracleDialectSuffix" />
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from T_P_DEPT_USER
     where DU_ID = #{duId,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from T_P_DEPT_USER
     where DU_ID = #{duId,jdbcType=DECIMAL}
   </delete>
@@ -160,7 +160,7 @@
       </if>
     </trim>
   </insert>
-  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.framework.ssme.db.model.DeptUserCriteria" >
+  <select id="countByExample" parameterType="com.dlz.framework.ssme.db.model.DeptUserCriteria" resultType="java.lang.Integer" >
     select count(*) from T_P_DEPT_USER
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

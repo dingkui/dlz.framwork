@@ -1,11 +1,10 @@
 package com.dlz.framework.ssme.db.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.dlz.framework.ssme.base.criteria.BaseCriteria;
 import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
 import com.dlz.framework.ssme.db.model.DictsCriteria.GeneratedCriteria;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DictsCriteria extends BaseCriteria<GeneratedCriteria> {
 

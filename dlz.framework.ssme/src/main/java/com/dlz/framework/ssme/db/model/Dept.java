@@ -10,7 +10,7 @@ public class Dept extends BaseModel {
     public String tableName = "T_P_DEPT";
 
     @JsonIgnore
-    public String tableColums = "D_ID,D_CODE,D_NAME,D_FID,D_SC_FLG,D_MANAGER_ID,D_MANAGER_NAME";
+    public String tableColums = "D_ID,D_CODE,D_NAME,D_FID,D_SC_FLG,D_MANAGER_ID,D_MANAGER_NAME,D_TYPE";
 
     /**
      * T_P_DEPT.D_ID
@@ -53,6 +53,12 @@ public class Dept extends BaseModel {
      * 主管姓名
      */
     private String dManagerName;
+
+    /**
+     * T_P_DEPT.D_TYPE
+     * 部门类型
+     */
+    private String dType;
 
     /**
      * T_P_DEPT.D_ID
@@ -164,5 +170,21 @@ public class Dept extends BaseModel {
      */
     public void setdManagerName(String dManagerName) {
         this.dManagerName = dManagerName == null ? null : dManagerName.trim();
+    }
+
+    /**
+     * T_P_DEPT.D_TYPE
+     * 部门类型
+     */
+    public String getdType() {
+        return dType;
+    }
+
+    /**
+     * @param dType the value for T_P_DEPT.D_TYPE
+     * 部门类型
+     */
+    public void setdType(String dType) {
+        this.dType = dType == null ? null : dType.trim();
     }
 }

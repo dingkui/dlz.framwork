@@ -1,9 +1,8 @@
 package com.dlz.framework.ssme.db.model;
 
-import java.util.Date;
-
 import com.dlz.framework.db.modal.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Date;
 
 public class DeptUser extends BaseModel {
     private static final long serialVersionUID = 1L;
