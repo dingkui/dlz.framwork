@@ -188,7 +188,7 @@ public class BaseController extends PageDealCommonLogic {
 					}
 					if(sql.length()>0){
 						pm.addPara("_flow", sql);
-						DbInfo.appendInfoToSql(sqlKey, "${_flow}");
+						DbInfo.appendInfoToSql(pm.getSqlInput(), "${_flow}");
 					}
 					return flow.getStr("page");
 				}
