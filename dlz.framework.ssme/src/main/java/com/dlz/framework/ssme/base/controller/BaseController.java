@@ -137,7 +137,7 @@ public class BaseController extends PageDealCommonLogic {
 	 * adminRole："1,2,3",//数据管理员角色
 	 * dept："dept=:dept and pdept:=lastDeptId",//数据部门归属sql
 	 * maRole："1,2,3",//部门主管角色，不判断用户角色
-	 * userId:"createUserId=:userId or sssUserId=:userId"//数据操作人 一般用户操作过数据就会有数据查看权限
+	 * user:"createUserId=:userId or sssUserId=:userId"//数据操作人 一般用户操作过数据就会有数据查看权限
 	 * }
 	 * @param request
 	 * @param cloName_user_id
