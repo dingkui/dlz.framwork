@@ -13,8 +13,11 @@ public enum FileTypeEnum {
 	jdjyj("8"),//甲定价依据
 	htqd("9"),//项目-合同签订
 	htsc("10"),//合同上传&图纸
-	sq("12"),
-	goodsLogo("11");//商品缩略图
+	goodsLogo("11"),//商品缩略图
+	sq("12"),//申请详情表
+	yhkhxkz("13"),//银行开户许可证
+	rysqb("14"),//运营中心申请人员表
+	fwzlht("15");//房屋租赁合同
 	/*
 	 * 类型ID
 	 */
