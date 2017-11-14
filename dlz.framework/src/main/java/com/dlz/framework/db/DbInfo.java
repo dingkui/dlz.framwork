@@ -222,6 +222,25 @@ public class DbInfo {
 		return sql;
 	}
 	
+	public static void appendInfoToSql(String key,String appendInfo){
+		if (key == null) {
+			throw new DbException("输入的sql为空！");
+		}
+		String sql = key;
+		if (key.startsWith("key.")) {
+			sql = m_sqlList.get(key+dialect.getEnd());
+			if(sql==null){
+				sql = m_sqlList.get(key);
+			}
+		}
+		if (sql == null) {
+			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key);
+		}
+		if(sql.indexOf(appendInfo)==-1){
+			m_sqlList.put(key+dialect.getEnd(), sql+" "+appendInfo);
+		}
+	}
+	
 	public static String getDbset(String key) {
 		if (key == null) {
 			return null;
