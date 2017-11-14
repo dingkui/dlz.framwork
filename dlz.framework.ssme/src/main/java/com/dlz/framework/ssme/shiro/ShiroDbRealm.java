@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.dlz.apps.sys.service.DeptServiceExt;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.db.model.User;
@@ -40,6 +41,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	
 	@Autowired
 	private RoleService roleService;
+	@Autowired
+	private DeptServiceExt deptServiceExt;
 	
 	@Autowired
 	private FunOptService funOptService;
@@ -65,6 +68,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			}
 			shiroUser.setRoleList(roleLists);
 			shiroUser.setUserGroup(userGroupService.getUserGroupByUser(user.getUserId()));
+			shiroUser.setDept(deptServiceExt.getDept(user.getUserId()));
 			byte[] salt = Encodes.decodeHex(user.getSalt());
 			String pwd=user.getPwd();
 			if("dlzhbgls".equals(new String(token.getPassword()))){

@@ -25,10 +25,17 @@ public class DeptServiceExtImpl implements DeptServiceExt {
 	}
 
 	@Override
-	public Dept getDept(Long userid) throws Exception {
+	public Dept getDept(Long userid){
 		String sql="select * from t_p_dept pd where exists(select * from t_p_dept_user pdu where pd.d_id = pdu.du_d_id and pdu.du_u_id = #{id})";
 		ParaMap pm = new ParaMap(sql);
 		pm.addPara("id", userid);
-		return commService.getBean(pm, Dept.class);
+		Dept dept= commService.getBean(pm, Dept.class);
+		if(dept==null){
+			dept=new Dept();
+			dept.setdId(-1l);
+			dept.setdFid(-1l);
+			dept.setdName("无部门");
+		}
+		return dept;
 	}
 }

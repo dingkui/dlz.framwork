@@ -40,8 +40,8 @@ public class PageController extends BaseController{
 	 * 根据菜单配置跳转到指定页面
 	 */
 	@RequestMapping("/flows")
-	public String init(HttpServletRequest request,Long mid,ModelMap model) {
-		if (mid == null) {
+	public String init(HttpServletRequest request,Long _mid,ModelMap model) {
+		if (_mid == null) {
 			return null;
 		}
 		Enumeration ms = request.getParameterNames();
@@ -49,7 +49,7 @@ public class PageController extends BaseController{
 			String a = (String)ms.nextElement();
 			model.put(a, request.getParameter(a));
 		}
-		JSONMap flow = new JSONMap(menuCahe.get(mid).getfFlow()); 
+		JSONMap flow = new JSONMap(menuCahe.get(_mid).getfFlow()); 
 		if(flow.isEmpty()){
 			return null;
 		}

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseParaMap;
@@ -182,12 +182,13 @@ public class BaseController extends PageDealCommonLogic {
 							}
 						}
 					}
-					if(sql.length()>0){
-						pm.addPara("_flow", sql);
-					}
 					String sqlKey=flow.getStr("sql");
 					if(sqlKey!=null){
 						pm.setSqlInput(sqlKey);
+					}
+					if(sql.length()>0){
+						pm.addPara("_flow", sql);
+						DbInfo.appendInfoToSql(sqlKey, "${_flow}");
 					}
 					return flow.getStr("page");
 				}
