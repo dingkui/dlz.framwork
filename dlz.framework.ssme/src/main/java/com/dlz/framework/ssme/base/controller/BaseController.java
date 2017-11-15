@@ -66,7 +66,7 @@ public class BaseController extends PageDealCommonLogic {
 	public void addConverFromRequest(Map<String,String[]> paraMeterMap,ParaMap pm){
 		for(Map.Entry<String,String[]> entry:paraMeterMap.entrySet()){
 			String key=entry.getKey();
-			if(entry.getValue().length!=1 && !key.startsWith("conver_")){
+			if(entry.getValue().length!=1 || !key.startsWith("conver_")){
 				continue;
 			}else{
 				String[] keys=key.split("_");
