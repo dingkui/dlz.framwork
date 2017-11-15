@@ -35,6 +35,8 @@ public class DeptServiceExtImpl implements DeptServiceExt {
 			dept.setdId(-1l);
 			dept.setdFid(-1l);
 			dept.setdName("无部门");
+			//TODO 管理员所属的部门类型
+			dept.setdType("D1");
 		}
 		return dept;
 	}
