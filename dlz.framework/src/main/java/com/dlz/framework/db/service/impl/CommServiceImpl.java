@@ -146,7 +146,7 @@ public class CommServiceImpl implements ICommService {
 		try{
 			return DbCoverUtil.doMyCover(getOne(getList(paraMap)), paraMap.getConvert());
 		}catch (Exception e) {
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " prar:" + paraMap.getPara(), e);
+			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(), e);
 		}
 	}
 	

@@ -142,7 +142,9 @@ public class BaseParaMap implements Serializable{
 	 * @return page page  
 	 */
 	public Page createPage() {
-		page=new Page();
+		if(page==null){
+			page=new Page();
+		}
 		return page;
 	}
 	/**  
