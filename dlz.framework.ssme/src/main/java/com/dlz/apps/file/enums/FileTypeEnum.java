@@ -21,7 +21,8 @@ public enum FileTypeEnum {
 	tydproof("16"),//体验店申请打款凭证
 	tydbosspic("17"),//体验店负责人身份证复印件及1寸照片
 	tydxz("18"),//门店选址各角度照片
-	tydsqfile("19");//其它文件（申请表、门店租赁合同、品牌授权书等）
+	tydsqfile("19"),//其它文件（申请表、门店租赁合同、品牌授权书等）
+	orderProof("20");//订单打款凭证
 	/*
 	 * 类型ID
 	 */
