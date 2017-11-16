@@ -1,5 +1,7 @@
 package com.dlz.apps.sys.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +31,17 @@ public class DeptServiceExtImpl implements DeptServiceExt {
 		String sql="select * from t_p_dept pd where exists(select * from t_p_dept_user pdu where pd.d_id = pdu.du_d_id and pdu.du_u_id = #{id})";
 		ParaMap pm = new ParaMap(sql);
 		pm.addPara("id", userid);
-		Dept dept= commService.getBean(pm, Dept.class);
-		if(dept==null){
+		List<Dept> depts= commService.getBeanList(pm, Dept.class);
+		Dept dept=null;
+		if(depts.isEmpty()){
 			dept=new Dept();
 			dept.setdId(-1l);
 			dept.setdFid(-1l);
 			dept.setdName("无部门");
 			//TODO 管理员所属的部门类型
 			dept.setdType("D1");
+		}else{
+			dept=depts.get(0);
 		}
 		return dept;
 	}
