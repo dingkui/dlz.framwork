@@ -74,7 +74,10 @@ public class MenuController {
 	}
 	
 	@RequestMapping(value="/{id}")
-	public String rbac(Model model,@PathVariable(value="id")Integer menueId) {
+	public String rbac(Model model,@PathVariable(value="id")Integer menueId, HttpServletRequest request) {
+		if(menueId==0){
+			return init(model, request);
+		}
 		model.addAttribute("id", menueId);
 		return "/menue_index";
 	}

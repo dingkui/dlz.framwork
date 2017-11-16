@@ -1,5 +1,6 @@
 package com.dlz.apps.sys.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.dlz.framework.ssme.db.service.RbacService;
 import com.dlz.framework.ssme.db.service.UserService;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.util.JacksonUtil;
+import com.dlz.framework.util.StringUtils;
 
 /**
  * MenueController
@@ -63,6 +65,29 @@ public class DeptController {
 	@RequestMapping()
 	public String init(Model model, HttpServletRequest request) {
 		try {
+			ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+			String dCode=request.getParameter("dcode");
+			if(!StringUtils.isEmpty(dCode)){
+				if(!SecurityUtils.getSubject().hasRole("1")){
+					SearchParaMap pm = new SearchParaMap("t_p_dept","d_code");
+					pm.addCondition("d_manager_id", "=", user.getUserId());
+					pm.addCondition("d_code", "=", dCode);
+					dCode=(String)commService.getColum(pm);
+				}
+			}else{
+				if(SecurityUtils.getSubject().hasRole("1")){
+					dCode="";
+				}else{
+					SearchParaMap pm = new SearchParaMap("t_p_dept","d_code");
+					pm.addCondition("d_manager_id", "=", user.getUserId());
+					pm.createPage().setOrderBy("d_code asc");
+					dCode=(String)commService.getColum(pm);
+				}
+			}
+			if(dCode==null){
+				dCode="-1";
+			}
+			model.addAttribute("dcode", dCode);
 			return "sys/rbac/dept";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
@@ -128,18 +153,32 @@ public class DeptController {
 	
 	@ResponseBody
 	@RequestMapping(value="list")
-	public List<Dept> getDepts() throws Exception{
+	public List<Dept> getDepts(HttpServletRequest request) throws Exception{
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		DeptCriteria dc = new DeptCriteria();
-		if(SecurityUtils.getSubject().hasRole("1")){
-			dc.setOrderByClause("d_code asc");
-		}else{
+		String dCode=request.getParameter("dcode");
+		if(!StringUtils.isEmpty(dCode)){
+			dc.createCriteria().andDCodeLike(dCode+"%");
+		}
+		if(!SecurityUtils.getSubject().hasRole("1")){
 			SearchParaMap pm = new SearchParaMap("t_p_dept","d_code");
 			pm.addCondition("d_manager_id", "=", user.getUserId());
-			String dCode=(String)commService.getColum(pm);
-			dc.createCriteria().andDCodeLike(dCode+"%");
-			dc.setOrderByClause("d_code asc");
+			if(!StringUtils.isEmpty(dCode)){
+				pm.addCondition("d_code", "=", dCode);
+				dCode=(String)commService.getColum(pm);
+				if(dCode==null){
+					return new ArrayList<Dept>();
+				}
+			}else{
+				pm.createPage().setOrderBy("d_code asc");
+				dCode=(String)commService.getColum(pm);
+				if(dCode==null){
+					return new ArrayList<Dept>();
+				}
+				dc.createCriteria().andDCodeLike(dCode+"%");
+			}
 		}
+		dc.setOrderByClause("d_code asc");
 		List<Dept> list = deptService.selectByExample(dc);
 		return list;
 	}
