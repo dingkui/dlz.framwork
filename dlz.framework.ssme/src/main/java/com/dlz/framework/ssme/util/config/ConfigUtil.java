@@ -10,10 +10,10 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dlz.framework.db.modal.ParaMap;
+import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.ssme.db.model.BaseSet;
-import com.dlz.framework.ssme.db.model.BaseSetCriteria;
-import com.dlz.framework.ssme.db.service.BaseSetService;
 import com.dlz.framework.util.StringUtils;
 
 
@@ -136,10 +136,9 @@ public class ConfigUtil {
 			InputStream file = new FileInputStream(ConfigUtil.class.getClassLoader().getResource("config.properties").getFile());
 			props.clear();
 			props.load(file);
-			BaseSetService baseSetService = (BaseSetService)SpringHolder.getBean(BaseSetService.class);
-			BaseSetCriteria bsc = new BaseSetCriteria();
-			bsc.createCriteria().andStatusEqualTo("1");
-			List<BaseSet> subjectList = baseSetService.selectByExample(bsc);
+			ICommService baseSetService = (ICommService)SpringHolder.getBean(ICommService.class);
+			ParaMap pm=new ParaMap("select * from T_B_BASE_SET where status=1");
+			List<BaseSet> subjectList = baseSetService.getBeanList(pm,BaseSet.class);
 			for (BaseSet subject : subjectList) {
 				if(!props.containsKey(subject.getBaseCode())){
 					props.put(subject.getBaseCode(), StringUtils.NVL(subject.getBaseValue()));
