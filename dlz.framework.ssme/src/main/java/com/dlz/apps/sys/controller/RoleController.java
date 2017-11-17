@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.sys.cache.MenuRolesCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
@@ -65,6 +66,9 @@ public class RoleController {
 	
 	@Autowired
 	private UserGroupService userGroupService;
+	
+	@Autowired
+	private MenuRolesCache menuRolesCache;
 
 	/*
 	 * 左边树形菜单通过此方法跳转至页面
@@ -249,6 +253,10 @@ public class RoleController {
 				rfoc.createCriteria().andRoleIdEqualTo(roleId);
 				roleFunOptService.deleteByExample(rfoc);
 				int flag = roleFunOptService.insertRoleFunOpt(roleId, detailId);
+				//将menuId关联角色的缓存清除
+				for(Integer menuId : detailId){
+					menuRolesCache.remove(Long.valueOf(menuId));
+				}
 				return flag > 0 ? true : false;
 			}
 			return false;
