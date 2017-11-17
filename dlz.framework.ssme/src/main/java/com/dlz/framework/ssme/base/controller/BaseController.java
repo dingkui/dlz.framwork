@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.dlz.apps.sys.cache.MenuCache;
+import com.dlz.apps.sys.cache.MenuRolesCache;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.enums.DateFormatEnum;
@@ -40,7 +41,10 @@ public class BaseController extends PageDealCommonLogic {
 	protected MenuDataOptService menuDataOptService;
 	@Autowired
 	protected MenuCache menuCahe;
-
+	
+	@Autowired
+	protected MenuRolesCache menuRolesCache;
+	
 	@Autowired
 	protected ICommService commService;
 
@@ -151,9 +155,8 @@ public class BaseController extends PageDealCommonLogic {
 				JSONMap flow = new JSONMap(menuCahe.get(Long.valueOf(mid)).getfFlow()); 
 				if(!flow.isEmpty()){
 					StringBuffer sql=new StringBuffer();
-					
 					//判断数据权限（未设置则不判断，设置了但角色不存在则无数据权限）
-					if(!checkRole(flow.getStr("role",""), loginUser.getRoleList())){
+					if(!checkRole(menuRolesCache.get(Long.valueOf(mid)), loginUser.getRoleList())){
 						sql.append(" and 1=0 ");
 					}else{
 						String sta=flow.getStr("sta","");
