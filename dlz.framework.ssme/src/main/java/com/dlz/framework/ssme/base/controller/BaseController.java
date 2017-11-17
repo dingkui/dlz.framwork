@@ -165,8 +165,9 @@ public class BaseController extends PageDealCommonLogic {
 						boolean hasadminRole=checkRole(flow.getStr("adminRole",""), loginUser.getRoleList()) ;
 						if(!hasadminRole){
 							String deptId=String.valueOf(loginUser.getDept().getdId());
+							String deptType=String.valueOf(loginUser.getDept().getdType());
 							String lastDeptId=String.valueOf(loginUser.getDept().getdFid());
-							String deptOpt = flow.getStr("dept","").replaceAll(":deptId", deptId).replaceAll(":lastDeptId", lastDeptId);
+							String deptOpt = flow.getStr("dept","").replaceAll(":deptId", deptId).replaceAll(":deptType", deptType).replaceAll(":lastDeptId", lastDeptId);
 							if(!"".equals(deptOpt)){
 								sql.append(" and (").append(deptOpt).append(")");
 							}
