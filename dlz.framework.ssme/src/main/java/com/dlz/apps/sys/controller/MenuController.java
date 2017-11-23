@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.sys.service.DeptServiceExt;
+import com.dlz.framework.db.modal.ParaMap;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.Role;
 import com.dlz.framework.ssme.db.service.FunOptService;
 import com.dlz.framework.ssme.db.service.RoleService;
@@ -39,6 +43,8 @@ public class MenuController {
 	private FunOptService funOptService;
 	@Autowired
 	ICommService commService;
+	@Autowired
+	DeptServiceExt deptServiceExt;
 	
 	/*
 	 * 菜单初始页面-首页
@@ -54,6 +60,20 @@ public class MenuController {
 			model.addAttribute("user", loginUser);
 			model.addAttribute("role", role);
 			model.addAttribute("userGroup", loginUser.getUserGroup());
+
+			//添加待办任务 2017-11-23 lfeng.li
+			Dept dept = deptServiceExt.getDept(loginUser.getUserId());
+			ParaMap paraMap = new ParaMap("select stat,count(1) num from de_order_in where disable = 0 and stat != 5 and from_did = #{fromDid} group by stat");
+			paraMap.addPara("fromDid", dept.getdId());
+			List<ResultMap> mapList = commService.getMapList(paraMap);
+			
+			if(dept.getdId() == 121 ){//财务确认打款的消息
+				paraMap = new ParaMap("select stat,count(1) num from de_order_in where disable = 0 and stat = 5 group by stat");
+				ResultMap map = commService.getMap(paraMap);
+				mapList.add(map);
+			}
+			model.addAttribute("toDealList", mapList);
+			
 			return "/welcome";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
