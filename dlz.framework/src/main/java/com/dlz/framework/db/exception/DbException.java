@@ -17,11 +17,11 @@ public class DbException extends BaseException {
 	private static final long serialVersionUID = 1L;
 	
 	public DbException(String msg) {
-		super(msg,3);
+		super(1001,msg,null);
 	}
 
 	public DbException(String msg, Throwable exception) {
-		super(msg,3, exception);
+		super(1001,msg, exception);
 	}
 	
 	public static int getExceptionCode(Throwable cause){
