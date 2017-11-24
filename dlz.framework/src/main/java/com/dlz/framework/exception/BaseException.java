@@ -32,6 +32,37 @@ public class BaseException extends RuntimeException {
 		}
 	}
 	/**
+	 * 错误码 见Errors
+	 */
+	private Errors error;
+	
+	/**
+	 * 错误码 见Errors
+	 */
+	private String errorInfo;
+
+	public BaseException(int errorCode,String message,Throwable cause) {
+		this(Errors.valueOf("E"+errorCode),message);
+		if(cause!=null){
+			this.addSuppressed(cause);
+		}
+	}
+	public BaseException(Errors error,String message) {
+		super(error.toString()+":"+error.getMessage()+(message==null?"":"["+message+"]"));
+		this.errorInfo=message;
+		this.error=error;
+	}
+	public String getErrorMsg(){
+		return error.getMessage();
+	}
+	public String getErrorCode(){
+		return error.toString();
+	}
+	public String getErrorInfo(){
+		return errorInfo;
+	}
+	
+	/**
 	 * 异常代码
 	 * 0：逻辑跳出返回结果（非异常），
 	 * 1:系统异常
