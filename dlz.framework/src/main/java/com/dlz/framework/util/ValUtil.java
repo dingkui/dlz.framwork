@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.modal.InsertParaMap;
+
 /**
  * 对象转换工具类
  * @author dk 2017-11-03
@@ -60,7 +63,6 @@ public class ValUtil{
 		}
 		return o.intValue();
 	}
-	
 	public static Long getLong(Object input){
 		return getLong(input, null);
 	}
