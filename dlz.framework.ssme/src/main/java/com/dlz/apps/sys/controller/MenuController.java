@@ -61,9 +61,16 @@ public class MenuController {
 			model.addAttribute("role", role);
 			model.addAttribute("userGroup", loginUser.getUserGroup());
 
-			//添加待办任务 2017-11-23 lfeng.li
+			//待办任务 
+			//1.处理自己的订单
+			ParaMap paraMap = new ParaMap("select stat,count(1) num from de_order_in where disable = 0 and opt_id = #{optId} group by stat");
+			paraMap.addPara("optId", loginUser.getUserId());
+			List<ResultMap> selfMapList = commService.getMapList(paraMap);
+			model.addAttribute("selfDealList",selfMapList);
+			
+			//2.处理别人的订单
 			Dept dept = deptServiceExt.getDept(loginUser.getUserId());
-			ParaMap paraMap = new ParaMap("select stat,count(1) num from de_order_in where disable = 0 and stat != 5 and from_did = #{fromDid} group by stat");
+			paraMap = new ParaMap("select stat,count(1) num from de_order_in where disable = 0 and stat != 5 and from_did = #{fromDid} group by stat");
 			paraMap.addPara("fromDid", dept.getdId());
 			List<ResultMap> mapList = commService.getMapList(paraMap);
 			
