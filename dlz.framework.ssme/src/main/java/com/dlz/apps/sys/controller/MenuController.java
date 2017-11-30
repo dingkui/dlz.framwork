@@ -70,7 +70,7 @@ public class MenuController {
 			
 			//2.处理别人的订单
 			Dept dept = deptServiceExt.getDept(loginUser.getUserId());
-			paraMap = new ParaMap("select stat,count(1) num from de_order_in where disable = 0 and stat != 5 and from_did = #{fromDid} group by stat");
+			paraMap = new ParaMap("key.orderin.toDeal");
 			paraMap.addPara("fromDid", dept.getdId());
 			List<ResultMap> mapList = commService.getMapList(paraMap);
 			
