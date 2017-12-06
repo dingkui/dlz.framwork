@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.dlz.plugin.socket.deal.DealServiceTest1;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
-import com.dlz.plugin.socket.interfaces.impl.ScoketIOCompress;
+import com.dlz.plugin.socket.io.ScoketIOCompress;
 
 /**
  * 服务器测试程序

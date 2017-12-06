@@ -9,6 +9,12 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 public class DealServiceTest1 implements IDealService {
 	//取得返回信息
 	public String getResStr(String input){
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return "[input:["+input+"] return:myreta啊啊啊啊]";
 	}
 }

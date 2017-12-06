@@ -5,8 +5,8 @@ import java.util.Date;
 import org.junit.Test;
 
 import com.dlz.plugin.socket.conn.normal.SocketClient;
-import com.dlz.plugin.socket.interfaces.impl.ScoketIOCompress;
-import com.dlz.plugin.socket.interfaces.impl.ScoketIOLine;
+import com.dlz.plugin.socket.io.ScoketIOCompress;
+import com.dlz.plugin.socket.io.ScoketIOLine;
 
 /**
  * 服务器测试程序

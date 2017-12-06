@@ -2,22 +2,21 @@ package com.dlz.plugin.socket.test.pool;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.conn.asyn.AsynClient;
-import com.dlz.plugin.socket.interfaces.IClientDealService;
-import com.dlz.plugin.socket.interfaces.impl.ScoketIOLine;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
+import com.dlz.plugin.socket.io.ScoketIOLine;
 
 /**
  * 服务器测试程序
  * @author dk
  */
 public class TestClient{
-	private static Logger logger = Logger.getLogger(TestClient.class);
+	private static MyLogger logger = MyLogger.getLogger(TestClient.class);
 	public static void main(String[] args) throws IOException {
 //		SocketClient client = new SocketClient("127.0.0.1", 9999, new ScoketIOLine());
 		AsynClient client = new com.dlz.plugin.socket.conn.asyn.AsynClient("127.0.0.1", 9999, new ScoketIOLine());
-		client.init(new IClientDealService() {
+		client.init(new ISocketListener() {
 			@Override
 			public void deal(String postStr) {
 				logger.info("client deal:"+postStr);
