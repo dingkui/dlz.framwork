@@ -30,6 +30,7 @@ public class SocketClient  extends ASocketClient{
 	
 
 	private static int listenTimes=0;
+	private static int retryTime=5000;
 	
 	public void addMessageListener(ISocketListener listener){
 		new Thread(new Runnable() {
@@ -69,11 +70,15 @@ public class SocketClient  extends ASocketClient{
 					}
 					socket=null;
 					try {
-						Thread.sleep(5000);
+						long waitTime=retryTime*listenTimes;
+						if(waitTime>60000){
+							waitTime=60;
+						}
+						Thread.sleep(waitTime);
 					} catch (InterruptedException e) {
 						logger.error(e.getMessage(),e);
 					}
-					if(listenTimes++<20){
+					if(listenTimes++<100){
 						logger.warn("socket重新监听，第"+listenTimes+"次");
 						addMessageListener(listener);
 					}else{

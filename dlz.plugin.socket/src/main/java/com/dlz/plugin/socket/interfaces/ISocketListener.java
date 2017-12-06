@@ -11,5 +11,5 @@ public interface ISocketListener {
 	 * @param postStr 传入数据
 	 * @return
 	 */
-	public void deal(String postStr);
+	public void deal(String reciveStr);
 }

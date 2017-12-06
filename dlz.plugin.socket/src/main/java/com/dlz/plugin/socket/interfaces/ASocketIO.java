@@ -13,8 +13,9 @@ import com.dlz.framework.logger.MyLogger;
  */
 public abstract class ASocketIO {
 	private static MyLogger logger = MyLogger.getLogger(ASocketIO.class);
-	public static byte[] separator=System.getProperty("line.separator").getBytes();
-	public static int separatorLen=separator.length;
+	public static String separatorStr=System.getProperty("line.separator");
+	public static byte[] separatorByte=separatorStr.getBytes();
+	public static int separatorLen=separatorByte.length;
 	
 	/**
 	 * 补0成指定长度的字符串
@@ -34,7 +35,7 @@ public abstract class ASocketIO {
 		String l = addZeroBefor(out.length + separatorLen, headerLength);
 		socketOut.write(l.getBytes());
 		socketOut.write(out);
-		socketOut.write(separator);
+		socketOut.write(separatorByte);
 	}
 	
 	protected byte[] readByte(InputStream socketIn,int headerLength) throws IOException {
