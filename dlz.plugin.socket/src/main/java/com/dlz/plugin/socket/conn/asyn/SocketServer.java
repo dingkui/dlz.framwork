@@ -9,15 +9,14 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.plugin.socket.handler.ASocketHandler;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
 import com.dlz.plugin.socket.interfaces.IDealService;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
 
 
 public class SocketServer extends ASocketServer{
 	private static MyLogger logger = MyLogger.getLogger(SocketServer.class);
-	private SenderDeal sender;
-
 	/**
 	 * 构造Socket服务
 	 * @param serverPort 服务端口
@@ -27,12 +26,15 @@ public class SocketServer extends ASocketServer{
 	 * @param sio 接口读取类
 	 * @throws IOException
 	 */
-	public SocketServer(int serverPort,int poolSize, IDealService socketSevice,ISocketIO sio) throws IOException {
+	public SocketServer(int serverPort,int poolSize, IDealService socketSevice,ASocketIO sio) throws IOException {
 		super(serverPort, poolSize, socketSevice, sio);
 	}
-
 	@Override
-	protected ASocketHandler getHandler(Socket socket, IDealService dealService, ISocketIO sio) {
+	protected Class<?> getClientClass() {
+		return SocketClient.class;
+	}
+	@Override
+	protected ASocketHandler getHandler(Socket socket, IDealService dealService, ASocketIO sio) {
 		return new ASocketHandler(socket, dealService, sio) {
 			public void run() {
 				InputStream socketIn=null;
@@ -91,11 +93,10 @@ public class SocketServer extends ASocketServer{
 		};
 	}
 	
-	
 	protected abstract class SenderDeal implements Runnable {
 		Socket socket;
-		ISocketIO sio;
-		public SenderDeal(Socket socket,ISocketIO sio) {
+		ASocketIO sio;
+		public SenderDeal(Socket socket,ASocketIO sio) {
 			this.sio=sio;
 			this.socket=socket;
 		}
@@ -104,7 +105,7 @@ public class SocketServer extends ASocketServer{
 	
 	protected abstract class ASocketDeal implements Runnable {
 		private SenderDeal sender;
-		public ASocketDeal(Socket socket,String input, IDealService dealService,ISocketIO sio) {
+		public ASocketDeal(Socket socket,String input, IDealService dealService,ASocketIO sio) {
 			sender=new SenderDeal(socket,sio) {
 				private Queue<String> sendS= new LinkedBlockingQueue<String>();
 				@Override

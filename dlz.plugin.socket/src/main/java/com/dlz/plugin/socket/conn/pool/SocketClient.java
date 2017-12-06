@@ -5,15 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
 
 /**
  * 线程池客户端
@@ -21,9 +18,9 @@ import com.dlz.plugin.socket.interfaces.ISocketIO;
  *
  */
  class SocketClient extends ASocketClient{
-	private static Logger logger = Logger.getLogger(SocketClient.class);
+	 private static MyLogger logger = MyLogger.getLogger(SocketClient.class);
 	
-	public SocketClient(String server,int port,ISocketIO sio) {
+	public SocketClient(String server,int port,ASocketIO sio) {
 		super(server, port, sio);
 	}
 
@@ -73,20 +70,10 @@ import com.dlz.plugin.socket.interfaces.ISocketIO;
 	static class SocketHolder {
 		private static volatile byte[] syn = new byte[0];
 		private static int i= 0;
-		private static Map<String,Set<SocketProxy>> serverSocket =new HashMap<String,Set<SocketProxy>>();
-		
+		private static Set<SocketProxy> usefull=new HashSet<SocketProxy>();
+		private static Set<SocketProxy> useing=new HashSet<SocketProxy>();
 		static SocketProxy getSocket(String server,int port) throws UnknownHostException, IOException {
 			synchronized (syn) {
-				
-				Set<SocketProxy> usefull=serverSocket.get(server+port+"usefull");
-				Set<SocketProxy> useing=serverSocket.get(server+port+"useing");
-				if(usefull==null){
-					usefull=new HashSet<SocketProxy>();
-					useing=new HashSet<SocketProxy>();
-					serverSocket.put(server+port+"usefull", usefull);
-					serverSocket.put(server+port+"useing", useing);
-				}
-				
 				if(usefull.isEmpty()){
 					SocketProxy socket = new SocketProxy(server, port,++i);
 					useing.add(socket);
@@ -103,15 +90,15 @@ import com.dlz.plugin.socket.interfaces.ISocketIO;
 		}
 		static void closeSocket(SocketProxy socket){
 			synchronized (syn) {
-				serverSocket.get(socket.getHostKey()+"usefull").add(socket);
-				serverSocket.get(socket.getHostKey()+"useing").remove(socket);
+				usefull.add(socket);
+				useing.remove(socket);
 				syn.notifyAll();
 			}
 		}
 		static void destroySocket(SocketProxy socket){
 			synchronized (syn) {
-				serverSocket.get(socket.getHostKey()+"usefull").remove(socket);
-				serverSocket.get(socket.getHostKey()+"useing").remove(socket);
+				usefull.remove(socket);
+				useing.remove(socket);
 				syn.notifyAll();
 			}
 		}
@@ -125,17 +112,12 @@ import com.dlz.plugin.socket.interfaces.ISocketIO;
 			this.hostKey=server+port;
 			this.index=index;
 		}
-		
-
 		public int getIndex() {
 			return index;
 		}
-
-
 		String getHostKey() {
 			return hostKey;
 		}
-
 		@Override
 		public void close() throws IOException {
 			SocketHolder.closeSocket(this);

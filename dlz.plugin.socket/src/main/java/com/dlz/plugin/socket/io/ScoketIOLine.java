@@ -1,29 +1,26 @@
-package com.dlz.plugin.socket.interfaces.impl;
+package com.dlz.plugin.socket.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
 
 /**
  * 用换行符做结束
  * @author dingkui
  */
-public class ScoketIOLine implements ISocketIO {
+public class ScoketIOLine  extends ASocketIO{
 	private static MyLogger logger = MyLogger.getLogger(ScoketIOLine.class);
 	private static String charsetName="UTF-8";
 	@Override
 	public String read(InputStream socketIn) throws IOException {
 		try{
 			BufferedReader br = new BufferedReader(new InputStreamReader(socketIn, charsetName));
-			String b= br.readLine();
-			return b;
+			return br.readLine();
 		}catch(Exception e){
 			logger.error(e.getMessage(),e);
 			return null;
@@ -32,8 +29,8 @@ public class ScoketIOLine implements ISocketIO {
 
 	@Override
 	public void write(OutputStream socketOut, String ret) throws IOException {
-		PrintWriter output = new PrintWriter(new OutputStreamWriter(socketOut, charsetName), true);
-		output.println(ret);
+		socketOut.write(ret.getBytes(charsetName));
+		socketOut.write(separator);
 	}
 
 	@Override

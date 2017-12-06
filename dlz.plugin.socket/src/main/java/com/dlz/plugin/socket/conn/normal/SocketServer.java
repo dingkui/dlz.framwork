@@ -6,9 +6,12 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.plugin.socket.constance.SocketConstance;
+import com.dlz.plugin.socket.handler.ASocketHandler;
+import com.dlz.plugin.socket.handler.SocketHandlerWithHolder;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
 import com.dlz.plugin.socket.interfaces.IDealService;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
 
 
 public class SocketServer extends ASocketServer {
@@ -23,13 +26,16 @@ public class SocketServer extends ASocketServer {
 	 * @param sio 接口读取类
 	 * @throws IOException
 	 */
-	public SocketServer(int serverPort,int poolSize, IDealService dealService,ISocketIO sio) throws IOException {
+	public SocketServer(int serverPort,int poolSize, IDealService dealService,ASocketIO sio) throws IOException {
 		super(serverPort, poolSize, dealService, sio);
 	}
-
 	@Override
-	protected ASocketHandler getHandler(Socket socket, IDealService dealService, ISocketIO sio) {
-		return new ASocketHandler(socket, dealService, sio) {
+	protected Class<?> getClientClass() {
+		return SocketClient.class;
+	}
+	@Override
+	protected ASocketHandler getHandler(Socket socket, IDealService dealService, ASocketIO sio) {
+		return new SocketHandlerWithHolder(socket, dealService, sio) {
 			public void run() {
 				InputStream socketIn=null;
 				OutputStream socketOut=null;
@@ -37,6 +43,10 @@ public class SocketServer extends ASocketServer {
 					// 得到客户端发送的信息
 					socketIn = socket.getInputStream();
 					String actionInfo = sio.read(socketIn);
+					if(actionInfo!=null && actionInfo.equals(SocketConstance.HOLDER)){
+						addHolder(socket, sio);
+						return;
+					}
 					//logger.info("收到来自【" + socket.getInetAddress() + ":" + socket.getPort() + "】的监听请求：" + actionInfo);
 					if (actionInfo != null) {
 						String str = dealService.getResStr(actionInfo);
@@ -47,32 +57,33 @@ public class SocketServer extends ASocketServer {
 						socketOut=socket.getOutputStream();
 						logger.error("socket 非法访问:"+socket.getInetAddress()+":" + socket.getPort());
 						socketOut.write("error!".getBytes());
-//						sio.write(socketOut, "bye bye!");
 					}
 				} catch (IOException e) {
 					logger.error(e.getMessage(),e);
 				} finally {
-					try {
-						if(socketIn!=null){
-							socketIn.close();
+					if(holderSocket==null){
+						try {
+							if(socketIn!=null){
+								socketIn.close();
+							}
+						} catch (IOException e) {
+							logger.error(e.getMessage(),e);
 						}
-					} catch (IOException e) {
-						logger.error(e.getMessage(),e);
-					}
-					try {
-						if(socketOut!=null){
-							socketOut.close();
-							socketOut=null;
+						try {
+							if(socketOut!=null){
+								socketOut.close();
+								socketOut=null;
+							}
+						} catch (IOException e) {
+							logger.error(e.getMessage(),e);
 						}
-					} catch (IOException e) {
-						logger.error(e.getMessage(),e);
-					}
-					try {
-						if (socket != null){
-							socket.close();
+						try {
+							if (socket != null){
+								socket.close();
+							}
+						} catch (Exception e) {
+							logger.error(e.getMessage(),e);
 						}
-					} catch (Exception e) {
-						logger.error(e.getMessage(),e);
 					}
 				}
 			}

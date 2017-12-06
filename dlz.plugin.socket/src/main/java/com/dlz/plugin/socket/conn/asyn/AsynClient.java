@@ -1,7 +1,6 @@
 package com.dlz.plugin.socket.conn.asyn;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketException;
 import java.util.Queue;
@@ -11,8 +10,8 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.conn.asyn.SocketClient.SocketHolder;
 import com.dlz.plugin.socket.conn.asyn.SocketClient.SocketProxy;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
-import com.dlz.plugin.socket.interfaces.IClientDealService;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 
 public class AsynClient extends ASocketClient{
@@ -30,21 +29,20 @@ public class AsynClient extends ASocketClient{
 	 * @param sio 接口读取类
 	 * @throws IOException
 	 */
-	public AsynClient(String serverPort,int port,ISocketIO sio) throws IOException {
+	public AsynClient(String serverPort,int port,ASocketIO sio) throws IOException {
 		super(serverPort, port, sio);
 	}
 	
-	public void init(IClientDealService dealService) throws IOException{
+	public void init(ISocketListener dealService) throws IOException{
 		socket = SocketHolder.getSocket(server, port);
 		sender=new SenderDeal(socket,sio) {
 			private Queue<String> sendS= new LinkedBlockingQueue<String>();
 			@Override
 			public void run() {
 				OutputStream socketOut=null;
-				boolean send=true;
 				try{
 					socketOut=socket.getOutputStream();
-					while(send){
+					while(!sendS.isEmpty()){
 						String str=sendS.poll();
 						if(str!=null){
 							sio.write(socketOut, str);
@@ -81,20 +79,6 @@ public class AsynClient extends ASocketClient{
 				}
 			}
 		}).start();
-	}
-
-	protected abstract class SenderDeal implements Runnable {
-		SocketProxy socket;
-		ISocketIO sio;
-		public SenderDeal(SocketProxy socket,ISocketIO sio) {
-			this.sio=sio;
-			this.socket=socket;
-		}
-		public abstract void send(String sendStr);
-	}
-	protected abstract class ResultLisener implements Runnable {
-		protected InputStream socketIn;
-		public ResultLisener(InputStream socketIn, IClientDealService dealService,ISocketIO sio) {this.socketIn=socketIn;}
 	}
 
 	@Override

@@ -10,11 +10,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
-import com.dlz.plugin.socket.interfaces.IClientDealService;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 /**
  * 线程池客户端
@@ -22,9 +21,9 @@ import com.dlz.plugin.socket.interfaces.ISocketIO;
  *
  */
 public class SocketClient extends ASocketClient{
-	private static Logger logger = Logger.getLogger(SocketClient.class);
+	private static MyLogger logger = MyLogger.getLogger(SocketClient.class);
 	
-	public SocketClient(String server,int port,ISocketIO sio) {
+	public SocketClient(String server,int port,ASocketIO sio) {
 		super(server, port, sio);
 	}
 
@@ -34,7 +33,7 @@ public class SocketClient extends ASocketClient{
 	 * @return
 	 * @throws IOException
 	 */
-	public void send(String s,IClientDealService dealService) throws IOException {
+	public void send(String s,ISocketListener dealService) throws IOException {
 		SocketProxy socket =null;
 		InputStream socketIn=null;
 		OutputStream socketOut=null;
@@ -79,7 +78,7 @@ public class SocketClient extends ASocketClient{
 	
 	protected abstract class ResultLisener implements Runnable {
 		protected InputStream socketIn;
-		public ResultLisener(InputStream socketIn, IClientDealService dealService,ISocketIO sio) {this.socketIn=socketIn;}
+		public ResultLisener(InputStream socketIn, ISocketListener dealService,ASocketIO sio) {this.socketIn=socketIn;}
 	}
 	
 	static class SocketHolder {

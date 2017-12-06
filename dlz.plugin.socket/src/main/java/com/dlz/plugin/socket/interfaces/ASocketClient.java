@@ -3,11 +3,11 @@ package com.dlz.plugin.socket.interfaces;
 import java.io.IOException;
 
 public abstract class ASocketClient{
-	protected ISocketIO sio;
+	protected ASocketIO sio;
 	protected String server;
 	protected int port;
 
-	public ASocketClient(String server,int port,ISocketIO sio) {
+	public ASocketClient(String server,int port,ASocketIO sio) {
 		this.server=server;
 		this.port=port;
 		this.sio=sio;

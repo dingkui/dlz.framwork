@@ -7,12 +7,13 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.plugin.socket.handler.ASocketHandler;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
 import com.dlz.plugin.socket.interfaces.IDealService;
-import com.dlz.plugin.socket.interfaces.ISocketIO;
 
 
- class SocketServer extends ASocketServer{
+ public class SocketServer extends ASocketServer{
 	private static MyLogger logger = MyLogger.getLogger(SocketServer.class);
 
 	/**
@@ -24,12 +25,15 @@ import com.dlz.plugin.socket.interfaces.ISocketIO;
 	 * @param sio 接口读取类
 	 * @throws IOException
 	 */
-	public SocketServer(int serverPort,int poolSize, IDealService socketSevice,ISocketIO sio) throws IOException {
+	public SocketServer(int serverPort,int poolSize, IDealService socketSevice,ASocketIO sio) throws IOException {
 		super(serverPort, poolSize, socketSevice, sio);
 	}
-
 	@Override
-	protected ASocketHandler getHandler(Socket socket, IDealService dealService, ISocketIO sio) {
+	protected Class<?> getClientClass() {
+		return SocketClient.class;
+	}
+	@Override
+	protected ASocketHandler getHandler(Socket socket, IDealService dealService, ASocketIO sio) {
 		return new ASocketHandler(socket, dealService, sio) {
 			public void run() {
 				InputStream socketIn=null;
