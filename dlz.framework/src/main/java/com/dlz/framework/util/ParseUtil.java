@@ -10,7 +10,8 @@ public class ParseUtil {
 		D627("ZmXgakWAwbFnvPMsNiDrGYpdTRVCy3jzL7H2ulh45BKOQ0IxS1t9efJqo6Uc8E",7,3),
 		D623("0Ix2fJqMsN5SrGQ3jzXgakWTRVCyAwY8Eho6L7Hpdi1t9ebO4BKDuZmFnvPlUc",3,3),
 		D523("YuaEilJnTzBKVQedwAbtjOWZUIpFrxXShoLsfqycDkvCGmRPgMHN",3,4),
-		D367("VYCT9ODEJQR5XILKGWH3PASZ06M12U47FB8N",7,4);
+		D367("VYCT9ODEJQR5XILKGWH3PASZ06M12U47FB8N",7,4),
+		D3675("VYCT9ODEJQR5XILKGWH3PASZ06M12U47FB8N",7,5);
 		private char[] rDigits;
 		private int jm=7;//跳跃因子防止篡改
 		private long tl=0; //补齐到多少位
@@ -106,7 +107,8 @@ public class ParseUtil {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(ParserEnum.D523.encode(1025));
-		System.out.println(ParserEnum.D523.encode(2025));
+//		System.out.println(ParserEnum.D523.encode(1025));
+//		System.out.println(ParserEnum.D523.encode(2025));
+		System.out.println(ParserEnum.D3675.encode(8089999));
 	}
 }
