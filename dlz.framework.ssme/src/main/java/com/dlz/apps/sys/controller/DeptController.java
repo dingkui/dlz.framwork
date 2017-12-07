@@ -180,6 +180,7 @@ public class DeptController {
 		}
 		dc.setOrderByClause("d_code asc");
 		List<Dept> list = deptService.selectByExample(dc);
+		list.forEach(item->item.setdName(item.getdName()+"("+item.getdId()+")"));
 		return list;
 	}
 	
