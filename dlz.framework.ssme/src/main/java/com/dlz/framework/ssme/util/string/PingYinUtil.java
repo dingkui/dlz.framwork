@@ -69,7 +69,8 @@ public class PingYinUtil {
 			if (arr[i] > 128) {
 			 
 					String[] temp = PinyinHelper.toHanyuPinyinStringArray(arr[i], defaultFormat);
-					if (temp != null) {
+//					System.out.println(chinese+" "+" "+i+" "+arr[i]+" "+Integer.valueOf(arr[i]));
+					if (temp != null && temp.length>0 && temp[0].length()>0) {
 						pybf.append(temp[0].charAt(0));
 					}
 				 
@@ -79,6 +80,7 @@ public class PingYinUtil {
 		}
 		return pybf.toString().replaceAll("\\W", "").trim();
 	}
+	
 
 	/*
 	 * 获取汉字串拼音，英文字符不变
@@ -108,7 +110,9 @@ public class PingYinUtil {
 	} 
 	
 	public static void main(String[] args) throws BadHanyuPinyinOutputFormatCombination {
-		System.out.println(PingYinUtil.getFirstSpell(null));
+		System.out.println(PingYinUtil.getFirstSpell("张成三ｃc"));
 		System.out.println(PingYinUtil.getPingYin("张成三ｃc"));
+		System.out.println(PingYinUtil.getFirstSpell("张蒋松蒋蒋国"));
+		System.out.println(PingYinUtil.getPingYin("‬蒋松国"));
 	}
 }
