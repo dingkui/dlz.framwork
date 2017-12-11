@@ -13,7 +13,7 @@ import com.dlz.framework.util.WxUtil.WxConfig;
 public class WxApiLogic extends NoAuthCommLogic implements IAppLogic, IWxLogic,IWapLogic {
 	public JSONResult config(JSONMap data) {
 		JSONResult r=JSONResult.createResult();
-		r.putAll(WxConfig.createConfigJson(data.getStr("url")));
+		r.putAll(WxConfig.createConfigJson(data.getStr("url"),data.getStr("appid")));
 		return r;
 	}
 }
