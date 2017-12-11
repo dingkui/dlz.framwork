@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.dlz.framework.db.DbInfo;
-import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.ColumnMapperToLower;

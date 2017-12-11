@@ -162,7 +162,8 @@ public class DulplicateFiles {
 	private static Map<Long,List<String>> m=new HashMap<Long,List<String>>();
 	private static Map<String,List<String>> m2=new HashMap<String,List<String>>();
 	
-    public static String getFileCRCCode(File file) throws Exception {
+    @SuppressWarnings("resource")
+	public static String getFileCRCCode(File file) throws Exception {
         FileInputStream fileinputstream = new FileInputStream(file);
         CRC32 crc32 = new CRC32();
         for (CheckedInputStream checkedinputstream = new CheckedInputStream(fileinputstream, crc32);checkedinputstream.read() != -1;) {

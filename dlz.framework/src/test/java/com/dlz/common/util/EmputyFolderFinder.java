@@ -40,6 +40,7 @@ public class EmputyFolderFinder {
 			// 是目录且为空
 			if (temp.isDirectory() && temp.listFiles().length <= 0) {
 				System.out.println(temp.getAbsolutePath());
+				temp.delete();
 			}
 		}
 	}
@@ -50,7 +51,7 @@ public class EmputyFolderFinder {
 	@Test
 	public void find() {
 		EmputyFolderFinder m = new EmputyFolderFinder();
-		List<File> list = m.visitAll(new File("D:\\java\\svns\\erp\\m2cMa"));
+		List<File> list = m.visitAll(new File("D:\\java\\svns\\erp\\erpgls"));
 		System.out.println(list.size());
 		m.removeNullFile(list);
 		System.out.println("ok");
