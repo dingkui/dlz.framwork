@@ -123,14 +123,14 @@ public class DbInfo {
 		}
 	}	
 	
-	private static void readSqlXml(String filePath){
-		try {
-			readSqlXml(ClassLoader.getSystemResourceAsStream(filePath));
-//			readSqlXml(DbInfo.class.getResourceAsStream(filePath));
-		} catch (Exception e) {
-			logger.error(filePath+" 加载异常！", e);
-		}
-	}
+//	private static void readSqlXml(String filePath){
+//		try {
+//			readSqlXml(ClassLoader.getSystemResourceAsStream(filePath));
+////			readSqlXml(DbInfo.class.getResourceAsStream(filePath));
+//		} catch (Exception e) {
+//			logger.error(filePath+" 加载异常！", e);
+//		}
+//	}
 	
 //	private static void readSqlXml(InputStream is){
 //		try {

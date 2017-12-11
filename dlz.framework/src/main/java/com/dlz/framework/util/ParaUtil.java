@@ -14,6 +14,7 @@ import com.dlz.framework.logger.MyLogger;
  * @author dingkui
  *
  */
+@SuppressWarnings("rawtypes")
 public class ParaUtil {
 	protected static MyLogger logger = MyLogger.getLogger(ParaUtil.class);
 	

@@ -23,8 +23,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.util.StringUtils;
-
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.ThirdHolder;
@@ -66,12 +64,15 @@ public class WxUtil {
 	private final static String TICKET_NAME = "ticket";
 	
 	private static String SETTING_HOST = null;//系统host
-	public static void init(String appid, String secret, String localhost) {
-		WxConfig.init(appid,secret);
+	public static void init(String appids,String localhost) {
+		if(appids!=null){
+			String[] apps=appids.split("\\|");
+			for(String app:apps){
+				String[] appinfos=app.split(",");
+				WxConfig.init(appinfos[1],appinfos[2],appinfos[0]);
+			}
+		}
 		SETTING_HOST = localhost;
-	}
-	public static void xcxInit(String xcxappid, String xcxsecret) {
-		WxConfig.xcxInit(xcxappid,xcxsecret);
 	}
 	
 	/**
@@ -90,25 +91,9 @@ public class WxUtil {
 		public static String getAccessToken() {
 			return getAccessToken(WxConfig.getAppid(), WxConfig.getSecret());
 		}
-		
-		/**
-		 * 获取小程序默认接口访问凭证
-		 * 
-		 * @param appid
-		 * @param appsecret
-		 * @return
-		 */
-		public static String getXcxAccessToken() {
-			return getXcxAccessToken(WxConfig.getXcxAppid(), WxConfig.getXcxSecret());
+		public static String getAccessToken(String appId) {
+			return getAccessToken(appId, WxConfig.getSecret(appId));
 		}
-
-		/**
-		 * 获取接口访问凭证
-		 * 
-		 * @param appid
-		 * @param appsecret
-		 * @return
-		 */
 		public static String getAccessToken(String appId, String appSecret) {
 			synchronized (WxUtil.class) {
 				TokenInfo wxToken = TokenHolder.getToken(TOKEN_NAME + appId);
@@ -135,14 +120,19 @@ public class WxUtil {
 				return null;
 			}
 		}
-		
 		/**
-		 * 获取小程序接口访问凭证
+		 * 获取小程序默认接口访问凭证
 		 * 
 		 * @param appid
 		 * @param appsecret
 		 * @return
 		 */
+		public static String getXcxAccessToken() {
+			return getXcxAccessToken(WxConfig.getXcxAppid(), WxConfig.getXcxSecret());
+		}
+		public static String getXcxAccessToken(String appId) {
+			return getXcxAccessToken(appId, WxConfig.getSecret(appId));
+		}
 		public static String getXcxAccessToken(String xcxAppId, String xcxAppSecret) {
 			synchronized (WxUtil.class) {
 				TokenInfo wxToken = TokenHolder.getToken(TOKEN_NAME + xcxAppId);
@@ -193,9 +183,6 @@ public class WxUtil {
 			}
 			return null;
 		}
-		
-		
-		
 	}
 	public static class AccessTicket{
 		/**
@@ -207,6 +194,16 @@ public class WxUtil {
 		 */
 		public static String getTicket() {
 			return getTicket(WxConfig.getAppid(), WxConfig.getSecret());
+		}
+		/**
+		 * 获取接口访问凭证
+		 * 
+		 * @param appid
+		 * @param appsecret
+		 * @return
+		 */
+		public static String getTicket(String appId) {
+			return getTicket(appId, WxConfig.getSecret(appId));
 		}
 
 		public static String getTicket(String appId, String appSecret) {
@@ -239,18 +236,31 @@ public class WxUtil {
 		}
 	}
 	
+	
 	public static class WxConfig{
+		private static Map<String,String> configMap = new HashMap<String,String>();//多个appID
 		private static String DEFAULT_APPID = null;//初始化设置的appID
-		private static String DEFAULT_SECRET = null;//初始化设置的SECRET
 		private static String DEFAULT_XCX_APPID = null;//初始化设置小程序的appID
-		private static String DEFAULT_XCX_SECRET = null;//初始化设置小程序的SECRET
-		static void init(String appid, String secret){
-			DEFAULT_APPID=appid;
-			DEFAULT_SECRET=secret;
+		static void add(String appid, String secret){
+			configMap.put(appid, secret);
 		}
-		static void xcxInit(String xcxappid, String xcxsecret){
-			DEFAULT_XCX_APPID=xcxappid;
-			DEFAULT_XCX_SECRET=xcxsecret;
+		static String getSecret(String appid){
+			String secret=configMap.get(appid);
+			if(secret==null){
+				throw new SystemException("微信参数未初始化：secret为空！");
+			}
+			return secret;
+		}
+		static void init(String appid, String secret,String type){
+			switch(type){
+			  case "1":
+				  DEFAULT_APPID=appid;
+				  break;
+			  case "2":
+				  DEFAULT_XCX_APPID=appid;
+				  break;
+			}
+			add(appid, secret);
 		}
 		public static String getAppid(){
 			if(DEFAULT_APPID==null){
@@ -258,32 +268,36 @@ public class WxUtil {
 			}
 			return DEFAULT_APPID;
 		}
-		public static String getSecret(){
-			if(DEFAULT_SECRET==null){
-				throw new SystemException("微信参数未初始化：secret为空！");
-			}
-			return DEFAULT_SECRET;
-		}
 		public static String getXcxAppid(){
 			if(DEFAULT_XCX_APPID==null){
 				throw new SystemException("微信参数未初始化：小程序appid为空！");
 			}
 			return DEFAULT_XCX_APPID;
 		}
+		public static String getSecret(){
+			return getSecret(DEFAULT_APPID);
+		}
 		public static String getXcxSecret(){
-			if(DEFAULT_XCX_SECRET==null){
-				throw new SystemException("微信参数未初始化：小程序secret为空！");
+			return getSecret(DEFAULT_XCX_APPID);
+		}
+		// 生成签名
+		public static Map<String, String> createConfigJson(String current_url) {
+			return createConfigJson(current_url, getAppid(), getSecret());
+		}
+		public static Map<String, String> createConfigJson(String current_url, String appId) {
+			if(StringUtils.isEmpty(appId)){
+				appId=getAppid();
 			}
-			return DEFAULT_XCX_SECRET;
+			return createConfigJson(current_url, appId, getSecret(appId));
 		}
 		public static Map<String, String> createConfigJson(String current_url, String appId, String appSecret) {
 			String jsapi_ticket = AccessTicket.getTicket(appId, appSecret);
 			Map<String, String> params = new HashMap<String, String>();
 			params = sign(jsapi_ticket, current_url);
-			// 生成签名
 			params.put("appid", appId);
 			return params;
 		}
+		
 		private static String byteToHex(final byte[] hash) {
 			Formatter formatter = new Formatter();
 			for (byte b : hash) {
@@ -302,9 +316,7 @@ public class WxUtil {
 			return Long.toString(System.currentTimeMillis() / 1000);
 		}
 	
-		public static Map<String, String> createConfigJson(String current_url) {
-			return createConfigJson(current_url, getAppid(), getSecret());
-		}
+		
 		public static Map<String, String> sign(String jsapi_ticket, String url) {
 			Map<String, String> ret = new HashMap<String, String>();
 			String nonce_str = create_nonce_str();
@@ -586,7 +598,7 @@ public class WxUtil {
 		if (accesstoken != null) {
 			String requestUrl = xcx_message_model_url.replace("ACCESS_TOKEN", accesstoken);
 			try {
-				String result=HttpUtil.sendHttpsPOST(requestUrl, obj.toString());
+				HttpUtil.sendHttpsPOST(requestUrl, obj.toString());
 				//System.out.println("微信返回的结果：" + result.toString());
 			} catch (Exception e) {
 				logger.debug("小程序发送模板消息出错：",e.getMessage());

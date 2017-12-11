@@ -7,9 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.db.modal.InsertParaMap;
-
 /**
  * 对象转换工具类
  * @author dk 2017-11-03
@@ -138,8 +135,14 @@ public class ValUtil{
 		return defaultV;
 	}
 	public static Date getDate(Object input){
+		return getDate(input, null);
+	}
+	public static Date getDate(Object input,String format){
 		if(input==null){
 			return null;
+		}
+		if (input instanceof Date) {
+			return (Date)input;
 		}
 		String  value = getStr(input,"").replaceAll("/", "-");
 		if (value.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.*")) {
@@ -149,13 +152,26 @@ public class ValUtil{
 		} else if (value.matches("^\\d{4}-\\d{2}-\\d{2}")) {
 			return DateUtil.parseDate(value);
 		}
-		return null;
+		if(format==null){
+			return null;
+		}
+		return DateUtil.parseDate(value,format);
 	}
-	public static Date getDate(Object input,String format){
+	public static String getDateStr(Object input,String format){
 		if(input==null){
 			return null;
 		}
-		return DateUtil.parseDate( getStr(input,""),format);
+		input=getDate(input);
+		if(input==null){
+			return String.valueOf(input);
+		}
+		if(format==null){
+			return DateUtil.getDateTimeStr((Date)input);
+		}
+		return DateUtil.getDateStr((Date)input,format);
+	}
+	public static String getDateStr(Object input){
+		return getDateStr(input, null);
 	}
 	public static Object[] getArray(Object input,Object[] defaultV){
 		if(input==null){

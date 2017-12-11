@@ -119,6 +119,12 @@ public class JSONMap extends HashMap<String,Object>{
 	public Date getDate(String key,String format){
 		return ValUtil.getDate(JacksonUtil.at(this,key),format);
 	}
+	public String getDateStr(String key){
+		return ValUtil.getDateStr(JacksonUtil.at(this,key));
+	}
+	public String getDateStr(String key,String format){
+		return ValUtil.getDateStr(JacksonUtil.at(this,key),format);
+	}
 	public JSONMap getObj(String key){
 		return getObj(key,JSONMap.class);
 	}
