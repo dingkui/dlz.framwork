@@ -132,9 +132,14 @@
 		   and exists (select 1
 		          from T_P_ROLE_FUN_OPT RF
 		         where F.FUN_OPT_ID = RF.FUN_OPT_ID
-		           and RF.role_id in <foreach collection="roles" item="listItem" open="(" close=")" separator="," >
+		          <if test="roles != null and roles.size() > 0">
+		          	 and RF.role_id in <foreach collection="roles" item="listItem" open="(" close=")" separator="," >
 					                    #{listItem}
 					                  </foreach>
+		          </if>
+		           <if test="roles != null and roles.size() == 0">
+		           	and 1 = 0
+		           </if>
 			)
 		 order by f.f_order
 	</select>
