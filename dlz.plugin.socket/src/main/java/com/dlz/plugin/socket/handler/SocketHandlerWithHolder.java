@@ -32,7 +32,7 @@ public abstract class SocketHandlerWithHolder extends ASocketHandler {
 		holderSocket = socket;
 		holderSio = sio;
 		notifyClient(SocketConstance.HOLDER);
-		doHart(5000);
+		doHart(20000);
 		holderHandlerSet.add(this);
 		logger.debug("holderHandlerSet数："+holderHandlerSet.size());
 	}
