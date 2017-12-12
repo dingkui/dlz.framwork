@@ -29,7 +29,7 @@ public class TestThread extends Thread {
 					System.out.println("aaa:" + i);
 					throw e;
 				}
-				//System.out.println(id + " all:" + (all++) + ":" + (new Date().getTime() - allt));
+				System.out.println(id + " all:" + (all++) + ":" + (new Date().getTime() - allt));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

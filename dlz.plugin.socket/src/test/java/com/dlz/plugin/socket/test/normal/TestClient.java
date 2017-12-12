@@ -3,6 +3,7 @@ package com.dlz.plugin.socket.test.normal;
 import com.dlz.plugin.socket.conn.normal.SocketClient;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 import com.dlz.plugin.socket.io.ScoketIOSizeByte;
+import com.dlz.plugin.socket.test.threads.TestThread;
 
 /**
  * 服务器测试程序
@@ -15,9 +16,9 @@ public class TestClient{
 				System.out.println("反馈信息:"+postStr);
 			}
 		});
-//		for(int i=0;i<1000;i++){
-//			Thread c=new TestThread(client,"123_"+i,i);
-//			c.start();
-//		}
+		for(int i=0;i<1000;i++){
+			Thread c=new TestThread(client,"123_"+i,i);
+			c.start();
+		}
 	}
 }
