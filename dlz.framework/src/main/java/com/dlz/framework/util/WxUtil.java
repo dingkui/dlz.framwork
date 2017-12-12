@@ -89,7 +89,7 @@ public class WxUtil {
 		 * @return
 		 */
 		public static String getAccessToken() {
-			return getAccessToken(WxConfig.getAppid(), WxConfig.getSecret());
+			return getAccessToken(WxConfig.getAppid(), WxConfig.getSecret(WxConfig.getAppid()));
 		}
 		public static String getAccessToken(String appId) {
 			return getAccessToken(appId, WxConfig.getSecret(appId));
@@ -128,7 +128,7 @@ public class WxUtil {
 		 * @return
 		 */
 		public static String getXcxAccessToken() {
-			return getXcxAccessToken(WxConfig.getXcxAppid(), WxConfig.getXcxSecret());
+			return getXcxAccessToken(WxConfig.getXcxAppid(), WxConfig.getSecret(WxConfig.getXcxAppid()));
 		}
 		public static String getXcxAccessToken(String appId) {
 			return getXcxAccessToken(appId, WxConfig.getSecret(appId));
@@ -183,6 +183,9 @@ public class WxUtil {
 			}
 			return null;
 		}
+		public static String getQrcodeUrl(String scene_str, Boolean isExprise){
+			return getQrcodeUrl(WxConfig.getAppid(), WxConfig.getSecret(WxConfig.getAppid()), scene_str, isExprise);
+		}
 	}
 	public static class AccessTicket{
 		/**
@@ -193,7 +196,7 @@ public class WxUtil {
 		 * @return
 		 */
 		public static String getTicket() {
-			return getTicket(WxConfig.getAppid(), WxConfig.getSecret());
+			return getTicket(WxConfig.getAppid(), WxConfig.getSecret(WxConfig.getAppid()));
 		}
 		/**
 		 * 获取接口访问凭证
@@ -274,15 +277,9 @@ public class WxUtil {
 			}
 			return DEFAULT_XCX_APPID;
 		}
-		public static String getSecret(){
-			return getSecret(DEFAULT_APPID);
-		}
-		public static String getXcxSecret(){
-			return getSecret(DEFAULT_XCX_APPID);
-		}
 		// 生成签名
 		public static Map<String, String> createConfigJson(String current_url) {
-			return createConfigJson(current_url, getAppid(), getSecret());
+			return createConfigJson(current_url, getAppid(), getSecret(getAppid()));
 		}
 		public static Map<String, String> createConfigJson(String current_url, String appId) {
 			if(StringUtils.isEmpty(appId)){
@@ -399,7 +396,7 @@ public class WxUtil {
 		 * @return
 		 */
 		public static ThirdInfo getThirdInfoByCode(String code) {
-			return getThirdInfoByCode(code, WxConfig.getAppid(), WxConfig.getSecret());
+			return getThirdInfoByCode(code, WxConfig.getAppid(), WxConfig.getSecret(WxConfig.getAppid()));
 		}
 		/**
 		 * 获取用户信息（用户页面授权）
@@ -530,7 +527,7 @@ public class WxUtil {
 		
 		public static String getXcxSessionKey(String code) throws IOException {
 			String XcxAppId=WxConfig.getXcxAppid(); 
-			String XcxAppSecret=WxConfig.getXcxSecret();
+			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
 			String resUserInfo=null;
 			if(!StringUtils.isEmpty(code)){
 				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
@@ -549,7 +546,7 @@ public class WxUtil {
 		public static ThirdInfo getXcxThirdInfoByCode(String code,String headimgurl,String nickname,String sex) {
 			ThirdInfo thirdInfo=ThirdHolder.getThirdInfo();
 			String XcxAppId=WxConfig.getXcxAppid(); 
-			String XcxAppSecret=WxConfig.getXcxSecret();
+			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
 			if (thirdInfo.isFromWx() ) {
 				return thirdInfo;
 			}
