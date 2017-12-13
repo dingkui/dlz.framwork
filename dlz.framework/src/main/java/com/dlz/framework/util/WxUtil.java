@@ -60,6 +60,9 @@ public class WxUtil {
 	
 	//小程序发送模板消息
 	private static String xcx_message_model_url="https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN";
+	
+	//公众号发送模板消息
+	private static String message_model_url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
 	private final static String TOKEN_NAME = "token";
 	private final static String TICKET_NAME = "ticket";
 	
@@ -602,6 +605,28 @@ public class WxUtil {
 			}
 		} else {
 			logger.debug("小程序发送模板消息出错");
+		}
+	}
+	
+    /**
+     * 公众号发送模板消息
+     * @param accesstoken
+     * @param touser
+     * @param obj
+     * @throws WexinReqException
+     */
+	public static void modelMessage(String accesstoken, String touser,JSONMap obj){
+
+		if (accesstoken != null) {
+			String requestUrl = message_model_url.replace("ACCESS_TOKEN", accesstoken);
+			try {
+				HttpUtil.sendHttpsPOST(requestUrl, obj.toString());
+				//System.out.println("微信返回的结果：" + result.toString());
+			} catch (Exception e) {
+				logger.debug("公众号发送模板消息出错：",e.getMessage());
+			}
+		} else {
+			logger.debug("公众号发送模板消息出错");
 		}
 	}
 	
