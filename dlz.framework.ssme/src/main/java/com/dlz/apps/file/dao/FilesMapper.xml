@@ -10,6 +10,7 @@
     <result column="F_SURFIX" property="fSurfix" jdbcType="VARCHAR" />
     <result column="F_ORD" property="fOrd" jdbcType="DECIMAL" />
     <result column="F_DEL" property="fDel" jdbcType="DECIMAL" />
+    <result column="F_SIZE" property="fSize" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -107,10 +108,10 @@
   <insert id="insert" parameterType="com.dlz.apps.file.model.Files" >
     insert into S_FILES (ID, D_TYPE, DATA_ID, 
       F_NAME, F_PATH, F_SURFIX, 
-      F_ORD, F_DEL)
+      F_ORD, F_DEL,F_SIZE)
     values (#{id,jdbcType=DECIMAL}, #{dType,jdbcType=VARCHAR}, #{dataId,jdbcType=DECIMAL}, 
       #{fName,jdbcType=VARCHAR}, #{fPath,jdbcType=VARCHAR}, #{fSurfix,jdbcType=VARCHAR}, 
-      #{fOrd,jdbcType=DECIMAL}, #{fDel,jdbcType=DECIMAL})
+      #{fOrd,jdbcType=DECIMAL}, #{fDel,jdbcType=DECIMAL},#{fSize,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.dlz.apps.file.model.Files" >
     insert into S_FILES

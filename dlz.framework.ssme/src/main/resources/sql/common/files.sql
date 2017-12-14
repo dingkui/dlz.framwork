@@ -22,7 +22,7 @@
  	-->
  	<sql sqlId="key.files.getfiles">
 	<![CDATA[
-	select ID,F_NAME,F_PATH,F_SURFIX,F_ORD
+	select ID,F_NAME,F_PATH,F_SURFIX,F_ORD,F_SIZE
 	  from S_FILES
 	 where F_DEL = 0--是否删除
 	   [and ID = #{id}]
@@ -32,6 +32,7 @@
 	   [and F_PATH like '%'||#{fPath}||'%']--存储地址
 	   [and F_ORD = #{fOrd}]--序号
 	   [and F_SURFIX = #{fSurfix}]--文件后缀
+	   [and F_SIZE = #{fSize}]--大小
 	   order by F_ORD
 	]]>
  	</sql>

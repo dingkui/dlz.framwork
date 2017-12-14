@@ -63,4 +63,9 @@ public interface FilesService extends BaseService<Files, Long> {
 	Map<String, String> getFileUrls(String path) throws Exception;
 	Files getFile(Long dataId, String fOrd, FileTypeEnum fileTypeEnum) throws Exception;
 	void delFile(Long dataId, Long fOrd) throws Exception;
+	
+	/**
+	 * 根据id获取文件
+	 */
+	public Files get(Integer id);
 }

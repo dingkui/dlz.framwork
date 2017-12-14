@@ -80,8 +80,22 @@ public class Files extends BaseModel {
      * 是否删除
      */
     private Long fDel;
-
+    
     /**
+     * S_FILES.F_SIZE
+     * 文件大小
+     */
+    private Long fSize;
+
+    public Long getfSize() {
+		return fSize;
+	}
+
+	public void setfSize(Long fSize) {
+		this.fSize = fSize;
+	}
+
+	/**
      * S_FILES.ID
      * 编号
      */

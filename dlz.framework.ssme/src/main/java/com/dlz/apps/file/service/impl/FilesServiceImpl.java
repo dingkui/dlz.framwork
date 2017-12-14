@@ -88,6 +88,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		String saveFolder = StringUtils.ObjNVLString(m.get("saveFolder"), "");
 		Long dataId = StringUtils.ObjNVLLong(m.get("dataId"), -1l);
 		Long fOrd = StringUtils.ObjNVLLong(m.get("fOrd"), -1l);
+		Long fSize=StringUtils.ObjNVLLong(m.get("fSize"), -1l);
 		boolean saveDb = StringUtils.ObjNVL(m.get("saveDb"), true,Boolean.class);
 		if (dataId == -1) {
 			Files f = new Files();
@@ -130,6 +131,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 			files.setDataId(dataId);// 数据ID
 			files.setfName(fileName);// 名称
 			files.setfSurfix(prefix);// 文件后缀
+			files.setfSize(fSize);//文件大小
 			
 			synchronized (this) {
 				prefix = prefix.indexOf(".") != 0 ? ("." + prefix) : prefix;
@@ -224,6 +226,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		files.setfSurfix(rm.getStr("fSurfix"));
 		files.setfPath(rm.getStr("fPath"));
 		files.setfOrd(rm.getLong("fOrd"));
+		files.setfSize(rm.getLong("fSize"));
 		files.setHttpfPath(getImgPath(files.getfPath()));
 		return files;
 	}
@@ -371,5 +374,12 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 			logger.error(e.getMessage(), e);
 			return null;
 		}
+	}
+
+	@Override
+	public Files get(Integer id) {
+		ParaMap pm = new ParaMap("key.files.getfiles");
+		pm.addPara("id", id);
+		return commService.getBean(pm, Files.class);
 	}
 }
