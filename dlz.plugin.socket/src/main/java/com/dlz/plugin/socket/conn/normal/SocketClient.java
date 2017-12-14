@@ -19,7 +19,9 @@ public class SocketClient  extends ASocketClient{
 	}
 	public SocketClient(String server,int port,ASocketIO sio,ISocketListener listener){
 		super(server, port, sio);
-		addMessageListener(listener);
+		if(listener!=null){
+			addMessageListener(listener);
+		}
 	}
 	public static void setMax(int max) {
 		MAX = max<1?1:max;
