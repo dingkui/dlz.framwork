@@ -74,7 +74,7 @@ public class SocketClient  extends ASocketClient{
 					try {
 						long waitTime=retryTime*listenTimes;
 						if(waitTime>60000){
-							waitTime=60;
+							waitTime=60000;
 						}
 						Thread.sleep(waitTime);
 					} catch (InterruptedException e) {
