@@ -69,7 +69,7 @@ public class MenuController {
 			model.addAttribute("selfDealList",selfMapList);
 			
 			//2.处理别人的订单
-			Dept dept = deptServiceExt.getDept(loginUser.getUserId());
+			Dept dept = loginUser.getSaleDept();
 			paraMap = new ParaMap("key.orderin.toDeal");
 			paraMap.addPara("fromDid", dept.getdId());
 			List<ResultMap> mapList = commService.getMapList(paraMap);

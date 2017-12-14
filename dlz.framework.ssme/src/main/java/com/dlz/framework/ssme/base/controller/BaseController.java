@@ -27,6 +27,7 @@ import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.BaseException;
 import com.dlz.framework.exception.JspException;
 import com.dlz.framework.ssme.base.logic.PageDealCommonLogic;
+import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.MenuDataOpt;
 import com.dlz.framework.ssme.db.service.MenuDataOptService;
 import com.dlz.framework.ssme.shiro.ShiroUser;
@@ -167,9 +168,10 @@ public class BaseController extends PageDealCommonLogic {
 						//判断是否有数据管理员权限，有管理员权限则不做其他权限判断，未设置则表示无管理员权限配置
 						boolean hasadminRole=checkRole(flow.getStr("adminRole",""), loginUser.getRoleList()) ;
 						if(!hasadminRole){
-							String deptId=String.valueOf(loginUser.getDept().getdId());
-							String deptType=String.valueOf(loginUser.getDept().getdType());
-							String lastDeptId=String.valueOf(loginUser.getDept().getdFid());
+							Dept dept = loginUser.getSaleDept();
+							String deptId=String.valueOf(dept.getdId());
+							String deptType=String.valueOf(dept.getdType());
+							String lastDeptId=String.valueOf(dept.getdFid());
 							String deptOpt = flow.getStr("dept","").replaceAll(":deptId", deptId).replaceAll(":deptType", deptType).replaceAll(":lastDeptId", lastDeptId);
 							if(!"".equals(deptOpt)){
 								sql.append(" and (").append(deptOpt).append(")");

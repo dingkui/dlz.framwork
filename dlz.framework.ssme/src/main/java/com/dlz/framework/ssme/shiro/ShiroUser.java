@@ -1,6 +1,7 @@
 package com.dlz.framework.ssme.shiro;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import com.dlz.framework.ssme.db.model.Dept;
@@ -18,14 +19,30 @@ public class ShiroUser extends User implements Serializable {
 	private Map menuData;
 	private UserGroup userGroup;
 	private UserInfo userInfo;
-	private Dept dept;
+	private List<Dept> depts;
 
-	public Dept getDept() {
+	public List<Dept> getDepts() {
+		return depts;
+	}
+	public void setDepts(List<Dept> depts) {
+		this.depts = depts;
+	}
+	private Dept getDept(String dCode) {
+		for(Dept dept:depts){
+			if(dept.getdCode().startsWith(dCode)){
+				return dept;
+			}
+		}
+		Dept dept=new Dept();
+		dept.setdId(-1l);
+		dept.setdFid(-1l);
+		dept.setdName("无部门");
+		//TODO 管理员所属的部门类型
+		dept.setdType("D1");
 		return dept;
 	}
-
-	public void setDept(Dept dept) {
-		this.dept = dept;
+	public Dept getSaleDept() {
+		return getDept("03");
 	}
 
 	/**  
