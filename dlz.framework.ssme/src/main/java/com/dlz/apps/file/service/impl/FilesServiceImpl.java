@@ -182,6 +182,13 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		pm.addPara("dType", dType.getTypeCode());
 		return commService.getMapList(pm);
 	}
+	
+	private List<ResultMap> getFileUrl(Map<String, Object> paras, FileTypeEnum dType) throws Exception {
+		ParaMap pm = new ParaMap("key.files.search");
+		pm.getPara().putAll(paras);
+		pm.addPara("dType", dType.getTypeCode());
+		return commService.getMapList(pm);
+	}
 
 	// /**
 	// * 取得单个文件
@@ -223,10 +230,12 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		Files files = new Files();
 		files.setfName(rm.getStr("fName"));
 		files.setId(rm.getLong("id"));
+		files.setId(rm.getLong("zlId"));
 		files.setfSurfix(rm.getStr("fSurfix"));
 		files.setfPath(rm.getStr("fPath"));
 		files.setfOrd(rm.getLong("fOrd"));
 		files.setfSize(rm.getLong("fSize"));
+		files.setZlType(rm.getStr("zlType"));
 		files.setHttpfPath(getImgPath(files.getfPath()));
 		return files;
 	}
@@ -381,5 +390,25 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		ParaMap pm = new ParaMap("key.files.getfiles");
 		pm.addPara("id", id);
 		return commService.getBean(pm, Files.class);
+	}
+	
+	@Override
+	public Files getF(Integer id) {
+		ParaMap pm = new ParaMap("key.files.search");
+		pm.addPara("zlId", id);
+		return commService.getBean(pm, Files.class);
+	}
+
+	@Override
+	public List<Files> getzlFiles(String fName, String zlType, FileTypeEnum fileTypeEnum) throws Exception {
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("fName", fName);
+		m.put("zlType", zlType);
+		List<ResultMap> rs = getFileUrl(m, fileTypeEnum);
+		List<Files> fl = new ArrayList<Files>();
+		for (ResultMap r : rs) {
+			fl.add(cover2Files(r));
+		}
+		return fl;
 	}
 }

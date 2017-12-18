@@ -86,8 +86,35 @@ public class Files extends BaseModel {
      * 文件大小
      */
     private Long fSize;
+    
+    /**
+     * ptn_download.ZL_TYPE
+     * 文件分类
+     */
+    private String zlType;
+    /**
+     * ptn_download.ZL_Id
+     * 文件分类id
+     */
+    private String zlId;
 
-    public Long getfSize() {
+	public String getZlId() {
+		return zlId;
+	}
+
+	public void setZlId(String zlId) {
+		this.zlId = zlId;
+	}
+
+	public String getZlType() {
+		return zlType;
+	}
+
+	public void setZlType(String zlType) {
+		this.zlType = zlType;
+	}
+
+	public Long getfSize() {
 		return fSize;
 	}
 

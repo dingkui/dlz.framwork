@@ -40,6 +40,15 @@ public interface FilesService extends BaseService<Files, Long> {
 	 */
 	List<Files> getFiles(Long dataId, String fOrd, FileTypeEnum fileTypeEnum) throws Exception;
 	/**
+	 * 查询资料
+	 * @param dataId
+	 * @param fOrd
+	 * @param fileTypeEnum
+	 * @return
+	 * @throws Exception
+	 */
+	List<Files> getzlFiles(String fName, String zlType, FileTypeEnum fileTypeEnum) throws Exception;
+	/**
 	 * 删除图片
 	 * @param id
 	 * @throws Exception
@@ -68,4 +77,6 @@ public interface FilesService extends BaseService<Files, Long> {
 	 * 根据id获取文件
 	 */
 	public Files get(Integer id);
+	
+	public Files getF(Integer id);
 }

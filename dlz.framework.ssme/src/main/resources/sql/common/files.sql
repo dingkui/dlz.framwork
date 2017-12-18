@@ -36,5 +36,25 @@
 	   order by F_ORD
 	]]>
  	</sql>
+ 	
+ 	<!--取得文件
+ 	    ID,D_TB_NM,D_TYPE,DATA_ID,F_NAME,F_PATH,F_SURFIX,F_ORD,F_DEL
+ 	-->
+ 	<sql sqlId="key.files.search">
+	<![CDATA[
+	select ZL_ID,ZL_TYPE,F_NAME,F_PATH,F_SURFIX,F_ORD,F_SIZE,F_DEL 
+	  from ptn_download 
+	 where F_DEL = 0--是否删除
+	   [and ZL_ID = #{zlId}]
+	   [and ZL_TYPE like '%'||#{zlType}||'%']--业务类型
+	   [and F_NAME like '%'||#{fName}||'%']--名称
+	   [and F_PATH like '%'||#{fPath}||'%']--存储地址
+	   [and F_ORD = #{fOrd}]--序号
+	   [and F_SURFIX = #{fSurfix}]--文件后缀
+	   [and F_SIZE = #{fSize}]--大小
+	   order by ZL_TYPE,F_ORD
+	]]>
+ 	</sql>
+
 
 </sqlList>
