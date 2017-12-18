@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.constance.SocketConstance;
@@ -56,8 +57,10 @@ public class SocketServer extends ASocketServer {
 					}else{
 						socketOut=socket.getOutputStream();
 						logger.error("socket 非法访问:"+socket.getInetAddress()+":" + socket.getPort());
-						socketOut.write("error!".getBytes());
+						socketOut.write("Bye bye!".getBytes());
 					}
+				} catch (SocketException e) {
+					logger.error(e.getMessage());
 				} catch (IOException e) {
 					logger.error(e.getMessage(),e);
 				} finally {

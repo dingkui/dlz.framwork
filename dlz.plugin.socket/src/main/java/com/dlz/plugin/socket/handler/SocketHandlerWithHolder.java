@@ -44,6 +44,7 @@ public abstract class SocketHandlerWithHolder extends ASocketHandler {
 				holderSio.write(holderSocket.getOutputStream(), recive);
 			}else{
 				logger.debug("客户端长链接关闭：{0}:{1,number,#}" ,holderSocket.getInetAddress().getHostName(),holderSocket.getPort());
+				holderHandlerSet.remove(this);
 			}
 		} catch (IOException e) {
 			logger.error("客户端输出异常：{0}:{1,number,#},{2}" ,holderSocket.getInetAddress().getHostName(),holderSocket.getPort(),e.getMessage());

@@ -1,7 +1,9 @@
 package com.dlz.plugin.socket.interfaces;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import com.dlz.framework.logger.MyLogger;
@@ -46,7 +48,15 @@ public abstract class ASocketIO {
 				socketIn.read(b);
 				l[i]=b[0];
 			}
-			int length = Integer.parseInt(new String(l));
+			String lengthsStr=new String(l);
+			int length=0;
+			try{
+				length = Integer.parseInt(new String(l));
+			}catch(NumberFormatException es){
+				BufferedReader br = new BufferedReader(new InputStreamReader(socketIn, "UTF-8"));
+				logger.error("非法访问:"+lengthsStr+br.readLine());
+				return null;
+			}
 			byte[] strBytes= new byte[length];
 			for(int i=0;i<length;i++){
 				socketIn.read(b);
