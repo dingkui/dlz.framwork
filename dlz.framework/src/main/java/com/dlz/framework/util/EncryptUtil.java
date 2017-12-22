@@ -18,6 +18,74 @@ public class EncryptUtil {
 		$key=($key==null||"".equals($key))?GLOBAL_AUTH_KEY:$key;
 		return authcode($string, "DECODE", $key, 0);
 	}
+	public static String simpleDecry(String codes) {
+		int l=codes.length()-1,i=l;
+		int e=Integer.valueOf(codes.substring(0,1));
+		char[] output = new char[l];
+		while(i-->0) {
+			int ind=1+i*e;
+			if(ind>=l){
+				ind=ind%l;
+			}
+			output[ind]=codes.charAt(l-i);
+		}
+		return base64_decode(new String(output).replaceAll("\\.$","").replaceAll("_","="));
+	}
+	public static String simpleEncry(String input) {
+		int e=1;
+		String base64str=base64_encode(input).replaceAll("=","_");
+		int l=base64str.length();
+		if(l>14){
+			e=7;
+		}else if(l>10){
+			e=5;
+		}else if(l>6){
+			e=3;
+		}else if(l>=2){
+			e=2;
+		}
+		if(l%e==0){
+			base64str+=".";
+			l++;
+		}
+		int i=l;
+		String output = "";
+		while(i-->0 ) {
+			int ind=1+i*e;
+			if(ind>=l){
+				ind=ind%l;
+			}
+			output+=base64str.charAt(ind);
+		}
+		return e+output;
+	}
+	
+	private static void test(String in){
+		String en1=simpleEncry(in);
+		System.out.println(en1+" "+simpleDecry(en1));
+	}
+	
+	public static void main(String[] args){
+		test("1");
+		test("12");
+		test("123");
+		test("1234");
+		test("12345");
+		test("123456");
+		test("1234567");
+		test("12345678");
+		test("123456789");
+		test("1234567890");
+		test("12345678901");
+		test("123456789012");
+		test("1234567890123");
+		test("12345678901234");
+		test("123456789012345");
+		test("1234567890123456");
+		test("12345678901234567");
+		test("123456789012345678啊");
+		test("123456789012345678啊啊");
+	}
 	public static String decode(String $string) {
 		return decode($string, null);
 	}
@@ -206,28 +274,28 @@ public class EncryptUtil {
 		return temp.substring(temp.length()-10);
 	}
 	
-	public static void main(String[] args){
-//		String number = "加密{xas}";
-//		for(int i = 0; i < 100; i++){
-//			number+=Math.random();
-//		}
-//		System.out.println("加密："+number.length()+" " + number);
-//		Long d=new Date().getTime();
-//		String key=""+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random();
-//		int l=0;
-//		for(int i = 0; i < 1000; i++){
-//			String number2 = authcode(number, "ENCODE",key,0);
-//			if(number2.length()>l){
-//				l=number2.length();
-//			}
-//			boolean is=authcode(number2, "DECODE",key,0).equals(number);
-//			if(!is){
-//				System.out.println("error:"+i);
-//			}
-//		}
-//		System.out.println(l);
-//		System.out.println(new Date().getTime()-d);
-		System.out.println(md5("1"));
-	}
+//	public static void main(String[] args){
+////		String number = "加密{xas}";
+////		for(int i = 0; i < 100; i++){
+////			number+=Math.random();
+////		}
+////		System.out.println("加密："+number.length()+" " + number);
+////		Long d=new Date().getTime();
+////		String key=""+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random();
+////		int l=0;
+////		for(int i = 0; i < 1000; i++){
+////			String number2 = authcode(number, "ENCODE",key,0);
+////			if(number2.length()>l){
+////				l=number2.length();
+////			}
+////			boolean is=authcode(number2, "DECODE",key,0).equals(number);
+////			if(!is){
+////				System.out.println("error:"+i);
+////			}
+////		}
+////		System.out.println(l);
+////		System.out.println(new Date().getTime()-d);
+////		System.out.println(md5("1"));
+//	}
  
 }
