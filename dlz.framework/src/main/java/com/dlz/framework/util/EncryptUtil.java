@@ -66,25 +66,7 @@ public class EncryptUtil {
 	}
 	
 	public static void main(String[] args){
-		test("1");
-		test("12");
-		test("123");
-		test("1234");
-		test("12345");
-		test("123456");
-		test("1234567");
-		test("12345678");
-		test("123456789");
-		test("1234567890");
-		test("12345678901");
-		test("123456789012");
-		test("1234567890123");
-		test("12345678901234");
-		test("123456789012345");
-		test("1234567890123456");
-		test("12345678901234567");
-		test("123456789012345678啊");
-		test("123456789012345678啊啊");
+		test("12345,123");
 	}
 	public static String decode(String $string) {
 		return decode($string, null);

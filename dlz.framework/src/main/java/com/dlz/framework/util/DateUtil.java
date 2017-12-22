@@ -205,13 +205,13 @@ public class DateUtil {
 	 * @author penghao
 	 * 根据出生日期计算年龄
 	 */
-	@SuppressWarnings("deprecation")
 	public static int getAge(Date age){
 		if(age==null){
 			return 0;
 		}
-		Date date=new Date();
-		return date.getYear()-age.getYear();
+		Calendar scalendar = new GregorianCalendar();
+		scalendar.setTime(age);
+		return new GregorianCalendar().get(Calendar.YEAR)-scalendar.get(Calendar.YEAR);
 	}
 
 	/**
