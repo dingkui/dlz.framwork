@@ -24,6 +24,13 @@ public class ShiroUser extends User implements Serializable {
 	public List<Dept> getDepts() {
 		return depts;
 	}
+	
+	public Dept getDept() {
+		if(depts!=null&&!depts.isEmpty()){
+			return depts.get(0);
+		}
+		return null;
+	}
 	public void setDepts(List<Dept> depts) {
 		this.depts = depts;
 	}
