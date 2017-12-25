@@ -14,9 +14,19 @@ public class JSONResult extends JSONMap{
 	private static final String MSG = "msg";
 	private static final String DATA = "data";
 	private static final int defualtFlag=1;
-	
+	public JSONResult(){
+		super();
+	}
+	public JSONResult(Object o){
+		super(o);
+	}
 	public static JSONResult createResult(){
 		JSONResult r=new JSONResult();
+		r.put(FLAG,defualtFlag);
+		return r;
+	}
+	public static JSONResult createResult(Object o){
+		JSONResult r=new JSONResult(o);
 		r.put(FLAG,defualtFlag);
 		return r;
 	}
