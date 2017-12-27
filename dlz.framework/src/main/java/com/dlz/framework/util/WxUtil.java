@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -17,11 +19,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.servlet.http.HttpServletRequest;
+
+
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.SystemException;
@@ -30,6 +37,7 @@ import com.dlz.framework.holder.ThirdHolder.ThirdInfo;
 import com.dlz.framework.holder.TokenHolder;
 import com.dlz.framework.holder.TokenHolder.TokenInfo;
 import com.dlz.framework.logger.MyLogger;
+
 
 /**
  * 通用工具类
@@ -546,7 +554,7 @@ public class WxUtil {
 		 * @param appsecret
 		 * @return
 		 */
-		public static ThirdInfo getXcxThirdInfoByCode(String code,String headimgurl,String nickname,String sex) {
+		public static ThirdInfo getXcxThirdInfoByCode(String code,String encryptedData,String iv) {
 			ThirdInfo thirdInfo=ThirdHolder.getThirdInfo();
 			String XcxAppId=WxConfig.getXcxAppid(); 
 			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
@@ -558,24 +566,20 @@ public class WxUtil {
 			}
 			try {
 				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
-				String resUserInfo = HttpUtil.sendHttpsGET(requestUrl);
-				JSONMap userInfo = JacksonUtil.readValue(resUserInfo, JSONMap.class);
-				if(userInfo!=null){
-					thirdInfo.setWx_xcx_openid(userInfo.getStr("openid"));
+				String resSessionkey = HttpUtil.sendHttpsGET(requestUrl);
+				JSONMap sessionData = JacksonUtil.readValue(resSessionkey, JSONMap.class);
+				if(sessionData!=null){
+					String dataStr=decrypt(sessionData.getStr("session_key"), encryptedData, iv);
+					JSONMap userInfo=JacksonUtil.readValue(dataStr,JSONMap.class);
+					thirdInfo.setWx_xcx_openid(userInfo.getStr("openId"));
+					thirdInfo.setFace(userInfo.getStr("avatarUrl"));
+					thirdInfo.setNickname(userInfo.getStr("nickName"));
+					thirdInfo.setSex(userInfo.getStr("gender"));
 					//如果unionid没有取到则用openid作为unionid
-					if(userInfo.containsKey("unionid")){
-						thirdInfo.setWx_unionid(userInfo.getStr("unionid"));
+					if(sessionData.containsKey("unionId")){
+						thirdInfo.setWx_unionid(userInfo.getStr("unionId"));
 					}else{
-						thirdInfo.setWx_unionid(userInfo.getStr("openid"));
-					}
-					if(!StringUtils.isEmpty(headimgurl)){
-						thirdInfo.setFace(headimgurl);
-					}
-					if(!StringUtils.isEmpty(nickname)){
-						thirdInfo.setNickname(nickname);
-					}
-					if(!StringUtils.isEmpty(sex)){
-						thirdInfo.setSex(sex);
+						thirdInfo.setWx_unionid(userInfo.getStr("openId"));
 					}
 					thirdInfo.setFromWx(true);
 				}
@@ -766,5 +770,25 @@ public class WxUtil {
 		
 		return tic;
 	}
+	
+	  /**
+	   * AES解密
+	   *
+	   * @param encryptedData 消息密文
+	   * @param ivStr         iv字符串
+	   */
+	  public static String decrypt(String sessionKey, String encryptedData, String ivStr) {
+	    try {
+	      AlgorithmParameters params = AlgorithmParameters.getInstance("AES");
+	      params.init(new IvParameterSpec(Base64.decode(ivStr.toCharArray())));
+
+	      Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+	      cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(Base64.decode(sessionKey.toCharArray()), "AES"), params);
+
+	      return new String(PKCS7Encoder.decode(cipher.doFinal(Base64.decode(encryptedData.toCharArray()))), StandardCharsets.UTF_8);
+	    } catch (Exception e) {
+	      throw new RuntimeException("AES解密失败", e);
+	    }
+	  }
 	
 }
