@@ -5,12 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -53,6 +51,10 @@ public class HttpUtil {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	
+	public static void addCookie(HttpServletResponse response, String cookieName, String cookieValue, int time) {
+	    addCookie(response, null, "/", cookieName, cookieValue, time);
 	}
 
 	public static void addCookie(HttpServletResponse response, String domain, String path, String cookieName,
