@@ -10,7 +10,7 @@
 	<select id="getList" resultType="com.dlz.framework.db.modal.ResultMap" parameterType="com.dlz.framework.db.modal.BaseParaMap">
 		${sql_page}
 	</select>
-	<select id="getPageCnt" resultType="int" parameterType="com.dlz.framework.db.modal.BaseParaMap">
+	<select id="getCnt" resultType="int" parameterType="com.dlz.framework.db.modal.BaseParaMap">
 		${sql_cnt}
 	</select>
 	<update id="updateSql" parameterType="com.dlz.framework.db.modal.BaseParaMap">
