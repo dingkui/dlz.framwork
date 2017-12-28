@@ -6,8 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,7 +29,7 @@ import com.dlz.framework.util.StringUtils;
 @Controller
 @RequestMapping(value="/rbac/baseSet")
 public class BaseSetController {
-	private static Logger logger = LoggerFactory.getLogger(BaseSetController.class);
+	private static MyLogger logger = MyLogger.getLogger(BaseSetController.class);
 
 	@Autowired
 	BaseSetService baseSetService;

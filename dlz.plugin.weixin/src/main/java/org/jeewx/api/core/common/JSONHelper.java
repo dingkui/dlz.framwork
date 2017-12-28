@@ -8,8 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.dlz.framework.logger.MyLogger;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -19,7 +17,6 @@ import net.sf.json.JSONObject;
  * JSONHelper.java
  */
 public final class JSONHelper {
-	private static MyLogger logger = MyLogger.getLogger(JSONHelper.class);
 
 	// 将数组转换成JSON
 	public static String array2json(Object object) {

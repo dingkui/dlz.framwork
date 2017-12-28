@@ -10,9 +10,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 
 
 /**
@@ -23,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class Myx509TrustManager implements X509TrustManager{
-	private static Logger logger =  LoggerFactory.getLogger(Myx509TrustManager.class);
+	private static MyLogger logger = MyLogger.getLogger(Myx509TrustManager.class);
 	/**
 	 * 检查客户端证书
 	 * 

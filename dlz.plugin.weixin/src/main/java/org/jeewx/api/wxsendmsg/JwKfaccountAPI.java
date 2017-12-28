@@ -15,8 +15,6 @@ import org.jeewx.api.core.req.model.kfaccount.KfcustomSend;
 import org.jeewx.api.core.util.WeiXinConstant;
 import org.jeewx.api.wxsendmsg.model.WxKfaccount;
 
-import com.dlz.framework.logger.MyLogger;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -28,8 +26,6 @@ import net.sf.json.JSONObject;
  */
 public class JwKfaccountAPI {
 
-	private static MyLogger logger = MyLogger
-			.getLogger(JwKfaccountAPI.class);
 
 	/**
 	 * 添加客服

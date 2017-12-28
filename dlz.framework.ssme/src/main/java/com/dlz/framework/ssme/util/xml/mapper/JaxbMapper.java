@@ -15,8 +15,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.util.Assert;
 
 import com.dlz.framework.ssme.util.system.Exceptions;
@@ -36,7 +35,7 @@ import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
 public class JaxbMapper {
 
 	private static ConcurrentMap<Class, JAXBContext> jaxbContexts = new ConcurrentHashMap<Class, JAXBContext>();
-	private static Logger logger = LoggerFactory.getLogger(JaxbMapper.class);
+	private static MyLogger logger = MyLogger.getLogger(JaxbMapper.class);
 	/**
 	 * Java Object->Xml without encoding.
 	 */

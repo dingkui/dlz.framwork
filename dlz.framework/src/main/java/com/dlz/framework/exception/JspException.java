@@ -2,9 +2,9 @@ package com.dlz.framework.exception;
 
 import javax.servlet.ServletException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
+
+import com.dlz.framework.logger.MyLogger;
 
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.beans.TypeMismatchException;
  *
  */
 public class JspException extends BaseException {
-	private static Logger logger = LoggerFactory.getLogger(JspException.class);
+	private static MyLogger logger = MyLogger.getLogger(JspException.class);
 	/**
 	 * 序列号
 	 */

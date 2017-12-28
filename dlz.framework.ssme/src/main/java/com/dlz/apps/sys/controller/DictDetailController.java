@@ -2,8 +2,7 @@ package com.dlz.apps.sys.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +22,7 @@ import com.dlz.framework.util.JacksonUtil;
 @Controller
 @RequestMapping(value = "/rbac/dictDetail")
 public class DictDetailController {
-	private static Logger logger = LoggerFactory
-			.getLogger(DictDetailController.class);
+	private static MyLogger logger = MyLogger.getLogger(DictDetailController.class);
 
 	@Autowired
 	private DictDetailService dictDetailService;

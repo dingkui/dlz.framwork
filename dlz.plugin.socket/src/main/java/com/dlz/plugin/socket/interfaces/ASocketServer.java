@@ -55,7 +55,7 @@ public abstract class ASocketServer  extends Thread{
 				logger.info("监听服务器停止成功：" + serverInfo);
 			}
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error(e.getMessage(),e);
 		}
 	}
 
@@ -70,7 +70,7 @@ public abstract class ASocketServer  extends Thread{
 					//logger.info("客户端接入：{0}:{1,number,#}" ,clientSocket.getInetAddress().getHostName(),clientSocket.getPort());
 					executorService.execute(getHandler(clientSocket, dealService,sio));
 				} catch (IOException e) {
-					logger.error(e);
+					logger.error(e.getMessage(),e);
 				}
 			}
 		} finally {

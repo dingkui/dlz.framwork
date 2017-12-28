@@ -18,7 +18,7 @@ public interface IDaoOperator  {
 
 	List<ResultMap> getList(BaseParaMap paraMap);
 
-	int getPageCnt(BaseParaMap paraMap);
+	int getCnt(BaseParaMap paraMap);
 
 	int updateSql(BaseParaMap paraMap);
 }

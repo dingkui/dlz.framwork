@@ -7,8 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +31,7 @@ import com.dlz.framework.ssme.util.criterias.Criterias;
 @Controller
 @RequestMapping(value = "/rbac/dict")
 public class DictController {
-	private static Logger logger = LoggerFactory.getLogger(DictController.class);
+	private static MyLogger logger = MyLogger.getLogger(DictController.class);
 
 	@Autowired
 	private DictService dictService;

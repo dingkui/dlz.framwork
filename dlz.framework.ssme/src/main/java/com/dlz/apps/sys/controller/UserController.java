@@ -7,8 +7,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,7 +52,7 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/rbac/user")
 public class UserController extends BaseController{
-	private static Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static MyLogger logger = MyLogger.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;

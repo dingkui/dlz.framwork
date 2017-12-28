@@ -11,9 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.system.Exceptions;
 
 /**
@@ -24,7 +22,7 @@ import com.dlz.framework.ssme.util.system.Exceptions;
  * @author calvin
  */
 public class Digests {
-	private static Logger logger = LoggerFactory.getLogger(Digests.class);
+	private static MyLogger logger = MyLogger.getLogger(Digests.class);
 	private static final String SHA1 = "SHA-1";
 	private static final String MD5 = "MD5";
 	private static final String Algorithm ="DESede";

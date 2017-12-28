@@ -2,8 +2,7 @@ package com.dlz.framework.ssme.base.cache;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +11,7 @@ public class CacheCenter {
 	/**
 	 * 日志 logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger(CacheCenter.class);
+	private static MyLogger logger = MyLogger.getLogger(CacheCenter.class);
 
 	/**
 	 * 注入BeanFactory

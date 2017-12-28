@@ -4,16 +4,14 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.apps.notice.sms.sdk.Mo;
 import com.dlz.apps.notice.sms.sdk.SDKServiceBindingStub;
 import com.dlz.apps.notice.sms.sdk.SDKServiceLocator;
 import com.dlz.apps.notice.sms.sdk.StatusReport;
 
 public class Client {
-	private static Logger logger = LoggerFactory.getLogger(Client.class);
+	private static MyLogger logger = MyLogger.getLogger(Client.class);
 	private String softwareSerialNo;
 	private String key;
 	public Client(String sn,String key){

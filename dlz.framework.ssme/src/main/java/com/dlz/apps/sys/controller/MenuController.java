@@ -6,8 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +35,7 @@ import com.google.common.collect.Maps;
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
-	private static Logger logger = LoggerFactory.getLogger(MenuController.class);
+	private static MyLogger logger = MyLogger.getLogger(MenuController.class);
 	@Autowired
 	private RoleService roleService;
 	@Autowired

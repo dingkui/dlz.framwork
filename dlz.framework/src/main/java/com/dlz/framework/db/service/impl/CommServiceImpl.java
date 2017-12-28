@@ -25,14 +25,14 @@ import com.dlz.framework.util.ValUtil;
 public class CommServiceImpl implements ICommService {
 	private static MyLogger logger = MyLogger.getLogger(CommServiceImpl.class);
 	@Autowired
-	private IDaoOperator commMapper;
+	private IDaoOperator daoOperator;
 	
 	@Override
 	public int excuteSql(BaseParaMap paraMap) {
 		paraMap = SqlUtil.dealParm(paraMap);
 		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
 		try {
-			int r=commMapper.updateSql(paraMap);
+			int r=daoOperator.updateSql(paraMap);
 			logger.info("result:"+r);
 			return r;
 		} catch (Exception e) {
@@ -41,12 +41,12 @@ public class CommServiceImpl implements ICommService {
 	}
 	@Override
 	public long getSeq(String seqName) {
-		return commMapper.getSeq(seqName);
+		return daoOperator.getSeq(seqName);
 	}
 	
 	@Override
 	public long getSeqWithTime(String seqName) {
-		return commMapper.getSeqWithTime(seqName);
+		return daoOperator.getSeqWithTime(seqName);
 	}
 	@Override
 	public int getCnt(BaseParaMap paraMap) {
@@ -54,7 +54,7 @@ public class CommServiceImpl implements ICommService {
 		SqlUtil.createCntSql(paraMap);
 		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
 		try {
-			return commMapper.getPageCnt(paraMap);
+			return daoOperator.getCnt(paraMap);
 		} catch (Exception e) {
 			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSql_cnt() + " para:" + paraMap.getPara(), e);
 		}
@@ -72,7 +72,7 @@ public class CommServiceImpl implements ICommService {
 		SqlUtil.createPageSql(paraMap);
 		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
 		try {
-			return commMapper.getList(paraMap);
+			return daoOperator.getList(paraMap);
 		} catch (Exception e) {
 			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(), e);
 		}

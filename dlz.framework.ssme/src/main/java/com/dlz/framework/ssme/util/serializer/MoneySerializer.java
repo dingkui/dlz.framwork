@@ -2,9 +2,7 @@ package com.dlz.framework.ssme.util.serializer;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.bean.MoneyUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +11,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class MoneySerializer extends JsonSerializer<Long> {
 	
-	private static Logger logger = LoggerFactory.getLogger(MoneySerializer.class);
+	private static MyLogger logger = MyLogger.getLogger(MoneySerializer.class);
 
 	@Override
 	public void serialize(Long value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {

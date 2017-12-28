@@ -20,15 +20,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.system.Exceptions;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.system.Reflections;
 
 public class Excels {
-	private static Logger logger = LoggerFactory.getLogger(Excels.class);
+	private static MyLogger logger = MyLogger.getLogger(Excels.class);
 	public static byte[] exportExcel(String title, Map<String, String> fieldMap, Collection<?> data, String pattem) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {

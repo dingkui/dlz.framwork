@@ -8,8 +8,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.util.Assert;
 
 import com.dlz.framework.util.StringUtils;
@@ -29,7 +28,7 @@ public class Reflections {
 
 	private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
-	private static Logger logger = LoggerFactory.getLogger(Reflections.class);
+	private static MyLogger logger = MyLogger.getLogger(Reflections.class);
 
 	/**
 	 * 调用Getter方法.

@@ -18,8 +18,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +41,7 @@ import com.swetake.util.Qrcode;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements FilesService {
-	private static Logger logger = LoggerFactory.getLogger(FilesServiceImpl.class);
+	private static MyLogger logger = MyLogger.getLogger(FilesServiceImpl.class);
 	private static String UPLOAD_PATH = "sys.img.upload.path";
 	private static String NGINX_PATH = "nginxServer";
 
@@ -137,7 +136,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 				prefix = prefix.indexOf(".") != 0 ? ("." + prefix) : prefix;
 				if(saveDb){
 					if (fOrd > -1) {
-						Map<String, Object> pms=new HashMap();
+						Map<String, Object> pms=new HashMap<String, Object>();
 						pms.put("dataId", dataId);
 						pms.put("fOrd", fOrd);
 						List<ResultMap> rms = getFileUrls(pms, fileTypeEnum);

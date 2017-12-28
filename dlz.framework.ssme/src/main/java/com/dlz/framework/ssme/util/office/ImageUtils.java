@@ -14,16 +14,14 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 /**
  * 图片工具类， 图片水印，文字水印，缩放，补白等
  * 
  * @author Carl He
  */
 public final class ImageUtils {
-	private static Logger logger = LoggerFactory.getLogger(ImageUtils.class);
+	private static MyLogger logger = MyLogger.getLogger(ImageUtils.class);
 	/**
 	 * 
 	 * @param logoText 水印内容

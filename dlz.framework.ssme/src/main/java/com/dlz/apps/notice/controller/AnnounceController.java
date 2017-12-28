@@ -3,8 +3,7 @@ package com.dlz.apps.notice.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,7 @@ import com.dlz.framework.util.JacksonUtil;
 @Controller
 @RequestMapping(value = "/news/announce")
 public class AnnounceController extends BaseController{
-	private static Logger logger = LoggerFactory.getLogger(AnnounceController.class);
+	private static MyLogger logger = MyLogger.getLogger(AnnounceController.class);
 	@Autowired
 	 private AnnounceService  announceServices;
 	@Autowired

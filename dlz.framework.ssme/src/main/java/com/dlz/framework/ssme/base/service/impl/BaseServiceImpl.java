@@ -5,8 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.db.modal.BaseParaMap;
@@ -18,7 +17,7 @@ import com.dlz.framework.util.system.Reflections;
 import com.google.common.collect.Lists;
 
 public abstract class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
-	private static Logger logger = LoggerFactory.getLogger(BaseServiceImpl.class);
+	private static MyLogger logger = MyLogger.getLogger(BaseServiceImpl.class);
 	protected BaseMapper<T, PK> mapper;
 	@Autowired
 	protected ICommService commService;

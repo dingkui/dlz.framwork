@@ -9,8 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,7 +33,7 @@ import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.util.StringUtils;
 
 public class BaseController extends PageDealCommonLogic {
-	private static Logger logger = LoggerFactory.getLogger(BaseController.class);
+	private static MyLogger logger = MyLogger.getLogger(BaseController.class);
 	public static String SESSION_MEMEBER = "member";
 	public static String SESSION_MEMBER_HEADINFO = "memberHeadInfo";
 	public static String SESSION_USER_LIMIT = "userLimit";

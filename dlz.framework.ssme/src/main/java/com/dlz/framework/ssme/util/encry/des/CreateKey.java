@@ -7,11 +7,9 @@ import java.security.SecureRandom;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 public class CreateKey {
-	private static Logger logger = LoggerFactory.getLogger(CreateKey.class);
+	private static MyLogger logger = MyLogger.getLogger(CreateKey.class);
 	@SuppressWarnings("resource")
 	public void createKey(String keyName) throws Exception {
 		// 创建一个可信任的随机数源，DES算法需要

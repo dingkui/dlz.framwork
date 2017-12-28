@@ -12,9 +12,7 @@ import java.util.Map;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.httpclient.methods.multipart.FilePartSource;
 import org.apache.commons.httpclient.methods.multipart.PartSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
 
 /* *
@@ -29,7 +27,7 @@ import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
  */
 
 public class AlipayCore {
-	private static Logger logger = LoggerFactory.getLogger(AlipayCore.class);
+	private static MyLogger logger = MyLogger.getLogger(AlipayCore.class);
     /** 
      * 除去数组中的空值和签名参数
      * @param sArray 签名参数组

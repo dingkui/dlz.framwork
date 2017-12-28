@@ -2,8 +2,7 @@ package com.dlz.apps.sys.cache;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +35,6 @@ public class DictsCache extends AbstractCache<Long, List<Dicts>> {
 	/**
 	 * 日志logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger(DictCacheSsme.class);
+	private static MyLogger logger = MyLogger.getLogger(DictCacheSsme.class);
 	
 }

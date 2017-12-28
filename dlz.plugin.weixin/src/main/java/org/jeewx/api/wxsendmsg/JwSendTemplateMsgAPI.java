@@ -6,7 +6,6 @@ import org.jeewx.api.core.req.model.message.TemplateMessageSendResult;
 import org.jeewx.api.core.util.WeiXinConstant;
 
 import com.dlz.framework.logger.MyLogger;
-
 import net.sf.json.JSONObject;
 
 /**

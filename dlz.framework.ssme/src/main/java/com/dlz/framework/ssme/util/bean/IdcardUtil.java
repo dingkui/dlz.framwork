@@ -7,11 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 public class IdcardUtil {
-	private static Logger logger = LoggerFactory.getLogger(IdcardUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(IdcardUtil.class);
 	private static Map<String, String> cityCodeMap = new HashMap<String, String>() {
 		private static final long serialVersionUID = 197936596282292049L;
 		{

@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.modal.ParaMap;
@@ -31,7 +30,7 @@ import com.google.gson.JsonObject;
 @Component
 public class GTPushUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(GTPushUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(GTPushUtil.class);
 
 	private static String appId = ConfigUtil.getConfig("app.push.appId");
 	private static String appKey = ConfigUtil.getConfig("app.push.appKey");

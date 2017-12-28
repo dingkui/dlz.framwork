@@ -19,12 +19,10 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings({"unchecked","rawtypes"})
 public class XMLUtil {
-	private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
+	private static final MyLogger logger = MyLogger.getLogger(XMLUtil.class);
 
 	final static String XML_ID = "id";
 	final static String XML_TYPE_TEXT = "text";

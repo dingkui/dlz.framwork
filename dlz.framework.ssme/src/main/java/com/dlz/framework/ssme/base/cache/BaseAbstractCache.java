@@ -3,14 +3,13 @@ package com.dlz.framework.ssme.base.cache;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 
 import com.google.common.cache.Cache;
 
 public abstract class BaseAbstractCache<K, V> {
 	
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	protected MyLogger logger = MyLogger.getLogger(getClass());
 	
 	protected long version = 0L;
 	

@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.stereotype.Component;
 
 import com.gexin.rp.sdk.base.IPushResult;
@@ -25,7 +24,7 @@ import com.google.gson.JsonObject;
 @Component
 public class GTPushService {
 
-	private static Logger logger = LoggerFactory.getLogger(GTPushService.class);
+	private static MyLogger logger = MyLogger.getLogger(GTPushService.class);
 
 	// 定义常量, appId、appKey、masterSecret 采用本文档 "第二步 获取访问凭证 "中获得的应用配置
 	// private static String appId = "WQWUp5Nbi284l3jq8kyI93";

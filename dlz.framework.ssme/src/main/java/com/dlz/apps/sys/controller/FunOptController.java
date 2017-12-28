@@ -8,8 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +30,7 @@ import com.dlz.framework.ssme.db.service.RbacService;
 @Controller
 @RequestMapping(value = "/rbac/funopt")
 public class FunOptController {
-	private static Logger logger = LoggerFactory.getLogger(FunOptController.class);
+	private static MyLogger logger = MyLogger.getLogger(FunOptController.class);
 
 	@Autowired
 	private FunOptService funOptService;

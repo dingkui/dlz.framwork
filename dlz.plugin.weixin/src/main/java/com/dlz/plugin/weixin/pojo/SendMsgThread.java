@@ -15,7 +15,6 @@ public class SendMsgThread  implements Runnable{
 	private String accesstoken;
 	private Wxuser wxuser = null;
 	private WxMedia wxMedia = null;
-	private String type = null;
 
 	/**
 	 * 获取accesstoken

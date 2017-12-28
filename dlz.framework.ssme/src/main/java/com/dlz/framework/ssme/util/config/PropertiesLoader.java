@@ -6,8 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -19,7 +18,7 @@ import org.springframework.core.io.ResourceLoader;
  */
 public class PropertiesLoader {
 
-	private static Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
+	private static MyLogger logger = MyLogger.getLogger(PropertiesLoader.class);
 
 	private static ResourceLoader resourceLoader = new DefaultResourceLoader();
 

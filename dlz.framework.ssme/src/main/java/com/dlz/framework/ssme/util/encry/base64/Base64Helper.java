@@ -22,11 +22,9 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 public class Base64Helper {
-	private static Logger logger = LoggerFactory.getLogger(Base64Helper.class);
+	private static MyLogger logger = MyLogger.getLogger(Base64Helper.class);
 
 	// 从文本文件对象中读取内容并转换为字符数组
 	public static char[] readChars(File file) {

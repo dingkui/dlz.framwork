@@ -126,7 +126,7 @@ public class CustomMessage {
 		
 		if(jsonObject != null){
 			int errorCode = jsonObject.getInt("errcode");
-			String errorMsg = jsonObject.getStr("errmsg");
+//			String errorMsg = jsonObject.getStr("errmsg");
 			if(0 == errorCode){
 				result = true;
 			}

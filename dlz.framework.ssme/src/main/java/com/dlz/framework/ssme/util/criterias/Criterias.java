@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.ssme.util.web.Servlets;
 import com.dlz.framework.util.StringUtils;
@@ -23,7 +21,7 @@ import com.dlz.framework.util.system.Reflections;
 import com.google.common.base.CaseFormat;
 
 public class Criterias {
-	private static Logger logger = LoggerFactory.getLogger(Criterias.class);
+	private static MyLogger logger = MyLogger.getLogger(Criterias.class);
 	private static final int DEFAULT_PAGE_SIZE = 100;
 	
 	public static <T> T buildCriteria(Class<T> criteriaClass, HttpServletRequest request, Map<String, Object> extendParam,List<String> conditionLst) {

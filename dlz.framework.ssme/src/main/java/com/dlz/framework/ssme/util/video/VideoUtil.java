@@ -16,12 +16,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 public class VideoUtil {
-	private static Logger logger = LoggerFactory.getLogger(VideoUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(VideoUtil.class);
 	public static void main(String[] args) {
 		VideoUtil.convert("E://V50624-143114.mp4", "E://V50624-1431148.flv");
 		System.out.println("end");

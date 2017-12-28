@@ -28,7 +28,6 @@
 		<joda-time.version>2.3</joda-time.version>
 		<dozer.version>5.4.0</dozer.version>
 		<httpclient.version>4.3.3</httpclient.version>
-		<junit.version>4.11</junit.version>
 		<jetty.version>7.6.15.v20140411</jetty.version>
 		<druid.version>1.0.4</druid.version>
 		<jaxen.version>1.1.6</jaxen.version>
@@ -100,6 +99,13 @@
 		    <artifactId>aliyun-sdk-mns</artifactId>
 		    <version>1.1.8</version>
 		    <classifier>jar-with-dependencies</classifier>
+		</dependency>
+		
+		<!-- util/qrcode-1.0.jar -->
+		<dependency>
+	    	<groupId>comlib.util</groupId>
+	    	<artifactId>qrcode</artifactId>
+	    	<version>1.0</version>
 		</dependency>
 
 		<!-- spring data access -->
@@ -196,27 +202,17 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
-		<!-- common-logging 实际调用slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<!-- java.util.logging 实际调用slf4j -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- <dependency>
+		    <groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency> -->
 
 		<dependency>
 			<groupId>com.googlecode.log4jdbc</groupId>
@@ -243,13 +239,6 @@
 			<version>${guava.version}</version>
 		</dependency>
 		<!-- GENERAL UTILS end -->
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>

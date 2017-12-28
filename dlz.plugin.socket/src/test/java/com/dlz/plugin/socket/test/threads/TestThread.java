@@ -23,13 +23,14 @@ public class TestThread extends Thread {
 	public void run() {
 		try {
 			for (int i = 0; i < 10; i++) {
+				all++;
 				try {
+					@SuppressWarnings("unused")
 					String r=client.getRespose(msg);
 				} catch (Exception e) {
 					System.out.println("aaa:" + i);
 					throw e;
 				}
-				System.out.println(id + " all:" + (all++) + ":" + (new Date().getTime() - allt));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

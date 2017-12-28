@@ -2,9 +2,7 @@ package com.dlz.framework.ssme.util.bean;
 
 import java.io.InputStream;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 
 public class FeeUtil {
 
@@ -16,7 +14,7 @@ public class FeeUtil {
 	/**
 	 * 日志
 	 */
-	private static Logger logger = LoggerFactory.getLogger(FeeUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(FeeUtil.class);
 
 	/**
 	 * Properties实例

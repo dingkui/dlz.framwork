@@ -15,9 +15,6 @@ import javax.net.ssl.TrustManager;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.logger.MyLogger;
 
-import net.sf.json.JSONObject;
-
-
 /**
  * 通用工具类
  * 

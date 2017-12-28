@@ -21,6 +21,7 @@ import com.dlz.framework.logger.MyLogger;
  *
  */
 public class ObtainCertiNumServelet extends HttpServlet {
+	private static final long serialVersionUID = -5794207647541551424L;
 	private static MyLogger logger = MyLogger.getLogger(ObtainCertiNumServelet.class);
 	public ObtainCertiNumServelet() {
         super();

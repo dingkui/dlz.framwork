@@ -9,8 +9,6 @@ import org.jeewx.api.core.req.model.message.TemplateData;
 import org.jeewx.api.core.req.model.message.TemplateMessage;
 import org.jeewx.api.core.util.WeiXinConstant;
 
-import com.dlz.framework.logger.MyLogger;
-
 import net.sf.json.JSONObject;
 
 /**
@@ -20,9 +18,6 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwTemplateMessageAPI {
-
-	private static MyLogger logger = MyLogger
-			.getLogger(JwTemplateMessageAPI.class);
 
 	/**
 	 * 设置行业信息

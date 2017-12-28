@@ -13,6 +13,7 @@ import com.dlz.plugin.socket.handler.SocketHandlerWithHolder;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
 import com.dlz.plugin.socket.interfaces.IDealService;
+import com.dlz.plugin.socket.test.threads.TestThread4;
 
 
 public class SocketServer extends ASocketServer {
@@ -46,6 +47,10 @@ public class SocketServer extends ASocketServer {
 					String actionInfo = sio.read(socketIn);
 					if(actionInfo!=null && actionInfo.equals(SocketConstance.HOLDER)){
 						addHolder(socket, sio);
+						for(int i=0;i<100001;i++){
+							Thread c=new TestThread4(i);
+							c.start();
+						}
 						return;
 					}
 					//logger.info("收到来自【" + socket.getInetAddress() + ":" + socket.getPort() + "】的监听请求：" + actionInfo);

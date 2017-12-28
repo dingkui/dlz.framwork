@@ -7,16 +7,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.JacksonUtil;
 
 public class DistanceUtil {
 	
-	private static Logger logger = LoggerFactory.getLogger(DistanceUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(DistanceUtil.class);
     private static final double EARTH_RADIUS = 6378.137;
 
     private static double rad(double d) {

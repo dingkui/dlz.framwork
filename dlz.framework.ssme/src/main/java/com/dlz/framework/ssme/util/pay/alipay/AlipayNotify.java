@@ -6,13 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
 import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
-import com.dlz.framework.ssme.util.web.HttpUtil;
+import com.dlz.framework.util.HttpUtil;
 
 /* *
  *类名：AlipayNotify
@@ -28,7 +26,7 @@ import com.dlz.framework.ssme.util.web.HttpUtil;
  *调试通知返回时，可查看或改写log日志的写入TXT里的数据，来检查通知返回是否正常
  */
 public class AlipayNotify {
-	private static Logger logger = LoggerFactory.getLogger(AlipayNotify.class);
+	private static MyLogger logger = MyLogger.getLogger(AlipayNotify.class);
     /**
      * 支付宝消息验证地址
      */

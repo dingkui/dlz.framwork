@@ -4,11 +4,9 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 public class XMLMaterialUtil {
-	private static final Logger logger = LoggerFactory.getLogger(XMLMaterialUtil.class);
+	private static final MyLogger logger = MyLogger.getLogger(XMLMaterialUtil.class);
 	
 	private static String mesaageConfigName="material";
 	

@@ -2,8 +2,7 @@ package com.dlz.framework.ssme.db.service.impl;
 
  
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ public class RoleFunOptServiceImpl extends BaseServiceImpl<RoleFunOptKey, RoleFu
 	/**
 	 * 系统日志
 	 */
-	private static Logger logger = LoggerFactory.getLogger(RoleFunOptServiceImpl.class);
+	private static MyLogger logger = MyLogger.getLogger(RoleFunOptServiceImpl.class);
 	
 	@Autowired
 	public void setMapper(RoleFunOptMapper mapper) {

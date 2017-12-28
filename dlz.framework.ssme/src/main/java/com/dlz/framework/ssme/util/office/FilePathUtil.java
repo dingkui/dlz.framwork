@@ -6,14 +6,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.encry.base64.Base64;
 
 public class FilePathUtil {
-	private static Logger logger = LoggerFactory.getLogger(FilePathUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(FilePathUtil.class);
     /**
      * 根据相对路径获取网络路径
      * @author  wangsl: 

@@ -7,9 +7,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.holder.SpringHolder;
@@ -110,7 +108,7 @@ public class ConfigUtil {
 	/**
 	 * 日志
 	 */
-	private static Logger logger = LoggerFactory.getLogger(ConfigUtil.class);
+	private static MyLogger logger = MyLogger.getLogger(ConfigUtil.class);
 
 	/**
 	 * Properties实例

@@ -4,11 +4,9 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 public class XMLMessageUtil {
-	private static final Logger logger = LoggerFactory.getLogger(XMLMessageUtil.class);
+	private static final MyLogger logger = MyLogger.getLogger(XMLMessageUtil.class);
 	
 	private static String mesaageConfigName="message";
 	

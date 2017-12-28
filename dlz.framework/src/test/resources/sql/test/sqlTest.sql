@@ -16,14 +16,8 @@
 	<!--
 		测试
 	-->
-	<sql sqlId="key.auth.login"><![CDATA[
+	<sql sqlId="key.test"><![CDATA[
 	    select * from from dual
- 	]]></sql>
-	<!--
-		测试
-	-->
-	<sql sqlId="key.sqlTest.getPage"><![CDATA[
-	    select * from dual
  	]]></sql>
 	<!--
 		测试

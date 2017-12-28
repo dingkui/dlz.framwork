@@ -2,8 +2,7 @@ package com.dlz.apps.notice.cache;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ public class MailTemplateCache extends AbstractCache<String, String> {
 	/**
 	 * 日志logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger(MailTemplateCache.class);
+	private static MyLogger logger = MyLogger.getLogger(MailTemplateCache.class);
 	public MailTemplateCache() {
 		super(MailTemplateCache.class.getSimpleName());
 		dbOperator=new DbOperator<String, String>() {

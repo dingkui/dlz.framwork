@@ -15,8 +15,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.apps.sys.service.DeptServiceExt;
@@ -30,7 +29,7 @@ import com.dlz.framework.ssme.util.encry.Encodes;
 import com.google.common.collect.Sets;
 
 public class ShiroDbRealm extends AuthorizingRealm {
-	private static Logger logger = LoggerFactory.getLogger(ShiroDbRealm.class);
+	private static MyLogger logger = MyLogger.getLogger(ShiroDbRealm.class);
 	
 	private static final String HASH_ALGORITHM = "SHA-1";
 	

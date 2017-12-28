@@ -3,18 +3,22 @@ package com.dlz.framework.holder;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  * 以静态变量保存Spring ApplicationContext,可在任意代码中取出ApplicaitonContext.
  * 
  * @author dk
  */
+@Component
+@Lazy(false)
 public class SpringHolder implements ApplicationContextAware {
 	private static BeanFactory  beanFactory;
 	public static void init(){
 		if(beanFactory==null){
-			beanFactory = new ClassPathXmlApplicationContext("classpath*:spring_cfg/*.xml");
+			new ClassPathXmlApplicationContext("classpath*:spring_cfg/*.xml");
 		}
 	}
 	public static void init(BeanFactory  applicationContext){

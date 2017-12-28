@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings("unchecked")
 class XmlConfigUtil {
-	private static final Logger logger = LoggerFactory.getLogger(XmlConfigUtil.class);
+	private static final MyLogger logger = MyLogger.getLogger(XmlConfigUtil.class);
 	private static Map<String,Map<String,Object>> configCache = new HashMap<String,Map<String,Object>>();
 	
 	public static Map<String,Object> loadXml(String path,String configName) {

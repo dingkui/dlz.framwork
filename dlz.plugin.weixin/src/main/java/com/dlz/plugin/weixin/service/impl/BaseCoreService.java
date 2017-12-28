@@ -7,6 +7,7 @@ import com.dlz.plugin.weixin.service.ACoreService;
 /**
  * 核心服务类
  */
+@SuppressWarnings("unused")
 public class BaseCoreService extends ACoreService{
 	//文本消息
 	public String dealText(String fromUserName,String toUserName,Map<String, String> requestMap){

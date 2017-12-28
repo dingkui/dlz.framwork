@@ -2,6 +2,7 @@ package com.dlz.plugin.socket.handler;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,14 @@ public abstract class SocketHandlerWithHolder extends ASocketHandler {
 	// 返回信息给Client端
 	public static void notifyClients(String recive) throws IOException {
 		for(SocketHandlerWithHolder handler:holderHandlerSet){
+			if(handler.isDestroy){
+				holderHandlerSet.remove(handler);
+				logger.debug("holderHandlerSet数："+holderHandlerSet.size());
+				notifyClients(recive);
+				break;
+			}
+		}
+		for(SocketHandlerWithHolder handler:holderHandlerSet){
 			handler.notifyClient(recive);
 		}
 	}
@@ -36,39 +45,63 @@ public abstract class SocketHandlerWithHolder extends ASocketHandler {
 		holderHandlerSet.add(this);
 		logger.debug("holderHandlerSet数："+holderHandlerSet.size());
 	}
-
+	
+	boolean isDestroy=true;
 	// 返回信息给Client端
-	private void notifyClient(String recive) throws IOException {
+	private synchronized void notifyClient(String recive) throws IOException {
+		if(isDestroy){
+			return;
+		}
 		try {
-			if (!holderSocket.isClosed()) {
-				holderSio.write(holderSocket.getOutputStream(), recive);
-			}else{
-				logger.debug("客户端长链接关闭：{0}:{1,number,#}" ,holderSocket.getInetAddress().getHostName(),holderSocket.getPort());
-				holderHandlerSet.remove(this);
+			if (holderSocket==null || holderSocket.isClosed()) {
+				detroy();
+				return;
 			}
+			holderSio.write(holderSocket.getOutputStream(), recive);
 		} catch (IOException e) {
 			logger.error("客户端输出异常：{0}:{1,number,#},{2}" ,holderSocket.getInetAddress().getHostName(),holderSocket.getPort(),e.getMessage());
-			holderHandlerSet.remove(this);
-			holderSocket.getOutputStream().close();
-			holderSocket.close();
+			detroy();
 			throw e;
 		}
 	}
-
+	
+	public void detroy(){
+		isDestroy=true;
+		if (holderSocket!=null && !holderSocket.isClosed()) {
+			try{
+				holderSocket.getOutputStream().close();
+			}catch(IOException e){
+				logger.error("关闭失败" ,e);
+			}
+			try{
+				holderSocket.close();
+			}catch(IOException e){
+				logger.error("关闭失败" ,e);
+			}
+		}
+		holderSocket = null;
+		holderSio = null;
+	}
+	
+	
 	// 心跳通讯
 	private void doHart(long hartTime)  {
 		SocketHandlerWithHolder that=this;
 		new Thread(new Runnable() {
 			public void run() {
 				try {
+					if(isDestroy){
+						return;
+					}
 					Thread.sleep(hartTime);
 //					holderSocket.sendUrgentData(0xFF);
-					notifyClient(SocketConstance.DOHART+holderSocket.getPort());
-					doHart(hartTime);
+					if(!isDestroy){
+						notifyClient(SocketConstance.DOHART+holderSocket.getPort());
+						doHart(hartTime);
+					}
 				} catch (Exception e) {
 					logger.error("心跳异常，关闭连接：{0}:{1,number,#}" ,holderSocket.getInetAddress().getHostName(),holderSocket.getPort(),e);
-					holderHandlerSet.remove(that);
-					logger.debug("holderHandlerSet数："+holderHandlerSet.size());
+					that.isDestroy=false;
 					if(!holderSocket.isClosed()){
 						try {
 							holderSocket.getOutputStream().close();

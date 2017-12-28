@@ -1,8 +1,7 @@
 package com.dlz.framework.ssme.jetty;
 
 import org.eclipse.jetty.server.Server;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 
 /**
  * 使用Jetty运行调试Web应用, 在Console输入回车快速重新加载应用.
@@ -10,7 +9,7 @@ import org.slf4j.LoggerFactory;
  * @author calvin
  */
 public class QuickStartServer {
-	private static Logger logger = LoggerFactory.getLogger(QuickStartServer.class);
+	private static MyLogger logger = MyLogger.getLogger(QuickStartServer.class);
 	public static final int PORT = 9090;
 	public static final String CONTEXT = "/alex";
 	public static final String[] TLD_JAR_NAMES = new String[] { "sitemesh", "spring-webmvc", "shiro-web" };

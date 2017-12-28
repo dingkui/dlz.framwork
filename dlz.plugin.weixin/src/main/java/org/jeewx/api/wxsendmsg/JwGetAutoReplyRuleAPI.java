@@ -14,8 +14,6 @@ import org.jeewx.api.wxsendmsg.model.auto.KeyWordAutoReplyInfo;
 import org.jeewx.api.wxsendmsg.model.auto.KeywordListInfo;
 import org.jeewx.api.wxsendmsg.model.auto.ReplyListInfo;
 
-import com.dlz.framework.logger.MyLogger;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONUtils;
@@ -26,7 +24,6 @@ import net.sf.json.util.JSONUtils;
  *
  */
 public class JwGetAutoReplyRuleAPI {
-	private static MyLogger logger = MyLogger.getLogger(JwGetAutoReplyRuleAPI.class);
 	
 	/**
 	 * 获取自动回复规则

@@ -9,8 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +45,7 @@ import com.dlz.framework.util.StringUtils;
 @Controller
 @RequestMapping("/rbac/dept")
 public class DeptController {
-	private static Logger logger = LoggerFactory.getLogger(DeptController.class);
+	private static MyLogger logger = MyLogger.getLogger(DeptController.class);
 	
 	@Autowired
 	UserService userService;

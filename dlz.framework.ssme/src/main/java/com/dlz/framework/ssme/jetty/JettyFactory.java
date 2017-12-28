@@ -7,8 +7,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.webapp.WebAppClassLoader;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 
 import com.dlz.framework.util.StringUtils;
 import com.google.common.collect.Lists;
@@ -19,7 +18,7 @@ import com.google.common.collect.Lists;
  * @author calvin
  */
 public class JettyFactory {
-	private static Logger logger = LoggerFactory.getLogger(JettyFactory.class);
+	private static MyLogger logger = MyLogger.getLogger(JettyFactory.class);
 	private static final String DEFAULT_WEBAPP_PATH = "src/main/webapp";
 	private static final String WINDOWS_WEBDEFAULT_PATH = "webdefault-windows.xml";
 

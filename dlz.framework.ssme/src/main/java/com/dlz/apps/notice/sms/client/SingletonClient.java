@@ -1,12 +1,10 @@
 package com.dlz.apps.notice.sms.client;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 
 public class SingletonClient {
-	private static Logger logger = LoggerFactory.getLogger(SingletonClient.class);
+	private static MyLogger logger = MyLogger.getLogger(SingletonClient.class);
 	private static Client client=null;
 	private SingletonClient(){
 	}

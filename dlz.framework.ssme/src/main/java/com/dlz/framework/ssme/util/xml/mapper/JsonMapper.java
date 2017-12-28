@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,7 +27,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 @SuppressWarnings("unchecked")
 public class JsonMapper {
 	
-	private static Logger logger = LoggerFactory.getLogger(JsonMapper.class);
+	private static MyLogger logger = MyLogger.getLogger(JsonMapper.class);
 
 	private ObjectMapper mapper;
 	private static Map<Include,ObjectMapper> mapperMap = new HashMap<Include,ObjectMapper>();

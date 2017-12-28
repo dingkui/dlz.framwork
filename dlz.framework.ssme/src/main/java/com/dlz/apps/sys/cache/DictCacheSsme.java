@@ -4,8 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +63,7 @@ public class DictCacheSsme extends AbstractCache<String, Map<String,DictModel>> 
 	/**
 	 * 日志logger
 	 */
-	private static Logger logger = LoggerFactory.getLogger(DictCacheSsme.class);
+	private static MyLogger logger = MyLogger.getLogger(DictCacheSsme.class);
 	/**
 	 * 数据字典
 	 */

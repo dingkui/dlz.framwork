@@ -5,9 +5,8 @@
 //import java.math.RoundingMode;
 //import java.util.HashMap;
 //
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
+//import com.dlz.framework.logger.MyLogger;
+////
 //import com.dlz.framework.ssme.constants.DictConstants;
 ///**
 // * 借款方费用计算工具类
@@ -15,7 +14,7 @@
 // *
 // */
 //public class DebitUtil {
-//	private static Logger logger = LoggerFactory.getLogger(DebitUtil.class);
+//	private static MyLogger logger = MyLogger.getLogger(DebitUtil.class);
 //	/*等额本息还款法的利息计算：
 //	等额本息还贷，先算每月还贷本息：BX=a*i(1+i)^N/[(1+i)^N-1]
 //	等额本息还贷第n个月还贷本金：

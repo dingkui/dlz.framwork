@@ -14,7 +14,6 @@ import javax.net.ssl.TrustManager;
 import com.dlz.framework.logger.MyLogger;
 
 
-
 /**
  * 测试获取凭证（HTTPS GET 请求）
  * 

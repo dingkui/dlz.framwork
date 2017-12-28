@@ -3,16 +3,14 @@ package com.dlz.framework.ssme.util.serializer;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.dlz.framework.logger.MyLogger;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class PercentSerializer extends JsonSerializer<Long> {
-	private static Logger logger = LoggerFactory.getLogger(PercentSerializer.class);
+	private static MyLogger logger = MyLogger.getLogger(PercentSerializer.class);
 
 	public static String toPercent(Long value) {
 		String result=new BigDecimal((double) value / 100).setScale(2, BigDecimal.ROUND_HALF_UP).toString();

@@ -23,16 +23,16 @@ public class SocketClient  extends ASocketClient{
 			addMessageListener(listener);
 		}
 	}
-	public static void setMax(int max) {
+	public void setMax(int max) {
 		MAX = max<1?1:max;
 	}
 
-	private static int MAX=100;
-	private static int running=0;
+	private int MAX=10;
+	private int running=0;
 	
 
-	private static int listenTimes=0;
-	private static int retryTime=5000;
+	private int listenTimes=0;
+	private int retryTime=5000;
 	
 	public void addMessageListener(ISocketListener listener){
 		new Thread(new Runnable() {
@@ -90,6 +90,14 @@ public class SocketClient  extends ASocketClient{
 			}
 		}).start();
 	}
+	
+	private synchronized boolean getLock(int i) throws IOException {
+		if(i==0){
+			return running>MAX;
+		}
+		running+=i;
+		return true;
+	}
 
 	/**
 	 * 一次读取一行取得信息
@@ -98,28 +106,28 @@ public class SocketClient  extends ASocketClient{
 	 * @throws IOException
 	 */
 	public String getRespose(String s) throws IOException {
-		if(running>=MAX){
+		if(getLock(0)){
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 				return getRespose(s);
 			} catch (InterruptedException e) {
 				logger.error(e.getMessage(),e);
 			}
 		}
-		running++;
+		getLock(1);
 		Socket socket = null;
 		try{
 			socket=new Socket(server, port);
 			sio.write(socket.getOutputStream(), s);
 			return sio.read(socket.getInputStream());
 		}catch(Exception e){
-			logger.error(e.getMessage(),e);
+			logger.error("running="+running,e);
 			throw e;
 		}finally{
 			if(socket!=null){
 				socket.close();
 			}
-			running--;
+			getLock(-1);
 		}
 	}
 }
