@@ -54,7 +54,7 @@ public abstract class MyLogger {
 	private static Pattern msgPattern = Pattern.compile("\\{[\\w]*[^\\d]+[\\w]*\\}");
 	static String formatMsg(Object message, Object... paras) {
 		String msg = message.toString();
-		if (msgPattern.matcher(msg).find()) {
+		if (paras==null || paras.length==0 || msgPattern.matcher(msg).find()) {
 			return msg;
 		}
 		return MessageFormat.format(msg, paras);
