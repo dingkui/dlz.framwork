@@ -21,72 +21,43 @@ public class MyLogger{
 		return new MyLogger(Logger.getLogger(name));
 	}
 	
-	public void debug(Object message) {
-		debug(message, null);
+	public void debug(Object message,Object ...paras) {
+		debug(message,null,paras);
 	}
-	public void debug(String message,Object ...paras) {
-		debug(formatMsg(message, paras),null);
-	}
-	public void debug(Object message, Throwable t) {
-		logger.log(FQCN, Level.DEBUG, message, t);
+	public void debug(Object message,Throwable t,Object ...paras) {
+		logger.log(FQCN, Level.DEBUG, formatMsg(message, paras), t);
 	}
 	
-	
-	public void error(Object message) {
-		error(message,null);
+	public void error(Object message,Object ...paras) {
+		error(message,null,paras);
 	}
-	public void error(String message,Object ...paras) {
-		error(formatMsg(message, paras));
-	}
-	public void error(String message,Throwable t,Object ...paras) {
-		error(formatMsg(message, paras),t);
-	}
-	public void error(Object message, Throwable t) {
-		logger.log(FQCN, Level.ERROR, message, t);
+	public void error(Object message,Throwable t,Object ...paras) {
+		logger.log(FQCN, Level.ERROR, formatMsg(message, paras), t);
 	}
 	
-	
-	public void warn(Object message) {
-		warn(message,null);
-	}
-	public void warn(String message,Object ...paras) {
+	public void warn(Object message,Object ...paras) {
 		warn(formatMsg(message, paras));
 	}
-	public void warn(String message,Throwable t,Object ...paras) {
-		warn(formatMsg(message, paras),t);
-	}
-	public void warn(Object message, Throwable t) {
-		logger.log(FQCN, Level.WARN, message, t);
+	public void warn(Object message,Throwable t,Object ...paras) {
+		logger.log(FQCN, Level.WARN, formatMsg(message, paras), t);
 	}
 	
-	public void info(Object message) {
-		info(message,null);
+	public void info(Object message,Object ...paras) {
+		info(message,null,paras);
 	}
-	public void info(String message,Object ...paras) {
-		info(formatMsg(message, paras));
-	}
-	public void info(String message,Throwable t,Object ...paras) {
-		info(formatMsg(message, paras),t);
-	}
-	public void info(Object message, Throwable t) {
-		logger.log(FQCN, Level.INFO, message, t);
+	public void info(Object message,Throwable t,Object ...paras) {
+		logger.log(FQCN, Level.INFO, formatMsg(message, paras), t);
 	}
 	
-	public void fatal(Object message) {
-		fatal(message,null);
-	}
-	public void fatal(String message,Object ...paras) {
+	public void fatal(Object message,Object ...paras) {
 		fatal(formatMsg(message, paras));
 	}
-	public void fatal(String message,Throwable t,Object ...paras) {
-		fatal(formatMsg(message, paras),t);
-	}
-	public void fatal(Object message, Throwable t) {
-		logger.log(FQCN, Level.FATAL, message, t);
+	public void fatal(Object message,Throwable t,Object ...paras) {
+		logger.log(FQCN, Level.FATAL, formatMsg(message, paras), t);
 	}
 	
-	private Object formatMsg(String message,Object ...paras){
-		return MessageFormat.format(message, paras);
+	private String formatMsg(Object message,Object ...paras){
+		return MessageFormat.format(message.toString(), paras);
 	}
 	public boolean isDebugEnabled() {
 		return logger.isDebugEnabled();
