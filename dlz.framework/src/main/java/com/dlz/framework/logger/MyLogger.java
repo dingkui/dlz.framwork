@@ -1,6 +1,7 @@
 package com.dlz.framework.logger;
 
 import java.text.MessageFormat;
+import java.util.regex.Pattern;
 
 public abstract class MyLogger {
 	private static int logType = 0;
@@ -50,8 +51,13 @@ public abstract class MyLogger {
 
 	public abstract void info(Object message, Throwable t, Object... paras);
 
-	protected String formatMsg(Object message, Object... paras) {
-		return MessageFormat.format(message.toString(), paras);
+	private static Pattern msgPattern = Pattern.compile("\\{[\\w]*[^\\d]+[\\w]*\\}");
+	static String formatMsg(Object message, Object... paras) {
+		String msg = message.toString();
+		if (msgPattern.matcher(msg).find()) {
+			return msg;
+		}
+		return MessageFormat.format(msg, paras);
 	}
 
 	public abstract boolean isDebugEnabled();
