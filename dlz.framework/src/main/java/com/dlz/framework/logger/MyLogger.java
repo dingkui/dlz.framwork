@@ -13,7 +13,7 @@ public abstract class MyLogger {
 		if (logType == 0) {
 			if (MyLogger.class.getClassLoader().getResource("logback.xml") != null) {
 				logType = 1;
-			} else if (MyLogger.class.getClassLoader().getResource("logback.xml") != null) {
+			} else if (MyLogger.class.getClassLoader().getResource("log4j.properties") != null) {
 				logType = 2;
 			}
 		}
