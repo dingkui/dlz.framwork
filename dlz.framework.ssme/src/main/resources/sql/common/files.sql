@@ -52,6 +52,7 @@
 	   [and F_ORD = #{fOrd}]--序号
 	   [and F_SURFIX = #{fSurfix}]--文件后缀
 	   [and F_SIZE = #{fSize}]--大小
+	   [and IS_SHOW = #{isShow}]--是否显示
 	   order by ZL_TYPE,F_ORD
 	]]>
  	</sql>
