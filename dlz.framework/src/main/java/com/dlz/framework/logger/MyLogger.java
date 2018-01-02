@@ -51,7 +51,7 @@ public abstract class MyLogger {
 
 	public abstract void info(Object message, Throwable t, Object... paras);
 
-	private static Pattern msgPattern = Pattern.compile("\\{[\\w]*[^\\d]+[\\w]*\\}");
+	protected static Pattern msgPattern = Pattern.compile("\\{[\\w]*[^\\d]+[\\w]*\\}");
 	static String formatMsg(Object message, Object... paras) {
 		String msg = message.toString();
 		if (paras==null || paras.length==0 || msgPattern.matcher(msg).find()) {
