@@ -23,9 +23,9 @@ public class TestClient{
 				}
 			}
 		});
-		for(int i=0;i<10000;i++){
-			Thread c=new TestThread(client,"123_"+i,i);
-			c.start();
-		}
+//		for(int i=0;i<1000;i++){
+//			Thread c=new TestThread(client,"123_"+i,i);
+//			c.start();
+//		}
 	}
 }

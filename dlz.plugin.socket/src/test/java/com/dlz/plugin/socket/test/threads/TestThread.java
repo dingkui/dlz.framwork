@@ -22,7 +22,7 @@ public class TestThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 100; i++) {
 				all++;
 				try {
 					@SuppressWarnings("unused")

@@ -22,12 +22,12 @@ public class TestThread4 extends Thread {
 
 	@Override
 	public void run() {
-		Long t=(new Random()).nextLong()%10;
+		Long t=(new Random()).nextLong()%1000;
 		if(t<0){
 			t*=-1;
 		}
 		try {
-			//Thread.sleep(t);
+			Thread.sleep(t*100);
 			SocketHandlerWithHolder.notifyClients(id+"aa");
 		} catch (Exception e) {
 			e.printStackTrace();
