@@ -40,7 +40,7 @@ public abstract class MyLogger {
 	public abstract void error(Object message, Throwable t, Object... paras);
 
 	public void warn(Object message, Object... paras) {
-		warn(formatMsg(message, paras));
+		warn(message, null, paras);
 	}
 
 	public abstract void warn(Object message, Throwable t, Object... paras);
