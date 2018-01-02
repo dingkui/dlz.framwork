@@ -23,6 +23,7 @@ public class ScoketIOSizeByte  extends ASocketIO {
 			byte[] bytes=readByte(socketIn, headerLength);
 			return bytes==null?null:(new String(bytes,charsetName)).trim();
 		}catch(IOException e){
+			logger.error("数据读取失败："+e.getMessage());
 			throw e;
 		}catch(Exception e){
 			logger.error(e.getMessage(),e);

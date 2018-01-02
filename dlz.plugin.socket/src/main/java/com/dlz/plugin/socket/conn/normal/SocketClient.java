@@ -20,21 +20,21 @@ public class SocketClient  extends ASocketClient{
 	public SocketClient(String server,int port,ASocketIO sio,ISocketListener listener){
 		super(server, port, sio);
 		if(listener!=null){
-			addMessageListener(listener);
+			addMessageListener(listener,"创建监听("+server+":"+port+")");
 		}
 	}
 	public void setMax(int max) {
 		MAX = max<1?1:max;
 	}
 
-	private int MAX=10;
+	private int MAX=20;
 	private int running=0;
 	
 
 	private int listenTimes=0;
 	private int retryTime=5000;
 	
-	public void addMessageListener(ISocketListener listener){
+	public void addMessageListener(ISocketListener listener,String msg){
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -44,7 +44,7 @@ public class SocketClient  extends ASocketClient{
 					sio.write(socket.getOutputStream(), SocketConstance.HOLDER);
 					String recive=sio.read(socket.getInputStream());
 					if(SocketConstance.HOLDER.equals(recive)){
-						logger.debug("socket监听成功："+server+":"+port);
+						logger.debug(msg+"连接成功!");
 						listenTimes=1;
 						while(recive!=null){
 							recive=sio.read(socket.getInputStream());
@@ -52,14 +52,12 @@ public class SocketClient  extends ASocketClient{
 								listener.deal(recive);
 							}
 						}
-						logger.error("socket监听数据为空");
+						logger.error("服务器监听("+server+":"+port+")失败，关闭连接！");
 					}
 				}catch(ConnectException e){
-					logger.error("socket连接失败:"+e.getMessage());
-					logger.error("监听中断："+server+":"+port);
+					logger.error(msg+ "连接失败:"+e.getMessage());
 				}catch(SocketException e){
-					logger.error("socket通讯失败:"+e.getMessage());
-					logger.error("监听中断："+server+":"+port);
+					logger.error(msg+ "通讯失败:"+e.getMessage());
 				}catch(Exception e){
 					logger.error(e.getMessage(),e);
 				}finally{
@@ -81,10 +79,9 @@ public class SocketClient  extends ASocketClient{
 						logger.error(e.getMessage(),e);
 					}
 					if(listenTimes++<100){
-						logger.warn("socket重新监听，第"+listenTimes+"次");
-						addMessageListener(listener);
+						addMessageListener(listener,"连接重试第"+listenTimes+"次("+server+":"+port+")");
 					}else{
-						logger.error("socket连接超时，关闭监听!");
+						logger.error(msg+"连接超时，关闭重连!");
 					}
 				}
 			}

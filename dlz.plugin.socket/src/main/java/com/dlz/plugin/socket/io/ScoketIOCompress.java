@@ -22,7 +22,7 @@ public class ScoketIOCompress extends ASocketIO {
 		try{
 			return StringCompress.decompress(readByte(socketIn, headerLength));
 		}catch(Exception e){
-			logger.error(e.getMessage(),e);
+			logger.error("数据读取失败："+e.getMessage());
 			return null;
 		}
 	}

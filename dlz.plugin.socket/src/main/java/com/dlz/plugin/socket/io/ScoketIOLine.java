@@ -23,7 +23,7 @@ public class ScoketIOLine  extends ASocketIO{
 			BufferedReader br = new BufferedReader(new InputStreamReader(socketIn, charsetName));
 			return br.readLine().replaceAll(separatorReplace, separatorStr);
 		}catch(Exception e){
-			logger.error(e.getMessage(),e);
+			logger.error("数据读取失败："+e.getMessage());
 			return null;
 		}
 	}
