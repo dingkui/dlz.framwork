@@ -7,7 +7,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.LoggingEvent;
 
 public class MyLoggerLogback extends MyLogger{
-	private static final String FQCN = MyLoggerLogback.class.getName();
+	private static final String FQCN = MyLogger.class.getName();
 	private Logger logger;
 	
 	private void Logging(Level level,  Object msg,  Throwable t,Object[] params) {
