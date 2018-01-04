@@ -576,7 +576,7 @@ public class WxUtil {
 					thirdInfo.setNickname(userInfo.getStr("nickName"));
 					thirdInfo.setSex(userInfo.getStr("gender"));
 					//如果unionid没有取到则用openid作为unionid
-					if(sessionData.containsKey("unionId")){
+					if(userInfo.containsKey("unionId")){
 						thirdInfo.setWx_unionid(userInfo.getStr("unionId"));
 					}else{
 						thirdInfo.setWx_unionid(userInfo.getStr("openId"));
