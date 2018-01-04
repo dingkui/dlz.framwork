@@ -14,74 +14,121 @@ public class StringUtils {
 	public static String NVL(String cs) {
 		return NVL(cs, "");
 	}
-	public static String NVL(String cs,String defaultStr) {
-		return cs == null ? defaultStr: cs;
+
+	public static String NVL(String cs, String defaultStr) {
+		return cs == null ? defaultStr : cs;
 	}
-	public static String ObjNVLString(Object cs,String defaultV) {
+
+	public static String ObjNVLString(Object cs, String defaultV) {
 		return ObjNVL(cs, defaultV, String.class);
 	}
-	public static Long ObjNVLLong(Object cs,Long defaultV) {
+
+	public static Long ObjNVLLong(Object cs, Long defaultV) {
 		return ObjNVL(cs, defaultV, Long.class);
 	}
-	public static <T> T ObjNVL(Object cs,T defaultV,Class<T> requiredType) {
-		if(cs ==null){
+
+	public static <T> T ObjNVL(Object cs, T defaultV, Class<T> requiredType) {
+		if (cs == null) {
 			return defaultV;
 		}
 		return coverObj(cs, requiredType);
 	}
-	
-	public static String nonNull(Object s) {
-		 if (s==null)
-      return "";
-  return s.toString();
+
+	private static Pattern myMsgPattern = Pattern.compile("\\{([^\\}]*)\\}");
+
+	public static String formatMsg(Object message, Object... paras) {
+		String msg = getStr(message, "");
+		if (paras==null) {
+			paras=new Object[]{null};
+		}
+		Matcher mat = myMsgPattern.matcher(msg);
+		StringBuffer sb = new StringBuffer();
+		int end=0;
+		int i=0;
+		while(mat.find()){
+			String indexStr=mat.group(1).replaceAll("[^\\d]*", "");
+			int index=0;
+			if(!"".equals(indexStr)){
+				index=Integer.parseInt(indexStr);
+			}else{
+				index=i;
+			}
+			sb.append(msg,end, mat.start());
+			if(paras.length>index){
+				sb.append(getStr(paras[index], null));
+			}else{
+				sb.append(mat.group(0));
+			}
+			end=mat.end();
+			i++;
+		}
+		return sb.append(msg,end,msg.length()).toString();
 	}
-	
+
+	private static String getStr(Object obj, String defualt) {
+		if (obj == null) {
+			return defualt;
+		}
+		if (obj instanceof CharSequence) {
+			return obj.toString();
+		}
+		return JacksonUtil.getJson(obj);
+	}
+
+	public static String nonNull(Object s) {
+		if (s == null)
+			return "";
+		return s.toString();
+	}
+
 	@SuppressWarnings("unchecked")
-	public static <T> T coverObj(Object cs,Class<T> requiredType) {
-		if(cs==null){
+	public static <T> T coverObj(Object cs, Class<T> requiredType) {
+		if (cs == null) {
 			return null;
 		}
-		if(requiredType.isInstance(cs)){
-			return (T)cs;
+		if (requiredType.isInstance(cs)) {
+			return (T) cs;
 		}
-		String o =String.valueOf(cs);
-		if(requiredType==String.class){
-			return (T)o;
+		String o = String.valueOf(cs);
+		if (requiredType == String.class) {
+			return (T) o;
 		}
-		if(isNumber(o)){
-			if(requiredType==Long.class){
-				return (T)new Long(Double.valueOf(o).longValue());
+		if (isNumber(o)) {
+			if (requiredType == Long.class) {
+				return (T) new Long(Double.valueOf(o).longValue());
 			}
-			if(requiredType==Double.class){
-				return (T)Double.valueOf(o);
+			if (requiredType == Double.class) {
+				return (T) Double.valueOf(o);
 			}
-			if(requiredType==BigDecimal.class){
-				return (T)new BigDecimal(Double.valueOf(o));
+			if (requiredType == BigDecimal.class) {
+				return (T) new BigDecimal(Double.valueOf(o));
 			}
-			if(requiredType==Integer.class){
-				return (T)new Integer(Double.valueOf(o).intValue());
+			if (requiredType == Integer.class) {
+				return (T) new Integer(Double.valueOf(o).intValue());
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 补0成指定长度的字符串
+	 * 
 	 * @param i
 	 * @param length
 	 * @return
 	 */
-	public static String addZeroBefor(long i,int length){
+	public static String addZeroBefor(long i, int length) {
 		String s = String.valueOf(i);
-		while(length>s.length()){
-			s="0"+s;
+		while (length > s.length()) {
+			s = "0" + s;
 		}
 		return s;
 	}
-	
-	public static String getStrByBytes(byte[] value) throws UnsupportedEncodingException{
-		return new String(value,"UTF-8");
+
+	public static String getStrByBytes(byte[] value) throws UnsupportedEncodingException {
+		return new String(value, "UTF-8");
 	}
+
 	/**
 	 * <p>
 	 * 检验是否为空
@@ -110,17 +157,18 @@ public class StringUtils {
 			return false;
 		} else {
 			return false;
-			//throw new IllegalArgumentException("检验空参数有误：" + cs.getClass());
+			// throw new IllegalArgumentException("检验空参数有误：" + cs.getClass());
 		}
 	}
-	
-	public static boolean isNumber(String o){
+
+	public static boolean isNumber(String o) {
 		if (isEmpty(o)) {
 			return false;
 		}
 		return isEmpty(((String) o).replaceAll("[\\d.+-]", ""));
 	}
-	public static boolean isLongOrInt(String o){
+
+	public static boolean isLongOrInt(String o) {
 		if (!isNumber(o)) {
 			return false;
 		}
@@ -130,8 +178,9 @@ public class StringUtils {
 	public static boolean isNotEmpty(Object cs) {
 		return !isEmpty(cs);
 	}
-	public static String joinObject(Object cs,Object b) {
-		return String.valueOf(cs)+String.valueOf(b);
+
+	public static String joinObject(Object cs, Object b) {
+		return String.valueOf(cs) + String.valueOf(b);
 	}
 
 	/**
@@ -205,34 +254,35 @@ public class StringUtils {
 		}
 		return new String(buf);
 	}
-	
+
 	/**
-	 * 转换数据库键名   aa_bb_cc→aaBbCc
+	 * 转换数据库键名 aa_bb_cc→aaBbCc
+	 * 
 	 * @param clumn
 	 * @author dk 2015-04-09
 	 * @return
-	 */	
-	public static String converClumnStr2Str(String clumn){
-		if(clumn==null){
+	 */
+	public static String converClumnStr2Str(String clumn) {
+		if (clumn == null) {
 			return "";
 		}
-		clumn=clumn.toLowerCase();
+		clumn = clumn.toLowerCase();
 		Matcher mat = Pattern.compile("_([a-z])").matcher(clumn);
-  	while(mat.find()){
-  		clumn = clumn.replace("_"+mat.group(1), mat.group(1).toUpperCase());
-  	}
+		while (mat.find()) {
+			clumn = clumn.replace("_" + mat.group(1), mat.group(1).toUpperCase());
+		}
 		return clumn.replaceAll("_", "");
 	}
-//	public static void main(String[] args) {
-////		logger.debug(converClumnStr2Str("aa_bb_cc"));
-////		logger.debug(converClumnStr2Str("A_CC_VV_c"));
-////		logger.debug(converStr2ClumnStr("fDCDESCcc desc,XXdb asC"));
-////		logger.debug(converStr2ClumnStr("aCcVvCC"));
-//		logger.debug(isLongOrInt("-111"));
-//		logger.debug(isLongOrInt("1111"));
-//		logger.debug(isLongOrInt("+111.11"));
-//		logger.debug(Long.valueOf("-111.11"));
-//	}
+	// public static void main(String[] args) {
+	//// logger.debug(converClumnStr2Str("aa_bb_cc"));
+	//// logger.debug(converClumnStr2Str("A_CC_VV_c"));
+	//// logger.debug(converStr2ClumnStr("fDCDESCcc desc,XXdb asC"));
+	//// logger.debug(converStr2ClumnStr("aCcVvCC"));
+	// logger.debug(isLongOrInt("-111"));
+	// logger.debug(isLongOrInt("1111"));
+	// logger.debug(isLongOrInt("+111.11"));
+	// logger.debug(Long.valueOf("-111.11"));
+	// }
 
 	/**
 	 * <p>
@@ -277,6 +327,7 @@ public class StringUtils {
 	public static <T> String join(final Collection<T> array, String separator) {
 		return join(listToArray(array), separator);
 	}
+
 	public static <T> String join(final Collection<T> array, char separator) {
 		return join(listToArray(array), String.valueOf(separator));
 	}

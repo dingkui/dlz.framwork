@@ -2,41 +2,48 @@ package com.dlz.framework.logger;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggingEvent;
 
-public class MyLoggerLog4j extends MyLogger{
-	private static final String FQCN = MyLogger.class.getName();
+import com.dlz.framework.util.StringUtils;
+
+public class MyLoggerLog4j extends MyLogger {
 	private Logger logger;
-	
+
 	MyLoggerLog4j(String name) {
-		this.logger=Logger.getLogger(name);
+		this.logger = Logger.getLogger(name);
 	}
-	
-	public void debug(Object message,Throwable t,Object ...paras) {
-		logger.log(FQCN, Level.DEBUG, formatMsg(message, paras), t);
+
+	private void Logging(Level level, Object msg, Throwable t, Object[] params) {
+		if (!logger.isEnabledFor(level)) {
+			return;
+		}
+		logger.callAppenders(new LoggingEvent(FQCN, logger, level, StringUtils.formatMsg(msg, params), t));
 	}
-	
-	public void error(Object message,Throwable t,Object ...paras) {
-		logger.log(FQCN, Level.ERROR, formatMsg(message, paras), t);
+
+	public void debug(Object message, Throwable t, Object... paras) {
+		Logging(Level.DEBUG, message, t, paras);
 	}
-	
-	public void warn(Object message,Throwable t,Object ...paras) {
-		logger.log(FQCN, Level.WARN, formatMsg(message, paras), t);
+
+	public void error(Object message, Throwable t, Object... paras) {
+		Logging(Level.ERROR, message, t, paras);
 	}
-	
-	public void info(Object message,Throwable t,Object ...paras) {
-		logger.log(FQCN, Level.INFO, formatMsg(message, paras), t);
+
+	public void warn(Object message, Throwable t, Object... paras) {
+		Logging(Level.WARN, message, t, paras);
 	}
-	
-	public void fatal(Object message,Throwable t,Object ...paras) {
-		logger.log(FQCN, Level.FATAL, formatMsg(message, paras), t);
+
+	public void info(Object message, Throwable t, Object... paras) {
+		Logging(Level.INFO, message, t, paras);
 	}
-	
+
 	public boolean isDebugEnabled() {
 		return logger.isDebugEnabled();
 	}
+
 	public boolean isWarnEnabled() {
 		return logger.isEnabledFor(Level.WARN);
 	}
+
 	public boolean isErrorEnabled() {
 		return logger.isEnabledFor(Level.ERROR);
 	}

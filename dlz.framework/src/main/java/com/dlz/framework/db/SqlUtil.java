@@ -294,7 +294,6 @@ public class SqlUtil{
 		if(tableNm==null){
 			throw new SQLException("创建sql出错，参数中缺少表名："+SU_STR_TABLE_NM);
 		}
-		tableNm.toUpperCase();
 		p.remove(SU_STR_TABLE_NM);
 		
 		StringBuffer sb1 = new StringBuffer("insert into " + tableNm + "(");

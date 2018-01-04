@@ -70,19 +70,4 @@ public class ParaUtil {
 		}
 		return page;
 	}
-
-	public static String getInfo(String title,Object... info){
-		try {
-			if(info==null){
-				return title;
-			}
-			if(info.length==1){
-				return title+":"+JacksonUtil.getJson(info[0]);
-			}
-			return title+":"+JacksonUtil.getJson(info);
-		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
-		}
-		return title+":"+info;
-	}
 }

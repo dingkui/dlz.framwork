@@ -103,7 +103,7 @@ public class AuthUser implements java.io.Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends UserRoleInfoBase> T getRoleInfo(Integer roleId) {
-		UserRoleInfoBase info =rolesInfos.get(roles);
+		UserRoleInfoBase info =rolesInfos.get(roleId);
 		if(info==null){
 			IUserRoleInfoService roleService=SpringHolder.getBean("userRoleInfoService_"+roleId);
 			info=roleService.getRoleInfo(id);

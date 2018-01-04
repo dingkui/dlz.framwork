@@ -3,6 +3,8 @@ package com.dlz.framework.logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dlz.framework.util.StringUtils;
+
 public class MyLoggerSlf4j extends MyLogger{
 	private Logger logger;
 	
@@ -11,19 +13,19 @@ public class MyLoggerSlf4j extends MyLogger{
 	}
 	
 	public void debug(Object message,Throwable t,Object ...paras) {
-		logger.debug(formatMsg(message, paras), t);
+		logger.debug(StringUtils.formatMsg(message, paras), t);
 	}
 	
 	public void error(Object message,Throwable t,Object ...paras) {
-		logger.error(formatMsg(message, paras), t);
+		logger.error(StringUtils.formatMsg(message, paras), t);
 	}
 	
 	public void warn(Object message,Throwable t,Object ...paras) {
-		logger.warn(formatMsg(message, paras), t);
+		logger.warn(StringUtils.formatMsg(message, paras), t);
 	}
 	
 	public void info(Object message,Throwable t,Object ...paras) {
-		logger.info(formatMsg(message, paras), t);
+		logger.info(StringUtils.formatMsg(message, paras), t);
 	}
 	
 	

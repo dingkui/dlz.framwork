@@ -11,7 +11,7 @@ public class LogTest {
 //	static MyMyLogger myLogger2 = MyLogger.getLogger("xccd");
 
 	public static void main(String[] args) {
-		logger.debug("123{},{},{},{}",1,2,3,5555);
+		logger.debug("123{1},{},{},{}",1,2,3,5555);
 		logger.error("456");
 //		myLogger.debug("m123");
 //		myLogger.error("m456");
