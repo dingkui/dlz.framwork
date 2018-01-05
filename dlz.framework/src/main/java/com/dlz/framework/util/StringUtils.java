@@ -48,13 +48,17 @@ public class StringUtils {
 		while(mat.find()){
 			String indexStr=mat.group(1).replaceAll("[^\\d]*", "");
 			int index=0;
-			if(!"".equals(indexStr) && indexStr.length()<=2){
-				index=Integer.parseInt(indexStr);
+			if(!"".equals(indexStr)){
+				if(indexStr.length()>2){
+					index=-1;
+				}else{
+					index=Integer.parseInt(indexStr);
+				}
 			}else{
 				index=i;
 			}
 			sb.append(msg,end, mat.start());
-			if(paras.length>index){
+			if(index>-1 && paras.length>index){
 				sb.append(getStr(paras[index], null));
 			}else{
 				sb.append(mat.group(0));
