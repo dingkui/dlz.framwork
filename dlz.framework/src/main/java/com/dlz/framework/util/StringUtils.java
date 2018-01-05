@@ -34,7 +34,7 @@ public class StringUtils {
 		return coverObj(cs, requiredType);
 	}
 
-	private static Pattern myMsgPattern = Pattern.compile("\\{([^\\}]*)\\}");
+	private static Pattern myMsgPattern = Pattern.compile("\\{([^\\{\\}]*)\\}");
 
 	public static String formatMsg(Object message, Object... paras) {
 		String msg = getStr(message, "");
