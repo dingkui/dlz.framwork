@@ -48,7 +48,7 @@ public class StringUtils {
 		while(mat.find()){
 			String indexStr=mat.group(1).replaceAll("[^\\d]*", "");
 			int index=0;
-			if(!"".equals(indexStr)){
+			if(!"".equals(indexStr) && indexStr.length()<=2){
 				index=Integer.parseInt(indexStr);
 			}else{
 				index=i;
