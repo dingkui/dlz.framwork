@@ -13,6 +13,28 @@ public class ViewButton extends Button {
 	
 	//按钮类型
 	private String type;
+	
+	//小程序Appid
+	private String appid;
+	
+	//小程序页面路径
+	private String pagepath;
+	
+	public String getAppid() {
+		return appid;
+	}
+
+	public void setAppid(String appid) {
+		this.appid = appid;
+	}
+
+	public String getPagepath() {
+		return pagepath;
+	}
+
+	public void setPagepath(String pagepath) {
+		this.pagepath = pagepath;
+	}
 
 	public String getType() {
 		return type;
