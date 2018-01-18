@@ -29,6 +29,11 @@ public class Dept extends BaseModel {
      * 组织机构名称
      */
     private String dName;
+    
+    /**
+     * 组织机构名称+did
+     */
+    private String dIdName;
 
     /**
      * T_P_DEPT.D_FID
@@ -59,8 +64,16 @@ public class Dept extends BaseModel {
      * 部门类型
      */
     private String dType;
+    
+    public String getdIdName() {
+		return dIdName;
+	}
 
-    /**
+	public void setdIdName(String dIdName) {
+		this.dIdName = dIdName;
+	}
+
+	/**
      * T_P_DEPT.D_ID
      * 组织机构ID
      */
