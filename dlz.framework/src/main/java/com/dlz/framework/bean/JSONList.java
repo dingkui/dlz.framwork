@@ -27,8 +27,8 @@ public class JSONList extends ArrayList<Object>{
 		if(obj==null){
 			return;
 		}
-		if(obj instanceof String){
-			addAll(JacksonUtil.readValue((String)obj, JSONList.class));
+		if(obj instanceof CharSequence){
+			addAll(JacksonUtil.readValue(obj.toString(), JSONList.class));
 		}else if(obj instanceof Collection){
 			for(Object ci:(Collection)obj){
 				add(new JSONMap(ci));
@@ -38,7 +38,7 @@ public class JSONList extends ArrayList<Object>{
 				add(new JSONMap(ci));
 			}
 		}else if(obj instanceof Serializable){
-			addAll(JacksonUtil.coverObj(obj, JSONList.class));
+			addAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONList.class));
 		}
 	}
 	
@@ -60,7 +60,7 @@ public class JSONList extends ArrayList<Object>{
 			}
 			throw new SystemException("对象是简单类型【"+o.getClass().getName()+"】，不能转换为JSONMap");
 		}
-		return JacksonUtil.coverObj(o, JSONMap.class);
+		return new JSONMap(o);
 	}
 
 	public String toString(){

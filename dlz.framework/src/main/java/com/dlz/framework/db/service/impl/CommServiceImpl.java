@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.dlz.framework.db.DbCoverUtil;
 import com.dlz.framework.db.SqlUtil;
+import com.dlz.framework.db.cache.DbOprationCache;
 import com.dlz.framework.db.dao.IDaoOperator;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseModel;
@@ -18,6 +19,7 @@ import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
 
 @Service 
@@ -26,6 +28,8 @@ public class CommServiceImpl implements ICommService {
 	private static MyLogger logger = MyLogger.getLogger(CommServiceImpl.class);
 	@Autowired
 	private IDaoOperator daoOperator;
+	@Autowired
+	private DbOprationCache dbOprationCache;
 	
 	@Override
 	public int excuteSql(BaseParaMap paraMap) {
@@ -50,11 +54,24 @@ public class CommServiceImpl implements ICommService {
 	}
 	@Override
 	public int getCnt(BaseParaMap paraMap) {
+		String key=null;
+		if(paraMap.getCacheTime()!=0){
+			key="cnt"+paraMap.key();
+			Page<ResultMap> page=dbOprationCache.getFromCache(key);
+			if(page!=null){
+				return page.getCount();
+			}
+		}
+		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createCntSql(paraMap);
 		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
 		try {
-			return daoOperator.getCnt(paraMap);
+			int cnt = daoOperator.getCnt(paraMap);
+			if(key!=null){
+				dbOprationCache.put(key, new Page<ResultMap>(cnt,null), paraMap.getCacheTime());
+			}
+			return cnt;
 		} catch (Exception e) {
 			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSql_cnt() + " para:" + paraMap.getPara(), e);
 		}
@@ -68,11 +85,28 @@ public class CommServiceImpl implements ICommService {
 	* @throws Exception
 	*/
 	private List<ResultMap> getList(BaseParaMap paraMap) {
+		String key=null;
+		if(paraMap.getCacheTime()!=0){
+			key="list"+paraMap.key();
+			Page<ResultMap> page=dbOprationCache.getFromCache(key);
+			if(page!=null){
+				return page.getData();
+			}
+		}
+		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createPageSql(paraMap);
 		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
 		try {
-			return daoOperator.getList(paraMap);
+			List<ResultMap> list = daoOperator.getList(paraMap);
+			for(ResultMap r: list){
+				DbCoverUtil.converResultMap(r,paraMap.getConvert());
+			}
+			
+			if(key!=null){
+				dbOprationCache.put(key, new Page<ResultMap>(0,list), paraMap.getCacheTime());
+			}
+			return list;
 		} catch (Exception e) {
 			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(), e);
 		}
@@ -98,14 +132,23 @@ public class CommServiceImpl implements ICommService {
 	@Override
 	public <T> T getBean(BaseParaMap paraMap,Class<T> t){
 		try {
-			return DbCoverUtil.converObjWithJackson(getMap(paraMap),t);
+			return JacksonUtil.coverObj(getMap(paraMap), t);
 		} catch (Exception e) {
 			throw new DbException(e.getMessage(),e);
 		}
 	}
 	@Override
 	public <T> List<T> getBeanList(BaseParaMap paraMap,Class<T> t){
-		return DbCoverUtil.converList(getList(paraMap),t);
+		List<ResultMap> list = getList(paraMap);
+		List<T> l = new ArrayList<T>();
+		for(ResultMap r: list){
+			try{
+				l.add(JacksonUtil.coverObj(r, t));
+			}catch(Exception e){
+				logger.error(e.getMessage());
+			}
+		}
+		return l;
 	}
 	
 	@Override
@@ -127,24 +170,13 @@ public class CommServiceImpl implements ICommService {
 	}
 	@Override
 	public Page<ResultMap> getPage(BaseParaMap paraMap){
-		Page<ResultMap> page= paraMap.getPage();
-		if(page==null){
-			page=new Page<ResultMap>();
-		}
-		paraMap.setPage(page);
-		page.setCount(getCnt(paraMap));
-		if(page.getCount()>0){
-			page.setData(getMapList(paraMap));
-		}else{
-			page.setData(new ArrayList<ResultMap>());
-		}
-		return page;
+		return getPage(paraMap, ResultMap.class);
 	}
 	
 	@Override
 	public ResultMap getMap(BaseParaMap paraMap){
 		try{
-			return DbCoverUtil.doMyCover(getOne(getList(paraMap)), paraMap.getConvert());
+			return getOne(getList(paraMap));
 		}catch (Exception e) {
 			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(), e);
 		}
@@ -152,7 +184,7 @@ public class CommServiceImpl implements ICommService {
 	
 	@Override
 	public List<ResultMap> getMapList(BaseParaMap paraMap){
-		return DbCoverUtil.doMyCover(getList(paraMap), paraMap.getConvert());
+		return getList(paraMap);
 	}
 	
 	@Override
@@ -192,7 +224,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<T> l = new ArrayList<T>();
 		for(ResultMap m : r){
-			l.add(DbCoverUtil.converObjWithJackson(DbCoverUtil.getFistClumn(m),t));
+			l.add(ValUtil.getObj(DbCoverUtil.getFistClumn(m), t));
 		}
 		return l;
 	}
@@ -248,11 +280,30 @@ public class CommServiceImpl implements ICommService {
 			page=new Page<T>();
 		}
 		paraMap.setPage(page);
+		
+		String key=null;
+		if(paraMap.getCacheTime()!=0){
+			key="page"+paraMap.key();
+			@SuppressWarnings("rawtypes")
+			Page page2=dbOprationCache.getFromCache(key);
+			if(page2!=null){
+				return page2;
+			}
+		}
+		
 		page.setCount(getCnt(paraMap));
 		if(page.getCount()>0){
-			page.setData(getBeanList(paraMap,t));
+			if(t==ResultMap.class){
+				page.setData((List<T>) getMapList(paraMap));
+			}else{
+				page.setData(getBeanList(paraMap,t));
+			}
 		}else{
 			page.setData(new ArrayList<T>());
+		}
+		
+		if(key!=null){
+			dbOprationCache.put(key, page, paraMap.getCacheTime());
 		}
 		return page;
 	}

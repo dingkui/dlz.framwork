@@ -65,7 +65,7 @@ public class Convert {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public void convertMap(ResultMap map){
+	public ResultMap convertMap(ResultMap map){
 		ResultMap nM=new ResultMap();
 		for(String k:map.keySet()){
 			Object o=map.get(k);
@@ -81,6 +81,7 @@ public class Convert {
 			} 
 		}
 		map.putAll(nM);
+		return map;
 	}
 	/**
 	 * 转换数据

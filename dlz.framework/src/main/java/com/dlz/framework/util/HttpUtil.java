@@ -6,12 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -27,6 +23,8 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.dom4j.Document;
+import org.dom4j.io.SAXReader;
 
 import com.dlz.framework.holder.ThreadHolder;
 import com.dlz.framework.logger.MyLogger;
@@ -138,13 +136,17 @@ public class HttpUtil {
 	}
 
 	public static String sendHttpsPOST(String url, String data) {
-		String result = null;
+		return (String)sendHttpsPOST(url, data, 0);
+	}
+	
+	private static Object sendHttpsPOST(String url, String data,int returnType) {
+		Object result = null;
+		InputStream inputStream=null;
 		try {
 			// 设置SSLContext
 			SSLContext sslcontext = SSLContext.getInstance("TLS");
 			sslcontext.init(null, myX509TrustManagers, null);
 
-			// 打开连接
 			// 要发送的POST请求url?Key=Value&amp;Key2=Value2&amp;Key3=Value3的形式
 			URL requestUrl = new URL(url);
 			HttpsURLConnection httpsConn = (HttpsURLConnection) requestUrl.openConnection();
@@ -155,53 +157,76 @@ public class HttpUtil {
 			// 加入数据
 			httpsConn.setRequestMethod("POST");
 			httpsConn.setDoOutput(true);
-			OutputStream out = httpsConn.getOutputStream();
+			
+			try {
+				OutputStream out = httpsConn.getOutputStream();
 
-			if (data != null)
-				out.write(data.getBytes("UTF-8"));
-			out.flush();
-			out.close();
-
+				if (data != null)
+					out.write(data.getBytes("UTF-8"));
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				logger.error(e.getMessage(), e);
+			}
+			
 			// 获取输入流
-			BufferedReader in = new BufferedReader(new InputStreamReader(httpsConn.getInputStream()));
 			int code = httpsConn.getResponseCode();
 			if (HttpsURLConnection.HTTP_OK == code) {
-				String temp = in.readLine();
-				/* 连接成一个字符串 */
-				while (temp != null) {
-					if (result != null)
-						result += temp;
-					else
-						result = temp;
-					temp = in.readLine();
-				}
+				inputStream = httpsConn.getInputStream();
+				result=getReturnInfo(inputStream, returnType);
 			}
-
-			logger.debug("return:" + result);
-		} catch (KeyManagementException e) {
-			logger.error(e.getMessage(), e);
-		} catch (NoSuchAlgorithmException e) {
-			logger.error(e.getMessage(), e);
-		} catch (MalformedURLException e) {
-			logger.error(e.getMessage(), e);
-		} catch (ProtocolException e) {
-			logger.error(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		} finally {
-			logger.debug("HttpPost url:" + url + " para:" + data + " re:" + result);
+			if(logger.isDebugEnabled()){
+				if(result instanceof Document) {
+					logger.debug("HttpPost url:" + url + " para:" + data + " re:" + ((Document)result).asXML());
+				}else{
+					logger.debug("HttpPost url:" + url + " para:" + data + " re:" + result);
+				}
+			}
+			if(inputStream!=null){
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+				}
+			}
 		}
-		return result;
+		return null;
+	}
+	
+	private static Object getReturnInfo(InputStream inputStream ,int returnType) throws Exception{
+		if (inputStream != null) {
+			if(returnType==1){
+				//获取输入流
+				return new SAXReader().read(inputStream);
+			}else{
+				BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+				String temp = in.readLine();
+				StringBuffer sb=new StringBuffer();
+				/* 连接成一个字符串 */
+				while (temp != null) {
+					sb.append(temp);
+					temp = in.readLine();
+				}
+				return sb.toString();
+			}
+		}
+		return null;
 	}
 
 	public static String sendHttpsGET(String url) {
 		return sendHttpsGET(url, "UTF-8");
 	}
+	
+	public static Document httpsPostR4Document(String url, String data) {
+		return (Document)sendHttpsPOST(url, data, 1);
+	}
 
 	public static String sendHttpsGET(String url, String charsetName) {
 		String result = null;
 		try {
-			logger.debug("sendHttpsGET:" + url);
 			// 设置SSLContext
 			SSLContext sslcontext = SSLContext.getInstance("TLS");
 			sslcontext.init(null, myX509TrustManagers, null);
@@ -230,16 +255,7 @@ public class HttpUtil {
 					temp = in.readLine();
 				}
 			}
-			logger.debug("result:" + result);
-		} catch (KeyManagementException e) {
-			logger.error(e.getMessage(), e);
-		} catch (NoSuchAlgorithmException e) {
-			logger.error(e.getMessage(), e);
-		} catch (MalformedURLException e) {
-			logger.error(e.getMessage(), e);
-		} catch (ProtocolException e) {
-			logger.error(e.getMessage(), e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		} finally {
 			logger.debug("HttpsGET url:" + url + " re:" + result);

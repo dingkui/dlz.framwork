@@ -188,6 +188,33 @@ public class ValUtil{
 		if(input==null){
 			return null;
 		}
+		if(classs==String.class){
+			return (T) getStr(input);
+		}
+		if(classs==Integer.class){
+			return (T) getInt(input);
+		}
+		if(classs==Long.class){
+			return (T) getLong(input);
+		}
+		if(classs==Date.class){
+			return (T) getDate(input);
+		}
+		if(classs==BigDecimal.class){
+			return (T) getBigDecimal(input);
+		}
+		if(classs==Float.class){
+			return (T) getFloat(input);
+		}
+		if(classs==Double.class){
+			return (T) getDouble(input);
+		}
+		if(classs==Boolean.class){
+			return (T) getBoolean(input);
+		}
+		if(classs==List.class){
+			return (T) getList(input);
+		}
 		return JacksonUtil.coverObj(input, classs);
 	}
 

@@ -1,5 +1,6 @@
 package com.dlz.framework.db.modal;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,9 @@ import java.util.Map;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.util.StringUtils;
 
-public class Page<T>{
+public class Page<T>  implements Serializable{
+	private static final long serialVersionUID = 2651739814148073895L;
+
 	public static final int DEFAULT_PAGE_SIZE = 20;
 
 	private Integer pageSize = DEFAULT_PAGE_SIZE;
@@ -73,8 +76,10 @@ public class Page<T>{
 	}
 
 	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-		setCNT();
+		if(pageSize>0){
+			this.pageSize = pageSize;
+			setCNT();
+		}
 	}
 
 	public void setPageIndex(int pageIndex) {

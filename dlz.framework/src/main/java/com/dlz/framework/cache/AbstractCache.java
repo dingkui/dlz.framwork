@@ -37,7 +37,7 @@ public abstract class AbstractCache<KEY,T>{
 	}
 	
 	public CacheDeal cacheDeal=null;
-	public DbOperator<KEY,T> dbOperator;
+	public DbOperator<KEY,T> dbOperator=null;
 	
 	public class DbOperator<KEY1,T1>{
 		protected T1 getFromDb(KEY1 key){return null;}
@@ -51,8 +51,7 @@ public abstract class AbstractCache<KEY,T>{
 			try{
 				t=dbOperator.getFromDb(key);
 			}catch(Exception e){
-				logger.error("从数据库加载缓存失败："+cacheDeal.getName()+"."+key);
-				logger.error(e.getMessage(),e);
+				logger.warn("从数据库加载缓存失败："+cacheDeal.getName()+"."+key);
 			}
 			return t;
 		}
@@ -67,8 +66,8 @@ public abstract class AbstractCache<KEY,T>{
 		
 		public CacheDeal(String cacheName) { 
 			try {
-				logger.debug("缓存初始化："+System.getProperty("user.dir")+"/caches/"+cacheName);
 				CacheManager manager = CacheManager.getInstance();
+				logger.debug("缓存初始化："+manager.getConfiguration().getDiskStoreConfiguration().getPath()+"/"+cacheName);
 				cache = manager.getCache(cacheName);
 				if (cache == null) {
 					manager.addCache(cacheName);
@@ -89,7 +88,7 @@ public abstract class AbstractCache<KEY,T>{
 					if(t==null && dbOperator!=null){
 						t=readDb((KEY1)key,dbOperator);
 						if(t!=null){
-							put(key,(Serializable)t,-1);
+							put(key,(Serializable)t,timeToLiveSeconds);
 						}
 					}
 				}
@@ -160,7 +159,7 @@ public abstract class AbstractCache<KEY,T>{
 				value=readDb(key,dbOperator);
 			}
 			if(value!=null){
-				put((Serializable)key, (Serializable)value,-1);
+				put((Serializable)key, (Serializable)value,timeToLiveSeconds);
 			}else{
 				remove((Serializable)key);
 			}
@@ -192,7 +191,13 @@ public abstract class AbstractCache<KEY,T>{
 			throw new CodeException("缓存已经存在，不能重复定义："+name);
 		}
 		CacheSet.add(name);
-		cacheDeal=new CacheDeal(name);
+		cacheDeal=new CacheDeal(name.toLowerCase());
+	}
+	
+	int timeToLiveSeconds=-1;
+	public AbstractCache(String name,int timeToLiveSeconds) { 
+		this(name);
+		this.timeToLiveSeconds=timeToLiveSeconds;
 	}
 
 
@@ -210,12 +215,21 @@ public abstract class AbstractCache<KEY,T>{
 	}
 	
 	/**
+	 * 缓存中读取对象，取不到则返回空
+	 * @param key
+	 * @return
+	 */
+	public T getFromCache(KEY key) {
+		return cacheDeal.get((Serializable)key,null);
+	}
+	
+	/**
 	 * 设置缓存
 	 * @param key
 	 * @param value
 	 */
 	public void put(KEY key, T value) {
-		put(key, value,-1);
+		put(key, value,timeToLiveSeconds);
 	}
 	
 	/**

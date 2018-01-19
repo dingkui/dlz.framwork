@@ -9,6 +9,8 @@ import com.dlz.framework.db.conver.Convert;
 import com.dlz.framework.db.conver.impl.DateConverter;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.enums.ParaTypeEnum;
+import com.dlz.framework.util.EncryptUtil;
+import com.dlz.framework.util.JacksonUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("rawtypes")
@@ -18,7 +20,13 @@ public class BaseParaMap implements Serializable{
 	private Convert convert;
 	private String sqlInput;
 	private String sqlRun;
-	
+	private int cacheTime=0;//缓存时间
+	public int getCacheTime() {
+		return cacheTime;
+	}
+	public void setCacheTime(int cacheTime) {
+		this.cacheTime = cacheTime;
+	}
 	private String sql_page;
 	private String sql_cnt;
 	
@@ -34,7 +42,14 @@ public class BaseParaMap implements Serializable{
 		this.setPage(page);
 		this.addDefualtConverter();
 	}
-	
+	public String key(){
+		StringBuffer sb=new StringBuffer(sqlInput);
+		if(page!=null){
+			sb.append(page.getBegin()).append(page.getEnd()).append(page.getOrderBy());
+		}
+		sb.append(JacksonUtil.getJson(para));
+		return EncryptUtil.md5(sb.toString());
+	}
 	protected BaseParaMap(String sqlInput){
 		this.sqlInput=sqlInput;
 		this.addDefualtConverter();

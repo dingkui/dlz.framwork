@@ -33,14 +33,14 @@ public class JSONMap extends HashMap<String,Object>{
 		if(obj==null){
 			return;
 		}
-		if(obj instanceof String){
-			putAll(JacksonUtil.readValue((String)obj, JSONMap.class));
+		if(obj instanceof CharSequence){
+			putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
 		}else if(obj instanceof Map){
 			putAll((Map)obj);
 		}else if(obj instanceof Object[] || obj instanceof Collection){
 			
 		}else if(obj instanceof Serializable){
-			putAll(JacksonUtil.coverObj(obj, JSONMap.class));
+			putAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONMap.class));
 		}
 	}
 	public static JSONMap createJsonMap(Object json){
@@ -131,8 +131,8 @@ public class JSONMap extends HashMap<String,Object>{
 	public <T> T getObj(String key,Class<T> classs){
 		return ValUtil.getObj(JacksonUtil.at(this,key),classs);
 	}
-	public <T> T as(String key,Class<T> classs){
-		return JacksonUtil.coverObj(this, classs);
+	public <T> T as(Class<T> classs){
+		return JacksonUtil.readValue(JacksonUtil.getJson(this),classs);
 	}
 	public String toString(){
 		return JacksonUtil.getJson(this);

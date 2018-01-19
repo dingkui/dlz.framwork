@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
@@ -99,15 +100,23 @@ public class JacksonUtil {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T> T coverObj(Object o, Class<T> valueType) {
 		try {
+			if(valueType.isAssignableFrom(o.getClass())){
+				return (T)o;
+			}
+			if(JSONMap.class.isAssignableFrom(valueType)){
+				JSONMap newInstance = (JSONMap)valueType.newInstance();
+				newInstance.putAll(new JSONMap(o));
+				return (T)newInstance;
+			}
 			return readValue(getJson(o), valueType);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
-	
 	public static <T> T at(Object data,String key, Class<T> valueType){
 		Object o=at(data, key);
 		if(o==null){
