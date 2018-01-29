@@ -568,21 +568,24 @@ public class WxUtil {
 				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
 				String resSessionkey = HttpUtil.sendHttpsGET(requestUrl);
 				JSONMap sessionData = JacksonUtil.readValue(resSessionkey, JSONMap.class);
-				if(sessionData!=null){
-					String dataStr=decrypt(sessionData.getStr("session_key"), encryptedData, iv);
-					JSONMap userInfo=JacksonUtil.readValue(dataStr,JSONMap.class);
-					thirdInfo.setWx_xcx_openid(userInfo.getStr("openId"));
-					thirdInfo.setFace(userInfo.getStr("avatarUrl"));
-					thirdInfo.setNickname(userInfo.getStr("nickName"));
-					thirdInfo.setSex(userInfo.getStr("gender"));
-					//如果unionid没有取到则用openid作为unionid
-					if(userInfo.containsKey("unionId")){
-						thirdInfo.setWx_unionid(userInfo.getStr("unionId"));
-					}else{
-						thirdInfo.setWx_unionid(userInfo.getStr("openId"));
-					}
-					thirdInfo.setFromWx(true);
+				String sessionKey=sessionData.getStr("session_key");
+				if(sessionKey==null){
+					logger.error("session_key取得失败："+sessionData);
+					return thirdInfo;
 				}
+				String dataStr=decrypt(sessionData.getStr("session_key"), encryptedData, iv);
+				JSONMap userInfo=JacksonUtil.readValue(dataStr,JSONMap.class);
+				thirdInfo.setWx_xcx_openid(userInfo.getStr("openId"));
+				thirdInfo.setFace(userInfo.getStr("avatarUrl"));
+				thirdInfo.setNickname(userInfo.getStr("nickName"));
+				thirdInfo.setSex(userInfo.getStr("gender"));
+				//如果unionid没有取到则用openid作为unionid
+				if(userInfo.containsKey("unionId")){
+					thirdInfo.setWx_unionid(userInfo.getStr("unionId"));
+				}else{
+					thirdInfo.setWx_unionid(userInfo.getStr("openId"));
+				}
+				thirdInfo.setFromWx(true);
 			} catch (Exception ex) {
 				logger.error(ex.getMessage(), ex);
 			}
