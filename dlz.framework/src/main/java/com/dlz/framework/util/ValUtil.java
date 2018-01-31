@@ -19,8 +19,16 @@ public class ValUtil{
 		if(o==null){
 			return defaultV;
 		}
-		if (o instanceof BigDecimal) {
+		if(o instanceof BigDecimal) {
 			return (BigDecimal)o;
+		}else if (o instanceof Float) {
+			return new BigDecimal(((Float)o).doubleValue());
+		}else if (o instanceof Double) {
+			return new BigDecimal(((Double)o).doubleValue());
+		}else if (o instanceof Integer) {
+			return new BigDecimal(((Integer)o).intValue());
+		}else if (o instanceof Long) {
+			return new BigDecimal(((Long)o).longValue());
 		}
 		return new BigDecimal(o.toString());
 	}
