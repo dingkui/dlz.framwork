@@ -51,7 +51,7 @@ public abstract class AbstractCache<KEY,T>{
 			try{
 				t=dbOperator.getFromDb(key);
 			}catch(Exception e){
-				logger.warn("从数据库加载缓存失败："+cacheDeal.getName()+"."+key);
+				logger.error("从数据库加载缓存失败："+cacheDeal.getName()+"."+key,e);
 			}
 			return t;
 		}
