@@ -255,6 +255,7 @@ public class WxUtil {
 		private static Map<String,String> configMap = new HashMap<String,String>();//多个appID
 		private static String DEFAULT_APPID = null;//初始化设置的appID
 		private static String DEFAULT_XCX_APPID = null;//初始化设置小程序的appID
+		private static String DEFAULT_ERP_XCX_APPID = null;//初始化设置ERP小程序的appID
 		static void add(String appid, String secret){
 			configMap.put(appid, secret);
 		}
@@ -273,6 +274,9 @@ public class WxUtil {
 			  case "2":
 				  DEFAULT_XCX_APPID=appid;
 				  break;
+			  case "3":
+				  DEFAULT_ERP_XCX_APPID=appid;
+				  break;
 			}
 			add(appid, secret);
 		}
@@ -287,6 +291,12 @@ public class WxUtil {
 				throw new SystemException("微信参数未初始化：小程序appid为空！");
 			}
 			return DEFAULT_XCX_APPID;
+		}
+		public static String getErpXcxAppid() {
+			if(DEFAULT_ERP_XCX_APPID==null){
+				throw new SystemException("微信参数未初始化：小程序appid为空！");
+			}
+			return DEFAULT_ERP_XCX_APPID;
 		}
 		// 生成签名
 		public static Map<String, String> createConfigJson(String current_url) {
@@ -554,10 +564,8 @@ public class WxUtil {
 		 * @param appsecret
 		 * @return
 		 */
-		public static ThirdInfo getXcxThirdInfoByCode(String code,String encryptedData,String iv) {
+		public static ThirdInfo getXcxThirdInfoByCode(String code,String encryptedData,String iv,String XcxAppId,String XcxAppSecret) {
 			ThirdInfo thirdInfo=ThirdHolder.getThirdInfo();
-			String XcxAppId=WxConfig.getXcxAppid(); 
-			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
 			if (thirdInfo.isFromWx() ) {
 				return thirdInfo;
 			}
@@ -591,6 +599,33 @@ public class WxUtil {
 			}
 			return thirdInfo;
 		}
+		
+		/**
+		 * 获取瞬淘小程序用户信息
+		 * @param code
+		 * @param encryptedData
+		 * @param iv
+		 * @return
+		 */
+		public static ThirdInfo getStXcxThirdInfoByCode(String code,String encryptedData,String iv){
+			String XcxAppId=WxConfig.getXcxAppid(); 
+			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
+			return getXcxThirdInfoByCode(code, encryptedData, iv, XcxAppId, XcxAppSecret);
+		}
+		
+		/**
+		 * 获取ERP小程序用户信息
+		 * @param code
+		 * @param encryptedData
+		 * @param iv
+		 * @return
+		 */
+		public static ThirdInfo getErpXcxThirdInfoByCode(String code,String encryptedData,String iv){
+			String XcxAppId=WxConfig.getErpXcxAppid(); 
+			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
+			return getXcxThirdInfoByCode(code, encryptedData, iv, XcxAppId, XcxAppSecret);
+		}
+		
 	}
 	
 	/**
