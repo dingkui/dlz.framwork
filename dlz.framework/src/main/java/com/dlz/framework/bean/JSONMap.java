@@ -39,7 +39,7 @@ public class JSONMap extends HashMap<String,Object>{
 			putAll((Map)obj);
 		}else if(obj instanceof Object[] || obj instanceof Collection){
 			
-		}else if(obj instanceof Serializable){
+		}else{
 			putAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONMap.class));
 		}
 	}
