@@ -626,6 +626,17 @@ public class WxUtil {
 			return getXcxThirdInfoByCode(code, encryptedData, iv, XcxAppId, XcxAppSecret);
 		}
 		
+		public static String getErpXcxSessionKey(String code) throws IOException {
+			String XcxAppId=WxConfig.getErpXcxAppid();
+			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
+			String resUserInfo=null;
+			if(!StringUtils.isEmpty(code)){
+				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
+				resUserInfo = HttpUtil.sendHttpsGET(requestUrl);
+			}		
+			return resUserInfo;
+		}
+		
 	}
 	
 	/**
