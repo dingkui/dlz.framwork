@@ -103,6 +103,9 @@ public class JacksonUtil {
 	@SuppressWarnings("unchecked")
 	public static <T> T coverObj(Object o, Class<T> valueType) {
 		try {
+			if(o==null){
+				return null;
+			}
 			if(valueType.isAssignableFrom(o.getClass())){
 				return (T)o;
 			}
