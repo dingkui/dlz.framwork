@@ -174,6 +174,7 @@ public class HttpUtil {
 			if (HttpsURLConnection.HTTP_OK == code) {
 				inputStream = httpsConn.getInputStream();
 				result=getReturnInfo(inputStream, returnType);
+				return result;
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
