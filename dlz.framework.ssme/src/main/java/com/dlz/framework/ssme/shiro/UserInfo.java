@@ -18,6 +18,12 @@ public class UserInfo extends AuthUser {
 	private String pRelation;
 
 	private String phone;
+	
+	private int priceLevel;
+	
+	private String wxXcxOpenid;
+	
+	private String wxUnionid;
 
 	private List<Long> groups = new ArrayList<Long>();
 
@@ -105,4 +111,28 @@ public class UserInfo extends AuthUser {
 		this.phone = phone;
 	}
 
+	public int getPriceLevel() {
+		return priceLevel;
+	}
+
+	public void setPriceLevel(int priceLevel) {
+		this.priceLevel = priceLevel;
+	}
+
+	public String getWxXcxOpenid() {
+		return wxXcxOpenid;
+	}
+
+	public void setWxXcxOpenid(String wxXcxOpenid) {
+		this.wxXcxOpenid = wxXcxOpenid;
+	}
+
+	public String getWxUnionid() {
+		return wxUnionid;
+	}
+
+	public void setWxUnionid(String wxUnionid) {
+		this.wxUnionid = wxUnionid;
+	}
+	
 }
