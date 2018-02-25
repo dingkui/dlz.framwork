@@ -24,6 +24,10 @@ public class UserInfo extends AuthUser {
 	private String wxXcxOpenid;
 	
 	private String wxUnionid;
+	
+	private int deptId;
+	
+	private String deptName;
 
 	private List<Long> groups = new ArrayList<Long>();
 
@@ -134,5 +138,20 @@ public class UserInfo extends AuthUser {
 	public void setWxUnionid(String wxUnionid) {
 		this.wxUnionid = wxUnionid;
 	}
-	
+
+	public int getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
 }
