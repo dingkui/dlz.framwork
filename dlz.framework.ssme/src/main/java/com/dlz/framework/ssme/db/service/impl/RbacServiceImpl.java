@@ -5,12 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dlz.framework.db.modal.SearchParaMap;
+import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.db.dao.RbacMapper;
 import com.dlz.framework.ssme.db.model.User;
 import com.dlz.framework.ssme.db.service.RbacService;
-import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.db.modal.SearchParaMap;
-import com.dlz.framework.db.service.ICommService;
 
 @Service
 public class RbacServiceImpl implements RbacService {
@@ -28,14 +27,14 @@ public class RbacServiceImpl implements RbacService {
 	}
 
 	public String getCode(String pCode,String codeName,String tableName) throws Exception{
-		SearchParaMap spm = new SearchParaMap(tableName,"nvl(max("+codeName+"),'') as code");
+		SearchParaMap spm = new SearchParaMap(tableName,"substr(NVL(MAX("+pCode+"), ''), "+(pCode.length()+1)+")");
 		spm.addCondition(codeName, "like", new String[]{"",pCode,"__"});
-		spm.createPage().setOrderBy("code desc");
+//		spm.createPage().setOrderBy("code desc");
 		String o = commService.getStr(spm);
 		if(o==null || "".equals(o)){
 			return pCode+"01";
 		}else{
-			int maxSub=Integer.parseInt(o.substring(pCode.length()),16)+1;
+			int maxSub=Integer.parseInt(o,16)+1;
 			String value=Integer.toHexString(maxSub);
 			if(value.length()==1){
 				return pCode+"0"+value.toUpperCase();
