@@ -1,10 +1,10 @@
 package com.dlz.apps.sys.cache;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.cache.AbstractCache;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.FunOpt;
 import com.dlz.framework.ssme.db.service.FunOptService;
 
@@ -30,6 +30,6 @@ public class MenuCache extends AbstractCache<Long, FunOpt> {
 	/**
 	 * 日志logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(DictCacheSsme.class);
+	private static MyLogger logger = MyLogger.getLogger(MenuCache.class);
 
 }
