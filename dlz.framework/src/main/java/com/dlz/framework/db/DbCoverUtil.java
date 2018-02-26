@@ -53,13 +53,11 @@ public class DbCoverUtil {
 	 * @author dk 2015-04-15
 	 * @return
 	 */
-	public static void converResultMap(ResultMap m,Convert c){
+	public static ResultMap converResultMap(ResultMap m,Convert c){
 		if(m==null){
-			return;
+			return null;
 		}
-		ResultMap m2=getConveredMap(m, c);
-		m.clear();
-		m.putAll(m2);
+		return getConveredMap(m, c);
 	}
 	
 	/**
