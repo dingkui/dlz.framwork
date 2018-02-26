@@ -28,6 +28,8 @@ public class UserInfo extends AuthUser {
 	private int deptId;
 	
 	private String deptName;
+	
+	private int duDuty;//职务
 
 	private List<Long> groups = new ArrayList<Long>();
 
@@ -154,4 +156,13 @@ public class UserInfo extends AuthUser {
 	public void setDeptName(String deptName) {
 		this.deptName = deptName;
 	}
+
+	public int getDuDuty() {
+		return duDuty;
+	}
+
+	public void setDuDuty(int duDuty) {
+		this.duDuty = duDuty;
+	}
+	
 }
