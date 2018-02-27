@@ -1,6 +1,7 @@
 package com.dlz.apps.sys.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.holder.ThreadHolder;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.DeptCriteria;
 import com.dlz.framework.ssme.db.model.DeptUser;
@@ -280,8 +282,16 @@ public class DeptController {
 	public String saveUsers(String data) throws Exception {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		DeptUser[] items = JacksonUtil.readValue(data, DeptUser[].class);
+		List msg=new ArrayList();
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].getDuId() != null) {
+		  ParaMap pMap=new ParaMap("select count(1) count from t_p_dept_user du where exists (select d_id from t_p_dept where d_id = du.du_d_id and  d_code like '03%')   and du.du_u_id = #{dUId}");
+		  pMap.addPara("dUId", items[i].getDuUId());
+		  JSONMap isExist=commService.getMap(pMap);
+		  if(isExist.getInt("count")>0){
+			    msg.add(items[i].getDuUId());
+			    continue;
+		  }
+		  if (items[i].getDuId() != null) {
 				deptUserService.updateByPrimaryKeySelective(items[i]);
 			} else {
 				items[i].setDuId(commService.getSeq(DeptUser.class));
@@ -290,7 +300,13 @@ public class DeptController {
 				deptUserService.insert(items[i]);
 			}
 		}
-		return "OK";
+		if(msg.size()!=0){
+			return  "用户"+msg.toString()+"已有部门，无法添加！";
+		}else{
+			return "OK";
+		}
+			
+	
 	}
 	/**
 	 * 添加用户
