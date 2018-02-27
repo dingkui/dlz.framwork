@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.enums.DateFormatEnum;
+import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
+import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.DeptCriteria;
@@ -99,7 +102,29 @@ public class DeptController {
 	@RequestMapping("/edit")
 	public String edit(Model m,HttpServletRequest request) {
 		try {
+			m.addAttribute("data",request.getParameter("data"));
 			return "sys/rbac/deptEdit";
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+			return null;
+		}
+	}
+	
+	/*
+	 * 菜单初始页面-首页
+	 */
+	@RequestMapping("/editAccount")
+	public String editAccount(Model m,HttpServletRequest request) {
+		try {
+			ParaMap pMap=new ParaMap("select * from t_p_dept_account where deptId=#{did}");
+			pMap.addPara("did", request.getParameter("did"));
+			JSONMap deptAccount=commService.getBean(pMap, JSONMap.class);
+			if(deptAccount==null){
+				deptAccount=new JSONMap();
+				deptAccount.put("deptid", request.getParameter("did"));
+			}
+			m.addAttribute("deptAccount",deptAccount);
+			return "sys/rbac/editAccount";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			return null;
@@ -283,4 +308,40 @@ public class DeptController {
 		}
 		return "OK";
 	}
+	
+	/**
+	 * 添加或更新部门账户信息
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addOrUpdateAccount")
+	public String addOrUpdateAccount(Integer deptid,String bank,String accounts,String company) throws Exception {
+		//1、查询该部门是否有银行账户信息
+		ParaMap pMap=new ParaMap("select count(1) count from t_p_dept_account where deptId=#{deptId}");
+		pMap.addPara("deptId", deptid);
+		JSONMap isExist=commService.getMap(pMap);
+		if(isExist.getInt("count")>0){
+			//存在则更新数据
+			UpdateParaMap uMap=new UpdateParaMap("t_p_dept_account");
+			uMap.addSetValue("bank", bank);
+			uMap.addSetValue("accounts", accounts);
+			uMap.addSetValue("company", company);
+			uMap.addEqCondition("deptid", deptid);
+			commService.excuteSql(uMap);
+		}else{
+			//不存在则插入数据
+			InsertParaMap iMap=new InsertParaMap("t_p_dept_account");
+			int id=(int)commService.getSeq("seq_t_p_dept_account");
+			iMap.addValue("id", id);
+			iMap.addValue("deptid", deptid);
+			iMap.addValue("bank", bank);
+			iMap.addValue("accounts", accounts);
+			iMap.addValue("company", company);
+			commService.excuteSql(iMap);
+		}
+		return "ok";
+	}
+	   
 }
