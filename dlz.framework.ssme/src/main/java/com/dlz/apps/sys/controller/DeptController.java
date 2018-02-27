@@ -300,8 +300,9 @@ public class DeptController {
 				deptUserService.insert(items[i]);
 			}
 		}
+		
 		if(msg.size()!=0){
-			return  "用户"+msg.toString()+"已有部门，无法添加！";
+			return msg.toString();
 		}else{
 			return "OK";
 		}
