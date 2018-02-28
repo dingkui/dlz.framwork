@@ -51,12 +51,14 @@ public class Convert {
 	}
 	
 	/**
-	 * 添加转换器(按类型添加)
-	 * @param converter
+	 * 添加字典转换器
+	 * @param name 字段名
+	 * @param dictCode 字典名称
+	 * @return
 	 */
 	public Convert addDictConvert(String name, String dictCode){
 		name=SqlUtil.converClumnStr2Str(name);
-		nameMap.put(name,new DictConverter(name, dictCode));
+		nameMap.put(name,new DictConverter(name, dictCode,"dictConverterLogicServer"));
 		return this;
 	}
 	/**
