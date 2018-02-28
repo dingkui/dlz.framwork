@@ -1,7 +1,6 @@
 package com.dlz.apps.sys.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +25,7 @@ import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.holder.ThreadHolder;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.DeptCriteria;
 import com.dlz.framework.ssme.db.model.DeptUser;
@@ -104,7 +102,9 @@ public class DeptController {
 	@RequestMapping("/edit")
 	public String edit(Model m,HttpServletRequest request) {
 		try {
-			m.addAttribute("data",request.getParameter("data"));
+			ParaMap pMap=new ParaMap("SELECT * FROM T_P_DEPT WHERE D_ID=#{did}");
+			pMap.addPara("did", request.getParameter("did"));
+			m.addAttribute("dept",commService.getBean(pMap, JSONMap.class));
 			return "sys/rbac/deptEdit";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
