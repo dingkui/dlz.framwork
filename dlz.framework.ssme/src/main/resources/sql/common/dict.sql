@@ -37,7 +37,8 @@
 	<![CDATA[
 	select id, ID value, NAME text, 0 del, is_leaf
 	  from T_B_DICTS
-	 where PID = #{p1}
+	 where 1=1 
+	 [and PID = #{p1}]
 	 order by ORD
     ]]>
  	</sql>
