@@ -3,11 +3,9 @@ package com.dlz.apps.sys.controller;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dlz.apps.sys.cache.DictCacheSsme;
+import com.dlz.common.bean.DictItem;
+import com.dlz.common.cache.DictCache;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
 import com.dlz.framework.ssme.db.model.Dict;
 import com.dlz.framework.ssme.db.model.DictCriteria;
 import com.dlz.framework.ssme.db.model.DictDetail;
 import com.dlz.framework.ssme.db.model.DictDetailCriteria;
-import com.dlz.framework.ssme.db.model.DictModel;
 import com.dlz.framework.ssme.db.service.DictDetailService;
 import com.dlz.framework.ssme.db.service.DictService;
 import com.dlz.framework.ssme.db.service.DictServiceExt;
@@ -37,13 +36,10 @@ public class DictController {
 	private DictService dictService;
 	@Autowired
 	private DictServiceExt dictServiceExt;
-
 	@Autowired
 	private DictDetailService dictDetailService;
-
-
 	@Autowired
-	private DictCacheSsme dictCache = null;
+	private DictCache dictCache = null;
 
 	@RequestMapping()
 	public String init() {
@@ -188,8 +184,7 @@ public class DictController {
 	@RequestMapping(value = "{dictId}")
 	public Dict get(@PathVariable("dictId") String dictId) {
 		try {
-			Dict d = dictService.selectByPrimaryKey(dictId);
-			return d;
+			return dictService.selectByPrimaryKey(dictId);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			return null;
@@ -220,6 +215,7 @@ public class DictController {
 	public boolean delete(@PathVariable("dictId") String dictId) {
 		try {
 			dictService.deleteByPrimaryKey(dictId);
+			dictCache.remove(dictId);
 			return true;
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
@@ -233,12 +229,12 @@ public class DictController {
 	@ResponseBody
 	@RequestMapping(value = "detail/{dictId}")
 	public List<ComboBoxModel> getDetail(@PathVariable("dictId") String dictId) {
-		Map<String,DictModel> map = dictCache.get(dictId);
+		com.dlz.common.bean.Dict dict = dictCache.get(dictId);
 		List<ComboBoxModel> comboboxList = new ArrayList<ComboBoxModel>();
-		Collection<DictModel>  list=map.values();
-		for (DictModel dictDetail : list) {
+		Collection<DictItem>  list=dict.getItemMap().values();
+		for (DictItem dictDetail : list) {
 			ComboBoxModel model = new ComboBoxModel();
-			model.setId(dictDetail.getId());
+			model.setId(dictDetail.getValue());
 			model.setText(dictDetail.getText());
 			comboboxList.add(model);
 		}

@@ -14,21 +14,20 @@ public class Dict implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5070462418563344534L;
-	private Integer id; // ID
+	private String id; // ID
 	private String code;// 字典code
 	private String name;// 字典名
 	private String memo;// 字典名
 	private String type;// 字典名
 	private Integer enable;// 是否有效 1删除 0正常
-	private Integer source;// 字段来源 1:字典表 2:sql
 	private String sqltext;//字典sql
 	private Map<String,DictItem> itemMap=new LinkedHashMap<String,DictItem>();// 字典名
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -70,23 +69,12 @@ public class Dict implements java.io.Serializable {
 		this.type = type;
 	}
 
-
-
-	
 	public Integer getEnable() {
 		return enable;
 	}
 
 	public void setEnable(Integer enable) {
 		this.enable = enable;
-	}
-
-	public Integer getSource() {
-		return source;
-	}
-
-	public void setSource(Integer source) {
-		this.source = source;
 	}
 
 	public String getSqltext() {

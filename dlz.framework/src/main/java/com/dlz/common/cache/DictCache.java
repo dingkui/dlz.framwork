@@ -12,15 +12,26 @@ import com.dlz.framework.cache.AbstractCache;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.util.StringUtils;
 
 @Component
 public class DictCache extends AbstractCache<String, Dict>{
 	protected final MyLogger logger = MyLogger.getLogger(getClass());
+	private static String DICTS="dicts";
+	private static String SPLIT_STR="_";
+	
+	public Dict getDicts(Long pid){
+		return get(DICTS+SPLIT_STR+pid);
+	}
+	public void removeDicts(Long pid){
+		remove(DICTS+SPLIT_STR+pid);
+	}
+	
 	public DictCache() {
 		super(DictCache.class.getSimpleName());
 		dbOperator=new DbOperator<String, Dict>() {
 			protected Dict getFromDb(String dicdCode) {
-				String[] codes=dicdCode.split("_");
+				String[] codes=dicdCode.split(SPLIT_STR);
 				
 //				private Integer id; // ID
 //				private String code;// 字典code
@@ -30,44 +41,39 @@ public class DictCache extends AbstractCache<String, Dict>{
 //				private Integer enable;// 是否有效 1删除 0正常
 //				private Integer source;// 字段来源 1:字典表 2:sql
 				
-				ParaMap pm = new ParaMap("select id,code,name,enable,source,sqltext from DS_DICT where code=#{code}");
-				pm.addPara("code", codes[0]);
-				Dict dict= commService.getBean(pm, Dict.class);
-				if(dict==null){
-					return null;
+				Dict dict=null;
+				if(DICTS.equals(codes[0])){
+					//多级字典
+					dict=new Dict();
+					dict.setSqltext("key.dict.getDictsItem");
+				}else{
+					ParaMap pm = new ParaMap("key.dict.getDict");
+					pm.addPara("code", codes[0]);
+					dict= commService.getBean(pm, Dict.class);
+					if(dict==null){
+						return null;
+					}
 				}
+				
 //				private Integer id; // ID
 //				private Integer dictid;// 字典ID
 //				private String value;// 字典值
 //				private String text;// 字典中文
 //				private Integer sort;//排序
 //				private Integer del=0;//是否删除
-				ParaMap pm2 = new ParaMap("select id,value,text,del from DS_DICT_ITEM where dictid=#{dictid} order by sort");
-				if(dict.getSource()==1){
-					pm2.addPara("dictid", dict.getId());
-					List<DictItem> dictItems= commService.getBeanList(pm2, DictItem.class);
-					for(DictItem item:dictItems){
-						dict.getItemMap().put(item.getValue(), item);
-					}
-				}else if(dict.getSource()==2){
-					pm2=new ParaMap(dict.getSqltext());
-					for(int i=0;i<codes.length;i++){
-						pm2.addPara("p"+i, codes[i]);
-					}
-					List<DictItem> dictItems= commService.getBeanList(pm2, DictItem.class);
-					for(DictItem item:dictItems){
-						dict.getItemMap().put(item.getValue(), item);
-					}
-				}else if(dict.getSource()==3){
-					//多级字典
-					pm2=new ParaMap(dict.getSqltext());
-					for(int i=0;i<codes.length;i++){
-						pm2.addPara("p"+i, codes[i]);
-					}
-					List<DictItem> dictItems= commService.getBeanList(pm2, DictItem.class);
-					for(DictItem item:dictItems){
-						dict.getItemMap().put(item.getValue(), item);
-					}
+				String sql=dict.getSqltext();
+				if(StringUtils.isEmpty(sql)){
+					sql="key.dict.getDictItem";
+				}
+				
+				ParaMap pm2 = new ParaMap(sql);
+				pm2.addPara("dictid", dict.getId());
+				for(int i=0;i<codes.length;i++){
+					pm2.addPara("p"+i, codes[i]);
+				}
+				List<DictItem> dictItems= commService.getBeanList(pm2, DictItem.class);
+				for(DictItem item:dictItems){
+					dict.getItemMap().put(item.getValue(), item);
 				}
 				return dict;
 			} 
