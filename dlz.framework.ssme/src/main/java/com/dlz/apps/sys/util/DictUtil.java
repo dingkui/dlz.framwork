@@ -6,12 +6,14 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.dlz.common.bean.DictItem;
 import com.dlz.common.cache.DictCache;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.ssme.constants.Constants;
+import com.dlz.framework.ssme.db.model.ComboBoxModel;
 import com.dlz.framework.ssme.db.model.Dict;
 import com.dlz.framework.ssme.db.model.DictCriteria;
 import com.dlz.framework.ssme.db.service.DictService;
@@ -83,8 +85,19 @@ public class DictUtil {
 		if(itemMap.isEmpty()){
 			return "";
 		}
+		//重置成miui组件所需格式
+		//valueField	值字段	id
+		//textField	文本显示字段	text
+		Map<String, ComboBoxModel> cbxItemMap = new ConcurrentHashMap<String, ComboBoxModel>();
+		for(String key : itemMap.keySet()){
+			ComboBoxModel c = new ComboBoxModel();
+			DictItem dictItem = itemMap.get(key);
+			c.setId(dictItem.getValue());
+			c.setText(dictItem.getText());
+			cbxItemMap.put(key, c);
+		}
 		sb.append("_dL.push('"+dictEnum+"');");
-		sb.append("var "+dictEnum+"Json=").append(JsonMapper.nonEmptyMapper().toJson(itemMap));
+		sb.append("var "+dictEnum+"Json=").append(JsonMapper.nonEmptyMapper().toJson(cbxItemMap));
 		sb.append(";\n");
 		return sb.toString();
 	}
