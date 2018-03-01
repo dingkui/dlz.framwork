@@ -306,8 +306,35 @@ public class DeptController {
 		}else{
 			return "OK";
 		}
-			
+	}
 	
+	/**
+	 * 编辑用户
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/editUsers")
+	public String editUsers(String data) throws Exception {
+		JSONMap[] items = JacksonUtil.readValue(data, JSONMap[].class);
+		if(items == null || items.length < 1){
+			return "error";
+		}
+		for (int i = 0; i < items.length; i++) {
+			for (JSONMap user : items) {
+				UpdateParaMap uParaMap = new UpdateParaMap("t_p_dept_user");
+				uParaMap.addSetValue("du_duty", user.getInt("duDuty"));
+				uParaMap.addEqCondition("du_id", user.getInt("duId"));
+				commService.excuteSql(uParaMap);
+				
+				uParaMap = new UpdateParaMap("ptn_user_info");
+				uParaMap.addSetValue("price_level", user.getInt("priceLevel"));
+				uParaMap.addEqCondition("id", user.getInt("duUId"));
+				commService.excuteSql(uParaMap);
+			}
+		}
+		return "OK";
 	}
 	/**
 	 * 添加用户
