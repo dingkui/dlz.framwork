@@ -53,12 +53,11 @@ public class MenuController {
 		try {
 			ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 			Role role = new Role();
-			if(!loginUser.getRoleList().isEmpty()){
-				role = roleService.selectByPrimaryKey(loginUser.getRoleList().get(0).longValue());
+			if(!loginUser.getRoles().isEmpty()){
+				role = roleService.selectByPrimaryKey(loginUser.getRoles().iterator().next().longValue());
 			}
 			model.addAttribute("user", loginUser);
 			model.addAttribute("role", role);
-			model.addAttribute("userGroup", loginUser.getUserGroup());
 
 			//待办任务 
 			//1.处理自己的订单
@@ -95,7 +94,7 @@ public class MenuController {
 		Map<String, Object> paramMap = Maps.newHashMap();
 		paramMap.put("pidCondition", "and fun_opt_id !="+id);
 		paramMap.put("fCode", fCode);
-		paramMap.put("roles", user.getRoleList());
+		paramMap.put("roles", user.getRoles());
 		return funOptService.getOptsByRoles(paramMap);
 	}
 	

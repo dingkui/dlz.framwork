@@ -2,14 +2,12 @@ package com.dlz.framework.ssme.base.controller;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +23,7 @@ import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.BaseException;
 import com.dlz.framework.exception.JspException;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.base.logic.PageDealCommonLogic;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.MenuDataOpt;
@@ -112,7 +111,7 @@ public class BaseController extends PageDealCommonLogic {
 					String roleOpt = m.getExt1().replaceAll(":userId", String.valueOf(loginUser.getUserId()));
 					String[] roleids = m.getRoleIds().replaceAll(" ", "").split(",");
 					Set<String> strSet = new HashSet<String>(Arrays.asList(roleids));
-					for (Long role : loginUser.getRoleList()) {
+					for (Integer role : loginUser.getRoles()) {
 						if (strSet.contains(String.valueOf(role))) {
 							roleOpt = null;
 							break;
@@ -156,7 +155,7 @@ public class BaseController extends PageDealCommonLogic {
 				if(!flow.isEmpty()){
 					StringBuffer sql=new StringBuffer();
 					//判断数据权限（未设置则不判断，设置了但角色不存在则无数据权限）
-					if(!checkRole(menuRolesCache.get(Long.valueOf(mid)), loginUser.getRoleList())){
+					if(!checkRole(menuRolesCache.get(Long.valueOf(mid)), loginUser.getRoles())){
 						sql.append(" and 1=0 ");
 					}else{
 						String sta=flow.getStr("sta","");
@@ -165,7 +164,7 @@ public class BaseController extends PageDealCommonLogic {
 						}
 						
 						//判断是否有数据管理员权限，有管理员权限则不做其他权限判断，未设置则表示无管理员权限配置
-						boolean hasadminRole=checkRole(flow.getStr("adminRole",""), loginUser.getRoleList()) ;
+						boolean hasadminRole=checkRole(flow.getStr("adminRole",""), loginUser.getRoles()) ;
 						if(!hasadminRole){
 							Dept dept = loginUser.getSaleDept();
 							String deptId=String.valueOf(dept.getdId());
@@ -177,7 +176,7 @@ public class BaseController extends PageDealCommonLogic {
 							}
 							
 							//判断是否有部门经理权限，有部门经理员权限则不做其他权限判断
-							boolean hasMaRole=checkRole(flow.getStr("maRole",""), loginUser.getRoleList()) ;
+							boolean hasMaRole=checkRole(flow.getStr("maRole",""), loginUser.getRoles()) ;
 							if(!hasMaRole){
 								String userId=String.valueOf(loginUser.getUserId());
 								String userOpt = flow.getStr("user","").replaceAll(":userId", userId);
@@ -211,13 +210,13 @@ public class BaseController extends PageDealCommonLogic {
 	 * @param nosetPass 无设置时是否通过
 	 * @return
 	 */
-	private boolean checkRole(String sets,List<Long> userroles){
+	private boolean checkRole(String sets,Set<Integer> userroles){
 		if("".equals(sets)){
 			return false;
 		}
 		String[] strSet = sets.replaceAll(" ", "").split(",");
 		for (String str : strSet) {
-			if (userroles.contains(Long.valueOf(str))) {
+			if (userroles.contains(Integer.valueOf(str))) {
 				return true;
 			}
 		}

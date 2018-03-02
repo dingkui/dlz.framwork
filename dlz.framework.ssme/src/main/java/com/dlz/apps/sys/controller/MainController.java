@@ -51,7 +51,7 @@ public class MainController extends BaseController{
 		Map<String, Object> paramMap = Maps.newHashMap();
 		paramMap.put("pidCondition", "and parent_fun_opt_id =0");
 		paramMap.put("fCode", "");
-		paramMap.put("roles", user.getRoleList());
+		paramMap.put("roles", user.getRoles());
 		model.addAttribute("menuList", funOptService.getOptsByRoles(paramMap));
 		return "index";
 	}
@@ -66,7 +66,7 @@ public class MainController extends BaseController{
 		Map<String, Object> paramMap = Maps.newHashMap();
 		paramMap.put("pidCondition", "and parent_fun_opt_id =0");
 		paramMap.put("fCode", "");
-		paramMap.put("roles", user.getRoleList());
+		paramMap.put("roles", user.getRoles());
 		List<Map<String, Object>> rootMenuList = funOptService.getOptsByRoles(paramMap);
 		model.addAttribute("menuList", rootMenuList);
 		return "index1";

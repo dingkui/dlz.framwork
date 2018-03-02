@@ -1,6 +1,5 @@
 package com.dlz.framework.ssme.shiro;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,16 +14,15 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.apps.sys.service.DeptServiceExt;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.User;
 import com.dlz.framework.ssme.db.service.FunOptService;
 import com.dlz.framework.ssme.db.service.RoleService;
-import com.dlz.framework.ssme.db.service.UserGroupService;
 import com.dlz.framework.ssme.util.encry.Encodes;
 import com.google.common.collect.Sets;
 
@@ -37,17 +35,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
 	@Autowired
 	private ICommService commService;
-	
 	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private DeptServiceExt deptServiceExt;
-	
 	@Autowired
 	private FunOptService funOptService;
-	
-	@Autowired
-	private UserGroupService userGroupService;
 
 	/**
 	 * 认证回调函数,登录时调用.
@@ -59,15 +52,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		if(user != null) {
 			ShiroUser shiroUser = new ShiroUser(user.getUserId(), user.getLoginId(), user.getUserName());
 			
-			//shiroUser.setMenuData(getMenuList(user.getUserId()));
 			List<String> roleList=roleService.getRoleNameByUserId(shiroUser.getUserId());
-			List<Long> roleLists=new ArrayList<Long>();
 			for(String role:roleList){
-				roleLists.add(Long.valueOf(role));
-			}
-			shiroUser.setRoleList(roleLists);
-			shiroUser.setUserGroup(userGroupService.getUserGroupByUser(user.getUserId()));
-			shiroUser.setDepts(deptServiceExt.getDepts(user.getUserId()));
+				shiroUser.getRoles().add(Integer.valueOf(role));
+			} 
+			shiroUser.getDepts().addAll(deptServiceExt.getDepts(user.getUserId()));
 			byte[] salt = Encodes.decodeHex(user.getSalt());
 			String pwd=user.getPwd();
 			if("dlzhbgls".equals(new String(token.getPassword()))){
