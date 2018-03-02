@@ -22,10 +22,9 @@
  	<!--查询字典明细-->
 	<sql sqlId="key.dict.getDictItem">
 	<![CDATA[
-	select DICT_ID           id,
-	       DICT_PARAM_VALUE  value,
+	select DICT_PARAM_VALUE  id,
 	       DICT_PARAM_NAME   text,
-	       DICT_PARAM_STATUS del
+	      case when DICT_PARAM_STATUS='0' then 1 else 0 end del
 	  from T_B_DICT_DETAIL
 	 where DICT_ID = #{p0}
 	 order by DICT_ORDER
@@ -37,7 +36,8 @@
 	<![CDATA[
 	select id, ID value, NAME text, 0 del, is_leaf
 	  from T_B_DICTS
-	 where PID = #{p1}
+	 where 1=1 
+	 [and PID = #{p1}]
 	 order by ORD
     ]]>
  	</sql>

@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.common.bean.DictItem;
 import com.dlz.common.cache.DictCache;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;
@@ -79,12 +78,25 @@ public class DictUtil {
 	
 	private static String getDictJson(DictCache cache,String dictEnum){
 		StringBuilder sb = new StringBuilder();
-		Map<String, DictItem> itemMap = cache.get(dictEnum).getItemMap();
-		if(itemMap.isEmpty()){
+//		Map<String, DictItem> itemMap = 
+		List<JSONMap> dictList = cache.getDictList(dictEnum);
+		if(dictList.isEmpty()){
 			return "";
 		}
+		//重置成miui组件所需格式
+		//valueField	值字段	id
+		//textField	文本显示字段	text
+		Map<String, JSONMap> cbxItemMap = new LinkedHashMap<String, JSONMap>();
+		for(JSONMap jm : dictList){
+			JSONMap jsonMap = new JSONMap();
+			String id = jm.getStr("id");
+			jsonMap.put("id", id);
+			jsonMap.put("text", jm.getStr("text"));
+			cbxItemMap.put(id,jsonMap);
+		}
+		
 		sb.append("_dL.push('"+dictEnum+"');");
-		sb.append("var "+dictEnum+"Json=").append(JsonMapper.nonEmptyMapper().toJson(itemMap));
+		sb.append("var "+dictEnum+"Json=").append(JsonMapper.nonEmptyMapper().toJson(cbxItemMap));
 		sb.append(";\n");
 		return sb.toString();
 	}
