@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.apps.sys.service.DeptServiceExt;
 import com.dlz.framework.db.modal.ParaMap;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.User;
@@ -50,8 +51,12 @@ public class ShiroDbRealm extends AuthorizingRealm {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		User user = getUserByLoginId(token.getUsername());
 		if(user != null) {
-			ShiroUser shiroUser = new ShiroUser(user.getUserId(), user.getLoginId(), user.getUserName());
-			
+			//设置用户的价格等级
+	    	ParaMap paraMap = new ParaMap("select * from ptn_user_info where id = #{id}");
+	    	paraMap.addPara("id", user.getUserId());
+	    	ResultMap dataMap = commService.getMap(paraMap);
+	    	
+			ShiroUser shiroUser = new ShiroUser(user.getUserId(), user.getLoginId(), user.getUserName(),dataMap.getInt("priceLevel",0));
 			List<String> roleList=roleService.getRoleNameByUserId(shiroUser.getUserId());
 			for(String role:roleList){
 				if(Long.valueOf(role)==178l){//分销商角色不通过

@@ -2,6 +2,11 @@ package com.dlz.framework.ssme.shiro;
 
 import java.io.Serializable;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.dlz.framework.db.modal.ParaMap;
+import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.service.ICommService;
 import com.google.common.base.Objects;
 
 /**
@@ -32,13 +37,14 @@ public class ShiroUser extends UserInfos implements Serializable {
 		return userName;
 	}
 
-	public ShiroUser(Long userId, String loginId, String userName) {
+	public ShiroUser(Long userId, String loginId, String userName,int priceLevel) {
     	this.userId=userId;
     	this.loginId=loginId;
     	this.userName=userName;
     	super.setId(userId.intValue());
     	super.setL_id(loginId);
     	super.setName(userName);
+    	super.setPriceLevel(priceLevel);
 	}
 	/**
 	 * 本函数输出将作为默认的<shiro:principal/>输出.
