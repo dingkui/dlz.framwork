@@ -21,7 +21,12 @@ public class SpringHolder implements ApplicationContextAware {
 			new ClassPathXmlApplicationContext("classpath*:spring_cfg/*.xml");
 		}
 	}
-	public static void init(BeanFactory  applicationContext){
+	public static void init(String xml){
+		if(beanFactory==null){
+			beanFactory=new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml");
+		}
+	}
+	public static void init(BeanFactory applicationContext){
 		if(beanFactory==null){
 			beanFactory = applicationContext;
 		}

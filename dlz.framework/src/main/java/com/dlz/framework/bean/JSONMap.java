@@ -1,6 +1,5 @@
 package com.dlz.framework.bean;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,7 +57,56 @@ public class JSONMap extends HashMap<String,Object>{
 		}
 		return this;
 	}
-
+	/**
+	 * 
+	 * @param key
+	 * @param obj
+	 * @param joinMethod 
+	 * 		0:替换原有信息
+	 * 		1：加入到原有数组中
+	 * 		2：合并到原有数组中
+	 * 		3：把原有数据跟新数据构造新数组 
+	 * @return
+	 */
+	public JSONMap add(String key,Object obj,int joinMethod){
+		Object o=this.get(key);
+		if(o==null){
+			put(key, obj);
+			return this;
+		}
+		switch(joinMethod){
+			case 0:
+				put(key, obj);
+				break;
+			case 1:
+				if(o instanceof Collection||o instanceof Object[]){
+					List list = ValUtil.getList(o);
+					list.add(obj);
+					put(key, list);
+				}
+				break;
+			case 2:
+				if(o instanceof Collection||o instanceof Object[]){
+					List list = ValUtil.getList(o);
+					list.add(obj);
+					if(obj instanceof Collection||obj instanceof Object[]){
+						list.addAll(ValUtil.getList(obj));
+					}
+					put(key, list);
+				}
+				break;
+			case 3:
+				List list = new ArrayList();
+				list.add(o);
+				list.add(obj);
+				put(key, list);
+				break;
+		}
+		return this;
+	}
+	public JSONMap add(String key,Object obj){
+		return add(key, obj, 3);
+	}
 	public BigDecimal getBigDecimal(String key){
 		return  getBigDecimal(key,null);
 	}
