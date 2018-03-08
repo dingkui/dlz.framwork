@@ -1,8 +1,10 @@
 package com.dlz.framework.db.modal;
 
+import java.io.Serializable;
 import java.util.List;
 
-class PageMiniUi<T> {
+class PageMiniUi<T>   implements Serializable{
+	private static final long serialVersionUID = 5813053459081355103L;
 	public static final int DEFAULT_PAGE_SIZE = 30;
 	protected int pageSize = DEFAULT_PAGE_SIZE;
 	protected int pageIndex=0;//从0开始
