@@ -27,11 +27,11 @@
  	</sql>
  	<sql sqlId="key.comm.pageSql">
 	<![CDATA[
-		[select * from ( select row_.*, rownum rownum_ from (^#{page.begin}]
+		[select * from (select a1.*,rownum rownum_ from ( ^#{page.begin}]
 			[select * from ( ^#{page.orderBy}]
 				${_sql}
 			[) order by ${page.orderBy}]
-		[) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end}]
+		[) a1 where rownum <=#{page.end} [ order by ${page.orderBy}]) where rownum_> #{page.begin}]
     ]]>
  	</sql>
  	<sql sqlId="key.comm.cntSql">
