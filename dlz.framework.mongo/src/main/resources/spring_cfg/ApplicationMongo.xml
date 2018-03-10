@@ -13,8 +13,10 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd" default-autowire="byName" default-lazy-init="false">
 
-	<!-- <bean id="nosqlDbInfo" class="com.dlz.framework.db.nosql.NosqlDbInfo" />
+	<bean id="nosqlDbInfo" class="com.dlz.framework.db.nosql.NosqlDbInfo" />
 	<bean id="daoOperatorMongo" class="com.dlz.framework.db.nosql.mongo.DaoOperatorMongo" />
-	<bean id="nosqlCommServiceImpl" class="com.dlz.framework.db.nosql.service.impl.NosqlCommServiceImpl" /> -->
-	<context:component-scan base-package="com.dlz.framework.db.nosql" />
+	<bean id="nosqlCommServiceImpl" class="com.dlz.framework.db.nosql.service.impl.NosqlCommServiceImpl" >
+		<property name="daoOperator" ref="daoOperatorMongo"></property>
+	</bean>
+<!-- 	<context:component-scan base-package="com.dlz.framework.db.nosql" /> -->
 </beans>

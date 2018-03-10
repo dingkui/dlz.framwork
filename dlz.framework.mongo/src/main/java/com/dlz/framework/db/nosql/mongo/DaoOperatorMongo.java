@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.conversions.Bson;
-import org.springframework.stereotype.Service;
 
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.nosql.dao.IDaoOperator;
@@ -24,7 +23,6 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import com.mongodb.util.JSON;
 
-@Service
 public class DaoOperatorMongo implements IDaoOperator {
 	@Override
 	public List<ResultMap> getList(Find paraMap) {

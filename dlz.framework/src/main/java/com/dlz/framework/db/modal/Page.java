@@ -75,7 +75,7 @@ public class Page<T>  implements Serializable{
 		return end;
 	}
 
-	public Page setPageSize(int pageSize) {
+	public Page<T> setPageSize(int pageSize) {
 		if(pageSize>0){
 			this.pageSize = pageSize;
 			setCNT();
