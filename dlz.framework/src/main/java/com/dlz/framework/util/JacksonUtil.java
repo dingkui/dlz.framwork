@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
+import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.exception.CodeException;
@@ -52,7 +53,14 @@ public class JacksonUtil {
 			throw new CodeException("JSON转换异常"+e.getMessage(),e);
 		}
 	}
-	
+	public static void main(String[] args) {
+		JSONList l=new JSONList();
+		l.add(1);
+		l.add("xx");
+		System.out.println(getJson("aa"));
+		System.out.println(getJson(l));
+		System.out.println(getJson(null));
+	}
 	
 	public static ObjectMapper getObjectMapper() {
 		return objectMapper;

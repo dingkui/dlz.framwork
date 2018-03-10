@@ -111,9 +111,11 @@ public class JSONList extends ArrayList<Object>{
 	public Object[] getArray(String key,Object[] defaultV){
 		return ValUtil.getArray(JacksonUtil.at(this,key),defaultV);
 	}
+	@SuppressWarnings("rawtypes")
 	public List getList(String key){
 		return  getList(key,null);
 	}
+	@SuppressWarnings("rawtypes")
 	public List getList(String key,List defaultV){
 		return ValUtil.getList(JacksonUtil.at(this,key),defaultV);
 	}
@@ -187,9 +189,11 @@ public class JSONList extends ArrayList<Object>{
 	public Object[] getArray(int index,Object[] defaultV){
 		return ValUtil.getArray(get(index),defaultV);
 	}
+	@SuppressWarnings("rawtypes")
 	public List getList(int index){
 		return  getList(index,null);
 	}
+	@SuppressWarnings("rawtypes")
 	public List getList(int index,List defaultV){
 		return ValUtil.getList(get(index),defaultV);
 	}
