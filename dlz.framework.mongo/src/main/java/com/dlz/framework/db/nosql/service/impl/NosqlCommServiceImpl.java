@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.dlz.framework.db.DbCoverUtil;
 import com.dlz.framework.db.exception.DbException;
@@ -22,6 +23,7 @@ import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
 
 @SuppressWarnings("unchecked")
+@Service
 public class NosqlCommServiceImpl implements INosqlService {
 	private static MyLogger logger = MyLogger.getLogger(NosqlCommServiceImpl.class);
 	@Autowired
@@ -30,7 +32,7 @@ public class NosqlCommServiceImpl implements INosqlService {
 	@Override
 	public int insert(Insert insert) {
 		BsonUtil.dealParm(insert);
-		logger.info("insert:name="+ insert.getName() + " data=" + insert.getDataBson());
+//		logger.info("insert:name="+ insert.getName() + " data=" + insert.getDataBson());
 		try {
 			return ValUtil.getInt(daoOperator.insert(insert));
 		} catch (Exception e) {

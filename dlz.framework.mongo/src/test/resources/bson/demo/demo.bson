@@ -20,6 +20,8 @@
 		<![CDATA[
 			{
 				【age:{$gte:^${min}},】
+				【age1:{$gte:^${min}},】
+				【age2:{$gte:^${min}},】
 			}
 		]]>
 	</filter>

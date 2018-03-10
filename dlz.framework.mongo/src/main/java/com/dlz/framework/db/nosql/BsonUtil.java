@@ -33,8 +33,11 @@ public class BsonUtil{
 		return upt;
 	}
 	public static Insert dealParm(Insert insert){
+//		System.out.println(222);
 		BsonInfo bsonInfo = NosqlDbInfo.getBsonInfo(insert.getKey());
+//		System.out.println(3333);
 		insert.setName(bsonInfo.getName());
+//		System.out.println(bsonInfo.getName());
 		insert.createDataBson();
 		return insert;
 	}
@@ -77,12 +80,10 @@ public class BsonUtil{
 	  			o=createBson(m,NosqlDbInfo.getBsonInfo(key).getBson());
 	  		}
 	  		String matStr = "";
-	  		if(o instanceof Object[]){
-	  			matStr = "\""+StringUtils.join((Object[])o, "\",\"")+"\"";
+	  		if(o instanceof String){
+	  			matStr = (String)o;
 	  		}else if(o instanceof Collection){
-	  			matStr = "\""+StringUtils.join((Collection<?>)o, "\",\"")+"\"";
-	  		}else{
-	  			matStr=String.valueOf(o==null?"":o);
+	  			matStr = JacksonUtil.getJson(o);
 	  		}
 	  		matStr=StringUtils.NVL(matStr);
 	  		if(strPattern1.matcher(matStr).find()){

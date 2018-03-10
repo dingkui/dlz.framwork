@@ -37,6 +37,9 @@ public class MongoManager {
 	public static MongoCollection<DBObject> getDBColl(MongoDatabase db,String name) {
 		return db.getCollection(name,DBObject.class);
 	}
+	public static MongoCollection<DBObject> getDBColl(String name) {
+		return getDB().getCollection(name,DBObject.class);
+	}
 	public static MongoDatabase getDB(String dbName) {
 		return mongoClient.getDatabase(dbName);
 	}
@@ -75,12 +78,13 @@ public class MongoManager {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		new NosqlDbInfo();
-		List<DBObject> dbo = (List<DBObject>) JSON.parse("[{\"ccc\":6},{\"ccc\":3},{\"ccc\":1},{\"ccc\":2},{\"ccc\":5},{\"ccc\":4}]");  
+		List<DBObject> dbo = (List<DBObject>) JSON.parse("[{\"ccc\":6},{\"ccc\":\"222\"},{\"ccc\":3},{\"ccc\":1},{\"ccc\":2},{\"ccc\":5},{\"ccc\":4}]");  
 		MongoCollection<DBObject> collection = getDBColl(getDB(),"xx");
 		collection.drop();
 		collection.insertMany(dbo);
 		
-		Bson v=(Bson)JSON.parse("{\"ccc\":{\"$gte\":222}}");
+		Bson v=(Bson)JSON.parse("{ccc:\"222\"}");
+		System.out.println(v);
 
 		Bson v2=(Bson)JSON.parse("{}");
 		BasicDBObject sort=new BasicDBObject();
