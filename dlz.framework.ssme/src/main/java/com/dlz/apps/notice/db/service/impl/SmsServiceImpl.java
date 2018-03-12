@@ -43,9 +43,12 @@ public class SmsServiceImpl extends BaseServiceImpl<Sms, Long> implements SmsSer
 	public Boolean sendMsg(String templateCode, String phone, Map<String, String> params) {
 		try {
 			// 可自助调整超时时间
-			System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
-			System.setProperty("sun.net.client.defaultReadTimeout", "10000");
-			
+//			System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
+//			System.setProperty("sun.net.client.defaultReadTimeout", "10000");
+			logger.debug("==============阿里云短信发送开始==============");
+			logger.debug("手机号:"+phone);
+			logger.debug("请求参数："+JacksonUtil.writeValueAsString(params));
+			logger.debug("============================================");
 			// 初始化acsClient,暂不支持region化
 			IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
@@ -69,6 +72,8 @@ public class SmsServiceImpl extends BaseServiceImpl<Sms, Long> implements SmsSer
 			// request.setOutId("yourOutId");
 			// hint 此处可能会抛出异常，注意catch
 			SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+			logger.debug("返回结果:"+JacksonUtil.writeValueAsString(sendSmsResponse));
+			logger.debug("==============阿里云短信发送开始==============");
 			if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
 				return true;
 			}
