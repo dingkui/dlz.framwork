@@ -21,6 +21,7 @@ public class PageDealCommonLogic {
 		return str == null || "".equals(str);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static Page getPage(HttpServletRequest request) {
 		Page pi = new Page();
 		if (!isEmputy(request.getParameter("pageSize"))) {
@@ -73,6 +74,6 @@ public class PageDealCommonLogic {
 	}
 
 	public JSONResult createRsutlJson() {
-		return new JSONResult();
+		return JSONResult.createResult();
 	}
 }
