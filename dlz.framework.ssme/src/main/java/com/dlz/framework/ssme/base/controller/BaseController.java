@@ -73,16 +73,17 @@ public class BaseController extends PageDealCommonLogic {
 				continue;
 			}else{
 				String[] keys=key.split("_");
+				String field = key.substring(key.indexOf(keys[2]));
 				String val=entry.getValue()[0];
 				switch(keys[1]){
 					case "dict":
-						pm.getConvert().addDictConvert(keys[2], val);
+						pm.getConvert().addDictConvert(field, val);
 						break;
 					case "date":
-						if("all".equals(keys[2])){
+						if("all".equals(field)){
 							pm.getConvert().addDateConvert(DateFormatEnum.valueOf(val));
 						}else{
-							pm.getConvert().addDateConvert(keys[2],DateFormatEnum.valueOf(val));
+							pm.getConvert().addDateConvert(field,DateFormatEnum.valueOf(val));
 						}
 						break;
 				}

@@ -24,7 +24,7 @@ public class CounterServiceImpl extends BaseServiceImpl<Counter, Long> implement
         this.mapper=mapper;
     }
 
-		public String getNum(String str, int len) throws Exception {
+		public synchronized String getNum(String str, int len) throws Exception {
 			SearchParaMap pm = new SearchParaMap("S_counter");
 			pm.addCondition("str", "=", str);
 			ResultMap n = commService.getMap(pm);
