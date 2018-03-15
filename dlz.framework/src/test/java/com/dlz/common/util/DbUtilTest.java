@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.dlz.framework.db.DbInfo;
+import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.ColumnMapperToLower;
@@ -32,5 +34,16 @@ public class DbUtilTest {
 		ump.addEqCondition("equipment_id", 1);
 		ump.addSetValue("room_id", 1);
 		cs.excuteSql(ump);
+	}
+	
+	@Test
+	public void PageTest(){
+//		ParaMap ump=new ParaMap("select 1 from dual");
+//		ump.setPage(new Page(1, 1));
+//		cs.getMap(ump);
+		ParaMap ump2=new ParaMap("select t.* from PTN_GOODS_PRICE t where t.goods_id=310");
+//		ump2.addPara("gid", 310);
+		ump2.setPage(new Page<?>(1, 2,"id","asc"));
+		cs.getMap(ump2);
 	}
 }

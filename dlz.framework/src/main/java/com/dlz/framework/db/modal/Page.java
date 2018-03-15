@@ -1,9 +1,7 @@
 package com.dlz.framework.db.modal;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.util.StringUtils;
@@ -14,15 +12,13 @@ public class Page<T>  implements Serializable{
 	public static final int DEFAULT_PAGE_SIZE = 20;
 
 	private Integer pageSize = DEFAULT_PAGE_SIZE;
-	private Integer pageNow=1;//从1开始
+	private Integer pageIndex=-1;//从0开始
 	
-	private Integer begin=0;
-	private Integer end=0;
+	private Integer begin=null;
+	private Integer end=null;
 	
 	private Integer pages=0;//页数
 	private Integer count=0;//总条数
-	
-	private Map<String,Object> atrrs=new HashMap<String,Object>();
 	
 	private String sortField;
 	private String sortOrder;
@@ -30,17 +26,13 @@ public class Page<T>  implements Serializable{
 	protected List<T> data;
 
 	public Page(int pageIndex,int pageSize,String sortField,String sortOrder){
-		if(pageSize<=0){
-			pageSize=DEFAULT_PAGE_SIZE;
-		}
 		this.setPageSize(pageSize);
 		this.setPageIndex(pageIndex);
 		this.sortField=sortField;
 		this.sortOrder=sortOrder;
 	}
-	public Page(int pageIndex,int pageSize,String orderBy){
+	public Page(int pageIndex,int pageSize){
 		this(pageIndex, pageSize, null, null);
-		this.setOrderBy(orderBy);
 	}
 	public Page(){
 		this(0, DEFAULT_PAGE_SIZE, null, null);
@@ -55,53 +47,75 @@ public class Page<T>  implements Serializable{
 	public void setOrderBy(String orderBy) {
 		this.orderBy = SqlUtil.converStr2ClumnStr(orderBy);
 	}
-	public Map<String, Object> getAtrrs() {
-		return atrrs;
-	}
-	public void setAtrrs(Map<String, Object> atrrs) {
-		this.atrrs = atrrs;
-	}
 	public int getPageSize() {
 		return pageSize;
 	}
-	public int getBegin() {
+	public Integer getBegin() {
 		return begin;
 	}
 	
-	public int getEnd() {
-		if(this.end==0){
-			this.end=this.pageSize;
-		}
+	public Integer getEnd() {
 		return end;
 	}
 
 	public Page<T> setPageSize(int pageSize) {
-		if(pageSize>0){
-			this.pageSize = pageSize;
-			setCNT();
+		this.pageSize = pageSize;
+		setCNT();
+		return this;
+	}
+	public Page<T> setPageIndex(int pageIndex) {
+		this.pageIndex=pageIndex;
+		return setCNT();
+		
+	}
+	public Page<T> setCount(int count) {
+		this.count=count;
+		return setCNT();
+	}
+	
+	private Page<T> setCNT(){
+		//表示查询所有，不翻页
+		if(pageSize==0){
+			begin=null;
+			end=null;
+			count=0;
+			return this;
+		}
+		//表示查询头几条，不翻页
+		if(pageIndex==-1){
+			begin=null;
+			end=pageSize;
+			count=0;
+			return this;
+		}
+		
+		
+		pageSize = pageSize<0?DEFAULT_PAGE_SIZE:pageSize;
+		pageIndex = pageIndex<0?0:pageIndex;
+		
+		pages=count%pageSize==0?count/pageSize:count/pageSize+1;
+		if(pages>0&&pageIndex>pages-1){
+			setPageIndex(pages-1);
+		}
+		if(pageIndex==0){
+			begin=null;
+			end=pageSize;
+		}else{
+			begin=pageIndex*pageSize;
+			end=begin+pageSize;
 		}
 		return this;
 	}
 
-	public void setPageIndex(int pageIndex) {
-		setPageNow(pageIndex+1);
-	}
-
-	public int getPages() {
+	public Integer getPages() {
 		return pages;
 	}
 
-	public void setPages(int pages) {
-		this.pages = pages;
-	}
-
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
-
-	public void setCount(int count) {
-		this.count=count;
-		setCNT();
+	public Integer getTotal() {
+		return count;
 	}
 
 	public String getSortField() {
@@ -124,29 +138,15 @@ public class Page<T>  implements Serializable{
 	 * 获取pageNow
 	 * @return pageNow pageNow  
 	 */
-	public int getPageNow() {
-		return pageNow;
+	public Integer getPageNow() {
+		return pageIndex+1;
 	}
-	/** 
-	 * 设置pageNow 
-	 * @param pageNow pageNow 
+	/**  
+	 * 获取pageNow
+	 * @return pageNow pageNow  
 	 */
-	public void setPageNow(int pageNow) {
-		if(pageNow<=1){
-			pageNow=1;
-		}
-		this.pageNow = pageNow;
-		setCNT();
-	}
-	private void setCNT(){
-		pageSize = pageSize<0?1:pageSize;
-		
-		pages=count%pageSize==0?count/pageSize:count/pageSize+1;
-		if(pages>0&&getPageNow()>pages){
-			setPageNow(pages);
-		}
-		begin=(pageNow-1)*pageSize;
-		end=begin+pageSize;
+	public Integer getPageIndex() {
+		return pageIndex;
 	}
 	public List<T> getData() {
 		return data;

@@ -52,22 +52,22 @@ public class ParaUtil {
 		return pi;
 	}
 
-	public static Page getPage(JSONMap pg) {
-		Page page = new Page();
-		if(pg!=null){
-			if(pg.containsKey("pageSize")){
-				page.setPageSize(pg.getInt("pageSize",20));
-			}
-			if(pg.containsKey("pageNow")){
-				page.setPageNow(pg.getInt("pageNow",1));
-			}
-			if(pg.containsKey("sortField")){
-				page.setSortField(pg.getStr("sortField"));
-			}
-			if(pg.containsKey("sortOrder")){
-				page.setSortOrder(pg.getStr("sortOrder"));
-			}
-		}
-		return page;
-	}
+//	private static Page getPage(JSONMap pg) {
+//		Page page = new Page();
+//		if(pg!=null){
+//			if(pg.containsKey("pageSize")){
+//				page.setPageSize(pg.getInt("pageSize",20));
+//			}
+//			if(pg.containsKey("pageIndex")){
+//				page.setPageIndex(pg.getInt("pageIndex",1));
+//			}
+//			if(pg.containsKey("sortField")){
+//				page.setSortField(pg.getStr("sortField"));
+//			}
+//			if(pg.containsKey("sortOrder")){
+//				page.setSortOrder(pg.getStr("sortOrder"));
+//			}
+//		}
+//		return page;
+//	}
 }

@@ -27,11 +27,11 @@
  	</sql>
  	<sql sqlId="key.comm.pageSql">
 	<![CDATA[
-		[select * from (select a1.*,rownum rownum_ from ( ^#{page.begin}]
+		[select * from (select a1.*,rownum rownum_ from ( ^#{page.end}]
 			[select * from ( ^#{page.orderBy}]
 				${_sql}
 			[) order by ${page.orderBy}]
-		[) a1 where rownum <=#{page.end} [ order by ${page.orderBy}]) where rownum_> #{page.begin}]
+		[) a1 where rownum <=#{page.end} ) [where rownum_> #{page.begin}]]
     ]]>
  	</sql>
  	<sql sqlId="key.comm.cntSql">
@@ -41,7 +41,7 @@
  	</sql>
  	
  	<sql sqlId="key.comm.pageSql.mysql"><![CDATA[
-	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT #{page.begin},#{page.end} ]
+	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT [#{page.begin},]#{page.end} ]
  	]]>
  	</sql>
  	
