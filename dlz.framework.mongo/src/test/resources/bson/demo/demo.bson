@@ -13,15 +13,15 @@
 	<!-- 正则运算（//） -->
 	<filter key="filter.comm.byid">
 		<![CDATA[
-			{"_id":"${_id}"}
+			{"_id":${_id}}
 		]]>
 	</filter>
 	<filter key="filter.comm.findbyage">
 		<![CDATA[
 			{
-				【age:{$gte:^${min}},】
-				【age1:{$gte:^${min}},】
-				【age2:{$gte:^${min}},】
+				【age:{$gte:${min}},】
+				【age1:{$gte:${min}},】
+				【age2:{$gte:${min}},】
 			}
 		]]>
 	</filter>
@@ -62,7 +62,7 @@
 	 -->
 	<update key="update.comm.updateTest" name="test" filter="filter.comm.findbyage">
 		<![CDATA[
-			{$set:{"new":"${new}"}}
+			{$set:{"new":${new}}}
 		]]>
 	</update>
 		

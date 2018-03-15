@@ -15,6 +15,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.stereotype.Component;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.exception.DbException;
@@ -31,6 +32,7 @@ import com.dlz.framework.util.StringUtils;
  * 修改sql文件路径取得方式，以便执行init时可以刷新内存
  * 
  */
+@Component
 @SuppressWarnings("unchecked")
 public class NosqlDbInfo {
 	private static MyLogger logger = MyLogger.getLogger(NosqlDbInfo.class);

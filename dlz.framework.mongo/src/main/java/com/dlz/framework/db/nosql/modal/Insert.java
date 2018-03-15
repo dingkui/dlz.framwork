@@ -17,8 +17,9 @@ public class Insert extends NosqlBasePara{
 	public JSONList getDatas() {
 		return datas;
 	}
-	public void addData(JSONMap data) {
+	public Insert addData(JSONMap data) {
 		datas.add(data);
+		return this;
 	}
 	public String getDataBson() {
 		return dataBson;

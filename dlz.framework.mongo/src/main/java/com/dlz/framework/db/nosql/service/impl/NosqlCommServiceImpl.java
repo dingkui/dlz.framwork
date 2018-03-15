@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.dlz.framework.db.DbCoverUtil;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.Page;
@@ -19,13 +22,19 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
 
+@Service
 @SuppressWarnings("unchecked")
 public class NosqlCommServiceImpl implements INosqlService {
 	private static MyLogger logger = MyLogger.getLogger(NosqlCommServiceImpl.class);
+	@Autowired
 	private IDaoOperator daoOperator;
 	
 	public void setDaoOperator(IDaoOperator daoOperator) {
 		this.daoOperator = daoOperator;
+	}
+	
+	public NosqlCommServiceImpl(){
+		System.out.println("NosqlCommServiceImpl init。。");
 	}
 
 	@Override
@@ -44,7 +53,7 @@ public class NosqlCommServiceImpl implements INosqlService {
 		BsonUtil.dealParm(paraMap);
 		logger.info("update:key="+paraMap.getKey()+ " name="+ paraMap.getName() + " data=" + paraMap.getDataBson()+ " filter=" + paraMap.getFilterBson());
 		try {
-			return ValUtil.getInt(daoOperator.update(paraMap));
+			return daoOperator.update(paraMap);
 		} catch (Exception e) {
 			throw new DbException("update:key="+paraMap.getKey()+ " name:"+ paraMap.getName() + "data=" + paraMap.getDataBson()+ " filter=" + paraMap.getFilterBson() + " para=" + paraMap.getPara(), e);
 		}
@@ -232,8 +241,20 @@ public class NosqlCommServiceImpl implements INosqlService {
 			page=new Page<T>();
 		}
 		paraMap.setPage(page);
-		page.setCount(getCnt(paraMap));
-		if(page.getCount()>0){
+		
+		//pageNow==0的情况，不统计条数
+		boolean needCount=page.getPageNow()>0;
+		//是否需要查询列表（需要统计条数并且条数是0的情况不查询，直接返回空列表）
+		boolean needList=true;
+		
+		if(needCount){
+			page.setCount(getCnt(paraMap));
+			if(page.getCount()==0){
+				needList=false;
+			}
+		}
+		
+		if(needList){
 			if(t==ResultMap.class){
 				page.setData((List<T>) getMapList(paraMap));
 			}else{
@@ -243,5 +264,10 @@ public class NosqlCommServiceImpl implements INosqlService {
 			page.setData(new ArrayList<T>());
 		}
 		return page;
+	}
+
+	@Override
+	public long getSeq(String seqName) {
+		return daoOperator.getSeq(seqName);
 	}
 }

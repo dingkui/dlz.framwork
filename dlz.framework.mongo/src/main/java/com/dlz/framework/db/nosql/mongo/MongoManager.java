@@ -3,21 +3,14 @@ package com.dlz.framework.db.nosql.mongo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.conversions.Bson;
-
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.db.nosql.NosqlDbInfo;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.util.JSON;
 
 public class MongoManager {
 	private  static int PORT = 27017;// 端口
@@ -27,7 +20,7 @@ public class MongoManager {
 	private  static int CONN_TIME_OUT = 1000 * 60 * 1; // 与数据库建立连接的timeout
 	private  static String DBNAME = ""; // 数据库名称
 	private static MongoClient mongoClient = null;
-
+	
 	private MongoManager() {
 	}
 
@@ -75,27 +68,27 @@ public class MongoManager {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
-	public static void main(String[] args) {
-		new NosqlDbInfo();
-		List<DBObject> dbo = (List<DBObject>) JSON.parse("[{\"ccc\":6},{\"ccc\":\"222\"},{\"ccc\":3},{\"ccc\":1},{\"ccc\":2},{\"ccc\":5},{\"ccc\":4}]");  
-		MongoCollection<DBObject> collection = getDBColl(getDB(),"xx");
-		collection.drop();
-		collection.insertMany(dbo);
-		
-		Bson v=(Bson)JSON.parse("{ccc:\"222\"}");
-		System.out.println(v);
-
-		Bson v2=(Bson)JSON.parse("{}");
-		BasicDBObject sort=new BasicDBObject();
-		sort.append("ccc", 1);
-		FindIterable<DBObject> find = collection.find(v2);
-		find=find.skip(4).limit(2);
-		find=find.sort(sort);
-		MongoCursor<DBObject> iterator = find.iterator();
-		while(iterator.hasNext()){
-			System.out.println(iterator.next().toString());
-		}
-		System.out.println(collection.count(v));
-	}
+//	@SuppressWarnings("unchecked")
+//	public static void main(String[] args) {
+//		new NosqlDbInfo();
+//		List<DBObject> dbo = (List<DBObject>) JSON.parse("[{\"ccc\":6},{\"ccc\":\"222\"},{\"ccc\":3},{\"ccc\":1},{\"ccc\":2},{\"ccc\":5},{\"ccc\":4}]");  
+//		MongoCollection<DBObject> collection = getDBColl(getDB(),"xx");
+//		collection.drop();
+//		collection.insertMany(dbo);
+//		
+//		Bson v=(Bson)JSON.parse("{ccc:\"222\"}");
+//		System.out.println(v);
+//
+//		Bson v2=(Bson)JSON.parse("{}");
+//		BasicDBObject sort=new BasicDBObject();
+//		sort.append("ccc", 1);
+//		FindIterable<DBObject> find = collection.find(v2);
+//		find=find.skip(4).limit(2);
+//		find=find.sort(sort);
+//		MongoCursor<DBObject> iterator = find.iterator();
+//		while(iterator.hasNext()){
+//			System.out.println(iterator.next().toString());
+//		}
+//		System.out.println(collection.count(v));
+//	}
 }

@@ -58,4 +58,5 @@ public interface INosqlService {
 	<T> Page<T> getPage(Find paraMap, Class<T> t);
 	
 	public int getCnt(Find paraMap);
+	public long getSeq(String seqName);
 }

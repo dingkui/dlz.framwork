@@ -21,6 +21,7 @@ import com.dlz.framework.holder.SpringHolder;
  * 单元测试支撑类<br>
  * @author dk
  */
+@SuppressWarnings("rawtypes")
 public class DbUtilTest {
 	INosqlService cs;
 	
@@ -29,6 +30,7 @@ public class DbUtilTest {
 		SpringHolder.init("ApplicationMongo");
 		cs=SpringHolder.getBean(INosqlService.class);
 	}
+	
 	@Test
 	public void FindTest1(){
 		Find ump=new Find("find.article");
@@ -59,7 +61,7 @@ public class DbUtilTest {
 //		del.addFilterPara("min", 12);
 		cs.del(del);
 		Insert ump=new Insert("insert.comm.insertTest");
-		ump.addData(new JSONMap().add("age", 12).add("name", "asd1").add("time", new Date()));
+		ump.addData(new JSONMap().add("_id", 12).add("age", 12).add("name", "asd1").add("time", new Date()));
 		ump.addData(new JSONMap().add("age", 11).add("name", "asd2"));
 		ump.addData(new JSONMap().add("age", 13).add("name", "asd3"));
 		ump.addData(new JSONMap().add("age", 14).add("name", "asd4"));
@@ -68,11 +70,18 @@ public class DbUtilTest {
 	}
 	
 	@Test
+	public void SeqTest(){
+		System.out.println(cs.getSeq("aaaaaa"));
+		System.out.println(cs.getSeq("aaa"));
+		System.out.println(cs.getSeq("bbb"));
+	}
+	
+	@Test
 	public void UpdateTest(){
 		Update del=new Update("update.comm.updateTest");
-		del.addFilterPara("min", 12);
+		del.addFilterPara("min", 11);
 		del.addData("new","999");
-		cs.update(del);
+		System.out.println(cs.update(del));
 	}
 	
 	@Test

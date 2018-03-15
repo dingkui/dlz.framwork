@@ -1,6 +1,5 @@
 package com.dlz.framework.db.nosql;
 
-import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +10,6 @@ import com.dlz.framework.db.nosql.modal.Find;
 import com.dlz.framework.db.nosql.modal.Insert;
 import com.dlz.framework.db.nosql.modal.Update;
 import com.dlz.framework.util.JacksonUtil;
-import com.dlz.framework.util.StringUtils;
 
 
 /**
@@ -73,23 +71,21 @@ public class BsonUtil{
 			throw new DbException("解析过长或出现引用死循环！");
 		}
 		Matcher mat = strPattern1.matcher(sql);
-	  	while(mat.find()){
+		while(mat.find()){
 	  		String key=mat.group(1);
 	  		Object o = JacksonUtil.at(m,key);
-	  		if(o==null && key.startsWith("filter.")){
-	  			o=createBson(m,NosqlDbInfo.getBsonInfo(key).getBson());
-	  		}
 	  		String matStr = "";
-	  		if(o instanceof String){
-	  			matStr = (String)o;
-	  		}else if(o instanceof Collection){
+	  		if(o==null){
+	  			if(key.startsWith("filter.")){
+	  				matStr=createBson(m,NosqlDbInfo.getBsonInfo(key).getBson());
+	  			}
+	  		}else{
 	  			matStr = JacksonUtil.getJson(o);
 	  		}
-	  		matStr=StringUtils.NVL(matStr);
 	  		if(strPattern1.matcher(matStr).find()){
 	  			matStr=replaceSql(matStr,m);
 	  		}
-	  		sql = sql.replaceAll("\\$\\{"+key+"\\}", matStr);
+	  		sql= sql.replaceAll("\\$\\{"+key+"\\}", matStr);
 	  	}
 		return sql;
 	}

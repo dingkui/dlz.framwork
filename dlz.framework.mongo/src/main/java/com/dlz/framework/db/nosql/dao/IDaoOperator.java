@@ -19,4 +19,5 @@ public interface IDaoOperator  {
 	int insert(Insert paraMap);
 	int update(Update paraMap);
 	int del(Delete paraMap);
+	long getSeq(String seqName);
 }
