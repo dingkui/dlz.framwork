@@ -229,7 +229,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		Files files = new Files();
 		files.setfName(rm.getStr("fName"));
 		files.setId(rm.getLong("id"));
-		files.setId(rm.getLong("zlId"));
+		files.setZlId(rm.getStr("zlId"));
 		files.setfSurfix(rm.getStr("fSurfix"));
 		files.setfPath(rm.getStr("fPath"));
 		files.setfOrd(rm.getLong("fOrd"));
@@ -262,6 +262,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("dataId", dataId);
 		m.put("fOrd", fOrd);
+		m.put("fDel", 0);
 		List<ResultMap> rs = getFileUrls(m, fileTypeEnum);
 		List<Files> fl = new ArrayList<Files>();
 		for (ResultMap r : rs) {
