@@ -32,8 +32,19 @@ public class UserInfo extends AuthUser {
 	private int duDuty;//职务
 	
 	private int deptFId;//上级部门ID
+	
+	private int tjUserId;//上级部门ID
 
 	private List<Long> groups = new ArrayList<Long>();
+
+	
+	public int getTjUserId() {
+		return tjUserId;
+	}
+
+	public void setTjUserId(int tjUserId) {
+		this.tjUserId = tjUserId;
+	}
 
 	/**
 	 * 获取groups
