@@ -214,7 +214,7 @@ public class DeptController {
 	@RequestMapping(value="getDeptsMember")
 	public List<ResultMap> getDeptsMember(HttpServletRequest request) throws Exception{
 		String dCode=request.getParameter("dCode");
-		ParaMap pm = new ParaMap("key.dept.getDeptAndUsers",new Page(1,5000,"id"));
+		ParaMap pm = new ParaMap("key.dept.getDeptAndUsers",new Page(1,5000,"id","asc"));
 		pm.addPara("dCode", dCode);
 		return commService.getMapList(pm);
 	}
