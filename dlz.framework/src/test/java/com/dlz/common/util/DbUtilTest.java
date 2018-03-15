@@ -43,7 +43,7 @@ public class DbUtilTest {
 //		cs.getMap(ump);
 		ParaMap ump2=new ParaMap("select t.* from PTN_GOODS_PRICE t where t.goods_id=310");
 //		ump2.addPara("gid", 310);
-		ump2.setPage(new Page<?>(1, 2,"id","asc"));
+		ump2.setPage(new Page<>(1, 2,"id","asc"));
 		cs.getMap(ump2);
 	}
 }

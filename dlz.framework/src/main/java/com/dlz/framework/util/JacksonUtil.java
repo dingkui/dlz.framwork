@@ -38,7 +38,6 @@ public class JacksonUtil {
 		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-//		objectMapper.setSerializationInclusion(Include.USE_DEFAULTS);  
 		objectMapper.setSerializationInclusion(Include.NON_NULL);  
 
 		/**

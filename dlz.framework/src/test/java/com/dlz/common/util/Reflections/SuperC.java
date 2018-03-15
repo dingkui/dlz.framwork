@@ -11,6 +11,7 @@ public class SuperC {
 		return true;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unused" })
 	private boolean b(Map a){
 		System.out.println("SuperC.b");
 		System.out.println(a.toString());
