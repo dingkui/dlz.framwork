@@ -61,6 +61,9 @@ public abstract class BaseAjaxController{
 		if(member==null){
 			member=autoLogin(member,para, new JSONMap(ui),m);
 		}
+		if("nobind".equals(m.getMsg())){
+			return m;
+		}
 		m.putAll(doAjaxs(data, ui, member));
 		return m;
 	}
