@@ -14,11 +14,11 @@ public interface IPluginGroup extends IPluginBase{
 	 * @return
 	 */
 	public void regeistPlugin(IPlugin plugin);
-//	/**
-//	 * 取得所有的插件配置
-//	 * @return
-//	 */
-//	public List<String> getPluginClasses();
+	/**
+	 * 取得插件状态信息
+	 * @return
+	 */
+	public List<String[]> getPluginInfo();
 	/**
 	 * 取得所有插件
 	 * @return

@@ -8,31 +8,15 @@ import com.dlz.framework.plugin.inf.IPluginGroup;
 
 public abstract class BasePluginGroup extends BasePluginBase implements IPluginGroup {
 	protected List<IPlugin> plugins=new ArrayList<IPlugin>();
-//	public void init(BasePluginGroup group) {
-//		status=getStatus();
-//		List<String> pluginClasses = getPluginClasses();
-//		for(String className:pluginClasses){
-//			SpringHolder.registerBean(className);
-//		}
-//		
-//		if(status!=0){
-//			for(IPlugin plugin:plugins){
-//				if(plugin.getStatus()==2){
-//					plugin.start();
-//				}
-//			}
-//		}
-//	}
-	
-	public void init() {
-		getStatus();
-		if(status!=0){
-			for(IPlugin plugin:plugins){
-				if(plugin.getStatus()==2){
-					plugin.init();
-				}
-			}
+
+	@Override
+	public List<String[]> getPluginInfo() {
+		List<String[]> list=new ArrayList<String[]>();
+		list.add(new String[]{this.getClass().getName(),getDescribtion(),String.valueOf(getStatus())});
+		for(IPlugin plugin:plugins){
+			list.add(new String[]{plugin.getClass().getName(),plugin.getDescribtion(),String.valueOf(plugin.getStatus())});
 		}
+		return list;
 	}
 	
 	public void regeistPlugin(IPlugin plugin) {
@@ -40,7 +24,7 @@ public abstract class BasePluginGroup extends BasePluginBase implements IPluginG
 		status=getStatus();
 		if(status!=0){
 			if(plugin.getStatus()==2){
-				plugin.start();
+				plugin.init();
 			}
 		}
 	}

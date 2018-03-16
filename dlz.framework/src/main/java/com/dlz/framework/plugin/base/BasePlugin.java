@@ -35,10 +35,8 @@ public abstract class BasePlugin<T extends IPluginPile, T2 extends IPluginGroup>
 	}
 	@Override
 	public void init() {
-		if(status==1||status==2){
+		if(status==2){
 			pile.addPlugin2Pile(this,getPluginIndex());
-			status=2;
-			setStatus(status);
 		}
 	}
 

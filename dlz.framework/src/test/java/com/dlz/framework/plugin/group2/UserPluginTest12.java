@@ -1,4 +1,4 @@
-package com.dlz.framework.plugin.group;
+package com.dlz.framework.plugin.group2;
 
 import org.springframework.stereotype.Component;
 
@@ -15,11 +15,11 @@ import com.dlz.framework.plugin.base.BasePlugin;
  * IUserPlugin 插件的功能接口
  */
 @Component
-public class UserPluginTest1 extends BasePlugin<UserPluginPile,PluginGroup> implements IUserPlugin{
+public class UserPluginTest12 extends BasePlugin<UserPluginPile,PluginGroup2> implements IUserPlugin{
 	
 
 	public void beforeSave(int a){
-		System.out.println("Test1Plugin.beforeSave"+a);
+		System.out.println("UserPluginTest12.beforeSave"+a);
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class UserPluginTest1 extends BasePlugin<UserPluginPile,PluginGroup> impl
 	 */
 	@Override
 	public String getDescribtion() {
-		return "测试1";
+		return "测试12";
 	}
 
 }

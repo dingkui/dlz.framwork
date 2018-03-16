@@ -1,4 +1,4 @@
-package com.dlz.framework.plugin.group;
+package com.dlz.framework.plugin.group2;
 
 import org.springframework.stereotype.Component;
 
@@ -11,9 +11,9 @@ import com.dlz.framework.plugin.base.BasePluginGroup;
  *
  */
 @Component
-public class PluginGroup extends BasePluginGroup{
+public class PluginGroup2 extends BasePluginGroup{
 	@Override
 	public String getDescribtion() {
-		return "测试插件组";
+		return "测试插件组2";
 	}
 }
