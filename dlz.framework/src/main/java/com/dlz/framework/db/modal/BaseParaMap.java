@@ -13,7 +13,7 @@ import com.dlz.framework.util.EncryptUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("rawtypes")
-public class BaseParaMap implements Serializable{
+public class BaseParaMap implements Serializable,IPara{
 	private static final long serialVersionUID = 8374167270612933157L;
 	@JsonIgnore
 	private Convert convert;
@@ -53,8 +53,7 @@ public class BaseParaMap implements Serializable{
 		this.addDefualtConverter();
 	}
 	
-	
-	public BaseParaMap addParas(Map<String, Object> map) {
+	public IPara addParas(Map<String, Object> map) {
 		for (String key : map.keySet()) {
 			Object v=map.get(key);
 			if(v instanceof String[]){
@@ -76,7 +75,7 @@ public class BaseParaMap implements Serializable{
 	 * @param value
 	 * @return
 	 */
-	public BaseParaMap addPara(String key,Object value){
+	public IPara addPara(String key,Object value){
 		para.put(key, value==null?"":value);
 		return this;
 	}
