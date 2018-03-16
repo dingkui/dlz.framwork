@@ -35,6 +35,14 @@ public class StringUtils {
 	}
 
 	private static Pattern myMsgPattern = Pattern.compile("\\{([^\\{\\}]*)\\}");
+	
+	public static String getBeanId(String className){
+		int lastIndexOf = className.lastIndexOf(".");
+		return className.substring(lastIndexOf+1,lastIndexOf+2).toLowerCase()+className.substring(lastIndexOf+2);
+	}
+	public static String getBeanId(Class<?> clazz){
+		return getBeanId(clazz.getName());
+	}
 
 	public static String formatMsg(Object message, Object... paras) {
 		String msg = getStr(message, "");
