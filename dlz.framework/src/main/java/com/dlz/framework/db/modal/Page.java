@@ -50,6 +50,10 @@ public class Page<T>  implements Serializable{
 	public int getPageSize() {
 		return pageSize;
 	}
+	
+	public void setBegin(Integer begin) {
+		this.begin = begin;
+	}
 	public Integer getBegin() {
 		return begin;
 	}
@@ -97,13 +101,13 @@ public class Page<T>  implements Serializable{
 		if(pages>0&&pageIndex>pages-1){
 			setPageIndex(pages-1);
 		}
-		if(pageIndex==0){
-			begin=null;
-			end=pageSize;
-		}else{
+//		if(pageIndex==0){
+//			begin=null;
+//			end=pageSize;
+//		}else{
 			begin=pageIndex*pageSize;
 			end=begin+pageSize;
-		}
+//		}
 		return this;
 	}
 
