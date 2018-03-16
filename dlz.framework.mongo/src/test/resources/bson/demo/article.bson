@@ -25,12 +25,12 @@
 			{
 			【$and:[
 				 【{ArticleID:${id}】//ID
-				 【{channel_id:{$in:${dchannelIds}}},】//频道
-				 【{class_id:{$in:${classIds}}},】//栏目
+				 【{ChannelID:{$in:${dchannelIds}}},】//频道
+				 【{ClsssID:{$in:${classIds}}},】//栏目
 				 【{topics:{$in:${topics}}},】//专题：注意，专题存储是的专题对象数组 topic_id,topic_name
 				 【{ELITE:${isRecommend}},】
-				 【{hits:{$gte:${hisofhot}}},】
-				 【{update_time:{$gte:"${dateNum}"}},】
+				 【{Hits:{$gte:${hisofhot}}},】
+				 【{UpdateTime:{$gte:"${dateNum}"}},】
 				 【{default_picurl:{$exists:true}}},^${isPicUrl}】
 				 ],】
 				【"$text":{"$search":"${key}"}】

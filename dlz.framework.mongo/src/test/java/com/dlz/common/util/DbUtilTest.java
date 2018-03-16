@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
@@ -37,8 +38,8 @@ public class DbUtilTest {
 		Page setPageSize = ump.createPage().setPageSize(100);
 		setPageSize.setSortField("age");
 		setPageSize.setSortOrder("asc");
-		ump.addFilterPara("key", "查询");
-		ump.addFilterPara("id", 7941);
+		ump.addPara("key", "查询");
+		ump.addPara("id", 7941);
 		long t=new Date().getTime();
 		List<ResultMap> mapList = cs.getMapList(ump);
 		System.out.println(new Date().getTime()-t);
@@ -50,7 +51,7 @@ public class DbUtilTest {
 		Page setPageSize = ump.createPage().setPageSize(100);
 		setPageSize.setSortField("age");
 		setPageSize.setSortOrder("asc");
-		ump.addFilterPara("min", 12);
+		ump.addPara("min", 12);
 		List<ResultMap> mapList = cs.getMapList(ump);
 		System.out.println(mapList);
 	}
@@ -79,7 +80,7 @@ public class DbUtilTest {
 	@Test
 	public void UpdateTest(){
 		Update del=new Update("update.comm.updateTest");
-		del.addFilterPara("min", 11);
+		del.addPara("min", 11);
 		del.addData("new","999");
 		System.out.println(cs.update(del));
 	}
@@ -87,7 +88,19 @@ public class DbUtilTest {
 	@Test
 	public void DelTest(){
 		Delete ump=new Delete("delete.comm.deleteTest");
-		ump.addFilterPara("min", 14);
+		ump.addPara("min", 14);
 		cs.del(ump);
 	}
+	
+	@Test
+	public void FindaTest(){
+		Find ump=new Find("find.article");
+		ump.addPara("dchannelIds", new JSONList().adds(1004));
+		ump.createPage().setPageIndex(2).setSortOrder("contentId");
+		ump.getPage().setOrderBy("desc");
+		cs.getPage(ump);
+		System.out.println(ump.getPage());
+	}
+	
+	
 }
