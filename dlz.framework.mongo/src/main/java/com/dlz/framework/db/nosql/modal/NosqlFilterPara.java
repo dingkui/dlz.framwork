@@ -5,8 +5,9 @@ import java.util.Map;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.enums.ParaTypeEnum;
+import com.dlz.framework.db.modal.IPara;
 
-public class NosqlFilterPara extends NosqlBasePara{
+public class NosqlFilterPara extends NosqlBasePara implements IPara{
 	private static final long serialVersionUID = 8374167270612933157L;
 	private String filterBson;
 	private JSONMap para = new JSONMap();
@@ -19,7 +20,7 @@ public class NosqlFilterPara extends NosqlBasePara{
 	public void setFilterBson(String filterBson) {
 		this.filterBson = filterBson;
 	}
-	public NosqlFilterPara addFilterParas(Map<String, Object> map) {
+	public IPara addParas(Map<String, Object> map) {
 		for (String key : map.keySet()) {
 			Object v=map.get(key);
 			if(v instanceof String[]){
@@ -41,7 +42,7 @@ public class NosqlFilterPara extends NosqlBasePara{
 	 * @param value
 	 * @return
 	 */
-	public NosqlFilterPara addFilterPara(String key,Object value){
+	public IPara addPara(String key,Object value){
 		para.put(key, value==null?"":value);
 		return this;
 	}
