@@ -15,6 +15,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.bean.JSONMap;
@@ -33,6 +34,7 @@ import com.dlz.framework.util.StringUtils;
  * 
  */
 @Component
+@Lazy(false)
 @SuppressWarnings("unchecked")
 public class NosqlDbInfo {
 	private static MyLogger logger = MyLogger.getLogger(NosqlDbInfo.class);
