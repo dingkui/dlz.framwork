@@ -2,8 +2,6 @@ package com.dlz.framework.db.modal;
 
 import java.util.Map;
 
-import com.dlz.framework.db.SqlUtil;
-import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.dlz.framework.util.StringUtils;
 
 public class ParaMap extends BaseParaMap{

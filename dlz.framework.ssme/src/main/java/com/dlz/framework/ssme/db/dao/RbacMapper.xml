@@ -129,7 +129,8 @@
 		   ${pidCondition}
 		   and f.f_code like #{fCode}||'%'
 		   and f.f_state = 1
-		   and exists (select 1
+			<if test="isAdmin==null or !isAdmin">
+		     and exists (select 1
 		          from T_P_ROLE_FUN_OPT RF
 		         where F.FUN_OPT_ID = RF.FUN_OPT_ID
 		          <if test="roles != null and roles.size() > 0">
@@ -140,7 +141,8 @@
 		           <if test="roles != null and roles.size() == 0">
 		           	and 1 = 0
 		           </if>
-			)
+				)  	 
+		    </if>
 		 order by f.f_order
 	</select>
 </mapper>
