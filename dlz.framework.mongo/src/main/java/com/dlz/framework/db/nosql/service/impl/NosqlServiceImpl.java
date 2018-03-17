@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import com.dlz.framework.db.DbCoverUtil;
@@ -12,11 +13,11 @@ import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.nosql.BsonUtil;
-import com.dlz.framework.db.nosql.dao.IDaoOperator;
 import com.dlz.framework.db.nosql.modal.Delete;
 import com.dlz.framework.db.nosql.modal.Find;
 import com.dlz.framework.db.nosql.modal.Insert;
 import com.dlz.framework.db.nosql.modal.Update;
+import com.dlz.framework.db.nosql.operator.INosqlDaoOperator;
 import com.dlz.framework.db.nosql.service.INosqlService;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
@@ -24,70 +25,71 @@ import com.dlz.framework.util.ValUtil;
 
 @Service
 @SuppressWarnings("unchecked")
-public class NosqlCommServiceImpl implements INosqlService {
-	private static MyLogger logger = MyLogger.getLogger(NosqlCommServiceImpl.class);
+@DependsOn("nosqlDaoOperatorMongo")
+public class NosqlServiceImpl implements INosqlService {
+	private static MyLogger logger = MyLogger.getLogger(NosqlServiceImpl.class);
 	@Autowired
-	private IDaoOperator daoOperator;
+	private INosqlDaoOperator daoOperator;
 	
-	public void setDaoOperator(IDaoOperator daoOperator) {
+	public void setDaoOperator(INosqlDaoOperator daoOperator) {
 		this.daoOperator = daoOperator;
 	}
 	
-	public NosqlCommServiceImpl(){
+	public NosqlServiceImpl(){
 		System.out.println("NosqlCommServiceImpl init。。");
 	}
 
 	@Override
 	public int insert(Insert insert) {
 		BsonUtil.dealParm(insert);
-//		logger.info("insert:name="+ insert.getName() + " data=" + insert.getDataBson());
+		logger.info("insert:"+ insert.getName() + ":"+ JacksonUtil.getJson(insert));
 		try {
 			return ValUtil.getInt(daoOperator.insert(insert));
 		} catch (Exception e) {
-			throw new DbException("insert:name="+ insert.getName()+ " data=" + insert.getDataBson() , e);
+			throw new DbException("insert:"+ insert.getName()+ ":"+ JacksonUtil.getJson(insert) , e);
 		}
 	}
 
 	@Override
 	public int update(Update paraMap) {
 		BsonUtil.dealParm(paraMap);
-		logger.info("update:key="+paraMap.getKey()+ " name="+ paraMap.getName() + " data=" + paraMap.getDataBson()+ " filter=" + paraMap.getFilterBson());
+		logger.info("update:"+paraMap.getKey()+ ":"+ JacksonUtil.getJson(paraMap));
 		try {
 			return daoOperator.update(paraMap);
 		} catch (Exception e) {
-			throw new DbException("update:key="+paraMap.getKey()+ " name:"+ paraMap.getName() + "data=" + paraMap.getDataBson()+ " filter=" + paraMap.getFilterBson() + " para=" + paraMap.getPara(), e);
+			throw new DbException("update:key="+paraMap.getKey()+ ":"+ JacksonUtil.getJson(paraMap), e);
 		}
 	}
 
 	@Override
 	public int del(Delete paraMap) {
 		BsonUtil.dealParm(paraMap);
-		logger.info("del:key="+paraMap.getKey() + " name="+ paraMap.getName()+ " filter=" + paraMap.getFilterBson());
+		logger.info("del:"+paraMap.getKey() + ":"+ JacksonUtil.getJson(paraMap));
 		try {
 			return ValUtil.getInt(daoOperator.del(paraMap));
 		} catch (Exception e) {
-			throw new DbException(paraMap.getKey()+ "name:"+ paraMap.getName() + ":" + paraMap.getFilterBson() + " para:" + paraMap.getPara(), e);
+			throw new DbException(paraMap.getKey()+ ":"+ JacksonUtil.getJson(paraMap), e);
 		}
 	}
 	
 	@Override
 	public int getCnt(Find paraMap) {
 		paraMap = BsonUtil.dealParm(paraMap);
-		logger.info("getCnt:"+paraMap.getKey()+ "name:"+ paraMap.getName() + "[" + paraMap.getFilterBson()+ "]para:[" + paraMap.getPara()+"]");
+		logger.info("getCnt:"+paraMap.getKey()+ ":"+ JacksonUtil.getJson(paraMap));
 		try {
 			return ValUtil.getInt(daoOperator.getCnt(paraMap));
 		} catch (Exception e) {
-			throw new DbException(paraMap.getKey() + "name:"+ paraMap.getName()+ ":" + paraMap.getFilterBson() + " para:" + paraMap.getPara(), e);
+			throw new DbException(paraMap.getKey() + ":"+ JacksonUtil.getJson(paraMap), e);
 		}
 	}
 	
 	private List<ResultMap> getList(Find paraMap) {
 		paraMap = BsonUtil.dealParm(paraMap);
-		logger.info("getList:"+paraMap.getKey() + "name:"+ paraMap.getName() + "[" + paraMap.getFilterBson()+ "]para:[" + paraMap.getPara()+"]");
+		logger.info("getList:"+paraMap.getKey() + ":"+ JacksonUtil.getJson(paraMap));
 		try {
 			return daoOperator.getList(paraMap);
 		} catch (Exception e) {
-			throw new DbException(e.getMessage()+" "+paraMap.getKey()+ "name:"+ paraMap.getName() + ":" + paraMap.getFilterBson() + " para:" + paraMap.getPara(), e);
+			throw new DbException(e.getMessage()+" "+paraMap.getKey()+ ":"+ JacksonUtil.getJson(paraMap), e);
 		}
 	}
 	

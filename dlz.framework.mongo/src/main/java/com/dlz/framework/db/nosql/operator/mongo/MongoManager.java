@@ -1,4 +1,4 @@
-package com.dlz.framework.db.nosql.mongo;
+package com.dlz.framework.db.nosql.operator.mongo;
 
 import java.util.ArrayList;
 import java.util.List;

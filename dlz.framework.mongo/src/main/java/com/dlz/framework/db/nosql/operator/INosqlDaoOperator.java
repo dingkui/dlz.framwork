@@ -1,4 +1,4 @@
-package com.dlz.framework.db.nosql.dao;
+package com.dlz.framework.db.nosql.operator;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.dlz.framework.db.nosql.modal.Update;
  * @author dk
  * @param <T>
  */
-public interface IDaoOperator  {
+public interface INosqlDaoOperator  {
 	List<ResultMap> getList(Find paraMap);
 	int getCnt(Find paraMap);
 	int insert(Insert paraMap);

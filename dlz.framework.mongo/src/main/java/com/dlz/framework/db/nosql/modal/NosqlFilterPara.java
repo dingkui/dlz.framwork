@@ -2,10 +2,13 @@ package com.dlz.framework.db.nosql.modal;
 
 import java.util.Map;
 
+import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.dlz.framework.db.modal.IPara;
+import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.ValUtil;
 
 public class NosqlFilterPara extends NosqlBasePara implements IPara{
 	private static final long serialVersionUID = 8374167270612933157L;
@@ -43,10 +46,38 @@ public class NosqlFilterPara extends NosqlBasePara implements IPara{
 	 * @return
 	 */
 	public IPara addPara(String key,Object value){
-		para.put(key, value==null?"":value);
+		if(key==null){
+			return this;
+		}
+		if(value==null){
+			value="";
+		}
+		if (value instanceof String) {
+			if(key.startsWith("2i_")){
+				String[] vals=((String)value).split(",");
+				JSONList list=new JSONList();
+				for(String val:vals){
+					if(StringUtils.isNumber(val)){
+						list.add(ValUtil.getLong(val));
+					}else{
+						list.add(val);
+					}
+				}
+				para.put(key.substring(3), list);
+			}else{
+				if(StringUtils.isNumber((String)value)){
+					para.put(key,ValUtil.getLong(value));
+				}else{
+					para.put(key,value);
+				}
+			}
+		}else{
+			para.put(key, value);
+		}
+		
 		return this;
 	}
-
+	
 	public JSONMap getPara() {
 		return para;
 	}

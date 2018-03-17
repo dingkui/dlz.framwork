@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.exception.DbException;
-import com.dlz.framework.db.nosql.mongo.MongoManager;
+import com.dlz.framework.db.nosql.operator.mongo.MongoManager;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
 
@@ -46,6 +46,7 @@ public class NosqlDbInfo {
 	
 	private static boolean initIng = false;
 	public NosqlDbInfo(){
+		System.out.println("NosqlDbInfo init..");
 		try {
 			init();
 			MongoManager.init(m_dbset);
