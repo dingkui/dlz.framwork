@@ -73,7 +73,7 @@ public class DictCache extends AbstractCache<String, Dict>{
 				}
 				List<DictItem> dictItems= commService.getBeanList(pm2, DictItem.class);
 				for(DictItem item:dictItems){
-					dict.getItemMap().put(item.getId(), item);
+					dict.getItemMap().put(item.getValue(), item);
 				}
 				return dict;
 			} 
