@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
@@ -50,7 +51,7 @@ import net.sf.json.JSONObject;
  * 用户控制器类 方法上的注释为页面中Button的标题
  */
 @Controller
-@RequestMapping("/rbac/user")
+@RequestMapping(ControllerConst.ADMIN+"/rbac/user")
 public class UserController extends BaseController{
 	private static MyLogger logger = MyLogger.getLogger(UserController.class);
 

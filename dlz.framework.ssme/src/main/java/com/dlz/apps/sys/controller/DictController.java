@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.common.bean.DictItem;
 import com.dlz.common.cache.DictCache;
 import com.dlz.framework.db.modal.Page;
@@ -28,7 +29,7 @@ import com.dlz.framework.ssme.db.service.DictServiceExt;
 import com.dlz.framework.ssme.util.criterias.Criterias;
 
 @Controller
-@RequestMapping(value = "/rbac/dict")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/dict")
 public class DictController {
 	private static MyLogger logger = MyLogger.getLogger(DictController.class);
 

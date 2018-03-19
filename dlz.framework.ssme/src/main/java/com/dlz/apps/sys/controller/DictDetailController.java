@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.ssme.db.model.DictDetail;
 import com.dlz.framework.ssme.db.model.DictDetailCriteria;
@@ -20,7 +21,7 @@ import com.dlz.framework.ssme.util.criterias.Criterias;
 import com.dlz.framework.util.JacksonUtil;
 
 @Controller
-@RequestMapping(value = "/rbac/dictDetail")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/dictDetail")
 public class DictDetailController {
 	private static MyLogger logger = MyLogger.getLogger(DictDetailController.class);
 

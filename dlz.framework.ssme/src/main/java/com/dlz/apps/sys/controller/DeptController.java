@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.modal.InsertParaMap;
@@ -46,7 +47,7 @@ import com.dlz.framework.util.StringUtils;
  * 2013-8-25
  */
 @Controller
-@RequestMapping("/rbac/dept")
+@RequestMapping(ControllerConst.ADMIN+"/rbac/dept")
 public class DeptController {
 	private static MyLogger logger = MyLogger.getLogger(DeptController.class);
 	

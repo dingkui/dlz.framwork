@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dlz.apps.ControllerConst;
+
 /**
  * LoginController负责打开登录页面(GET请求)和登录出错页面(POST请求)，
 
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author calvin
  */
 @Controller
-@RequestMapping(value = "/login")
+@RequestMapping(value = ControllerConst.ADMIN+"/login")
 public class LoginController {
 
 	@RequestMapping(method = RequestMethod.GET)

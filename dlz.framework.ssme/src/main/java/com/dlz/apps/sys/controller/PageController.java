@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.common.logic.interfaces.IWapLogic;
 import com.dlz.framework.bean.JSONMap;
@@ -28,7 +29,7 @@ import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.util.JacksonUtil;
 @Controller
-@RequestMapping(value = "")
+@RequestMapping(value = ControllerConst.ADMIN)
 public class PageController extends BaseController{
 	private static MyLogger logger = MyLogger.getLogger(PageController.class);
 	@Autowired

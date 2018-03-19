@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.file.db.model.Files;
 import com.dlz.apps.file.db.service.FilesService;
 import com.dlz.apps.file.enums.FileTypeEnum;
@@ -33,7 +34,7 @@ import com.dlz.framework.util.JacksonUtil;
  * 
  */
 @Controller
-@RequestMapping(value = "/fileUpload")
+@RequestMapping(value = ControllerConst.ADMIN+"/fileUpload")
 public class FileUploadController extends BaseController {
 	@Autowired
 	FilesService filesService;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.cache.DictsCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
@@ -29,7 +30,7 @@ import com.dlz.framework.util.MapUtil;
 import com.dlz.framework.util.StringUtils;
 @SuppressWarnings("unchecked")
 @Controller
-@RequestMapping(value = "/dicts")
+@RequestMapping(value = ControllerConst.ADMIN+"/dicts")
 public class DictsController extends BaseController {
 	@Autowired
 	ICommService commService;

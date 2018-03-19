@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.cache.MenuRolesCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
@@ -44,7 +45,7 @@ import com.google.common.collect.Sets;
  * RoleController 说明：角色管理模块相关功能  2013-8-25
  */
 @Controller
-@RequestMapping(value = "/rbac/role")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/role")
 public class RoleController {
 	private static MyLogger logger = MyLogger.getLogger(RoleController.class);
 

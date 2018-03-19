@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.service.DeptServiceExt;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
@@ -33,7 +34,7 @@ import com.google.common.collect.Maps;
  * 2013-8-25
  */
 @Controller
-@RequestMapping("/menu")
+@RequestMapping(ControllerConst.ADMIN+"/menu")
 public class MenuController {
 	private static MyLogger logger = MyLogger.getLogger(MenuController.class);
 	@Autowired
