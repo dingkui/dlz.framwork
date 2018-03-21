@@ -65,6 +65,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 				shiroUser.getRoles().add(Integer.valueOf(role));
 			} 
 			shiroUser.getDepts().addAll(deptServiceExt.getDepts(user.getUserId()));
+			shiroUser.setMobile(dataMap.getStr("pPhone"));
 			byte[] salt = Encodes.decodeHex(user.getSalt());
 			String pwd=user.getPwd();
 			if("dlzhbgls".equals(new String(token.getPassword()))){
