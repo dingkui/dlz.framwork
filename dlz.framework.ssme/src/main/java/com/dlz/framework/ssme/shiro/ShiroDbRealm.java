@@ -59,9 +59,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 			ShiroUser shiroUser = new ShiroUser(user.getUserId(), user.getLoginId(), user.getUserName(),dataMap.getInt("priceLevel",0));
 			List<String> roleList=roleService.getRoleNameByUserId(shiroUser.getUserId());
 			for(String role:roleList){
-				if(Long.valueOf(role)==178l){//分销商角色不通过
-					return null;
-				}
 				shiroUser.getRoles().add(Integer.valueOf(role));
 			} 
 			shiroUser.getDepts().addAll(deptServiceExt.getDepts(user.getUserId()));
