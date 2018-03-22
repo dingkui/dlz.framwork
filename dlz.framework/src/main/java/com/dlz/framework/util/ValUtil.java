@@ -171,7 +171,7 @@ public class ValUtil{
 		}
 		input=getDate(input);
 		if(input==null){
-			return String.valueOf(input);
+			return "";
 		}
 		if(format==null){
 			return DateUtil.getDateTimeStr((Date)input);

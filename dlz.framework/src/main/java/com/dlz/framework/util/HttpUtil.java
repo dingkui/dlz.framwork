@@ -314,7 +314,7 @@ public class HttpUtil {
 				br.close();
 			}
 		} catch (Exception e) {
-			logger.debug("HttpPost Exception:" + e.getMessage(), e);
+			logger.error("HttpPost Exception:" + e.getMessage()+" url:" + url);
 			throw e;
 		} finally {
 			logger.debug("HttpPost url:" + url + " para:" + para + " re:" + result);
@@ -326,7 +326,6 @@ public class HttpUtil {
 	public static String sendHttpGet(String url) throws Exception {
 		return sendHttpGet(url, "UTF-8");
 	}
-
 	public static String sendHttpGet(String url, String charsetName) throws Exception {
 		HttpClient httpClient = new HttpClient();
 		GetMethod postMethod = new GetMethod(url);

@@ -8,21 +8,16 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.apps.sys.cache.MenuRolesCache;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.enums.DateFormatEnum;
-import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.exception.BaseException;
-import com.dlz.framework.exception.JspException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.base.logic.PageDealCommonLogic;
 import com.dlz.framework.ssme.db.model.Dept;
@@ -149,57 +144,56 @@ public class BaseController extends PageDealCommonLogic {
 	 */
 	protected String dealFlow(HttpServletRequest request,BaseParaMap pm) {
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		try {
-			String mid = request.getParameter("menu_id");
-			if (mid != null) {
-				JSONMap flow = new JSONMap(menuCahe.get(Long.valueOf(mid)).getfFlow()); 
-				if(!flow.isEmpty()){
-					StringBuffer sql=new StringBuffer();
-					//判断数据权限（未设置则不判断，设置了但角色不存在则无数据权限）
-					if(!checkRole(menuRolesCache.get(Long.valueOf(mid)), loginUser.getRoles())){
-						sql.append(" and 1=0 ");
-					}else{
-						String sta=flow.getStr("sta","");
-						if(!"".equals(sta)){
-							sql.append(" and (").append(sta).append(")");
+		if(true){
+			throw new RuntimeException("test");
+		}
+		String mid = request.getParameter("menu_id");
+		if (mid != null) {
+			JSONMap flow = new JSONMap(menuCahe.get(Long.valueOf(mid)).getfFlow()); 
+			if(!flow.isEmpty()){
+				StringBuffer sql=new StringBuffer();
+				//判断数据权限（未设置则不判断，设置了但角色不存在则无数据权限）
+				if(!checkRole(menuRolesCache.get(Long.valueOf(mid)), loginUser.getRoles())){
+					sql.append(" and 1=0 ");
+				}else{
+					String sta=flow.getStr("sta","");
+					if(!"".equals(sta)){
+						sql.append(" and (").append(sta).append(")");
+					}
+					
+					//判断是否有数据管理员权限，有管理员权限则不做其他权限判断，未设置则表示无管理员权限配置
+					boolean hasadminRole=checkRole(flow.getStr("adminRole",""), loginUser.getRoles()) ;
+					if(!hasadminRole){
+						Dept dept = loginUser.getSaleDept();
+						String deptId=String.valueOf(dept.getdId());
+						String deptType=String.valueOf(dept.getdType());
+						String lastDeptId=String.valueOf(dept.getdFid());
+						String deptOpt = flow.getStr("dept","").replaceAll(":deptId", deptId).replaceAll(":deptType", deptType).replaceAll(":lastDeptId", lastDeptId);
+						if(!"".equals(deptOpt)){
+							sql.append(" and (").append(deptOpt).append(")");
 						}
 						
-						//判断是否有数据管理员权限，有管理员权限则不做其他权限判断，未设置则表示无管理员权限配置
-						boolean hasadminRole=checkRole(flow.getStr("adminRole",""), loginUser.getRoles()) ;
-						if(!hasadminRole){
-							Dept dept = loginUser.getSaleDept();
-							String deptId=String.valueOf(dept.getdId());
-							String deptType=String.valueOf(dept.getdType());
-							String lastDeptId=String.valueOf(dept.getdFid());
-							String deptOpt = flow.getStr("dept","").replaceAll(":deptId", deptId).replaceAll(":deptType", deptType).replaceAll(":lastDeptId", lastDeptId);
-							if(!"".equals(deptOpt)){
-								sql.append(" and (").append(deptOpt).append(")");
-							}
-							
-							//判断是否有部门经理权限，有部门经理员权限则不做其他权限判断
-							boolean hasMaRole=checkRole(flow.getStr("maRole",""), loginUser.getRoles()) ;
-							if(!hasMaRole){
-								String userId=String.valueOf(loginUser.getUserId());
-								String userOpt = flow.getStr("user","").replaceAll(":userId", userId);
-								if(!"".equals(userOpt)){
-									sql.append(" and (").append(userOpt).append(")");
-								}
+						//判断是否有部门经理权限，有部门经理员权限则不做其他权限判断
+						boolean hasMaRole=checkRole(flow.getStr("maRole",""), loginUser.getRoles()) ;
+						if(!hasMaRole){
+							String userId=String.valueOf(loginUser.getUserId());
+							String userOpt = flow.getStr("user","").replaceAll(":userId", userId);
+							if(!"".equals(userOpt)){
+								sql.append(" and (").append(userOpt).append(")");
 							}
 						}
 					}
-					String sqlKey=flow.getStr("sql");
-					if(sqlKey!=null){
-						pm.setSqlInput(sqlKey);
-					}
-					if(sql.length()>0){
-						pm.addPara("_flow", sql);
-						DbInfo.appendInfoToSql(pm.getSqlInput(), "${_flow}");
-					}
-					return flow.getStr("page");
 				}
+				String sqlKey=flow.getStr("sql");
+				if(sqlKey!=null){
+					pm.setSqlInput(sqlKey);
+				}
+				if(sql.length()>0){
+					pm.addPara("_flow", sql);
+					DbInfo.appendInfoToSql(pm.getSqlInput(), "${_flow}");
+				}
+				return flow.getStr("page");
 			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -223,28 +217,4 @@ public class BaseController extends PageDealCommonLogic {
 		}
 		return false;
 	}
-
-	
-	/** 基于@ExceptionHandler异常处理 */
-	@ExceptionHandler
-	public String exp(HttpServletRequest request, Exception ex) {
-		// 根据不同错误转向不同页面
-		if (ex instanceof DbException) {
-			request.setAttribute("ex", ex);
-			logger.error(ex.getMessage(), ex);
-			return "error/error";
-		}
-		if (ex instanceof TypeMismatchException) {
-			ex = JspException.buildJspException(ex.getMessage(), ex);
-			request.setAttribute("ex", ex);
-			logger.error(ex.getMessage(), ex);
-			return "error/error";
-		} else {
-			ex = new BaseException( ex.getMessage(),6001, ex);
-			request.setAttribute("ex", ex);
-			logger.error(ex.getMessage(), ex);
-			return "error/error";
-		}
-	}
-
 }
