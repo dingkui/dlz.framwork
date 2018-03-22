@@ -23,6 +23,7 @@
 	<sql sqlId="key.dict.getDictItem">
 	<![CDATA[
 	select DICT_PARAM_VALUE  id,
+		   DICT_PARAM_VALUE  value,
 	       DICT_PARAM_NAME   text,
 	      case when DICT_PARAM_STATUS='0' then 1 else 0 end del
 	  from T_B_DICT_DETAIL
