@@ -144,9 +144,7 @@ public class BaseController extends PageDealCommonLogic {
 	 */
 	protected String dealFlow(HttpServletRequest request,BaseParaMap pm) {
 		ShiroUser loginUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		if(true){
-			throw new RuntimeException("test");
-		}
+		 
 		String mid = request.getParameter("menu_id");
 		if (mid != null) {
 			JSONMap flow = new JSONMap(menuCahe.get(Long.valueOf(mid)).getfFlow()); 
