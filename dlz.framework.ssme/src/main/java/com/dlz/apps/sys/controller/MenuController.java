@@ -82,7 +82,7 @@ public class MenuController {
 			}
 			model.addAttribute("toDealList", mapList);
 			//更新日志
-			paraMap = new ParaMap("select * from de_update_log where is_show = 1 order by update_log_time desc");
+			paraMap = new ParaMap("select * from de_update_log where is_show = 1 order by update_log_time desc,id desc");
 			paraMap.addPara("is_show", 1);
 			List<ResultMap> logList = commService.getMapList(paraMap);
 			Map<String, List> dataMap = new HashMap<>();
