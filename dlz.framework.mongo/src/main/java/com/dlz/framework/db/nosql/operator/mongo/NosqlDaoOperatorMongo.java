@@ -24,6 +24,7 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import com.mongodb.util.JSON;
 
 @Service
 public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
@@ -71,7 +72,7 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 	@Override
 	public int insert(Insert paraMap) {
 		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(paraMap.getName());
-		List<DBObject> dbo = (List<DBObject>) BasicDBObject.parse(paraMap.getDataBson());  
+		List<DBObject> dbo = (List<DBObject>) JSON.parse(paraMap.getDataBson());  
 		dbColl.insertMany(dbo);
 		return dbo.size();
 	}
