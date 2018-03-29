@@ -114,7 +114,7 @@ public class ValUtil{
 		}
 		String r=input.toString();
 		
-		return !"false".equals(r)&&!"0".equals(r)&&!"".equals(r);
+		return !"false".equalsIgnoreCase(r)&&!"0".equals(r)&&!"".equals(r);
 	}
 	private static Number getNumber(Object input,Number defaultV){
 		if(input==null){

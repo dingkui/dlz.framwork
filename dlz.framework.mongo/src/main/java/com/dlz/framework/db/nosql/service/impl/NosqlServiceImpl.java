@@ -244,12 +244,10 @@ public class NosqlServiceImpl implements INosqlService {
 		}
 		paraMap.setPage(page);
 		
-		//pageNow==0的情况，不统计条数
-		boolean needCount=page.getPageNow()>0;
 		//是否需要查询列表（需要统计条数并且条数是0的情况不查询，直接返回空列表）
 		boolean needList=true;
 		
-		if(needCount){
+		if(page.isNeedCount()){
 			page.setCount(getCnt(paraMap));
 			if(page.getCount()==0){
 				needList=false;

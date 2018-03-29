@@ -6,6 +6,7 @@ import java.util.List;
 import org.bson.conversions.Bson;
 import org.springframework.stereotype.Service;
 
+import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.nosql.modal.Delete;
 import com.dlz.framework.db.nosql.modal.Find;
@@ -38,17 +39,18 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 		if(paraMap.getClumns()!=null){
 			find=find.projection(BasicDBObject.parse(paraMap.getClumns()));
 		}
-		if(paraMap.getPage()!=null){
-			if(paraMap.getPage().getSortField()!=null && paraMap.getPage().getSortOrder()!=null){
+		Page page = paraMap.getPage();
+		if(page!=null){
+			if(page.getSortField()!=null && page.getSortOrder()!=null){
 				BasicDBObject sort=new BasicDBObject();
-				sort.append(paraMap.getPage().getSortField(), "desc".equalsIgnoreCase(paraMap.getPage().getSortOrder())?-1:1);
+				sort.append(page.getSortField(), "desc".equalsIgnoreCase(page.getSortOrder())?-1:1);
 				find.sort(sort);
 			}
-			if(paraMap.getPage().getBegin()!=null){
-				find.skip(paraMap.getPage().getBegin());
+			if(page.isNeedFy()&&page.getBegin()!=null){
+				find.skip(page.getBegin());
 			}
-			if(paraMap.getPage().getPageSize()>0){
-				find.limit(paraMap.getPage().getPageSize());
+			if(page.getPageSize()>0){
+				find.limit(page.getPageSize());
 			}
 		}
 		

@@ -72,7 +72,22 @@ public class NosqlFilterPara extends NosqlBasePara implements IPara{
 				}
 			}
 		}else{
-			para.put(key, value);
+			if(key.startsWith("2i_")){
+				String[] vals=(String.valueOf(value)).split(",");
+				JSONList list=new JSONList();
+				for(String val:vals){
+					if(StringUtils.isNumber(val)){
+						list.add(ValUtil.getLong(val));
+					}else{
+						list.add(val);
+					}
+				}
+				para.put(key.substring(3), list);
+			}else{
+				para.put(key, value);
+			}
+			
+			
 		}
 		
 		return this;

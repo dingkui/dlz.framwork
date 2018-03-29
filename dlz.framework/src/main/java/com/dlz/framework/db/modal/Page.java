@@ -23,6 +23,23 @@ public class Page<T>  implements Serializable{
 	private String sortField;
 	private String sortOrder;
 	private String orderBy;
+	private boolean needFy=true;//是否需要分页
+	private boolean needCount=true;//是否需要统计条数
+	
+	public boolean isNeedFy() {
+		return needFy;
+	}
+	public void setNeedFy(boolean needFy) {
+		this.needFy = needFy;
+	}
+	
+	public boolean isNeedCount() {
+		return needCount;
+	}
+	public void setNeedCount(boolean needCount) {
+		this.needCount = needCount;
+	}
+
 	protected List<T> data;
 
 	public Page(int pageIndex,int pageSize,String sortField,String sortOrder){
@@ -86,10 +103,9 @@ public class Page<T>  implements Serializable{
 			return this;
 		}
 		//表示查询头几条，不翻页
-		if(pageIndex==-1){
+		if(!isNeedFy()){
 			begin=null;
 			end=pageSize;
-			count=0;
 			return this;
 		}
 		
