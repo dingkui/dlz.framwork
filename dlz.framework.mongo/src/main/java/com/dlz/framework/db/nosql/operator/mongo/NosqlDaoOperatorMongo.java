@@ -3,6 +3,7 @@ package com.dlz.framework.db.nosql.operator.mongo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.stereotype.Service;
 
@@ -83,9 +84,10 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 	public int update(Update paraMap) {
 		MongoDatabase db = MongoManager.getDB();
 		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(db, paraMap.getName());
-		Bson dbo=(Bson)BasicDBObject.parse(paraMap.getDataBson());  
+		Document update = new Document();  
+        update.append("$set", new Document(paraMap.getData())); 
 		Bson filter =(Bson)BasicDBObject.parse(paraMap.getFilterBson());  
-		UpdateResult updateMany = dbColl.updateMany(filter, dbo);
+		UpdateResult updateMany = dbColl.updateMany(filter, update);
 		return ValUtil.getInt(updateMany.getModifiedCount());
 	}
 
