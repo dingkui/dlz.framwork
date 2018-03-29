@@ -79,4 +79,18 @@ public interface FilesService extends BaseService<Files, Long> {
 	public Files get(Integer id);
 	
 	public Files getF(Integer id);
+	/**
+	 * 根据相对路径删除图片
+	 * @param fPath
+	 * @throws Exception
+	 */
+	void delFile(String fPath) throws Exception;
+	/**
+	 * 保存文件
+	 * @param inputStream
+	 * @param m
+	 * @return
+	 * @throws Exception 
+	 */
+	Files saveFile(InputStream inputStream, Map<String, Object> m) throws Exception;
 }

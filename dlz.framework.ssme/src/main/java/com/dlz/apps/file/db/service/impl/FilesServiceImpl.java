@@ -411,4 +411,42 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		}
 		return fl;
 	}
+	
+	public Files saveFile(InputStream fi, Map<String, Object> m) throws Exception {
+		String saveFolder = StringUtils.ObjNVLString(m.get("saveFolder"), "");
+		String surfix = StringUtils.ObjNVLString(m.get("fSurfix"), ".");
+		// 构建文件保存路径
+		SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		String cdate = sf.format(new Date());
+		String year = cdate.substring(0, 4);
+		String month = cdate.substring(4, 6);
+		StringBuilder folderPath = new StringBuilder();
+		folderPath.append(File.separator + "upload");
+		if(org.apache.commons.lang3.StringUtils.isNotBlank(saveFolder)){
+			folderPath.append(File.separator + saveFolder);
+		}
+		folderPath.append(File.separator + year+month);
+		folderPath.append(File.separator + cdate + surfix);
+		String filePath = folderPath.toString();
+
+		// 文件绝对路径
+		String targetPath = ConfigUtil.getConfig(UPLOAD_PATH) + filePath;
+		FileUtils.copyInputStreamToFile(fi, new File(targetPath));
+		Files files = new Files();
+		files.setfPath(filePath);// 存储地址
+		files.setHttpfPath(getImgPath(filePath));
+		return files;
+	}
+	
+	/**
+	 * 根据相对路径删除图片
+	 * @param fPath
+	 * @throws Exception
+	 */
+	public void delFile(String fPath) throws Exception {
+		File f = new File(ConfigUtil.getConfig(UPLOAD_PATH) + fPath);
+		if (f.isAbsolute()) {
+			f.delete();
+		}
+	}
 }

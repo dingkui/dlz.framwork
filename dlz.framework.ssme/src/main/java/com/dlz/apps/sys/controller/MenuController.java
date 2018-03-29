@@ -1,5 +1,7 @@
 package com.dlz.apps.sys.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +81,25 @@ public class MenuController {
 				mapList.add(map);
 			}
 			model.addAttribute("toDealList", mapList);
-			
+			//更新日志
+			paraMap = new ParaMap("select * from de_update_log where is_show = 1 order by update_log_time desc,id desc");
+			paraMap.addPara("is_show", 1);
+			List<ResultMap> logList = commService.getMapList(paraMap);
+			Map<String, List> dataMap = new HashMap<>();
+			if(logList != null && logList.size() > 0){
+				for (ResultMap resultMap : logList) {
+					String updateLogTime = resultMap.getStr("updateLogTime");
+					if(!dataMap.containsKey(updateLogTime)){
+						List<Map> dataList = new ArrayList<>();
+						dataList.add(resultMap);
+						dataMap.put(updateLogTime, dataList);
+					}else{
+						List list = dataMap.get(updateLogTime);
+						list.add(resultMap);
+					}
+				}
+			}
+			model.addAttribute("updatelogList", dataMap);
 			return "/welcome";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
