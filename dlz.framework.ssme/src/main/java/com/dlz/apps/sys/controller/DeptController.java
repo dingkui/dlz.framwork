@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.conver.impl.ClobConverter;
+import com.dlz.framework.db.enums.CharsetNameEnum;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
@@ -121,6 +123,7 @@ public class DeptController {
 		try {
 			ParaMap pMap=new ParaMap("select * from t_p_dept_account where deptId=#{did}");
 			pMap.addPara("did", request.getParameter("did"));
+			pMap.getConvert().addClassConvert(new ClobConverter(CharsetNameEnum.UTF8));
 			JSONMap deptAccount=commService.getBean(pMap, JSONMap.class);
 			if(deptAccount==null){
 				deptAccount=new JSONMap();
@@ -362,7 +365,7 @@ public class DeptController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addOrUpdateAccount")
-	public String addOrUpdateAccount(Integer deptid,String bank,String accounts,String company) throws Exception {
+	public String addOrUpdateAccount(Integer deptid,String bank,String accounts,String company,String alipay,String weixin) throws Exception {
 		//1、查询该部门是否有银行账户信息
 		ParaMap pMap=new ParaMap("select count(1) count from t_p_dept_account where deptId=#{deptId}");
 		pMap.addPara("deptId", deptid);
@@ -373,6 +376,8 @@ public class DeptController {
 			uMap.addSetValue("bank", bank);
 			uMap.addSetValue("accounts", accounts);
 			uMap.addSetValue("company", company);
+			uMap.addSetValue("alipay", alipay);
+			uMap.addSetValue("weixin", weixin);
 			uMap.addEqCondition("deptid", deptid);
 			commService.excuteSql(uMap);
 		}else{
@@ -384,6 +389,8 @@ public class DeptController {
 			iMap.addValue("bank", bank);
 			iMap.addValue("accounts", accounts);
 			iMap.addValue("company", company);
+			iMap.addValue("alipay", alipay);
+			iMap.addValue("weixin", weixin);
 			commService.excuteSql(iMap);
 		}
 		return "ok";
