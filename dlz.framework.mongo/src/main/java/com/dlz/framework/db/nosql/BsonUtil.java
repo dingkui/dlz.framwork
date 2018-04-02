@@ -36,7 +36,6 @@ public class BsonUtil{
 //		System.out.println(3333);
 		insert.setName(bsonInfo.getName());
 //		System.out.println(bsonInfo.getName());
-		insert.createDataBson();
 		return insert;
 	}
 	public static Update dealParm(Update upt){

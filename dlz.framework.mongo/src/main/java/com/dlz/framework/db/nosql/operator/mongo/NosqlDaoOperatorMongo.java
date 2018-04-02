@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.stereotype.Service;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.nosql.modal.Delete;
@@ -26,8 +27,6 @@ import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
-import com.mongodb.util.JSON;
-
 @Service
 public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 	public NosqlDaoOperatorMongo(){
@@ -71,15 +70,18 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 		return ValUtil.getInt(dbColl.count(bson));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public int insert(Insert paraMap) {
 		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(paraMap.getName());
-		List<DBObject> dbo = (List<DBObject>) JSON.parse(paraMap.getDataBson());  
+		List<JSONMap> datas = paraMap.getDatas();
+		List<DBObject> dbo = new ArrayList<DBObject>();
+		for(JSONMap obj:datas){
+			dbo.add(BasicDBObject.parse(obj.toString()));
+		}
 		dbColl.insertMany(dbo);
 		return dbo.size();
 	}
-
+	
 	@Override
 	public int update(Update paraMap) {
 		MongoDatabase db = MongoManager.getDB();
