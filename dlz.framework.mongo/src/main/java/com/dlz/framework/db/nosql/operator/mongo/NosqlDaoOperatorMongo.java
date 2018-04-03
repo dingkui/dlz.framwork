@@ -16,6 +16,7 @@ import com.dlz.framework.db.nosql.modal.Insert;
 import com.dlz.framework.db.nosql.modal.Update;
 import com.dlz.framework.db.nosql.operator.INosqlDaoOperator;
 import com.dlz.framework.util.JacksonUtil;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -42,7 +43,7 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 		}
 		Page page = paraMap.getPage();
 		if(page!=null){
-			if(page.getSortField()!=null && page.getSortOrder()!=null){
+			if(StringUtils.isNotEmpty(page.getSortField()) && page.getSortOrder()!=null){
 				BasicDBObject sort=new BasicDBObject();
 				sort.append(page.getSortField(), "desc".equalsIgnoreCase(page.getSortOrder())?-1:1);
 				find.sort(sort);

@@ -62,7 +62,7 @@ public class BsonUtil{
 	private static String createBson(JSONMap para,String fileterBson){
 		fileterBson=getConditionStr(fileterBson, para);
 		fileterBson=replaceSql(fileterBson, para);
-		return fileterBson.replaceAll(",\\s*\\}", "}").replaceAll(",\\s*\\]", "]").replaceAll("\\{\\s*", "{").replaceAll("\\[\\s*", "[").replaceAll("\"", "");
+		return fileterBson.replaceAll(",\\s*\\}", "}").replaceAll(",\\s*\\]", "]").replaceAll("\\{\\s*", "{").replaceAll("\\[\\s*", "[");
 	}
 	
 	private static String replaceSql(String sql,JSONMap m){
