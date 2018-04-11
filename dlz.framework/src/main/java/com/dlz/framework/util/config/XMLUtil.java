@@ -1,4 +1,4 @@
-package com.dlz.framework.ssme.util.config;
+package com.dlz.framework.util.config;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,16 +18,11 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+
 import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings({"unchecked","rawtypes"})
 public class XMLUtil {
 	private static final MyLogger logger = MyLogger.getLogger(XMLUtil.class);
-
-	final static String XML_ID = "id";
-	final static String XML_TYPE_TEXT = "text";
-	final static String XML_TYPE_LIST = "list";
-	final static String XML_TYPE_MAP = "map";
-	final static String XML_TYPE_OBJECT = "object";
 
 	/**
 	 * 
@@ -119,7 +113,7 @@ public class XMLUtil {
 		return out.toString();
 	}
 	
-	private static Document readXmlAsDoc(String path) {
+	public static Document readXmlAsDoc(String path) {
 		Document doc = null;
 		try {
 			File file = new File(path);
@@ -135,56 +129,7 @@ public class XMLUtil {
 		return readXmlAsDoc(path).asXML();
 	}
 
-	public static Map<String, Object> loadXml(String path) {
-		try {
-			Map<String, Object> map = readXmlAsObject(readXmlAsDoc(path).getRootElement());
-			return map;
-		} catch (Exception e) {
-			logger.error(e.getMessage() + " path:" + path, e);
-		}
-		return null;
-	}
-
-	private static Map<String, Object> readXmlAsObject(Element element) throws Exception {
-		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		for (Element el : (List<Element>) element.elements()) {
-			String type = el.getName().toLowerCase();
-			String id = el.attributeValue(XML_ID);
-			if (id == null) {
-				throw new Exception(el.getName() + "未配置" + XML_ID);
-			}
-			if (XML_TYPE_MAP.equals(type)) {
-				map.put(id, readXmlAsMap(el));
-			}else	if (XML_TYPE_LIST.equals(type)) {
-				map.put(id, readXmlAsList(el));
-			}else	if (XML_TYPE_OBJECT.equals(type)) {
-				map.put(id, readXmlAsObject(el));
-			}else{
-				map.put(id, el.getText());
-			}
-		}
-		return map;
-	}
-
-	private static Map<String, String> readXmlAsMap(Element element) throws Exception {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		for (Element el : (List<Element>) element.elements()) {
-			String id = el.attributeValue(XML_ID);
-			if (id == null) {
-				throw new Exception(el.getName() + "未配置" + XML_ID);
-			}
-			map.put(id, el.getText());
-		}
-		return map;
-	}
-
-	private static List<String> readXmlAsList(Element element) {
-		List<String> list = new ArrayList<String>();
-		for (Element el : (List<Element>) element.elements()) {
-			list.add(el.getText());
-		}
-		return list;
-	}
+	
 
 	public static Document createDoc() {
 		Document doc = DocumentFactory.getInstance().createDocument();

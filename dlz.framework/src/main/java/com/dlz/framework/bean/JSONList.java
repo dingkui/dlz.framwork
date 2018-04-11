@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
@@ -32,17 +33,21 @@ public class JSONList extends ArrayList<Object>{
 			return;
 		}
 		if(obj instanceof CharSequence){
-			addAll(JacksonUtil.readValue(obj.toString(), JSONList.class));
+			String string = obj.toString().trim();
+			if(string.startsWith("[") && string.endsWith("]")){
+				addAll(JacksonUtil.readValue(obj.toString(), JSONList.class));
+			}
+			throw new CodeException("参数不能转换成JSONObject:"+obj.toString());
 		}else if(obj instanceof Collection){
 			for(Object ci:(Collection)obj){
-				add(new JSONMap(ci));
+				add(ValUtil.getJSONObject(ci));
 			}
 		}else if(obj instanceof Object[]){
-			for(Object ci:(Object[] )obj){
-				add(new JSONMap(ci));
+			for(Object ci:(Object[])obj){
+				add(ValUtil.getJSONObject(ci));
 			}
 		}else if(obj instanceof Serializable){
-			addAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONList.class));
+			addAll((JSONList)ValUtil.getJSONObject(obj));
 		}
 	}
 	

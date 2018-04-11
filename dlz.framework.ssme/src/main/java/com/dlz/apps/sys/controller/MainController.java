@@ -27,7 +27,7 @@ import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.db.service.FunOptService;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
-import com.dlz.framework.ssme.util.config.XMLMessageUtil;
+import com.dlz.framework.util.config.XmlConfigUtil;
 import com.dlz.framework.util.system.Reflections;
 import com.google.common.collect.Maps;
 
@@ -89,7 +89,7 @@ public class MainController extends BaseController{
 				DbInfo.reload();
 				break;
 			case "xml":
-				XMLMessageUtil.load();
+				XmlConfigUtil.reload();
 				break;
 			case "freemarker":
 				SpringHolder.getBean(FreemarkerResumeTemplateService.class).init();
@@ -109,7 +109,7 @@ public class MainController extends BaseController{
 			case "All":
 				ConfigUtil.loadProperty();
 				DbInfo.reload();
-				XMLMessageUtil.load();
+				XmlConfigUtil.reload();
 				SpringHolder.getBean(FreemarkerResumeTemplateService.class).init();
 				SpringHolder.getBean(FreemarkerEmailTemplateService.class).init();
 				SpringHolder.getBean(FreemarkerMsmTemplateService.class).init();

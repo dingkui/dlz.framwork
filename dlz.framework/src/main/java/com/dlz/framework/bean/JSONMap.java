@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
@@ -33,13 +34,15 @@ public class JSONMap extends HashMap<String,Object>{
 			return;
 		}
 		if(obj instanceof CharSequence){
-			putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
+			String string = obj.toString().trim();
+			if(string.startsWith("{") && string.endsWith("}")){
+				putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
+			}
+			throw new CodeException("参数不能转换成JSONMap:"+obj.toString());
 		}else if(obj instanceof Map){
 			putAll((Map)obj);
-		}else if(obj instanceof Object[] || obj instanceof Collection){
-			
 		}else{
-			putAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONMap.class));
+			putAll(JacksonUtil.coverObj(obj, JSONMap.class));
 		}
 	}
 	public static JSONMap createJsonMap(Object json){
