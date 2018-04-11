@@ -138,9 +138,8 @@ public class DictDetailController {
 	 * 删除-根据字典编号删除字典明细
 	 */
 	@ResponseBody
-	@RequestMapping(value = "delete/{dictId}/{dictParamValue}")
-	public String delete(@PathVariable("dictId") String dictId,
-			@PathVariable("dictParamValue") String dictParamValue) {
+	@RequestMapping(value = "/delete")
+	public String delete(String dictId,String dictParamValue) {
 		try {
 			DictDetailKey key = new DictDetailKey();
 			key.setDictId(dictId);

@@ -33,7 +33,7 @@ public class UserInfo extends AuthUser {
 	
 	private int deptFId;//上级部门ID
 	
-	private int tjUserId;//上级部门ID
+	private int tjUserId;//推荐人
 
 	private List<Long> groups = new ArrayList<Long>();
 

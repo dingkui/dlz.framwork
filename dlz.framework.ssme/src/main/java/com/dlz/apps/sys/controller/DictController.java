@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dlz.apps.ControllerConst;
 import com.dlz.common.bean.DictItem;
 import com.dlz.common.cache.DictCache;
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
@@ -65,9 +66,9 @@ public class DictController {
 
 	@ResponseBody
 	@RequestMapping(value = "/dictDetail/{dictCode}")
-	public List<ComboBoxModel> dictDetail(
+	public List<JSONMap> dictDetail(
 			@PathVariable(value = "dictCode") String dictCode) {
-		List<ComboBoxModel> list = dictServiceExt.getDictDetails(dictCode);
+		List<JSONMap> list = dictCache.getDictList(dictCode);
 		return list;
 	}
 
