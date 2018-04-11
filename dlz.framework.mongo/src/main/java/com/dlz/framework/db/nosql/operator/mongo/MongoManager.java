@@ -7,6 +7,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
@@ -58,10 +59,14 @@ public class MongoManager {
 			 */
 			build.maxWaitTime(m_dbset.getInt("mongo.opt.maxwatitime",MAX_WAIT_TIME) );
 			build.connectTimeout(m_dbset.getInt("mongo.opt.connnectionTimeout",CONN_TIME_OUT) ); // 与数据库建立连接的timeout设置为1分钟
-
 			List<ServerAddress> arrayList = new ArrayList<ServerAddress>();
 			arrayList.add(new ServerAddress(m_dbset.getStr("mongo.opt.host"), m_dbset.getInt("mongo.opt.port",PORT)));
-			mongoClient = new MongoClient(arrayList, build.build());
+			if(m_dbset.getStr("mongo.opt.user")!=null&&m_dbset.getStr("mongo.opt.userPwd")!=null){
+				MongoCredential credential = MongoCredential.createCredential(m_dbset.getStr("mongo.opt.user"), DBNAME, m_dbset.getStr("mongo.opt.userPwd").toCharArray()); 
+				mongoClient = new MongoClient(arrayList,credential, build.build());
+			}else{
+				mongoClient = new MongoClient(arrayList,build.build());
+			}
 		} catch (MongoException e) {
 
 		}
