@@ -43,7 +43,7 @@ public class JSONMap extends HashMap<String,Object>{
 		}else if(obj instanceof Map){
 			putAll((Map)obj);
 		}else{
-			putAll(JacksonUtil.coverObj(obj, JSONMap.class));
+			putAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONMap.class));
 		}
 	}
 	public static JSONMap createJsonMap(Object json){
