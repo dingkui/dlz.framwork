@@ -37,8 +37,9 @@ public class JSONMap extends HashMap<String,Object>{
 			String string = obj.toString().trim();
 			if(string.startsWith("{") && string.endsWith("}")){
 				putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
+			}else{
+				throw new CodeException("参数不能转换成JSONMap:"+obj.toString());
 			}
-			throw new CodeException("参数不能转换成JSONMap:"+obj.toString());
 		}else if(obj instanceof Map){
 			putAll((Map)obj);
 		}else{
