@@ -36,8 +36,9 @@ public class JSONList extends ArrayList<Object>{
 			String string = obj.toString().trim();
 			if(string.startsWith("[") && string.endsWith("]")){
 				addAll(JacksonUtil.readValue(obj.toString(), JSONList.class));
+			}else{
+				throw new CodeException("参数不能转换成JSONList:"+obj.toString());
 			}
-			throw new CodeException("参数不能转换成JSONObject:"+obj.toString());
 		}else if(obj instanceof Collection){
 			for(Object ci:(Collection)obj){
 				add(ValUtil.getJSONObject(ci));
