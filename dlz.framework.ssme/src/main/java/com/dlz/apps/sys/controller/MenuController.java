@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.service.DeptServiceExt;
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
@@ -100,6 +101,10 @@ public class MenuController {
 				}
 			}
 			model.addAttribute("updatelogList", dataMap);
+			//查询操作菜单
+			ParaMap op=new ParaMap("select fun_opt_id menuId from T_P_ROLE_FUN_OPT where role_id  in (${role_id})");
+			op.addPara("role_id", loginUser.getRoles().toArray());
+			model.addAttribute("menuIdList", commService.getBeanList(op,JSONMap.class));
 			return "/welcome";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
