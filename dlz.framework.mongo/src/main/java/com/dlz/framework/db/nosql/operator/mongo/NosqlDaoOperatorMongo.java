@@ -2,6 +2,10 @@ package com.dlz.framework.db.nosql.operator.mongo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -15,31 +19,26 @@ import com.dlz.framework.db.nosql.modal.Find;
 import com.dlz.framework.db.nosql.modal.Insert;
 import com.dlz.framework.db.nosql.modal.Update;
 import com.dlz.framework.db.nosql.operator.INosqlDaoOperator;
-import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.FindOneAndUpdateOptions;
 import com.mongodb.client.model.ReturnDocument;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 @Service
 public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
-	public NosqlDaoOperatorMongo(){
-		System.out.println("DaoOperatorMongo init。。");
-	}
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<ResultMap> getList(Find paraMap) {
-		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(paraMap.getName());
-		Bson bson=(Bson)BasicDBObject.parse(paraMap.getFilterBson());
-		FindIterable<DBObject> find = dbColl.find(bson);
+		MongoCollection<Document> dbColl = MongoManager.getDBColl(paraMap.getName());
+		
+		FindIterable<Document> find = dbColl.find(BasicDBObject.parse(paraMap.getFilterBson()));
 		if(paraMap.getClumns()!=null){
-			find=find.projection(BasicDBObject.parse(paraMap.getClumns()));
+			find=find.projection(new Document(paraMap.getClumns()));
 		}
 		Page page = paraMap.getPage();
 		if(page!=null){
@@ -57,27 +56,32 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 		}
 		
 		List<ResultMap> r = new ArrayList<ResultMap>();
-		MongoCursor<DBObject> iterator = find.iterator();
+		MongoCursor<Document> iterator = find.iterator();
 		while (iterator.hasNext()) {
-			r.add(JacksonUtil.readValue(iterator.next().toString(), ResultMap.class));
+			Set<Entry<String, Object>> entrySet = iterator.next().entrySet();
+			ResultMap rm=new ResultMap();
+			for (Map.Entry<String, Object> e : entrySet) {
+                rm.put(e.getKey(), e.getValue());
+            }
+			r.add(rm);
 		}
 		return r;
 	}
 
 	@Override
 	public int getCnt(Find paraMap) {
-		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(paraMap.getName());
+		MongoCollection<Document> dbColl = MongoManager.getDBColl(paraMap.getName());
 		Bson bson=(Bson)BasicDBObject.parse(paraMap.getFilterBson());
 		return ValUtil.getInt(dbColl.count(bson));
 	}
 
 	@Override
 	public int insert(Insert paraMap) {
-		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(paraMap.getName());
+		MongoCollection<Document> dbColl = MongoManager.getDB().getCollection(paraMap.getName());
 		List<JSONMap> datas = paraMap.getDatas();
-		List<DBObject> dbo = new ArrayList<DBObject>();
+		List<Document> dbo = new ArrayList<Document>();
 		for(JSONMap obj:datas){
-			dbo.add(BasicDBObject.parse(obj.toString()));
+			dbo.add(new Document(obj));
 		}
 		dbColl.insertMany(dbo);
 		return dbo.size();
@@ -85,10 +89,8 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 	
 	@Override
 	public int update(Update paraMap) {
-		MongoDatabase db = MongoManager.getDB();
-		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(db, paraMap.getName());
-		Document update = new Document();  
-        update.append("$set", new Document(paraMap.getData())); 
+		MongoCollection<Document> dbColl = MongoManager.getDB().getCollection(paraMap.getName());
+		Document update = new Document("$set", new Document(paraMap.getData()));  
 		Bson filter =(Bson)BasicDBObject.parse(paraMap.getFilterBson());  
 		UpdateResult updateMany = dbColl.updateMany(filter, update);
 		return ValUtil.getInt(updateMany.getModifiedCount());
@@ -96,8 +98,7 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 
 	@Override
 	public int del(Delete paraMap) {
-		MongoDatabase db = MongoManager.getDB();
-		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(db, paraMap.getName());
+		MongoCollection<Document> dbColl = MongoManager.getDBColl(paraMap.getName());
 		Bson filter = (Bson) BasicDBObject.parse(paraMap.getFilterBson());  
 		DeleteResult deleteMany = dbColl.deleteMany(filter);
 		return ValUtil.getInt(deleteMany.getDeletedCount());
@@ -114,8 +115,7 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 	 */
 	@Override
 	public long getSeq(String seqName) {
-		MongoDatabase db = MongoManager.getDB();
-		MongoCollection<DBObject> dbColl = MongoManager.getDBColl(db, "_SEQS");
+		MongoCollection<Document> dbColl = MongoManager.getDBColl( "_SEQS");
 		BasicDBObject fileter = new BasicDBObject("_id", seqName);
 //		fileter.put("_id",  Pattern.compile("^.*"+seqName+".*$", Pattern.CASE_INSENSITIVE) );
 //		System.out.println(fileter.toJson());

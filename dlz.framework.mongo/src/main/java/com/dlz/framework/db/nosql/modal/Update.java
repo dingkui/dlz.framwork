@@ -7,7 +7,6 @@ import com.dlz.framework.bean.JSONMap;
 public class Update extends NosqlFilterPara{
 	private static final long serialVersionUID = 8374167270612933157L;
 	private JSONMap data = new JSONMap();
-	private String dataBson;
 	public Update addDatas(Map<String, Object> map) {
 		for (String key : map.keySet()) {
 			Object v=map.get(key);
@@ -40,11 +39,5 @@ public class Update extends NosqlFilterPara{
 	}
 	public Update(String key) {
 		super(key);
-	}
-	public String getDataBson() {
-		return dataBson;
-	}
-	public void setDataBson(String dataBson) {
-		this.dataBson = dataBson;
 	}
 }

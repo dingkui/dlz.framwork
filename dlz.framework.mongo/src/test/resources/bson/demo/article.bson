@@ -24,7 +24,7 @@
 		<![CDATA[
 			{
 			【$and:[
-				 【{ArticleID:${id}】//ID
+				 【{_id:{$in:${ids}}},】//ID
 				 【{ChannelID:{$in:${dchannelIds}}},】//频道
 				 【{ClsssID:{$in:${classIds}}},】//栏目
 				 【{topics:{$in:${topics}}},】//专题：注意，专题存储是的专题对象数组 topic_id,topic_name
@@ -33,7 +33,7 @@
 				 【{UpdateTime:{$gte:"${dateNum}"}},】
 				 【{default_picurl:{$exists:true}}},^${isPicUrl}】
 				 ],】
-				【"$text":{"$search":"${key}"}】
+				【$text:{$search:${key}}】
 			}
 		]]>
 	</filter>
@@ -41,11 +41,5 @@
 	<insert key="insert.article" name="article"/>
 	<delete key="delete.article.byid" name="article" filter="filter.comm.byid"/>
 	<delete key="delete.article.byfilter" name="article" filter="filter.article"/>
-	<update key="update.article.all" name="article" filter="filter.article">
-		<![CDATA[
-			{
-			$set:{"new":"${new}"}
-			}
-		]]>
-	</update>
+	<update key="update.article.all" name="article" filter="filter.article"/>
 </sqlList>

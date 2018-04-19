@@ -46,7 +46,6 @@ public class NosqlDbInfo {
 	
 	private static boolean initIng = false;
 	public NosqlDbInfo(){
-		System.out.println("NosqlDbInfo init..");
 		try {
 			init();
 			MongoManager.init(m_dbset);
@@ -83,6 +82,7 @@ public class NosqlDbInfo {
 				}
 			}else{
 				if(file.getAbsolutePath().endsWith(".bson")){
+					logger.info("读取bson文件："+file.getAbsolutePath());
 					readBsonXml(new FileInputStream(file));
 				}
 			}
@@ -92,8 +92,6 @@ public class NosqlDbInfo {
 			logger.error(file.getAbsolutePath()+" 加载异常！", e);
 		}
 	}	
-	
-	
 	
 	private static void readBsonXml(InputStream is){
 		try {
@@ -123,7 +121,7 @@ public class NosqlDbInfo {
 					iteminfo.setFilter(filter);
 				}
 				m_sqlList.put(key, iteminfo);
-				logger.info(key + ":" + iteminfo);
+//				logger.info(key + ":" + iteminfo);
 			}
 		} catch (DocumentException e) {
 			logger.error(" 文件读取异常！", e);

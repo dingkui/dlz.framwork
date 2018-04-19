@@ -3,6 +3,7 @@ package com.dlz.common.util;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.Document;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +15,13 @@ import com.dlz.framework.db.nosql.modal.Delete;
 import com.dlz.framework.db.nosql.modal.Find;
 import com.dlz.framework.db.nosql.modal.Insert;
 import com.dlz.framework.db.nosql.modal.Update;
+import com.dlz.framework.db.nosql.operator.mongo.MongoManager;
 import com.dlz.framework.db.nosql.service.INosqlService;
 import com.dlz.framework.holder.SpringHolder;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.diagnostics.logging.Logger;
+import com.mongodb.diagnostics.logging.Loggers;
+
  
 
 /**
@@ -25,7 +31,7 @@ import com.dlz.framework.holder.SpringHolder;
 @SuppressWarnings("rawtypes")
 public class DbUtilTest {
 	INosqlService cs;
-	
+	 private static final Logger LOGGER = Loggers.getLogger("connection");
 	@Before
 	public void setUp() throws Exception {
 		SpringHolder.init("ApplicationMongo");
@@ -33,16 +39,43 @@ public class DbUtilTest {
 	}
 	
 	@Test
+	public void test1() throws Exception {
+		MongoCollection<Document> dbColl = MongoManager.getDBColl("test1");
+        String aaa1="www.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.comwww.runoob.com";
+        aaa1+=aaa1;
+        aaa1+=aaa1;
+        aaa1+=aaa1;
+        aaa1+=aaa1;
+        aaa1+=aaa1;
+		 long a1=System.currentTimeMillis();
+	        for(int i=0;i<100;i++){
+	        	Document dbObject = new Document("_id","3runoobkeyrunoobkeyrunoobkeyrunoobkey"+i);
+	        	dbObject.put("v", aaa1+i);
+				dbColl.insertOne(dbObject);
+	        }
+	        long a2=System.currentTimeMillis();
+	        System.out.println("存储用时："+ (a2-a1));
+	        for(int i=0;i<100;i++){
+//	        	Document dbObject = new Document("_id","3runoobkeyrunoobkeyrunoobkeyrunoobkey"+i);
+	        	String a=(String)dbColl.findOneAndDelete(null).get("v");
+//	        	dbColl.findOneAndDelete(null)
+	        }
+	        long a3=System.currentTimeMillis();
+	        System.out.println("读取用时："+ (a3-a2));
+	}
+	
+	@Test
 	public void FindTest1(){
 		Find ump=new Find("find.article");
 		Page setPageSize = ump.createPage().setPageSize(100);
-		setPageSize.setSortField("age");
-		setPageSize.setSortOrder("asc");
-		ump.addPara("key", "查询");
-		ump.addPara("id", 7941);
+//		setPageSize.setSortField("age");
+//		setPageSize.setSortOrder("asc");
+//		ump.addPara("key", "查询");
+		ump.addPara("2i_ids", 7941);
 		long t=new Date().getTime();
 		List<ResultMap> mapList = cs.getMapList(ump);
 		System.out.println(new Date().getTime()-t);
+		System.out.println(mapList.size());
 		System.out.println(mapList);
 	}
 	@Test

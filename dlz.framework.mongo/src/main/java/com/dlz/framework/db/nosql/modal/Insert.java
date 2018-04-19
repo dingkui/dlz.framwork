@@ -18,4 +18,8 @@ public class Insert extends NosqlBasePara{
 		datas.add(data);
 		return this;
 	}
+	public Insert addDatas(List<JSONMap> data) {
+		datas.addAll(data);
+		return this;
+	}
 }

@@ -8,7 +8,7 @@ import com.dlz.framework.util.StringUtils;
 public class Find extends NosqlFilterPara{
 	private static final long serialVersionUID = 8374167270612933157L;
 	private Page page;
-	private String clumns;
+	private JSONMap clumns;
 	public Find(String key, Page page) {
 		super(key);
 		this.page=page;
@@ -16,27 +16,25 @@ public class Find extends NosqlFilterPara{
 	public Find(String key) {
 		super(key);
 	}
-	public String getClumns() {
+	public JSONMap getClumns() {
 		return clumns;
 	}
 	public void setClumns(String clumns) {
 		if(clumns==null){
+			this.clumns=null;
 			return;
 		}
 		String[] strs=clumns.split(",");
-		JSONMap m=new JSONMap();
+		this.clumns=new JSONMap();
 		for(String str:strs){
 			str=str.trim();
 			if(!StringUtils.isEmpty(str)){
 				if(str.startsWith("!")){
-					m.put(str.substring(1), 0);
+					this.clumns.put(str.substring(1), 0);
 				}else{
-					m.put(str, 1);
+					this.clumns.put(str, 1);
 				}
 			}
-		}
-		if(!m.isEmpty()){
-			this.clumns = m.toString();
 		}
 	}
 	/**  

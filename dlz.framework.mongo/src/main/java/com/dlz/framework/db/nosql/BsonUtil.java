@@ -42,7 +42,6 @@ public class BsonUtil{
 		BsonInfo bsonInfo = NosqlDbInfo.getBsonInfo(upt.getKey());
 		upt.setName(bsonInfo.getName());
 		upt.setFilterBson(createBson(upt.getPara(),NosqlDbInfo.getBsonInfo(bsonInfo.getFilter()).getBson()));
-		upt.setDataBson(createBson(upt.getData(),bsonInfo.getBson()));
 		return upt;
 	}
 	public static Delete dealParm(Delete upt){

@@ -3,6 +3,8 @@ package com.dlz.framework.db.nosql.operator.mongo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
+
 import com.dlz.framework.bean.JSONMap;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
@@ -28,11 +30,11 @@ public class MongoManager {
 	public static MongoDatabase getDB() {
 		return mongoClient.getDatabase(DBNAME);
 	}
-	public static MongoCollection<DBObject> getDBColl(MongoDatabase db,String name) {
-		return db.getCollection(name,DBObject.class);
-	}
-	public static MongoCollection<DBObject> getDBColl(String name) {
-		return getDB().getCollection(name,DBObject.class);
+//	public static MongoCollection<DBObject> getDBColl(String name) {
+//		return getDB().getCollection(name,DBObject.class);
+//	}
+	public static MongoCollection<Document> getDBColl(String name) {
+		return getDB().getCollection(name);
 	}
 	public static MongoDatabase getDB(String dbName) {
 		return mongoClient.getDatabase(dbName);
