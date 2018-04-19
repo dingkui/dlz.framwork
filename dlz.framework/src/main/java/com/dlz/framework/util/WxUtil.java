@@ -34,6 +34,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.ThirdHolder;
 import com.dlz.framework.holder.ThirdHolder.ThirdInfo;
+import com.dlz.framework.holder.ThreadHolder;
 import com.dlz.framework.holder.TokenHolder;
 import com.dlz.framework.holder.TokenHolder.TokenInfo;
 import com.dlz.framework.logger.MyLogger;
@@ -573,6 +574,9 @@ public class WxUtil {
 					logger.error("session_key取得失败："+sessionData);
 					return thirdInfo;
 				}
+				//session_key存起来用于获取用户绑定手机号
+				ThreadHolder.getHttpRequest().getSession().setAttribute("session_key", sessionKey);
+				
 				String dataStr=decrypt(sessionData.getStr("session_key"), encryptedData, iv);
 				JSONMap userInfo=JacksonUtil.readValue(dataStr,JSONMap.class);
 				thirdInfo.setWx_xcx_openid(userInfo.getStr("openId"));

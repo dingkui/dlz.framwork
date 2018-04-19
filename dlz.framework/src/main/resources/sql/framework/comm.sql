@@ -41,7 +41,7 @@
  	</sql>
  	
  	<sql sqlId="key.comm.pageSql.mysql"><![CDATA[
-	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT [#{page.begin},]#{page.end} ]
+	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT [#{page.begin},]#{page.pageSize} ]
  	]]>
  	</sql>
  	
