@@ -27,7 +27,7 @@
 				 【{UpdateTime:{$gte:"${dateNum}"}},】
 				 【{default_picurl:{$exists:true}}},^${isPicUrl}】
 				 ],】
-				【{ELITE:${key}}】
+				【{ELITE:{$regex:"runoob",$options:"$i"}}】
 			}
 		]]>
 	</filter>
