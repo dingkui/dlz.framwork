@@ -1,6 +1,5 @@
 package com.dlz.framework.bean;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,23 +31,29 @@ public class JSONList extends ArrayList<Object>{
 		if(obj==null){
 			return;
 		}
-		if(obj instanceof CharSequence){
-			String string = obj.toString().trim();
-			if(string.startsWith("[") && string.endsWith("]")){
-				addAll(JacksonUtil.readValue(obj.toString(), JSONList.class));
-			}else{
-				throw new CodeException("参数不能转换成JSONList:"+obj.toString());
-			}
-		}else if(obj instanceof Collection){
+		if(obj instanceof Collection){
 			for(Object ci:(Collection)obj){
-				add(ValUtil.getJSONObject(ci));
+				add(ci);
 			}
 		}else if(obj instanceof Object[]){
 			for(Object ci:(Object[])obj){
-				add(ValUtil.getJSONObject(ci));
+				add(ci);
 			}
-		}else if(obj instanceof Serializable){
-			addAll((JSONList)ValUtil.getJSONObject(obj));
+		}else {
+			String string=null;
+			if(obj instanceof CharSequence){
+				string=obj.toString().trim();
+			}else{
+				string=JacksonUtil.getJson(obj);
+			}
+			if(string==null){
+				return;
+			}
+			if(string.startsWith("[") && string.endsWith("]")){
+				addAll(JacksonUtil.readValue(string, JSONList.class));
+			}else{
+				throw new CodeException("参数不能转换成JSONMap:"+string);
+			}
 		}
 	}
 	

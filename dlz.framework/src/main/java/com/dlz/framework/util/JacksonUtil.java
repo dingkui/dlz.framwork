@@ -15,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -54,12 +55,14 @@ public class JacksonUtil {
 		}
 	}
 	public static void main(String[] args) {
-		JSONList l=new JSONList();
-		l.add(1);
-		l.add("xx");
-		System.out.println(getJson("aa"));
-		System.out.println(getJson(l));
-		System.out.println(getJson(null));
+//		JSONList l=new JSONList();
+//		l.add(1);
+//		l.add("xx");
+//		System.out.println(getJson("aa"));
+//		System.out.println(getJson(l));
+//		System.out.println(getJson(null));
+		System.out.println(Map.class.isAssignableFrom(JSONMap.class));
+		System.out.println(ResultMap.class.isAssignableFrom(JSONMap.class));
 	}
 	
 	public static ObjectMapper getObjectMapper() {
@@ -119,18 +122,23 @@ public class JacksonUtil {
 			if(valueType.isAssignableFrom(o.getClass())){
 				return (T)o;
 			}
-			if(JSONMap.class.isAssignableFrom(valueType)){
-//				JSONMap newInstance = (JSONMap)valueType.newInstance();
-//				newInstance.putAll(new JSONMap(o));
-//				return (T)newInstance;
-				return (T)new JSONMap(o);
+			if(valueType.isAssignableFrom(JSONList.class)){
+				return (T)new JSONList(o);
 			}
-			return readValue(getJson(o), valueType);
+			String str=null;
+			if(o instanceof CharSequence){
+				str=o.toString().trim();
+			}else{
+				str=JacksonUtil.getJson(o);
+			}
+			return readValue(str, valueType);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
+	
+	
 	public static <T> T at(Object data,String key, Class<T> valueType){
 		Object o=at(data, key);
 		if(o==null){

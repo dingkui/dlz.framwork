@@ -33,17 +33,23 @@ public class JSONMap extends HashMap<String,Object>{
 		if(obj==null){
 			return;
 		}
-		if(obj instanceof CharSequence){
-			String string = obj.toString().trim();
-			if(string.startsWith("{") && string.endsWith("}")){
-				putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
-			}else{
-				throw new CodeException("参数不能转换成JSONMap:"+obj.toString());
-			}
-		}else if(obj instanceof Map){
+		if(obj instanceof Map){
 			putAll((Map)obj);
-		}else{
-			putAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONMap.class));
+		}else {
+			String string=null;
+			if(obj instanceof CharSequence){
+				string=obj.toString().trim();
+			}else{
+				string=JacksonUtil.getJson(obj);
+			}
+			if(string==null){
+				return;
+			}
+			if(string.startsWith("{") && string.endsWith("}")){
+				putAll(JacksonUtil.readValue(string, JSONMap.class));
+			}else{
+				throw new CodeException("参数不能转换成JSONMap:"+string);
+			}
 		}
 	}
 	public static JSONMap createJsonMap(Object json){

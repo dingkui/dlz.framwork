@@ -1,17 +1,11 @@
 package com.dlz.framework.util;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import com.dlz.framework.bean.JSONList;
-import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.exception.CodeException;
 
 /**
  * 对象转换工具类
@@ -107,7 +101,7 @@ public class ValUtil{
 			return defaultV;
 		}
 		if (input instanceof CharSequence) {
-			return ((CharSequence)input).toString();
+			return input.toString();
 		}
 		return input.toString();
 	}
@@ -147,28 +141,6 @@ public class ValUtil{
 			return list;
 		}
 		return defaultV;
-	}
-	public static Object getJSONObject(Object obj){
-		if(obj==null){
-			return null;
-		}
-		if(obj instanceof CharSequence){
-			String string = obj.toString().trim();
-			if(string.startsWith("[") && string.endsWith("]")){
-				return JacksonUtil.readValue(obj.toString(), JSONList.class);
-			}
-			if(string.startsWith("{") && string.endsWith("}")){
-				return JacksonUtil.readValue(obj.toString(), JSONMap.class);
-			}
-			throw new CodeException("参数不能转换成JSONObject:"+obj.toString());
-		}else if(obj instanceof Collection || obj instanceof Object[]){
-			return new JSONList(obj);
-		}else if(obj instanceof Map){
-			return new JSONMap(obj);
-		}else if(obj instanceof Serializable){
-			return JacksonUtil.readValue(JacksonUtil.getJson(obj), JSONMap.class);
-		}
-		return null;
 	}
 	
 	public static Date getDate(Object input){
