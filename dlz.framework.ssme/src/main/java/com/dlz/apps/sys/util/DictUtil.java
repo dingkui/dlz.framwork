@@ -7,12 +7,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.apps.sys.cache.DictCacheSsme;
+import com.dlz.common.cache.DictCache;
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.ssme.constants.Constants;
 import com.dlz.framework.ssme.db.model.Dict;
 import com.dlz.framework.ssme.db.model.DictCriteria;
-import com.dlz.framework.ssme.db.model.DictModel;
 import com.dlz.framework.ssme.db.service.DictService;
 import com.dlz.framework.ssme.util.xml.mapper.JsonMapper;
 import com.dlz.framework.util.StringUtils;
@@ -27,27 +27,17 @@ public class DictUtil {
 	 * @return
 	 */
 	public static String getOptions(String dictEnum,String defaultValue){
-		Map<String,DictModel> map = SpringHolder.getBean(DictCacheSsme.class).get(dictEnum);
+		List<JSONMap> dictList = SpringHolder.getBean(DictCache.class).getDictList(dictEnum);
 		StringBuilder sb = new StringBuilder();
-		for(String dictkey:map.keySet()){
-			DictModel dicm=map.get(dictkey);
-			sb.append("<option value='").append(dicm.getId()).append("'");
-			if(StringUtils.NVL(defaultValue).equals(dicm.getId())){
+		for(JSONMap dict:dictList){
+			String val = dict.getStr("id");
+			sb.append("<option value='").append(val).append("'");
+			if(StringUtils.NVL(defaultValue).equals(val)){
 				sb.append(" selected");
 			}
-			sb.append(">").append(dicm.getId()).append("</option>");
+			sb.append(">").append(dict.getStr("text")).append("</option>");
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * 取得字典对应的下拉框
-	 * @author dingkui
-	 * @param dictEnum
-	 * @return
-	 */
-	public static Map<String,DictModel> getDicts(String dictEnum){
-		return SpringHolder.getBean(DictCacheSsme.class).get(dictEnum);
 	}
 
 	/**
@@ -58,40 +48,16 @@ public class DictUtil {
 	 * @return
 	 */
 	public static Map<String,String> getOptions(String dictEnum){
-		Map<String,DictModel> map = SpringHolder.getBean(DictCacheSsme.class).get(dictEnum);
+		List<JSONMap> dictList = SpringHolder.getBean(DictCache.class).getDictList(dictEnum);
 		Map<String,String> map2 = new LinkedHashMap<String,String>();
-		for(String dictkey:map.keySet()){
-			map2.put(dictkey, map.get(dictkey).getText());
-		}
-		return map2;
-	}
-	/**
-	 * 取得字典对应的下拉框
-	 * @author dingkui
-	 * @param dictEnum
-	 * @param defaultValue
-	 * @return
-	 */
-	public static Map<String,String> getSubOptions(String parentId){
-		Map<String,DictModel> map = SpringHolder.getBean(DictCacheSsme.class).get(parentId);
-		Map<String,String> map2 = new LinkedHashMap<String,String>();
-		for(String dictkey:map.keySet()){
-			if(map.get(dictkey).getpId().equals(parentId)){
-				map2.put(dictkey, map.get(dictkey).getText());
-			}
+		for(JSONMap dict:dictList){
+			map2.put( dict.getStr("id"), dict.getStr("text"));
 		}
 		return map2;
 	}
 
-	public static String getNameByKey(String o, String de) {
-		if(o==null || o.equals("null")){
-			return "";
-		}
-		return SpringHolder.getBean(DictCacheSsme.class).getNameByKey(de, o);
-	}
-	
 	public static void makeJson(String jsonSavePath) throws Exception{
-		DictCacheSsme cache = SpringHolder.getBean(DictCacheSsme.class);
+		DictCache cache = SpringHolder.getBean(DictCache.class);
 		File folder = new File(jsonSavePath);
 		if(!folder.exists()){
 			folder.mkdirs();
@@ -110,14 +76,27 @@ public class DictUtil {
 		out.close();
 	}
 	
-	private static String getDictJson(DictCacheSsme cache,String dictEnum){
+	private static String getDictJson(DictCache cache,String dictEnum){
 		StringBuilder sb = new StringBuilder();
-		Map<String, DictModel> mapList =cache.get(dictEnum);
-		if(mapList.isEmpty()){
+//		Map<String, DictItem> itemMap = 
+		List<JSONMap> dictList = cache.getDictList(dictEnum);
+		if(dictList.isEmpty()){
 			return "";
 		}
-		sb.append("_dL.push('"+dictEnum.toString()+"');");
-		sb.append("var "+dictEnum.toString()+"Json=").append(JsonMapper.nonEmptyMapper().toJson(mapList));
+		//重置成miui组件所需格式
+		//valueField	值字段	id
+		//textField	文本显示字段	text
+		Map<String, JSONMap> cbxItemMap = new LinkedHashMap<String, JSONMap>();
+		for(JSONMap jm : dictList){
+			JSONMap jsonMap = new JSONMap();
+			String id = jm.getStr("id");
+			jsonMap.put("id", id);
+			jsonMap.put("text", jm.getStr("text"));
+			cbxItemMap.put(id,jsonMap);
+		}
+		
+		sb.append("_dL.push('"+dictEnum+"');");
+		sb.append("var "+dictEnum+"Json=").append(JsonMapper.nonEmptyMapper().toJson(cbxItemMap));
 		sb.append(";\n");
 		return sb.toString();
 	}

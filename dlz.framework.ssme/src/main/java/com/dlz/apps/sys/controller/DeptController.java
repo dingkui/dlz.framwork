@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +16,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
+import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.conver.impl.ClobConverter;
+import com.dlz.framework.db.enums.CharsetNameEnum;
 import com.dlz.framework.db.enums.DateFormatEnum;
+import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
+import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.DeptCriteria;
 import com.dlz.framework.ssme.db.model.DeptUser;
@@ -43,7 +49,7 @@ import com.dlz.framework.util.StringUtils;
  * 2013-8-25
  */
 @Controller
-@RequestMapping("/rbac/dept")
+@RequestMapping(ControllerConst.ADMIN+"/rbac/dept")
 public class DeptController {
 	private static MyLogger logger = MyLogger.getLogger(DeptController.class);
 	
@@ -99,7 +105,32 @@ public class DeptController {
 	@RequestMapping("/edit")
 	public String edit(Model m,HttpServletRequest request) {
 		try {
+			ParaMap pMap=new ParaMap("SELECT * FROM T_P_DEPT WHERE D_ID=#{did}");
+			pMap.addPara("did", request.getParameter("did"));
+			m.addAttribute("dept",commService.getBean(pMap, JSONMap.class));
 			return "sys/rbac/deptEdit";
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+			return null;
+		}
+	}
+	
+	/*
+	 * 菜单初始页面-首页
+	 */
+	@RequestMapping("/editAccount")
+	public String editAccount(Model m,HttpServletRequest request) {
+		try {
+			ParaMap pMap=new ParaMap("select * from t_p_dept_account where deptId=#{did}");
+			pMap.addPara("did", request.getParameter("did"));
+			pMap.getConvert().addClassConvert(new ClobConverter(CharsetNameEnum.UTF8));
+			JSONMap deptAccount=commService.getBean(pMap, JSONMap.class);
+			if(deptAccount==null){
+				deptAccount=new JSONMap();
+				deptAccount.put("deptid", request.getParameter("did"));
+			}
+			m.addAttribute("deptAccount",deptAccount);
+			return "sys/rbac/editAccount";
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 			return null;
@@ -187,7 +218,7 @@ public class DeptController {
 	@RequestMapping(value="getDeptsMember")
 	public List<ResultMap> getDeptsMember(HttpServletRequest request) throws Exception{
 		String dCode=request.getParameter("dCode");
-		ParaMap pm = new ParaMap("key.dept.getDeptAndUsers",new Page(1,5000,"id"));
+		ParaMap pm = new ParaMap("key.dept.getDeptAndUsers",new Page(1,5000,"id","asc"));
 		pm.addPara("dCode", dCode);
 		return commService.getMapList(pm);
 	}
@@ -255,14 +286,56 @@ public class DeptController {
 	public String saveUsers(String data) throws Exception {
 		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 		DeptUser[] items = JacksonUtil.readValue(data, DeptUser[].class);
+		List msg=new ArrayList();
 		for (int i = 0; i < items.length; i++) {
-			if (items[i].getDuId() != null) {
+		  ParaMap pMap=new ParaMap("select count(1) count from t_p_dept_user du where exists (select d_id from t_p_dept where d_id = du.du_d_id and  d_code like '03%')   and du.du_u_id = #{dUId}");
+		  pMap.addPara("dUId", items[i].getDuUId());
+		  JSONMap isExist=commService.getMap(pMap);
+		  if(isExist.getInt("count")>0){
+			    msg.add(items[i].getDuUId());
+			    continue;
+		  }
+		  if (items[i].getDuId() != null) {
 				deptUserService.updateByPrimaryKeySelective(items[i]);
 			} else {
 				items[i].setDuId(commService.getSeq(DeptUser.class));
 				items[i].setDuAddUserId(user.getUserId());
 				items[i].setDuAddTime(new Date());
 				deptUserService.insert(items[i]);
+			}
+		}
+		
+		if(msg.size()!=0){
+			return msg.toString();
+		}else{
+			return "OK";
+		}
+	}
+	
+	/**
+	 * 编辑用户
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/editUsers")
+	public String editUsers(String data) throws Exception {
+		JSONMap[] items = JacksonUtil.readValue(data, JSONMap[].class);
+		if(items == null || items.length < 1){
+			return "error";
+		}
+		for (int i = 0; i < items.length; i++) {
+			for (JSONMap user : items) {
+				UpdateParaMap uParaMap = new UpdateParaMap("t_p_dept_user");
+				uParaMap.addSetValue("du_duty", user.getInt("duDuty"));
+				uParaMap.addEqCondition("du_id", user.getInt("duId"));
+				commService.excuteSql(uParaMap);
+				
+				uParaMap = new UpdateParaMap("ptn_user_info");
+				uParaMap.addSetValue("price_level", user.getInt("priceLevel"));
+				uParaMap.addEqCondition("id", user.getInt("duUId"));
+				commService.excuteSql(uParaMap);
 			}
 		}
 		return "OK";
@@ -283,4 +356,44 @@ public class DeptController {
 		}
 		return "OK";
 	}
+	
+	/**
+	 * 添加或更新部门账户信息
+	 * @param data
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addOrUpdateAccount")
+	public String addOrUpdateAccount(Integer deptid,String bank,String accounts,String company,String alipay,String weixin) throws Exception {
+		//1、查询该部门是否有银行账户信息
+		ParaMap pMap=new ParaMap("select count(1) count from t_p_dept_account where deptId=#{deptId}");
+		pMap.addPara("deptId", deptid);
+		JSONMap isExist=commService.getMap(pMap);
+		if(isExist.getInt("count")>0){
+			//存在则更新数据
+			UpdateParaMap uMap=new UpdateParaMap("t_p_dept_account");
+			uMap.addSetValue("bank", bank);
+			uMap.addSetValue("accounts", accounts);
+			uMap.addSetValue("company", company);
+			uMap.addSetValue("alipay", alipay);
+			uMap.addSetValue("weixin", weixin);
+			uMap.addEqCondition("deptid", deptid);
+			commService.excuteSql(uMap);
+		}else{
+			//不存在则插入数据
+			InsertParaMap iMap=new InsertParaMap("t_p_dept_account");
+			int id=(int)commService.getSeq("seq_t_p_dept_account");
+			iMap.addValue("id", id);
+			iMap.addValue("deptid", deptid);
+			iMap.addValue("bank", bank);
+			iMap.addValue("accounts", accounts);
+			iMap.addValue("company", company);
+			iMap.addValue("alipay", alipay);
+			iMap.addValue("weixin", weixin);
+			commService.excuteSql(iMap);
+		}
+		return "ok";
+	}
+	   
 }

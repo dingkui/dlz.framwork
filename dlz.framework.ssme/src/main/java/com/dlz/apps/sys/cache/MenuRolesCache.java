@@ -1,6 +1,5 @@
 package com.dlz.apps.sys.cache;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +8,7 @@ import com.dlz.framework.db.conver.impl.ClobConverter;
 import com.dlz.framework.db.enums.CharsetNameEnum;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.service.FunOptService;
 
 /**
@@ -42,7 +42,7 @@ public class MenuRolesCache extends AbstractCache<Long, String> {
 	/**
 	 * 日志logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(DictCacheSsme.class);
+	private static MyLogger logger = MyLogger.getLogger(MenuRolesCache.class);
 
 	
 }

@@ -58,20 +58,11 @@ public interface ICommService {
 	 * @throws Exception
 	 */
 	Page<ResultMap> getPage(BaseParaMap paraMap);
-	
-	/**
-	 * 取得分页数据
-	 * @return
-	 * @throws Exception
-	 */
 	<T> Page<T> getPage(BaseParaMap paraMap, Class<T> t);
 	
 	int getCnt( BaseParaMap paraMap);
 	
 	long getSeqWithTime(String seqName);
-	
-
-	
 	long getSeq(String seqName);
 	long getSeq(Class<?> clazz); 
 }

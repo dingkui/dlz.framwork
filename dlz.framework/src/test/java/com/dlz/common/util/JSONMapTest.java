@@ -115,5 +115,28 @@ public class JSONMapTest {
 //		logger.info(c2.getList("b"));
 	}
 	
+	
+	
+	/**
+	 * 类型转换
+	 */
+	@Test
+	public void test7(){
+		JSONMap b=new JSONMap();
+		JSONMap a=new JSONMap();
+		b.add("info", a);
+		a.add("l1", (new JSONList()).adds((new JSONMap()).add("l1_1", 1)).adds((new JSONMap()).add("l1_1", 2)));
+		a.add("l1", (new JSONList()).adds((new JSONMap()).add("l1_2", 3)).adds((new JSONMap()).add("l1_2", 4)).adds((new JSONMap()).add("l1_2", 5)),3);
+//		a.add("l1", (new JSONMap()).add("l1_2", 123).add("l1_2", 124));
+		System.out.println(a.toString());
+		System.out.println(b.toString());
+		System.out.println(b.getList("info.l1[1]"));
+		System.out.println(a.getStr("l1[1][1].l1_2"));
+		System.out.println(b.getStr("info.l1[1][-1].l1_2"));
+		
+//		logger.info(c2.getArray("a"));
+//		logger.info(c2.getList("b"));
+	}
+	
 }
 

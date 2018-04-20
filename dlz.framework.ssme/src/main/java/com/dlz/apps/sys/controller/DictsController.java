@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.cache.DictsCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
@@ -29,7 +30,7 @@ import com.dlz.framework.util.MapUtil;
 import com.dlz.framework.util.StringUtils;
 @SuppressWarnings("unchecked")
 @Controller
-@RequestMapping(value = "/dicts")
+@RequestMapping(value = ControllerConst.ADMIN+"/dicts")
 public class DictsController extends BaseController {
 	@Autowired
 	ICommService commService;
@@ -39,6 +40,7 @@ public class DictsController extends BaseController {
 	RbacService rbacService;
 	@Autowired
 	DictsCache dictsCache;
+	
 
 	/*
 	 * 列表首页
@@ -111,6 +113,7 @@ public class DictsController extends BaseController {
 	public String addOrUpdate(Dicts dicts) throws Exception {
 		if (dicts.getId() != null) {
 			dictsService.updateByPrimaryKeySelective(dicts);
+			dictsCache.remove(dicts.getId());
 		} else {
 			Dicts pDicts=dictsService.selectByPrimaryKey(dicts.getPid());
 			dicts.setCode(rbacService.getCode(pDicts==null?"":pDicts.getCode(), "code", "T_B_DICTS"));
@@ -121,8 +124,8 @@ public class DictsController extends BaseController {
 			pm.addPara("id", dicts.getPid());
 			pm.addPara("isLeaf", 0l);
 			commService.excuteSql(pm);
+			dictsCache.remove(dicts.getPid());
 		}
-		dictsCache.remove(dicts.getPid());
 		return "OK";
 	}
 	
@@ -161,7 +164,7 @@ public class DictsController extends BaseController {
 		pm.addPara("pid", d.getPid());
 		pm.addPara("isLeaf", 1l);
 		commService.excuteSql(pm);
-		dictsCache.remove(d.getPid());
+		dictsCache.remove(id);
 		return "OK";
 	}
 	

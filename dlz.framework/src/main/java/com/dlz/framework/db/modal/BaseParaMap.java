@@ -1,20 +1,19 @@
 package com.dlz.framework.db.modal;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.conver.Convert;
 import com.dlz.framework.db.conver.impl.DateConverter;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.dlz.framework.util.EncryptUtil;
-import com.dlz.framework.util.JacksonUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("rawtypes")
-public class BaseParaMap implements Serializable{
+public class BaseParaMap implements Serializable,IPara{
 	private static final long serialVersionUID = 8374167270612933157L;
 	@JsonIgnore
 	private Convert convert;
@@ -29,13 +28,12 @@ public class BaseParaMap implements Serializable{
 	}
 	private String sql_page;
 	private String sql_cnt;
-	
 	private String sqlJdbc;
 	private Object[] sqlJdbcPara;
 
 	private Page page;
 	
-	private Map<String,Object> para = new HashMap<String,Object>();
+	private JSONMap para = new JSONMap();
 
 	protected BaseParaMap(String sqlInput,Page page){
 		this.sqlInput=sqlInput;
@@ -47,7 +45,7 @@ public class BaseParaMap implements Serializable{
 		if(page!=null){
 			sb.append(page.getBegin()).append(page.getEnd()).append(page.getOrderBy());
 		}
-		sb.append(JacksonUtil.getJson(para));
+		sb.append(para);
 		return EncryptUtil.md5(sb.toString());
 	}
 	protected BaseParaMap(String sqlInput){
@@ -55,8 +53,7 @@ public class BaseParaMap implements Serializable{
 		this.addDefualtConverter();
 	}
 	
-	
-	public BaseParaMap addParas(Map<String, Object> map) {
+	public IPara addParas(Map<String, Object> map) {
 		for (String key : map.keySet()) {
 			Object v=map.get(key);
 			if(v instanceof String[]){
@@ -78,7 +75,7 @@ public class BaseParaMap implements Serializable{
 	 * @param value
 	 * @return
 	 */
-	public BaseParaMap addPara(String key,Object value){
+	public IPara addPara(String key,Object value){
 		para.put(key, value==null?"":value);
 		return this;
 	}
@@ -180,7 +177,7 @@ public class BaseParaMap implements Serializable{
 	 * 获取para
 	 * @return para para  
 	 */
-	public Map<String, Object> getPara() {
+	public JSONMap getPara() {
 		return para;
 	}
 	public String getSqlJdbc() {

@@ -81,7 +81,7 @@ public class Criterias {
 		if (StringUtils.isNotEmpty(pagesize)) {
 			pagesizeNum = Integer.parseInt(pagesize);
 		}
-		return new Page(pageNum, pagesizeNum,null);
+		return new Page(pageNum, pagesizeNum);
 	}
 	
 	public static Page buildPage(ServletRequest request,int pageSize) {
@@ -91,7 +91,7 @@ public class Criterias {
 		if(!StringUtils.isEmpty(page)) {
 			pageNum = Integer.parseInt(page);
 		}
-		return new Page(pageNum, pagesizeNum,null);
+		return new Page(pageNum, pagesizeNum);
 	}
 	
 	private static <T> T bySearchFilter(Class<T> criteriaClass,Collection<SearchFilter> filters, Page page, String orderBy) {

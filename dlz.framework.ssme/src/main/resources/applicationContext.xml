@@ -81,4 +81,5 @@
     <bean class="com.dlz.framework.db.DbInfo" lazy-init="false">   
 	    <constructor-arg><bean class="com.dlz.framework.db.service.impl.ColumnMapperCamel"/></constructor-arg>   
 	</bean>
+	<bean class="com.dlz.framework.component.ConfigInit" lazy-init="false"></bean>
 </beans>

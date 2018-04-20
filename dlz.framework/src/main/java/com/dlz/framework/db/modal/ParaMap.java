@@ -2,8 +2,6 @@ package com.dlz.framework.db.modal;
 
 import java.util.Map;
 
-import com.dlz.framework.db.SqlUtil;
-import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.dlz.framework.util.StringUtils;
 
 public class ParaMap extends BaseParaMap{
@@ -29,28 +27,6 @@ public class ParaMap extends BaseParaMap{
 		}
 		return this;
 	}
-	/**
-	 * 添加参数
-	 * @param key
-	 * @param value
-	 * @return
-	 */
-	public ParaMap addPara(String key,Object value){
-		super.addPara(key, value);
-		return this;
-	}
-	/**
-	 * 添加指定类型的参数（根据类型自动转换）
-	 * @param key
-	 * @param value
-	 * @param pte
-	 * @return
-	 */
-	public ParaMap addPara(String key,String value,ParaTypeEnum pte){
-		super.addPara(key, SqlUtil.coverString2Object(value, pte));
-		return this;
-	}
-	
 	public ParaMap addRequestPara(Map<String,?> requestParaMap){
 		for(String key:requestParaMap.keySet()){
 			if(key.startsWith("search_")){

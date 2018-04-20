@@ -6,11 +6,11 @@ import com.dlz.framework.db.conver.AGroupConverter;
 import com.dlz.framework.db.conver.ILogicServer;
 import com.dlz.framework.holder.SpringHolder;
 
-public class AddressConverter extends AGroupConverter<Object,Object,String> implements ILogicConverter<Object,Map<String,Object>>{
+public class AddressConverter extends AGroupConverter<Object,Object,String>{
 	ILogicServer<Object,Map<String,Object>> logicServer=null;
 	public AddressConverter(String name, String para) {
 		super(name, para);
-		this.logicServer=getLogicServ();
+		this.logicServer=SpringHolder.getBean("addrConverterLogicServer");
 	}
 
 	@Override
@@ -27,14 +27,5 @@ public class AddressConverter extends AGroupConverter<Object,Object,String> impl
 			return logicServer.conver2Db((String)o, map);
 		}
 		return null;
-	}
-
-	@Override
-	public ILogicServer<Object,Map<String,Object>> getLogicServ() {
-		ILogicServer<Object,Map<String,Object>> LogicServer=SpringHolder.getBean("addrConverterLogicServer");
-		if(LogicServer==null){
-			return null;
-		}
-		return LogicServer;
 	}
 }

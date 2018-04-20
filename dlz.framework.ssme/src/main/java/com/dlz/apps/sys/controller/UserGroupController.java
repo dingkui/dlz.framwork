@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.ssme.db.model.Role;
@@ -40,7 +41,7 @@ import com.google.common.collect.Sets;
  * 方法上的注释为页面中Button的标题
  */
 @Controller
-@RequestMapping(value = "/rbac/userGroup")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/userGroup")
 public class UserGroupController {
 	private static MyLogger logger = MyLogger.getLogger(UserGroupController.class);
 

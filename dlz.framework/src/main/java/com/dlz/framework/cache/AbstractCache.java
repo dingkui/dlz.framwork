@@ -41,7 +41,7 @@ public abstract class AbstractCache<KEY,T>{
 	
 	public class DbOperator<KEY1,T1>{
 		protected T1 getFromDb(KEY1 key){return null;}
-		protected void saveToDb(T1 t){}
+		protected void saveToDb(KEY1 key,T1 t){}
 	}
 	
 	public class CacheDeal{
@@ -51,13 +51,13 @@ public abstract class AbstractCache<KEY,T>{
 			try{
 				t=dbOperator.getFromDb(key);
 			}catch(Exception e){
-				logger.warn("从数据库加载缓存失败："+cacheDeal.getName()+"."+key);
+				logger.error("从数据库加载缓存失败："+cacheDeal.getName()+"."+key,e);
 			}
 			return t;
 		}
-		private <T1,KEY1> void save(T1 t,DbOperator<KEY1,T1> dbOperator){
+		private <T1,KEY1> void save(KEY1 key,T1 t,DbOperator<KEY1,T1> dbOperator){
 			try{
-				dbOperator.saveToDb(t);
+				dbOperator.saveToDb(key,t);
 			}catch(Exception e){
 				logger.error("保存缓存到数据库失败："+cacheDeal.getName());
 				logger.error(e.getMessage(),e);
@@ -145,7 +145,7 @@ public abstract class AbstractCache<KEY,T>{
 				value=get((Serializable)key);
 			}
 			if(value!=null && dbOperator!=null){
-				save(value,dbOperator);
+				save(key,value,dbOperator);
 			}
 		}
 		/**

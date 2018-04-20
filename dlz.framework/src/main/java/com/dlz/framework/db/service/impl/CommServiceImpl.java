@@ -99,14 +99,15 @@ public class CommServiceImpl implements ICommService {
 		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
 		try {
 			List<ResultMap> list = daoOperator.getList(paraMap);
+			List<ResultMap> list2=new ArrayList<ResultMap>();
 			for(ResultMap r: list){
-				DbCoverUtil.converResultMap(r,paraMap.getConvert());
+				list2.add(DbCoverUtil.converResultMap(r,paraMap.getConvert()));
 			}
 			
 			if(key!=null){
-				dbOprationCache.put(key, new Page<ResultMap>(0,list), paraMap.getCacheTime());
+				dbOprationCache.put(key, new Page<ResultMap>(0,list2), paraMap.getCacheTime());
 			}
-			return list;
+			return list2;
 		} catch (Exception e) {
 			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(), e);
 		}
@@ -290,9 +291,19 @@ public class CommServiceImpl implements ICommService {
 				return page2;
 			}
 		}
+		//pageNow==0的情况，不统计条数
+		boolean needCount=page.getPageNow()>0;
+		//是否需要查询列表（需要统计条数并且条数是0的情况不查询，直接返回空列表）
+		boolean needList=true;
 		
-		page.setCount(getCnt(paraMap));
-		if(page.getCount()>0){
+		if(needCount){
+			page.setCount(getCnt(paraMap));
+			if(page.getCount()==0){
+				needList=false;
+			}
+		}
+		
+		if(needList){
 			if(t==ResultMap.class){
 				page.setData((List<T>) getMapList(paraMap));
 			}else{

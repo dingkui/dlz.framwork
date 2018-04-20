@@ -58,8 +58,8 @@ public class ParaUtil {
 			if(pg.containsKey("pageSize")){
 				page.setPageSize(pg.getInt("pageSize",20));
 			}
-			if(pg.containsKey("pageNow")){
-				page.setPageNow(pg.getInt("pageNow",1));
+			if(pg.containsKey("pageIndex")){
+				page.setPageIndex(pg.getInt("pageIndex",1));
 			}
 			if(pg.containsKey("sortField")){
 				page.setSortField(pg.getStr("sortField"));

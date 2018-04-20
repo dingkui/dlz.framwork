@@ -1,6 +1,5 @@
 package com.dlz.framework.bean;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
@@ -34,12 +34,15 @@ public class JSONMap extends HashMap<String,Object>{
 			return;
 		}
 		if(obj instanceof CharSequence){
-			putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
+			String string = obj.toString().trim();
+			if(string.startsWith("{") && string.endsWith("}")){
+				putAll(JacksonUtil.readValue(obj.toString(), JSONMap.class));
+			}else{
+				throw new CodeException("参数不能转换成JSONMap:"+obj.toString());
+			}
 		}else if(obj instanceof Map){
 			putAll((Map)obj);
-		}else if(obj instanceof Object[] || obj instanceof Collection){
-			
-		}else if(obj instanceof Serializable){
+		}else{
 			putAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONMap.class));
 		}
 	}
@@ -58,7 +61,56 @@ public class JSONMap extends HashMap<String,Object>{
 		}
 		return this;
 	}
-
+	/**
+	 * 
+	 * @param key
+	 * @param obj
+	 * @param joinMethod 
+	 * 		0:替换原有信息
+	 * 		1：加入到原有数组中
+	 * 		2：合并到原有数组中
+	 * 		3：把原有数据跟新数据构造新数组 
+	 * @return
+	 */
+	public JSONMap add(String key,Object obj,int joinMethod){
+		Object o=this.get(key);
+		if(o==null){
+			put(key, obj);
+			return this;
+		}
+		switch(joinMethod){
+			case 0:
+				put(key, obj);
+				break;
+			case 1:
+				if(o instanceof Collection||o instanceof Object[]){
+					List list = ValUtil.getList(o);
+					list.add(obj);
+					put(key, list);
+				}
+				break;
+			case 2:
+				if(o instanceof Collection||o instanceof Object[]){
+					List list = ValUtil.getList(o);
+					list.add(obj);
+					if(obj instanceof Collection||obj instanceof Object[]){
+						list.addAll(ValUtil.getList(obj));
+					}
+					put(key, list);
+				}
+				break;
+			case 3:
+				List list = new ArrayList();
+				list.add(o);
+				list.add(obj);
+				put(key, list);
+				break;
+		}
+		return this;
+	}
+	public JSONMap add(String key,Object obj){
+		return add(key, obj, 3);
+	}
 	public BigDecimal getBigDecimal(String key){
 		return  getBigDecimal(key,null);
 	}

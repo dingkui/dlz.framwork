@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dlz.framework.ssme.base.model.ResultJsonModel;
-import com.dlz.framework.ssme.util.web.Servlets;
+import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.ssme.util.web.Servlets;
 
 @SuppressWarnings("unchecked")
 public class PageDealCommonLogic {
@@ -21,7 +21,8 @@ public class PageDealCommonLogic {
 		return str == null || "".equals(str);
 	}
 
-	public Page getPage(HttpServletRequest request) {
+	@SuppressWarnings("rawtypes")
+	public static Page getPage(HttpServletRequest request) {
 		Page pi = new Page();
 		if (!isEmputy(request.getParameter("pageSize"))) {
 			pi.setPageSize(Integer.parseInt(request.getParameter("pageSize")));
@@ -72,7 +73,7 @@ public class PageDealCommonLogic {
 		m.put(name, message);
 	}
 
-	public ResultJsonModel createRsutlJson() {
-		return new ResultJsonModel();
+	public JSONResult createRsutlJson() {
+		return JSONResult.createResult();
 	}
 }

@@ -78,6 +78,8 @@ public class DbInfo {
 		}
 		initIng = true;
 		dbConfig = ResourceBundle.getBundle(NAME_DB_CONFIG);
+		loadRsources("framework/*");
+		loadRsources("common/*");
 		for (Enumeration<String> enums = dbConfig.getKeys(); enums.hasMoreElements();) {
 			String name = enums.nextElement();
 			String str = dbConfig.getString(name).trim();
@@ -98,7 +100,6 @@ public class DbInfo {
 			}
 			m_dbset.put(name, str);
 		}
-		loadRsources("common/*");
 		logger.debug("dbsettinhs:" + m_dbset);
 		logger.debug("sqlList:" + m_sqlList);
 		initIng = false;

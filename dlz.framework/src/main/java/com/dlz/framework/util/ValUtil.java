@@ -1,11 +1,17 @@
 package com.dlz.framework.util;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import com.dlz.framework.bean.JSONList;
+import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.exception.CodeException;
 
 /**
  * 对象转换工具类
@@ -19,8 +25,16 @@ public class ValUtil{
 		if(o==null){
 			return defaultV;
 		}
-		if (o instanceof BigDecimal) {
+		if(o instanceof BigDecimal) {
 			return (BigDecimal)o;
+		}else if (o instanceof Float) {
+			return new BigDecimal(((Float)o).doubleValue());
+		}else if (o instanceof Double) {
+			return new BigDecimal(((Double)o).doubleValue());
+		}else if (o instanceof Integer) {
+			return new BigDecimal(((Integer)o).intValue());
+		}else if (o instanceof Long) {
+			return new BigDecimal(((Long)o).longValue());
 		}
 		return new BigDecimal(o.toString());
 	}
@@ -106,7 +120,7 @@ public class ValUtil{
 		}
 		String r=input.toString();
 		
-		return !"false".equals(r)&&!"0".equals(r)&&!"".equals(r);
+		return !"false".equalsIgnoreCase(r)&&!"0".equals(r)&&!"".equals(r);
 	}
 	private static Number getNumber(Object input,Number defaultV){
 		if(input==null){
@@ -134,6 +148,29 @@ public class ValUtil{
 		}
 		return defaultV;
 	}
+	public static Object getJSONObject(Object obj){
+		if(obj==null){
+			return null;
+		}
+		if(obj instanceof CharSequence){
+			String string = obj.toString().trim();
+			if(string.startsWith("[") && string.endsWith("]")){
+				return JacksonUtil.readValue(obj.toString(), JSONList.class);
+			}
+			if(string.startsWith("{") && string.endsWith("}")){
+				return JacksonUtil.readValue(obj.toString(), JSONMap.class);
+			}
+			throw new CodeException("参数不能转换成JSONObject:"+obj.toString());
+		}else if(obj instanceof Collection || obj instanceof Object[]){
+			return new JSONList(obj);
+		}else if(obj instanceof Map){
+			return new JSONMap(obj);
+		}else if(obj instanceof Serializable){
+			return JacksonUtil.readValue(JacksonUtil.getJson(obj), JSONMap.class);
+		}
+		return null;
+	}
+	
 	public static Date getDate(Object input){
 		return getDate(input, null);
 	}
@@ -163,7 +200,7 @@ public class ValUtil{
 		}
 		input=getDate(input);
 		if(input==null){
-			return String.valueOf(input);
+			return "";
 		}
 		if(format==null){
 			return DateUtil.getDateTimeStr((Date)input);

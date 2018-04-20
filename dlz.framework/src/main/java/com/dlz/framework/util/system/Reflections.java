@@ -159,7 +159,8 @@ public class Reflections {
 		logger.error("NoSuchMethod:"+obj.getClass()+"."+methodName);
 		return null;
 	}
-
+	
+	
 	/**
 	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
 	 * 如向上转型到Object仍无法找到, 返回null.
@@ -167,11 +168,12 @@ public class Reflections {
 	 * 
 	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
 	 */
-	public static Method getAccessibleMethodByName(final Object obj, final String methodName) {
+	public static Method getAccessibleMethodByName(final Object obj, final String name) {
+		String methodName = name.intern();
 		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
-				if (method.getName().equals(methodName)) {
+				if (method.getName()==methodName) {
 					makeAccessible(method);
 					return method;
 				}
@@ -179,7 +181,45 @@ public class Reflections {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
+	 * 如向上转型到Object仍无法找到, 返回null.
+	 * 只匹配函数名。
+	 * 
+	 * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
+	 */
+	public static Method getMethod(final Object obj, final String name,Class<?>... parameterTypes) {
+		String methodName = name.intern();
+		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+			Method[] methods = searchType.getDeclaredMethods();
+			for (Method method : methods) {
+				if (method.getName()==methodName && arrayContentsEq(parameterTypes, method.getParameterTypes())) {
+					makeAccessible(method);
+					return method;
+				}
+			}
+		}
+		return null;
+	}
+	@SuppressWarnings("unchecked")
+	private static boolean arrayContentsEq(Class[] a1, Class[] a2) {
+        if (a1 == null) {
+            return a2 == null || a2.length == 0;
+        }
+        if (a2 == null) {
+            return a1.length == 0;
+        }
+        if (a1.length != a2.length) {
+            return false;
+        }
+        for (int i = 0; i < a1.length; i++) {
+            if (a1[i] != a2[i] && !a2[i].isAssignableFrom(a1[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
 	/**
 	 * 改变private/protected的方法为public，尽量不调用实际改动的语句，避免JDK的SecurityManager抱怨。
 	 */

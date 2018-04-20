@@ -11,27 +11,27 @@ public class DictItem implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5070462418563344534L;
-	private Integer id; // ID
-	private Integer dictid;// 字典ID
+	private String id; // ID
+	private String dictid;// 字典ID
 	private String value;// 字典值
 	private String text;// 字典中文
 	private Integer sort;//排序
 	private Integer del=0;//是否删除
 	private String memo;//注释
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Integer getDictid() {
+	public String getDictid() {
 		return dictid;
 	}
 
-	public void setDictid(Integer dictid) {
+	public void setDictid(String dictid) {
 		this.dictid = dictid;
 	}
 
