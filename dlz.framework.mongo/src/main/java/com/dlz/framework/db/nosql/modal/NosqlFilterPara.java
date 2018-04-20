@@ -1,6 +1,8 @@
 package com.dlz.framework.db.nosql.modal;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
@@ -24,17 +26,10 @@ public class NosqlFilterPara extends NosqlBasePara implements IPara{
 		this.filterBson = filterBson;
 	}
 	public IPara addParas(Map<String, Object> map) {
-		for (String key : map.keySet()) {
-			Object v=map.get(key);
-			if(v instanceof String[]){
-				String[] paras=(String[])map.get(key);
-				if(paras.length==1){
-					para.put(key, paras[0]);
-				}else{
-					para.put(key, paras);
-				}
-			}else{
-				para.put(key, v);
+		if(map!=null){
+			Set<Entry<String, Object>> entrySet = map.entrySet();
+			for(Entry<String, Object> e:entrySet){
+				addPara(e.getKey(),e.getValue());
 			}
 		}
 		return this;

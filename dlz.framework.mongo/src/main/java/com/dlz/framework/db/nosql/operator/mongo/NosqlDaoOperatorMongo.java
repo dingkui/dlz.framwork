@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -81,7 +80,11 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 		List<JSONMap> datas = paraMap.getDatas();
 		List<Document> dbo = new ArrayList<Document>();
 		for(JSONMap obj:datas){
-			dbo.add(new Document(obj));
+			if(!obj.containsKey("_id")){
+				obj.put("_id", getSeq(paraMap.getName()));
+			}
+			Document e = new Document(obj);
+			dbo.add(e);
 		}
 		dbColl.insertMany(dbo);
 		return dbo.size();

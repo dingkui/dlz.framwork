@@ -1,8 +1,8 @@
 package com.dlz.framework.db.nosql.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.nosql.modal.Delete;
@@ -19,35 +19,93 @@ import com.dlz.framework.db.nosql.modal.Update;
  */
 public interface INosqlService {
 	public int insert(Insert insert);
-	public int update(Update paraMap);
-	public int del(Delete paraMap);
-	
 	/**
-	 * 从数据库中取得单个字段数据
+	 * 插入数据，不需要配置bson
+	 * @param name 表名
+	 * @param datas 
+	 * @return
 	 */
-	public Object getColum(Find paraMap);
-	public String getStr(Find paraMap);
-	public BigDecimal getBigDecimal(Find paraMap);
-	public Float getFloat(Find paraMap);
-	public Integer getInt(Find paraMap);
-	public Long getLong(Find paraMap);
+	public int insert(String name,List<JSONMap> datas);
+	/**
+	 * 插入数据，不需要配置bson
+	 * @param name 表名
+	 * @param datas 
+	 * @return
+	 */
+	public int insert(String name,JSONMap data);
 	
-	public List<Object> getColumList(Find paraMap);
-	public List<String> getStrList(Find paraMap);
-	public List<BigDecimal> getBigDecimalList(Find paraMap);
-	public List<Float> getFloatList(Find paraMap);
-	public List<Integer> getIntList(Find paraMap);
-	public List<Long> getLongList(Find paraMap);
+	public int update(Update paraMap);
+	/**
+	 * 根据ID更新数据，不需要配置bson
+	 * @param name 表名
+	 * @param id 
+	 * @param data 
+	 * @return
+	 */
+	public int update(String name,long id,JSONMap data);
+	/**
+	 * 根据条件更新数据，bson语句中需要有filter  name.byfilter
+	 * @param name 表名
+	 * @param para 
+	 * @param data 
+	 * @return
+	 */
+	public int update(String name,JSONMap para,JSONMap data);
+	
+	public int del(Delete paraMap);
+	/**
+	 * 根据ID删除数据，不需要配置bson
+	 * @param name 表名
+	 * @param id 
+	 * @return
+	 */
+	public int del(String name,long id);
+	/**
+	 * 根据条件删除数据，bson语句中需要有filter  name.byfilter
+	 * @param name 表名
+	 * @param para 
+	 * @return
+	 */
+	public int del(String name,JSONMap para);
 	
 	/**
 	 * 从数据库中取得集合
 	 */
 	public ResultMap getMap(Find paraMap);
+	/**
+	 * 根据ID查询数据，不需要配置bson
+	 * @param name 表名
+	 * @param id 
+	 * @return
+	 */
+	public ResultMap getMap(String name,long id);
 	public List<ResultMap> getMapList(Find paraMap);
-	
-	
+	public List<ResultMap> getMapList(String name,JSONMap para);
 	public <T> T getBean(Find paraMap, Class<T> t);
+	/**
+	 * 根据ID取得对象，不需要配置bson语句
+	 * @param name 表名
+	 * @param id _id
+	 * @param t 类型
+	 * @return
+	 */
+	public <T> T getBean(String name,long id, Class<T> t);
+	/**
+	 * 根据参数查询取得对象列表，不需要配置bson语句
+	 * @param paraMap 表名
+	 * @param id _id
+	 * @param t 类型
+	 * @return
+	 */
 	public <T> List<T> getBeanList(Find paraMap, Class<T> t);
+	/**
+	 * 根据参数查询取得对象列表，bson语句中需要有filter  name.byfilter
+	 * @param name 表名
+	 * @param para 构建filter需要的参数
+	 * @param t 类型
+	 * @return
+	 */
+	public <T> List<T> getBeanList(String name,JSONMap para, Class<T> t);
 	
 	/**
 	 * 取得分页数据

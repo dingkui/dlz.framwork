@@ -1,5 +1,6 @@
 package com.dlz.common.util;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -101,6 +102,21 @@ public class DbUtilTest {
 		ump.addData(new JSONMap().add("age", 14).add("name", "asd4"));
 		ump.addData(new JSONMap().add("age", 15).add("name", "asd5"));
 		cs.insert(ump);
+	}
+	
+	@Test
+	public void InsertTest2(){
+		try{
+			List<JSONMap> datas=new ArrayList<JSONMap>();
+			datas.add(new JSONMap().add("_id", 12).add("age", 12).add("name", "asd1").add("time", new Date()));
+			datas.add(new JSONMap().add("age", 11).add("name", "asd2"));
+			datas.add(new JSONMap().add("age", 13).add("name", "asd3"));
+			datas.add(new JSONMap().add("age", 14).add("name", "asd4"));
+			datas.add(new JSONMap().add("age", 15).add("name", "asd5"));
+			cs.insert("test111",new JSONMap().add("age", 15).add("name", "asd5"));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	@Test

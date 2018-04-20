@@ -5,12 +5,6 @@
 <!--=========================================================================-->
 
 <sqlList>
-	<filter key="filter.comm.byid">
-		<![CDATA[
-			{"_id":[${_ids}]}
-		]]>
-	</filter>
-	
 	<!-- 
 	需要建的索引：
 	db.article.ensureIndex({"Title":"text"})
@@ -33,13 +27,8 @@
 				 【{UpdateTime:{$gte:"${dateNum}"}},】
 				 【{default_picurl:{$exists:true}}},^${isPicUrl}】
 				 ],】
-				【$text:{$search:${key}}】
+				【{ELITE:${key}}】
 			}
 		]]>
 	</filter>
-	<find key="find.article" name="article" filter="filter.article"/>
-	<insert key="insert.article" name="article"/>
-	<delete key="delete.article.byid" name="article" filter="filter.comm.byid"/>
-	<delete key="delete.article.byfilter" name="article" filter="filter.article"/>
-	<update key="update.article.all" name="article" filter="filter.article"/>
 </sqlList>

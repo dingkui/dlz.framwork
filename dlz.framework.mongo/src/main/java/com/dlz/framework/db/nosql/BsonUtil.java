@@ -61,7 +61,7 @@ public class BsonUtil{
 	private static String createBson(JSONMap para,String fileterBson){
 		fileterBson=getConditionStr(fileterBson, para);
 		fileterBson=replaceSql(fileterBson, para);
-		return fileterBson.replaceAll(",\\s*\\}", "}").replaceAll(",\\s*\\]", "]").replaceAll("\\{\\s*", "{").replaceAll("\\[\\s*", "[").replaceAll("\"", "");
+		return fileterBson.replaceAll(",\\s*\\}", "}").replaceAll(",\\s*\\]", "]").replaceAll("\\{\\s*", "{").replaceAll("\\[\\s*", "[");
 	}
 	
 	private static String replaceSql(String sql,JSONMap m){
@@ -77,8 +77,10 @@ public class BsonUtil{
 	  			if(key.startsWith("filter.")){
 	  				matStr=createBson(m,NosqlDbInfo.getBsonInfo(key).getBson());
 	  			}
+	  		}else if(o instanceof CharSequence||o instanceof Number){
+	  			matStr = o.toString();
 	  		}else{
-	  			matStr = JacksonUtil.getJson(o);
+	  			matStr=JacksonUtil.getJson(o);
 	  		}
 	  		if(strPattern1.matcher(matStr).find()){
 	  			matStr=replaceSql(matStr,m);

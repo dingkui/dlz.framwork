@@ -1,6 +1,8 @@
 package com.dlz.framework.db.nosql.modal;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import com.dlz.framework.bean.JSONMap;
 
@@ -8,17 +10,10 @@ public class Update extends NosqlFilterPara{
 	private static final long serialVersionUID = 8374167270612933157L;
 	private JSONMap data = new JSONMap();
 	public Update addDatas(Map<String, Object> map) {
-		for (String key : map.keySet()) {
-			Object v=map.get(key);
-			if(v instanceof String[]){
-				String[] paras=(String[])map.get(key);
-				if(paras.length==1){
-					data.put(key, paras[0]);
-				}else{
-					data.put(key, paras);
-				}
-			}else{
-				data.put(key, v);
+		if(map!=null){
+			Set<Entry<String, Object>> entrySet = map.entrySet();
+			for(Entry<String, Object> e:entrySet){
+				addData(e.getKey(),e.getValue());
 			}
 		}
 		return this;

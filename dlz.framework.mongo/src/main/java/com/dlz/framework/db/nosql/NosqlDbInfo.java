@@ -104,7 +104,7 @@ public class NosqlDbInfo {
 				String filter = item.attributeValue("filter");
 				String clumns = item.attributeValue("clumns");
 				String opt = item.getName();
-				if("filter".equals(opt)||"update".equals(opt)){
+				if("filter".equals(opt)){
 					String bson = item.getData().toString();
 					bson = bson.replaceAll("--.*", "");
 					bson = bson.replaceAll("//.*", "");
@@ -141,7 +141,24 @@ public class NosqlDbInfo {
 		}
 		BsonInfo bson = m_sqlList.get(key);
 		if (bson == null) {
-			throw new DbException("输入的Key找不到相应的bson！key=" + key);
+			BsonInfo iteminfo=null;
+			String[] keys=key.split("\\.");
+			if(keys.length>1){
+				iteminfo=new BsonInfo();
+				String name = keys[1];
+				iteminfo.setName(name);
+				if(keys.length==3){
+					String filterId = keys[2];
+					if("byid".equals(filterId)){
+						iteminfo.setFilter("filter.comm.byid");
+					}else if("byfilter".equals(filterId)){
+						iteminfo.setFilter("filter."+name);
+					}
+				}
+				m_sqlList.put(key, iteminfo);
+				return iteminfo;
+			}
+			throw new DbException("无效的bson Key！key=" + key);
 		}
 		return bson;
 	}

@@ -1,6 +1,5 @@
 package com.dlz.framework.db.nosql.service.impl;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
-import com.dlz.framework.db.DbCoverUtil;
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
@@ -33,10 +32,6 @@ public class NosqlServiceImpl implements INosqlService {
 	
 	public void setDaoOperator(INosqlDaoOperator daoOperator) {
 		this.daoOperator = daoOperator;
-	}
-	
-	public NosqlServiceImpl(){
-		System.out.println("NosqlCommServiceImpl init。。");
 	}
 
 	@Override
@@ -70,6 +65,71 @@ public class NosqlServiceImpl implements INosqlService {
 		} catch (Exception e) {
 			throw new DbException(paraMap.getKey()+ ":"+ JacksonUtil.getJson(paraMap), e);
 		}
+	}
+	
+	public int insert(String name,List<JSONMap> datas){
+		Insert paraMap=new Insert("insert."+name);
+		paraMap.addDatas(datas);
+		return insert(paraMap);
+	}
+	public int insert(String name,JSONMap data){
+		Insert paraMap=new Insert("insert."+name);
+		paraMap.addData(data);
+		return insert(paraMap);
+	}
+	public int update(String name,long id,JSONMap data){
+		Update paraMap=new Update("update."+name+".byid");
+		paraMap.addPara("_id", id);
+		paraMap.addDatas(data);
+		return update(paraMap);
+	}
+	public int update(String name,JSONMap para,JSONMap data){
+		Update paraMap=new Update("update."+name+".byfilter");
+		paraMap.addParas(para);
+		paraMap.addDatas(data);
+		return update(paraMap);
+	}
+	public int del(String name,long id){
+		Delete paraMap=new Delete("delete."+name+".byid");
+		paraMap.addPara("_id", id);
+		return del(paraMap);
+	}
+	public int del(String name,JSONMap para){
+		Delete paraMap=new Delete("delete."+name+".byfilter");
+		paraMap.addParas(para);
+		return del(paraMap);
+	}
+	
+	public ResultMap getMap(String name,long id){
+		Find paraMap=new Find("find."+name+".byid");
+		paraMap.addPara("_id", id);
+		return getMap(paraMap);
+	}
+	public List<ResultMap> getMapList(String name,JSONMap para){
+		Find paraMap=new Find("find."+name+".byfilter");
+		paraMap.addParas(para);
+		return getMapList(paraMap);
+	}
+	public <T> T getBean(String name,long id, Class<T> t){
+		Find paraMap=new Find("find."+name+".byid");
+		paraMap.addPara("_id", id);
+		return getBean(paraMap,t);
+	}
+	public <T> List<T> getBeanList(String name,JSONMap para, Class<T> t){
+		Find paraMap=new Find("find."+name+".byfilter");
+		paraMap.addParas(para);
+		return getBeanList(paraMap,t);
+	}
+	
+	public Page<ResultMap> getPage(String name,JSONMap para){
+		Find paraMap=new Find("find."+name+".byfilter");
+		paraMap.addParas(para);
+		return getPage(paraMap);
+	}
+	public <T> Page<T> getPage(String name,JSONMap para, Class<T> t){
+		Find paraMap=new Find("find."+name+".byfilter");
+		paraMap.addParas(para);
+		return getPage(paraMap,t);
 	}
 	
 	@Override
@@ -150,92 +210,7 @@ public class NosqlServiceImpl implements INosqlService {
 		return getList(paraMap);
 	}
 	
-	@Override
-	public Object getColum(Find paraMap){
-		return DbCoverUtil.getFistClumn(getOne(getList(paraMap)));
-	}
-	@Override
-	public String getStr(Find paraMap){
-		return ValUtil.getStr(getColum( paraMap));
-	}
-	@Override
-	public Long getLong(Find paraMap){
-		return ValUtil.getLong(getColum( paraMap));
-	}
-	@Override
-	public Integer getInt(Find paraMap){
-		return ValUtil.getInt(getColum( paraMap));
-	}
-	@Override
-	public Float getFloat(Find paraMap){
-		return ValUtil.getFloat(getColum(paraMap));
-	}
-	@Override
-	public BigDecimal getBigDecimal(Find paraMap){
-		return ValUtil.getBigDecimal(getColum( paraMap));
-	}
-	@Override
-	public List<Object> getColumList(Find paraMap){
-		List<ResultMap> r = getList(paraMap);
-		List<Object> l = new ArrayList<Object>();
-		for(ResultMap m : r){
-			l.add(DbCoverUtil.getFistClumn(m));
-		}
-		return l;
-	}
-	public <T> List<T> getColumList(Find paraMap, Class<T> t){
-		List<ResultMap> r = getList(paraMap);
-		List<T> l = new ArrayList<T>();
-		for(ResultMap m : r){
-			l.add(ValUtil.getObj(DbCoverUtil.getFistClumn(m), t));
-		}
-		return l;
-	}
-	@Override
-	public List<String> getStrList(Find paraMap) {
-		List<ResultMap> r = getList(paraMap);
-		List<String> l = new ArrayList<String>();
-		for(ResultMap m : r){
-			l.add(ValUtil.getStr(DbCoverUtil.getFistClumn(m)));
-		}
-		return l;
-	}
-	@Override
-	public List<BigDecimal> getBigDecimalList(Find paraMap) {
-		List<ResultMap> r = getList(paraMap);
-		List<BigDecimal> l = new ArrayList<BigDecimal>();
-		for(ResultMap m : r){
-			l.add(ValUtil.getBigDecimal(DbCoverUtil.getFistClumn(m)));
-		}
-		return l;
-	}
-	@Override
-	public List<Float> getFloatList(Find paraMap) {
-		List<ResultMap> r = getList(paraMap);
-		List<Float> l = new ArrayList<Float>();
-		for(ResultMap m : r){
-			l.add(ValUtil.getFloat(DbCoverUtil.getFistClumn(m)));
-		}
-		return l;
-	}
-	@Override
-	public List<Integer> getIntList(Find paraMap) {
-		List<ResultMap> r = getList(paraMap);
-		List<Integer> l = new ArrayList<Integer>();
-		for(ResultMap m : r){
-			l.add(ValUtil.getInt(DbCoverUtil.getFistClumn(m)));
-		}
-		return l;
-	}
-	@Override
-	public List<Long> getLongList(Find paraMap) {
-		List<ResultMap> r = getList(paraMap);
-		List<Long> l = new ArrayList<Long>();
-		for(ResultMap m : r){
-			l.add(ValUtil.getLong(DbCoverUtil.getFistClumn(m)));
-		}
-		return l;
-	}
+	
 	@Override
 	public <T> Page<T> getPage(Find paraMap, Class<T> t) {
 		Page<T> page= paraMap.getPage();
