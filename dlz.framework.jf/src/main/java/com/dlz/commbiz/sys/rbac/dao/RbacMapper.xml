@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.rbac.dao.RbacMapper" >
+	<resultMap id="UserResultMap" type="com.dlz.commbiz.sys.rbac.model.User">
+		<id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+		<result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+	    <result column="USER_STATUS" property="userStatus" jdbcType="CHAR" />
+	</resultMap>
+  <resultMap id="RoleMap" type="com.dlz.commbiz.sys.rbac.model.Role" >
+    <id column="ROLE_ID" property="roleId" jdbcType="DECIMAL" />
+    <result column="ROLE_NM" property="roleNm" jdbcType="VARCHAR" />
+    <result column="ROLE_DESC" property="roleDesc" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<!-- 查看用户-根据用户组编号查询所有用户登录名称 -->
+	<select id="getLoginIdByGrpId" parameterType="string" resultMap="UserResultMap">
+		SELECT U.LOGIN_ID,U.USER_STATUS
+		  FROM T_P_USER U
+		  JOIN T_P_USER_GRP_USER UGU ON U.USER_ID = UGU.USER_ID
+		 WHERE UGU.GRP_ID = #{grpId}
+	</select>
+	
+	<select id="getRoleNameByUserId" parameterType="long" resultType="string">
+		SELECT DISTINCT R.ROLE_ID
+		  FROM T_P_ROLE R
+		  JOIN(
+		       (SELECT ROLE_ID FROM T_P_USER_ROLE UR WHERE UR.USER_ID = #{userId})
+		       	UNION 
+		       (SELECT ROLE_ID FROM T_P_USER_GRP_ROLE UGR
+		         JOIN T_P_USER_GRP_USER UGU
+		           ON UGR.GRP_ID = UGU.GRP_ID
+		        WHERE UGU.USER_ID = #{userId})
+	        ) UNR
+		    ON R.ROLE_ID = UNR.ROLE_ID
+	</select>
+	
+	<select id="getRolesByUserId" parameterType="long" resultMap="RoleMap">
+		SELECT distinct *
+		  FROM T_P_ROLE R
+		 WHERE EXISTS (SELECT 1
+		          FROM T_P_USER_ROLE T
+		         WHERE T.USER_ID = #{userId}
+		           AND T.ROLE_ID = R.ROLE_ID)
+		    OR EXISTS (SELECT 1
+		          FROM T_P_USER_GRP_ROLE T1, T_P_USER_GRP_USER T2
+		         WHERE T2.USER_ID = #{userId}
+		           and t1.grp_id = t2.grp_id
+		           and t1.role_id = R.ROLE_ID)
+	</select>
+	
+	<select id="getFunOptUrlByUserId" parameterType="long" resultType="string">
+		SELECT DISTINCT F.URL
+		  FROM T_P_FUN_OPT F
+		  JOIN T_P_ROLE_FUN_OPT RF
+		    ON F.FUN_OPT_ID = RF.FUN_OPT_ID
+		  JOIN(
+		  	(SELECT ROLE_ID FROM T_P_USER_ROLE UR WHERE UR.USER_ID = #{userId})
+			UNION 
+			(SELECT ROLE_ID FROM T_P_USER_GRP_ROLE UGR
+		         JOIN T_P_USER_GRP_USER UGU
+		           ON UGR.GRP_ID = UGU.GRP_ID
+		        WHERE UGU.USER_ID = #{userId})) UR
+		    ON RF.ROLE_ID = UR.ROLE_ID
+	</select>
+	
+	<select id="getMenueMapByUserId" parameterType="map" resultType="map">
+		SELECT MENUE_ID, MENUE_NM, URL, PAR_MENUE_ID, MENUE_ORDER,MENUE_LEVEL,STATE FROM (
+		SELECT DISTINCT MENUE_ID, M.MENUE_NM, F.URL, M.PAR_MENUE_ID, M.MENUE_ORDER,M.MENUE_LEVEL,M.STATE
+		  FROM T_P_MENUE M
+		  JOIN T_P_FUN_OPT F 
+		    ON M.FUN_OPT_ID = F.FUN_OPT_ID
+		  JOIN T_P_ROLE_FUN_OPT RF
+		    ON F.FUN_OPT_ID = RF.FUN_OPT_ID
+		  JOIN ((SELECT ROLE_ID FROM T_P_USER_ROLE UR WHERE UR.USER_ID = #{userId})
+		UNION (SELECT ROLE_ID
+		         FROM T_P_USER_GRP_ROLE UGR
+		         JOIN T_P_USER_GRP_USER UGU
+		           ON UGR.GRP_ID = UGU.GRP_ID
+		        WHERE UGU.USER_ID = #{userId})) UR
+		    ON RF.ROLE_ID = UR.ROLE_ID
+		    ) T  where  (T.PAR_MENUE_ID = #{menueId}  or  T.PAR_MENUE_ID in (select t2.MENUE_ID from T_P_MENUE t2 where T2.PAR_MENUE_ID = #{menueId} AND T2.STATE = #{state} ))
+		    AND T.STATE = #{state} 
+		    ORDER BY T.PAR_MENUE_ID, T.MENUE_ORDER
+	</select>
+	
+	<select id="getSubMenusByUserId" parameterType="map" resultType="map">
+		SELECT MENUE_ID, MENUE_NM, URL, PAR_MENUE_ID, MENUE_ORDER,MENUE_LEVEL,STATE FROM (
+		SELECT DISTINCT MENUE_ID, M.MENUE_NM, F.URL, M.PAR_MENUE_ID, M.MENUE_ORDER,M.MENUE_LEVEL,M.STATE
+		  FROM T_P_MENUE M
+		  JOIN T_P_FUN_OPT F 
+		    ON M.FUN_OPT_ID = F.FUN_OPT_ID
+		  JOIN T_P_ROLE_FUN_OPT RF
+		    ON F.FUN_OPT_ID = RF.FUN_OPT_ID
+		  JOIN ((SELECT ROLE_ID FROM T_P_USER_ROLE UR WHERE UR.USER_ID = #{userId})
+		UNION (SELECT ROLE_ID
+		         FROM T_P_USER_GRP_ROLE UGR
+		         JOIN T_P_USER_GRP_USER UGU
+		           ON UGR.GRP_ID = UGU.GRP_ID
+		        WHERE UGU.USER_ID = #{userId})) UR
+		    ON RF.ROLE_ID = UR.ROLE_ID
+		    ) T  where  T.PAR_MENUE_ID = #{menueId} 
+		    AND T.STATE = 1 
+		    ORDER BY T.PAR_MENUE_ID, T.MENUE_ORDER
+	</select>
+	
+	<select id="getRootMenueByUserId" parameterType="long" resultType="map">
+		SELECT MENUE_ID, MENUE_NM, URL, PAR_MENUE_ID, MENUE_ORDER ,Menue_Level FROM (
+    SELECT DISTINCT MENUE_ID, M.MENUE_NM, F.URL, M.PAR_MENUE_ID, M.MENUE_ORDER,M.Menue_Level
+		  FROM T_P_MENUE M
+		  JOIN T_P_FUN_OPT F 
+		    ON M.FUN_OPT_ID = F.FUN_OPT_ID
+		  JOIN T_P_ROLE_FUN_OPT RF
+		    ON F.FUN_OPT_ID = RF.FUN_OPT_ID
+		    AND M.STATE = 1 
+		  JOIN ((SELECT ROLE_ID FROM T_P_USER_ROLE UR WHERE UR.USER_ID = #{userId})
+		UNION (SELECT ROLE_ID
+		         FROM T_P_USER_GRP_ROLE UGR
+		         JOIN T_P_USER_GRP_USER UGU
+		           ON UGR.GRP_ID = UGU.GRP_ID
+		        WHERE UGU.USER_ID = #{userId})) UR
+		    ON RF.ROLE_ID = UR.ROLE_ID
+		    ) T  WHERE T.MENUE_LEVEL = 1  ORDER BY  T.MENUE_ORDER
+	</select>
+	
+	<select id="getOptsByRoles" parameterType="map" resultType="map">
+		SELECT f.fun_opt_id as id, f.fun_opt_nm as text, f.parent_fun_opt_id as pid, f.f_order as ord,url
+		  FROM T_P_FUN_OPT F
+		 where f.f_state = 1
+		   ${pidCondition}
+		   and f.f_code like #{fCode}||'%'
+		   and f.f_state = 1
+		   and exists (select 1
+		          from T_P_ROLE_FUN_OPT RF
+		         where F.FUN_OPT_ID = RF.FUN_OPT_ID
+		           and RF.role_id in <foreach collection="roles" item="listItem" open="(" close=")" separator="," >
+					                    #{listItem}
+					                  </foreach>
+			)
+		 order by f.f_order
+	</select>
+</mapper>

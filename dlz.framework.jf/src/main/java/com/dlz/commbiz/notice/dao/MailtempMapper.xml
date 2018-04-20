@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.notice.dao.MailtempMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.notice.model.Mailtemp" >
+    <id column="M_ID" property="mId" jdbcType="DECIMAL" />
+    <result column="M_TIT" property="mTit" jdbcType="VARCHAR" />
+    <result column="M_INFO" property="mInfo" jdbcType="VARCHAR" />
+    <result column="M_SIGN" property="mSign" jdbcType="VARCHAR" />
+    <result column="M_ORDER" property="mOrder" jdbcType="DECIMAL" />
+    <result column="M_CON" property="mCon" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    M_ID, M_TIT, M_INFO, M_SIGN, M_ORDER, M_CON
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.notice.model.MailtempCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JOB_MAILTEMP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from JOB_MAILTEMP
+    where M_ID = #{mId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from JOB_MAILTEMP
+    where M_ID = #{mId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.notice.model.MailtempCriteria" >
+    delete from JOB_MAILTEMP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.notice.model.Mailtemp" >
+    insert into JOB_MAILTEMP (M_ID, M_TIT, M_INFO, 
+      M_SIGN, M_ORDER, M_CON
+      )
+    values (#{mId,jdbcType=DECIMAL}, #{mTit,jdbcType=VARCHAR}, #{mInfo,jdbcType=VARCHAR}, 
+      #{mSign,jdbcType=VARCHAR}, #{mOrder,jdbcType=DECIMAL}, #{mCon,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.notice.model.Mailtemp" >
+    insert into JOB_MAILTEMP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
+        M_ID,
+      </if>
+      <if test="mTit != null" >
+        M_TIT,
+      </if>
+      <if test="mInfo != null" >
+        M_INFO,
+      </if>
+      <if test="mSign != null" >
+        M_SIGN,
+      </if>
+      <if test="mOrder != null" >
+        M_ORDER,
+      </if>
+      <if test="mCon != null" >
+        M_CON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
+        #{mId,jdbcType=DECIMAL},
+      </if>
+      <if test="mTit != null" >
+        #{mTit,jdbcType=VARCHAR},
+      </if>
+      <if test="mInfo != null" >
+        #{mInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="mSign != null" >
+        #{mSign,jdbcType=VARCHAR},
+      </if>
+      <if test="mOrder != null" >
+        #{mOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="mCon != null" >
+        #{mCon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.notice.model.MailtempCriteria" >
+    select count(*) from JOB_MAILTEMP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JOB_MAILTEMP
+    <set >
+      <if test="record.mId != null" >
+        M_ID = #{record.mId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mTit != null" >
+        M_TIT = #{record.mTit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mInfo != null" >
+        M_INFO = #{record.mInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mSign != null" >
+        M_SIGN = #{record.mSign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mOrder != null" >
+        M_ORDER = #{record.mOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mCon != null" >
+        M_CON = #{record.mCon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JOB_MAILTEMP
+    set M_ID = #{record.mId,jdbcType=DECIMAL},
+      M_TIT = #{record.mTit,jdbcType=VARCHAR},
+      M_INFO = #{record.mInfo,jdbcType=VARCHAR},
+      M_SIGN = #{record.mSign,jdbcType=VARCHAR},
+      M_ORDER = #{record.mOrder,jdbcType=DECIMAL},
+      M_CON = #{record.mCon,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.notice.model.Mailtemp" >
+    update JOB_MAILTEMP
+    <set >
+      <if test="mTit != null" >
+        M_TIT = #{mTit,jdbcType=VARCHAR},
+      </if>
+      <if test="mInfo != null" >
+        M_INFO = #{mInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="mSign != null" >
+        M_SIGN = #{mSign,jdbcType=VARCHAR},
+      </if>
+      <if test="mOrder != null" >
+        M_ORDER = #{mOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="mCon != null" >
+        M_CON = #{mCon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where M_ID = #{mId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.notice.model.Mailtemp" >
+    update JOB_MAILTEMP
+    set M_TIT = #{mTit,jdbcType=VARCHAR},
+      M_INFO = #{mInfo,jdbcType=VARCHAR},
+      M_SIGN = #{mSign,jdbcType=VARCHAR},
+      M_ORDER = #{mOrder,jdbcType=DECIMAL},
+      M_CON = #{mCon,jdbcType=VARCHAR}
+    where M_ID = #{mId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

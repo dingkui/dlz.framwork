@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.rbac.dao.ContractMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.sys.rbac.model.Contract" >
+    <id column="CONTRACT_ID" property="contractId" jdbcType="DECIMAL" />
+    <result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR" />
+    <result column="CONTRACT_NAME" property="contractName" jdbcType="VARCHAR" />
+    <result column="CONTRACT_URL" property="contractUrl" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="DECIMAL" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="VARCHAR" />
+    <result column="CONTRACT_TYPE" property="contractType" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.dlz.commbiz.sys.rbac.model.Contract" extends="BaseResultMap" >
+    <result column="CONTRACT_INFO" property="contractInfo" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CONTRACT_ID, CONTRACT_CODE, CONTRACT_NAME, CONTRACT_URL, CREATE_DATE, CREATE_USER, 
+    CREATE_USER_NAME, CONTRACT_TYPE
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTRACT_INFO
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.dlz.commbiz.sys.rbac.model.ContractCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_C_CONTRACT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.sys.rbac.model.ContractCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_C_CONTRACT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_C_CONTRACT
+    where CONTRACT_ID = #{contractId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from T_C_CONTRACT
+    where CONTRACT_ID = #{contractId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.sys.rbac.model.ContractCriteria" >
+    delete from T_C_CONTRACT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.sys.rbac.model.Contract" >
+    insert into T_C_CONTRACT (CONTRACT_ID, CONTRACT_CODE, CONTRACT_NAME, 
+      CONTRACT_URL, CREATE_DATE, CREATE_USER, 
+      CREATE_USER_NAME, CONTRACT_TYPE, CONTRACT_INFO
+      )
+    values (#{contractId,jdbcType=DECIMAL}, #{contractCode,jdbcType=VARCHAR}, #{contractName,jdbcType=VARCHAR}, 
+      #{contractUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUser,jdbcType=DECIMAL}, 
+      #{createUserName,jdbcType=VARCHAR}, #{contractType,jdbcType=CHAR}, #{contractInfo,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.sys.rbac.model.Contract" >
+    insert into T_C_CONTRACT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contractId != null" >
+        CONTRACT_ID,
+      </if>
+      <if test="contractCode != null" >
+        CONTRACT_CODE,
+      </if>
+      <if test="contractName != null" >
+        CONTRACT_NAME,
+      </if>
+      <if test="contractUrl != null" >
+        CONTRACT_URL,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME,
+      </if>
+      <if test="contractType != null" >
+        CONTRACT_TYPE,
+      </if>
+      <if test="contractInfo != null" >
+        CONTRACT_INFO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contractId != null" >
+        #{contractId,jdbcType=DECIMAL},
+      </if>
+      <if test="contractCode != null" >
+        #{contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractUrl != null" >
+        #{contractUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractType != null" >
+        #{contractType,jdbcType=CHAR},
+      </if>
+      <if test="contractInfo != null" >
+        #{contractInfo,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.sys.rbac.model.ContractCriteria" >
+    select count(*) from T_C_CONTRACT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_C_CONTRACT
+    <set >
+      <if test="record.contractId != null" >
+        CONTRACT_ID = #{record.contractId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.contractCode != null" >
+        CONTRACT_CODE = #{record.contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractName != null" >
+        CONTRACT_NAME = #{record.contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractUrl != null" >
+        CONTRACT_URL = #{record.contractUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createUserName != null" >
+        CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractType != null" >
+        CONTRACT_TYPE = #{record.contractType,jdbcType=CHAR},
+      </if>
+      <if test="record.contractInfo != null" >
+        CONTRACT_INFO = #{record.contractInfo,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update T_C_CONTRACT
+    set CONTRACT_ID = #{record.contractId,jdbcType=DECIMAL},
+      CONTRACT_CODE = #{record.contractCode,jdbcType=VARCHAR},
+      CONTRACT_NAME = #{record.contractName,jdbcType=VARCHAR},
+      CONTRACT_URL = #{record.contractUrl,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{record.createUser,jdbcType=DECIMAL},
+      CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      CONTRACT_TYPE = #{record.contractType,jdbcType=CHAR},
+      CONTRACT_INFO = #{record.contractInfo,jdbcType=CLOB}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_C_CONTRACT
+    set CONTRACT_ID = #{record.contractId,jdbcType=DECIMAL},
+      CONTRACT_CODE = #{record.contractCode,jdbcType=VARCHAR},
+      CONTRACT_NAME = #{record.contractName,jdbcType=VARCHAR},
+      CONTRACT_URL = #{record.contractUrl,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{record.createUser,jdbcType=DECIMAL},
+      CREATE_USER_NAME = #{record.createUserName,jdbcType=VARCHAR},
+      CONTRACT_TYPE = #{record.contractType,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.sys.rbac.model.Contract" >
+    update T_C_CONTRACT
+    <set >
+      <if test="contractCode != null" >
+        CONTRACT_CODE = #{contractCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contractName != null" >
+        CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractUrl != null" >
+        CONTRACT_URL = #{contractUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=DECIMAL},
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractType != null" >
+        CONTRACT_TYPE = #{contractType,jdbcType=CHAR},
+      </if>
+      <if test="contractInfo != null" >
+        CONTRACT_INFO = #{contractInfo,jdbcType=CLOB},
+      </if>
+    </set>
+    where CONTRACT_ID = #{contractId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dlz.commbiz.sys.rbac.model.Contract" >
+    update T_C_CONTRACT
+    set CONTRACT_CODE = #{contractCode,jdbcType=VARCHAR},
+      CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      CONTRACT_URL = #{contractUrl,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=DECIMAL},
+      CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      CONTRACT_TYPE = #{contractType,jdbcType=CHAR},
+      CONTRACT_INFO = #{contractInfo,jdbcType=CLOB}
+    where CONTRACT_ID = #{contractId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.sys.rbac.model.Contract" >
+    update T_C_CONTRACT
+    set CONTRACT_CODE = #{contractCode,jdbcType=VARCHAR},
+      CONTRACT_NAME = #{contractName,jdbcType=VARCHAR},
+      CONTRACT_URL = #{contractUrl,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=DECIMAL},
+      CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      CONTRACT_TYPE = #{contractType,jdbcType=CHAR}
+    where CONTRACT_ID = #{contractId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.notice.dao.SmsMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.notice.model.Sms" >
+    <id column="S_ID" property="sId" jdbcType="DECIMAL" />
+    <result column="S_MEMBERLOGIN" property="sMemberlogin" jdbcType="VARCHAR" />
+    <result column="S_TOMOBILE" property="sTomobile" jdbcType="VARCHAR" />
+    <result column="S_ISSUCCESS" property="sIssuccess" jdbcType="DECIMAL" />
+    <result column="S_SENDTIME" property="sSendtime" jdbcType="TIMESTAMP" />
+    <result column="S_CONTENT" property="sContent" jdbcType="VARCHAR" />
+    <result column="S_TOMEMBERLOGIN" property="sTomemberlogin" jdbcType="VARCHAR" />
+    <result column="S_MEMBER_NAME" property="sMemberName" jdbcType="VARCHAR" />
+    <result column="S_TOMEMBER_NAME" property="sTomemberName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    S_ID, S_MEMBERLOGIN, S_TOMOBILE, S_ISSUCCESS, S_SENDTIME, S_CONTENT, S_TOMEMBERLOGIN, 
+    S_MEMBER_NAME, S_TOMEMBER_NAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.notice.model.SmsCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from JOB_SMS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from JOB_SMS
+    where S_ID = #{sId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from JOB_SMS
+    where S_ID = #{sId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.notice.model.SmsCriteria" >
+    delete from JOB_SMS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.notice.model.Sms" >
+    insert into JOB_SMS (S_ID, S_MEMBERLOGIN, S_TOMOBILE, 
+      S_ISSUCCESS, S_SENDTIME, S_CONTENT, 
+      S_TOMEMBERLOGIN, S_MEMBER_NAME, S_TOMEMBER_NAME
+      )
+    values (#{sId,jdbcType=DECIMAL}, #{sMemberlogin,jdbcType=VARCHAR}, #{sTomobile,jdbcType=VARCHAR}, 
+      #{sIssuccess,jdbcType=DECIMAL}, #{sSendtime,jdbcType=TIMESTAMP}, #{sContent,jdbcType=VARCHAR}, 
+      #{sTomemberlogin,jdbcType=VARCHAR}, #{sMemberName,jdbcType=VARCHAR}, #{sTomemberName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.notice.model.Sms" >
+    insert into JOB_SMS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sId != null" >
+        S_ID,
+      </if>
+      <if test="sMemberlogin != null" >
+        S_MEMBERLOGIN,
+      </if>
+      <if test="sTomobile != null" >
+        S_TOMOBILE,
+      </if>
+      <if test="sIssuccess != null" >
+        S_ISSUCCESS,
+      </if>
+      <if test="sSendtime != null" >
+        S_SENDTIME,
+      </if>
+      <if test="sContent != null" >
+        S_CONTENT,
+      </if>
+      <if test="sTomemberlogin != null" >
+        S_TOMEMBERLOGIN,
+      </if>
+      <if test="sMemberName != null" >
+        S_MEMBER_NAME,
+      </if>
+      <if test="sTomemberName != null" >
+        S_TOMEMBER_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sId != null" >
+        #{sId,jdbcType=DECIMAL},
+      </if>
+      <if test="sMemberlogin != null" >
+        #{sMemberlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="sTomobile != null" >
+        #{sTomobile,jdbcType=VARCHAR},
+      </if>
+      <if test="sIssuccess != null" >
+        #{sIssuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="sSendtime != null" >
+        #{sSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sContent != null" >
+        #{sContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sTomemberlogin != null" >
+        #{sTomemberlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="sMemberName != null" >
+        #{sMemberName,jdbcType=VARCHAR},
+      </if>
+      <if test="sTomemberName != null" >
+        #{sTomemberName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.notice.model.SmsCriteria" >
+    select count(*) from JOB_SMS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update JOB_SMS
+    <set >
+      <if test="record.sId != null" >
+        S_ID = #{record.sId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sMemberlogin != null" >
+        S_MEMBERLOGIN = #{record.sMemberlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sTomobile != null" >
+        S_TOMOBILE = #{record.sTomobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sIssuccess != null" >
+        S_ISSUCCESS = #{record.sIssuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sSendtime != null" >
+        S_SENDTIME = #{record.sSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sContent != null" >
+        S_CONTENT = #{record.sContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sTomemberlogin != null" >
+        S_TOMEMBERLOGIN = #{record.sTomemberlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sMemberName != null" >
+        S_MEMBER_NAME = #{record.sMemberName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sTomemberName != null" >
+        S_TOMEMBER_NAME = #{record.sTomemberName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update JOB_SMS
+    set S_ID = #{record.sId,jdbcType=DECIMAL},
+      S_MEMBERLOGIN = #{record.sMemberlogin,jdbcType=VARCHAR},
+      S_TOMOBILE = #{record.sTomobile,jdbcType=VARCHAR},
+      S_ISSUCCESS = #{record.sIssuccess,jdbcType=DECIMAL},
+      S_SENDTIME = #{record.sSendtime,jdbcType=TIMESTAMP},
+      S_CONTENT = #{record.sContent,jdbcType=VARCHAR},
+      S_TOMEMBERLOGIN = #{record.sTomemberlogin,jdbcType=VARCHAR},
+      S_MEMBER_NAME = #{record.sMemberName,jdbcType=VARCHAR},
+      S_TOMEMBER_NAME = #{record.sTomemberName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.notice.model.Sms" >
+    update JOB_SMS
+    <set >
+      <if test="sMemberlogin != null" >
+        S_MEMBERLOGIN = #{sMemberlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="sTomobile != null" >
+        S_TOMOBILE = #{sTomobile,jdbcType=VARCHAR},
+      </if>
+      <if test="sIssuccess != null" >
+        S_ISSUCCESS = #{sIssuccess,jdbcType=DECIMAL},
+      </if>
+      <if test="sSendtime != null" >
+        S_SENDTIME = #{sSendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sContent != null" >
+        S_CONTENT = #{sContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sTomemberlogin != null" >
+        S_TOMEMBERLOGIN = #{sTomemberlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="sMemberName != null" >
+        S_MEMBER_NAME = #{sMemberName,jdbcType=VARCHAR},
+      </if>
+      <if test="sTomemberName != null" >
+        S_TOMEMBER_NAME = #{sTomemberName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where S_ID = #{sId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.notice.model.Sms" >
+    update JOB_SMS
+    set S_MEMBERLOGIN = #{sMemberlogin,jdbcType=VARCHAR},
+      S_TOMOBILE = #{sTomobile,jdbcType=VARCHAR},
+      S_ISSUCCESS = #{sIssuccess,jdbcType=DECIMAL},
+      S_SENDTIME = #{sSendtime,jdbcType=TIMESTAMP},
+      S_CONTENT = #{sContent,jdbcType=VARCHAR},
+      S_TOMEMBERLOGIN = #{sTomemberlogin,jdbcType=VARCHAR},
+      S_MEMBER_NAME = #{sMemberName,jdbcType=VARCHAR},
+      S_TOMEMBER_NAME = #{sTomemberName,jdbcType=VARCHAR}
+    where S_ID = #{sId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

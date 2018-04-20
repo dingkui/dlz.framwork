@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.rbac.dao.FunOptMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.sys.rbac.model.FunOpt" >
+    <id column="FUN_OPT_ID" property="funOptId" jdbcType="DECIMAL" />
+    <result column="FUN_OPT_NM" property="funOptNm" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="PARENT_FUN_OPT_ID" property="parentFunOptId" jdbcType="DECIMAL" />
+    <result column="F_STATE" property="fState" jdbcType="DECIMAL" />
+    <result column="F_ORDER" property="fOrder" jdbcType="DECIMAL" />
+    <result column="F_CODE" property="fCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    FUN_OPT_ID, FUN_OPT_NM, URL, REMARKS, PARENT_FUN_OPT_ID, F_STATE, F_ORDER, F_CODE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.sys.rbac.model.FunOptCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_P_FUN_OPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_P_FUN_OPT
+    where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from T_P_FUN_OPT
+    where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.sys.rbac.model.FunOptCriteria" >
+    delete from T_P_FUN_OPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.sys.rbac.model.FunOpt" >
+    insert into T_P_FUN_OPT (FUN_OPT_ID, FUN_OPT_NM, URL, 
+      REMARKS, PARENT_FUN_OPT_ID, F_STATE, 
+      F_ORDER, F_CODE)
+    values (#{funOptId,jdbcType=DECIMAL}, #{funOptNm,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{parentFunOptId,jdbcType=DECIMAL}, #{fState,jdbcType=DECIMAL}, 
+      #{fOrder,jdbcType=DECIMAL}, #{fCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.sys.rbac.model.FunOpt" >
+    insert into T_P_FUN_OPT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="funOptId != null" >
+        FUN_OPT_ID,
+      </if>
+      <if test="funOptNm != null" >
+        FUN_OPT_NM,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="parentFunOptId != null" >
+        PARENT_FUN_OPT_ID,
+      </if>
+      <if test="fState != null" >
+        F_STATE,
+      </if>
+      <if test="fOrder != null" >
+        F_ORDER,
+      </if>
+      <if test="fCode != null" >
+        F_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="funOptId != null" >
+        #{funOptId,jdbcType=DECIMAL},
+      </if>
+      <if test="funOptNm != null" >
+        #{funOptNm,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="parentFunOptId != null" >
+        #{parentFunOptId,jdbcType=DECIMAL},
+      </if>
+      <if test="fState != null" >
+        #{fState,jdbcType=DECIMAL},
+      </if>
+      <if test="fOrder != null" >
+        #{fOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="fCode != null" >
+        #{fCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.sys.rbac.model.FunOptCriteria" >
+    select count(*) from T_P_FUN_OPT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_P_FUN_OPT
+    <set >
+      <if test="record.funOptId != null" >
+        FUN_OPT_ID = #{record.funOptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.funOptNm != null" >
+        FUN_OPT_NM = #{record.funOptNm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        URL = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentFunOptId != null" >
+        PARENT_FUN_OPT_ID = #{record.parentFunOptId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fState != null" >
+        F_STATE = #{record.fState,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fOrder != null" >
+        F_ORDER = #{record.fOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fCode != null" >
+        F_CODE = #{record.fCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_P_FUN_OPT
+    set FUN_OPT_ID = #{record.funOptId,jdbcType=DECIMAL},
+      FUN_OPT_NM = #{record.funOptNm,jdbcType=VARCHAR},
+      URL = #{record.url,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      PARENT_FUN_OPT_ID = #{record.parentFunOptId,jdbcType=DECIMAL},
+      F_STATE = #{record.fState,jdbcType=DECIMAL},
+      F_ORDER = #{record.fOrder,jdbcType=DECIMAL},
+      F_CODE = #{record.fCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.sys.rbac.model.FunOpt" >
+    update T_P_FUN_OPT
+    <set >
+      <if test="funOptNm != null" >
+        FUN_OPT_NM = #{funOptNm,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="parentFunOptId != null" >
+        PARENT_FUN_OPT_ID = #{parentFunOptId,jdbcType=DECIMAL},
+      </if>
+      <if test="fState != null" >
+        F_STATE = #{fState,jdbcType=DECIMAL},
+      </if>
+      <if test="fOrder != null" >
+        F_ORDER = #{fOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="fCode != null" >
+        F_CODE = #{fCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.sys.rbac.model.FunOpt" >
+    update T_P_FUN_OPT
+    set FUN_OPT_NM = #{funOptNm,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      PARENT_FUN_OPT_ID = #{parentFunOptId,jdbcType=DECIMAL},
+      F_STATE = #{fState,jdbcType=DECIMAL},
+      F_ORDER = #{fOrder,jdbcType=DECIMAL},
+      F_CODE = #{fCode,jdbcType=VARCHAR}
+    where FUN_OPT_ID = #{funOptId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>

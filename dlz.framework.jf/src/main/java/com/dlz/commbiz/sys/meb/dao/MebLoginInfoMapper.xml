@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dlz.commbiz.sys.meb.dao.MebLoginInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.dlz.commbiz.sys.meb.model.MebLoginInfo" >
+    <id column="ML_ID" property="mlId" jdbcType="DECIMAL" />
+    <result column="ML_MID" property="mlMid" jdbcType="DECIMAL" />
+    <result column="ML_TIME" property="mlTime" jdbcType="TIMESTAMP" />
+    <result column="ML_IP" property="mlIp" jdbcType="VARCHAR" />
+    <result column="ML_POINT" property="mlPoint" jdbcType="VARCHAR" />
+    <result column="ML_ARER" property="mlArer" jdbcType="VARCHAR" />
+    <result column="ML_TYPE" property="mlType" jdbcType="DECIMAL" />
+    <result column="ML_CHANEL" property="mlChanel" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ML_ID, ML_MID, ML_TIME, ML_IP, ML_POINT, ML_ARER, ML_TYPE, ML_CHANEL
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfoCriteria" >
+    <include refid="OracleDialectPrefix" />
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from S_MEB_LOGIN_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="OracleDialectSuffix" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from S_MEB_LOGIN_INFO
+    where ML_ID = #{mlId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from S_MEB_LOGIN_INFO
+    where ML_ID = #{mlId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfoCriteria" >
+    delete from S_MEB_LOGIN_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfo" >
+    insert into S_MEB_LOGIN_INFO (ML_ID, ML_MID, ML_TIME, 
+      ML_IP, ML_POINT, ML_ARER, 
+      ML_TYPE, ML_CHANEL)
+    values (#{mlId,jdbcType=DECIMAL}, #{mlMid,jdbcType=DECIMAL}, #{mlTime,jdbcType=TIMESTAMP}, 
+      #{mlIp,jdbcType=VARCHAR}, #{mlPoint,jdbcType=VARCHAR}, #{mlArer,jdbcType=VARCHAR}, 
+      #{mlType,jdbcType=DECIMAL}, #{mlChanel,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfo" >
+    insert into S_MEB_LOGIN_INFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mlId != null" >
+        ML_ID,
+      </if>
+      <if test="mlMid != null" >
+        ML_MID,
+      </if>
+      <if test="mlTime != null" >
+        ML_TIME,
+      </if>
+      <if test="mlIp != null" >
+        ML_IP,
+      </if>
+      <if test="mlPoint != null" >
+        ML_POINT,
+      </if>
+      <if test="mlArer != null" >
+        ML_ARER,
+      </if>
+      <if test="mlType != null" >
+        ML_TYPE,
+      </if>
+      <if test="mlChanel != null" >
+        ML_CHANEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mlId != null" >
+        #{mlId,jdbcType=DECIMAL},
+      </if>
+      <if test="mlMid != null" >
+        #{mlMid,jdbcType=DECIMAL},
+      </if>
+      <if test="mlTime != null" >
+        #{mlTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mlIp != null" >
+        #{mlIp,jdbcType=VARCHAR},
+      </if>
+      <if test="mlPoint != null" >
+        #{mlPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="mlArer != null" >
+        #{mlArer,jdbcType=VARCHAR},
+      </if>
+      <if test="mlType != null" >
+        #{mlType,jdbcType=DECIMAL},
+      </if>
+      <if test="mlChanel != null" >
+        #{mlChanel,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select resultType="java.lang.Integer" id="countByExample" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfoCriteria" >
+    select count(*) from S_MEB_LOGIN_INFO
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update S_MEB_LOGIN_INFO
+    <set >
+      <if test="record.mlId != null" >
+        ML_ID = #{record.mlId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mlMid != null" >
+        ML_MID = #{record.mlMid,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mlTime != null" >
+        ML_TIME = #{record.mlTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mlIp != null" >
+        ML_IP = #{record.mlIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mlPoint != null" >
+        ML_POINT = #{record.mlPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mlArer != null" >
+        ML_ARER = #{record.mlArer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mlType != null" >
+        ML_TYPE = #{record.mlType,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mlChanel != null" >
+        ML_CHANEL = #{record.mlChanel,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update S_MEB_LOGIN_INFO
+    set ML_ID = #{record.mlId,jdbcType=DECIMAL},
+      ML_MID = #{record.mlMid,jdbcType=DECIMAL},
+      ML_TIME = #{record.mlTime,jdbcType=TIMESTAMP},
+      ML_IP = #{record.mlIp,jdbcType=VARCHAR},
+      ML_POINT = #{record.mlPoint,jdbcType=VARCHAR},
+      ML_ARER = #{record.mlArer,jdbcType=VARCHAR},
+      ML_TYPE = #{record.mlType,jdbcType=DECIMAL},
+      ML_CHANEL = #{record.mlChanel,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfo" >
+    update S_MEB_LOGIN_INFO
+    <set >
+      <if test="mlMid != null" >
+        ML_MID = #{mlMid,jdbcType=DECIMAL},
+      </if>
+      <if test="mlTime != null" >
+        ML_TIME = #{mlTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mlIp != null" >
+        ML_IP = #{mlIp,jdbcType=VARCHAR},
+      </if>
+      <if test="mlPoint != null" >
+        ML_POINT = #{mlPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="mlArer != null" >
+        ML_ARER = #{mlArer,jdbcType=VARCHAR},
+      </if>
+      <if test="mlType != null" >
+        ML_TYPE = #{mlType,jdbcType=DECIMAL},
+      </if>
+      <if test="mlChanel != null" >
+        ML_CHANEL = #{mlChanel,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ML_ID = #{mlId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dlz.commbiz.sys.meb.model.MebLoginInfo" >
+    update S_MEB_LOGIN_INFO
+    set ML_MID = #{mlMid,jdbcType=DECIMAL},
+      ML_TIME = #{mlTime,jdbcType=TIMESTAMP},
+      ML_IP = #{mlIp,jdbcType=VARCHAR},
+      ML_POINT = #{mlPoint,jdbcType=VARCHAR},
+      ML_ARER = #{mlArer,jdbcType=VARCHAR},
+      ML_TYPE = #{mlType,jdbcType=DECIMAL},
+      ML_CHANEL = #{mlChanel,jdbcType=DECIMAL}
+    where ML_ID = #{mlId,jdbcType=DECIMAL}
+  </update>
+  <sql id="OracleDialectPrefix" >
+    <if test="page != null" >
+      select * from ( select row_.*, rownum rownum_ from ( 
+    </if>
+  </sql>
+  <sql id="OracleDialectSuffix" >
+    <if test="page != null" >
+      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+    </if>
+  </sql>
+</mapper>
