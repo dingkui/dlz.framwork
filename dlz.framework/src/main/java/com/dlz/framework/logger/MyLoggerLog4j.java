@@ -20,7 +20,8 @@ public class MyLoggerLog4j extends MyLogger {
 		logger.callAppenders(new LoggingEvent(FQCN, logger, level, StringUtils.formatMsg(msg, params), t));
 	}
 
-	public void debug(Object message, Throwable t, Object... paras) {
+	public void debug(Object message, Object... paras) {
+		Throwable t=null;
 		Logging(Level.DEBUG, message, t, paras);
 	}
 

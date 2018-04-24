@@ -22,7 +22,8 @@ public class MyLoggerLogback extends MyLogger {
 		this.logger = (Logger) LoggerFactory.getLogger(name);
 	}
 
-	public void debug(Object message, Throwable t, Object... paras) {
+	public void debug(Object message, Object... paras) {
+		Throwable t=null;
 		Logging(Level.DEBUG, message, t, paras);
 	}
 

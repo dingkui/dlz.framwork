@@ -24,11 +24,11 @@ public abstract class MyLogger {
 		}
 		return new MyLoggerSlf4j(name);
 	}
-	
-	public void debug(Object message, Object... paras) {
-		debug(message, null, paras);
-	}
-	public abstract void debug(Object message, Throwable t, Object... paras);
+	public void debug(Object message) {
+		Object[] p=null;
+		debug(message,p);
+	}	
+	public abstract void debug(Object message, Object... paras);
 
 	public void error(Object message, Object... paras) {
 		error(message, null, paras);
