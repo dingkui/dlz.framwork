@@ -184,4 +184,12 @@ public class PageController extends BaseController{
 		}
 		return m;
 	}
+	
+	@RequestMapping(value = "/doAjaxOfWeb/{aType}")
+	@ResponseBody
+	public Object doAjaxOfWeb(HttpServletRequest request,String data, Page page, @PathVariable(value = "aType")String aType) {
+		Map<String,Object> resultMap = (Map<String, Object>) doAjax(request, data, page, aType);
+		return resultMap.get("data");
+	}
+	
 }
