@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 加载属性文件 -->
+    <properties resource="mybatis/jdbc.properties">
+        <!--properties中还可以配置一些属性名和属性值  -->
+        <!-- <property name="jdbc.driver" value=""/> -->
+    </properties>
+    <!-- 全局配置参数，需要时再设置 -->
+    <!-- <settings>
+    
+    </settings> -->
+    
+    
+    <!-- 和spring整合后 environments配置将废除-->
+    <environments default="HD">
+        <environment id="HD">
+        <!-- 使用jdbc事务管理，事务控制由mybatis-->
+            <transactionManager type="JDBC" />
+        <!-- 数据库连接池，由mybatis管理-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${hd.jdbc.driverClassName}" />
+                <property name="url" value="${hd.jdbc.url}" />
+                <property name="username" value="${hd.jdbc.username}" />
+                <property name="password" value="${hd.jdbc.password}" />
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 加载 映射文件 -->
+    <mappers>
+        <mapper resource="com/dlz/framework/db/dao/IDaoOperator.xml"/>
+    </mappers>
+    
+</configuration>
