@@ -7,10 +7,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.util.Assert;
 
+import com.dlz.framework.annotation.NotDbField;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
 
 /**
@@ -331,5 +334,37 @@ public class Reflections {
 			return (RuntimeException) e;
 		}
 		return new RuntimeException("Unexpected Checked Exception.", e);
+	}
+	
+	/**
+	 * 将po对象中有属性和值转换成map
+	 * 
+	 * @param po
+	 * @return
+	 */
+	public static Map po2Map(Object po) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		Method[] ms =po.getClass().getMethods();
+		for(Method m:ms){
+			if(!Modifier.isPublic(m.getModifiers()) || m.getParameterTypes().length>=0 || m.getAnnotation(NotDbField.class)!=null){
+				continue;
+			}
+			String name = m.getName();
+			if(name.startsWith("get")||name.startsWith("is")){
+				try {
+					map.put(getFieldName(name), m.invoke(po));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return map;
+	}
+	
+	private static String getFieldName(String methodName){
+		methodName = methodName.substring(3);
+		methodName = methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
+		return methodName;
 	}
 }
