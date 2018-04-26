@@ -1,5 +1,7 @@
 package com.dlz.common.bean;
 
+import java.util.List;
+
 /**
  * 菜单信息表
  * 
@@ -22,6 +24,7 @@ public class Menu implements java.io.Serializable {
 	protected String icon;
 	protected String icon_hover;
 	protected int is_display;
+	private List<Menu> children;
 
 	public int getId() {
 		return id;
@@ -147,4 +150,10 @@ public class Menu implements java.io.Serializable {
 		this.is_display = value;
 	}
 
+	public void setChildren(List<Menu> children) {
+		this.children=children;
+	}
+	public List<Menu> getChildren() {
+		return children;
+	}
 }
