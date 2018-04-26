@@ -88,6 +88,8 @@ public interface ICommService {
 	public <T> T getBean(String sql, Class<T> t, Object ... para);
 	public <T> List<T> getBeanList(String sql, Class<T> t, Object ... para);
 	int getCnt(String sql, Object ... para);
+	<T> Page<T> getPage(String sql, Class<T> t,int pageSize,int pageIndex, Object ... para);
+	Page<ResultMap> getPage(String sql, int pageSize,int pageIndex, Object ... para);
 	
 	long getSeqWithTime(String seqName);
 	long getSeq(String seqName);

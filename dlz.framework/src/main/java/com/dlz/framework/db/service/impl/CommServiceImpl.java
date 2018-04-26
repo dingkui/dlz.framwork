@@ -389,4 +389,16 @@ public class CommServiceImpl implements ICommService {
 	public int getCnt(String sql, Object... para) {
 		return getCnt(SqlUtil.getParmMap(sql, para));
 	}
+	@Override
+	public <T> Page<T> getPage(String sql, Class<T> t, int pageSize, int pageIndex, Object... para) {
+		BaseParaMap paraMap = SqlUtil.getParmMap(sql, para);
+		paraMap.setPage(new Page<T>(pageIndex,pageSize));
+		return getPage(paraMap, t);
+	}
+	@Override
+	public Page<ResultMap> getPage(String sql, int pageSize, int pageIndex, Object... para) {
+		BaseParaMap paraMap = SqlUtil.getParmMap(sql, para);
+		paraMap.setPage(new Page<ResultMap>(pageIndex,pageSize));
+		return getPage(paraMap);
+	}
 }
