@@ -103,7 +103,6 @@ public class CommServiceImpl implements ICommService {
 			for(ResultMap r: list){
 				list2.add(DbCoverUtil.converResultMap(r,paraMap.getConvert()));
 			}
-			
 			if(key!=null){
 				dbOprationCache.put(key, new Page<ResultMap>(0,list2), paraMap.getCacheTime());
 			}
@@ -317,5 +316,77 @@ public class CommServiceImpl implements ICommService {
 			dbOprationCache.put(key, page, paraMap.getCacheTime());
 		}
 		return page;
+	}
+	@Override
+	public int excuteSql(String sql, Object... para) {
+		return excuteSql(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Object getColum(String sql, Object... para) {
+		return getColum(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public String getStr(String sql, Object... para) {
+		return getStr(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public BigDecimal getBigDecimal(String sql, Object... para) {
+		return getBigDecimal(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Float getFloat(String sql, Object... para) {
+		return getFloat(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Integer getInt(String sql, Object... para) {
+		return getInt(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Long getLong(String sql, Object... para) {
+		return getLong(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Object> getColumList(String sql, Object... para) {
+		return getColumList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<String> getStrList(String sql, Object... para) {
+		return getStrList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<BigDecimal> getBigDecimalList(String sql, Object... para) {
+		return getBigDecimalList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Float> getFloatList(String sql, Object... para) {
+		return getFloatList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Integer> getIntList(String sql, Object... para) {
+		return getIntList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Long> getLongList(String sql, Object... para) {
+		return getLongList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public ResultMap getMap(String sql, Object... para) {
+		return getMap(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<ResultMap> getMapList(String sql, Object... para) {
+		return getMapList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public <T> T getBean(String sql, Class<T> t, Object... para) {
+		return getBean(SqlUtil.getParmMap(sql, para),t);
+	}
+	@Override
+	public <T> List<T> getBeanList(String sql, Class<T> t, Object... para) {
+		return getBeanList(SqlUtil.getParmMap(sql, para),t);
+	}
+	@Override
+	public int getCnt(String sql, Object... para) {
+		return getCnt(SqlUtil.getParmMap(sql, para));
 	}
 }

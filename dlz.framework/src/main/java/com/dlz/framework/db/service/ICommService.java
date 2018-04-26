@@ -62,7 +62,35 @@ public interface ICommService {
 	
 	int getCnt( BaseParaMap paraMap);
 	
+	
+	
+	
+	/**
+	 * 新的一套操作api,用于比较简单的sql,直接用问号传参
+	 * @param sql sql语句，可以用问号传参数如：update JOB_AD set AD_text=? where ad_id = ? 
+	 * @param para ：参数数组
+	 */
+	int excuteSql(String sql, Object ... para);
+	public Object getColum(String sql, Object ... para);
+	public String getStr(String sql, Object ... para);
+	public BigDecimal getBigDecimal(String sql, Object ... para);
+	public Float getFloat(String sql, Object ... para);
+	public Integer getInt(String sql, Object ... para);
+	public Long getLong(String sql, Object ... para);
+	public List<Object> getColumList(String sql, Object ... para);
+	public List<String> getStrList(String sql, Object ... para);
+	public List<BigDecimal> getBigDecimalList(String sql, Object ... para);
+	public List<Float> getFloatList(String sql, Object ... para);
+	public List<Integer> getIntList(String sql, Object ... para);
+	public List<Long> getLongList(String sql, Object ... para);
+	public ResultMap getMap(String sql, Object ... para);
+	public List<ResultMap> getMapList(String sql, Object ... para);
+	public <T> T getBean(String sql, Class<T> t, Object ... para);
+	public <T> List<T> getBeanList(String sql, Class<T> t, Object ... para);
+	int getCnt(String sql, Object ... para);
+	
 	long getSeqWithTime(String seqName);
 	long getSeq(String seqName);
-	long getSeq(Class<?> clazz); 
+	long getSeq(Class<?> clazz);
+	
 }

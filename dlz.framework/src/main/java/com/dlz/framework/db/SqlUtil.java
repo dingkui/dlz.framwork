@@ -15,8 +15,10 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseParaMap;
+import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.IColumnMapperService;
 import com.dlz.framework.db.service.impl.ColumnMapperToLower;
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.DateUtil;
 import com.dlz.framework.util.JacksonUtil;
@@ -35,7 +37,8 @@ public class SqlUtil{
 	public final static String SU_STR_TABLE_NM = "SU_STR_TABLE_NM";
 	public final static String SU_STR_UPDATE_KEYS = "SU_STR_UPDATE_KEYS";
 	
-	private static Pattern sqlPattern0 = Pattern.compile("\\^#\\{(\\w[\\.\\w]*)\\}");
+	private static Pattern sqlPattern_para = Pattern.compile("\\?");
+	private static Pattern sqlPattern0 = Pattern.compile("\\^[#\\$]\\{(\\w[\\.\\w]*)\\}");
 	private static Pattern sqlPattern = Pattern.compile("\\$\\{(\\w[\\.\\w]*)\\}");
 	private static Pattern sqlPattern1 = Pattern.compile("#\\{(\\w+[\\.\\w]*)\\}");
 	private static Pattern sqlPattern2 = Pattern.compile("\\[([^\\^][^\\[\\]]*)\\]");
@@ -90,8 +93,9 @@ public class SqlUtil{
 	 */
 	public static BaseParaMap dealParm(BaseParaMap paraMap){
 		String sql=paraMap.getSqlRun();
-		if(sql==null){
-			sql=createSqlRun(paraMap.getPara(), paraMap.getSqlInput());
+		String sqlInput = paraMap.getSqlInput();
+		if(sql==null && sqlInput!=null){
+			sql=createSqlRun(paraMap.getPara(), sqlInput);
 			sql=sqlPattern1.matcher(sql).replaceAll("#{para.$1}");
 			paraMap.setSqlRun(sql);
 			
@@ -100,6 +104,42 @@ public class SqlUtil{
 //			}
 		}
 		return paraMap;
+	}
+	
+	/**
+	 * 转换参数
+	 * @param paraMap
+	 * @author dk 2015-04-09
+	 * @return
+	 * @throws Exception
+	 */
+	public static BaseParaMap getParmMap(String sql,Object... para){
+		ParaMap paraMap = new ParaMap(null);
+		if("1".equals(DbInfo.getDbset("run.jdbc"))){
+			paraMap.setSqlJdbc(sql);
+			paraMap.setSqlJdbcPara(para);
+			return paraMap;
+		}
+		if(para.length<1){
+			return paraMap;
+		}
+		Matcher mat = sqlPattern_para.matcher(sql);
+		StringBuffer sb = new StringBuffer();
+		int i=1;
+		while(mat.find()){
+			if(para.length<i){
+				throw new CodeException("sql中参数数量与传入参数不符");
+			}
+			paraMap.addPara("p"+i, para[i-1]);
+			mat.appendReplacement(sb, "#\\{p"+i+"\\}");
+			i++;
+		}
+		paraMap.setSqlInput(sb.toString());
+		return paraMap;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(String.valueOf(getParmMap("select 1 from dual where 1=? and 2=? and 3=3",1,2)));
 	}
 	
 	/**
@@ -112,7 +152,7 @@ public class SqlUtil{
 	public static String createSqlRun(Map<String,Object> para,String sql){
 		sql=DbInfo.getSql(sql);
 		sql=getConditionStr(sql, para);
-		sql=replaceSql(sql, para);
+		sql=replaceSql(sql, para,0);
 		sql=sql.replaceAll("[\\s]+", " ");
 		return sql;
 	}
@@ -124,15 +164,16 @@ public class SqlUtil{
 	 */
 	public static String createPageSql(BaseParaMap paraMap){
 		String sql=paraMap.getSql_page();
-		if(sql==null){
+		String sqlRun = paraMap.getSqlRun();
+		if(sql==null && sqlRun!=null){
 			if(paraMap.getPage()!=null){
 				Map<String,Object> p=new HashMap<String,Object>();
-				p.put("_sql", paraMap.getSqlRun());
+				p.put("_sql", sqlRun);
 				p.put("page", getParaMap(paraMap.getPage()));
 				sql=createSqlRun(p, "key.comm.pageSql");
 				paraMap.setSql_page(sql);
 			}else{
-				paraMap.setSql_page(paraMap.getSqlRun());
+				paraMap.setSql_page(sqlRun);
 			}
 		}
 		return sql;
@@ -155,43 +196,50 @@ public class SqlUtil{
 	
  
 	
-	public static String replaceSql(String sql,Map<String,Object> m){
-		if(sql.length()>10000){
+	public static String replaceSql(String sql,Map<String,Object> m,int replaceTimes){
+		int length = sql.length();
+		if(length>10000||replaceTimes++>3000){
 			throw new DbException("sql过长或出现引用死循环！");
 		}
 		Matcher mat = sqlPattern.matcher(sql);
+		int start=0;
+		StringBuffer sb = new StringBuffer();
 	  	while(mat.find()){
+	  		sb.append(sql,start,mat.start());
 	  		String key=mat.group(1);
 	  		Object o = JacksonUtil.at(m,key);
 	  		if(o==null && key.startsWith("key.")){
 	  			o=getConditionStr(DbInfo.getSql(key),m);
 	  		}
 	  		String matStr = "";
-	  		if(o instanceof Object[]){
-	  			matStr = "'"+StringUtils.join((Object[])o, "','")+"'";
-	  		}else if(o instanceof Collection){
-	  			matStr = "'"+StringUtils.join((Collection<?>)o, "','")+"'";
-	  		}else{
-	  			matStr=String.valueOf(o==null?"":o);
+	  		if(o!=null){
+	  			if(o instanceof Object[]){
+	  				matStr = "'"+StringUtils.join((Object[])o, "','")+"'";
+	  			}else if(o instanceof Collection){
+	  				matStr = "'"+StringUtils.join((Collection<?>)o, "','")+"'";
+	  			}else{
+	  				matStr=String.valueOf(o==null?"":o);
+	  			}
 	  		}
-	  		matStr=StringUtils.NVL(matStr);
-	  		if(sqlPattern.matcher(matStr).find()){
-	  			matStr=replaceSql(matStr,m);
-	  		}
-	  		sql = sql.replaceAll("\\$\\{"+key+"\\}", matStr);
+	  		sb.append(replaceSql(matStr,m,replaceTimes));
+	  		start=mat.end();
 	  	}
-		if(sqlPattern.matcher(sql).find()){
-			return replaceSql(sql,m);
-		}else{
-			return sql;
-		}
+	  	if(start==0||start==length){
+	  		return sql;
+	  	}
+	  	sb.append(sql,start,length);
+	  	return replaceSql(sb.toString(),m,replaceTimes);
 	}
 	
 	public static String getConditionStr(String sql,Map<String,Object> m){
 		Matcher mat = sqlPattern2.matcher(sql);
+		int start=0;
 		StringBuffer sb = new StringBuffer();
 		while(mat.find()){
-			Matcher mat2 = sqlPattern1.matcher(mat.group(1));
+			sb.append(sql,start,mat.start());
+			
+			String group = mat.group(1);
+			Matcher mat2 = sqlPattern1.matcher(group);
 			boolean append = false;
 			while(mat2.find()){
 				if(isNotEmpty(m,mat2.group(1))){
@@ -200,7 +248,7 @@ public class SqlUtil{
 				}
 			}
 			if(!append){
-				Matcher mat3 = sqlPattern.matcher(mat.group(1));
+				Matcher mat3 = sqlPattern.matcher(group);
 				while(mat3.find()){
 					if(isNotEmpty(m,mat3.group(1))){
 						append = true;
@@ -209,18 +257,16 @@ public class SqlUtil{
 				}
 			}
 			if(append){
-				mat.appendReplacement(sb, "$1");
-			}else{
-				mat.appendReplacement(sb, "");
+				sb.append(sqlPattern0.matcher(group).replaceAll(""));
 			}
+			start=mat.end();
 		}
-		mat.appendTail(sb);
-		sql = sb.toString();
-		if(sqlPattern2.matcher(sql).find()){
-			return getConditionStr(sql,m);
-		}else{
-			return sqlPattern0.matcher(sql).replaceAll("");
-		}
+		
+		if(start==0||start==sql.length()){
+	  		return sql;
+	  	}
+		sb.append(sql,start,sql.length());
+	  	return getConditionStr(sb.toString(),m);
 	}
 	
 	private static boolean isNotEmpty(Map<String,Object> m,String key){

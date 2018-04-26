@@ -43,7 +43,10 @@
 	<sql sqlId="key.sqlTest.sqlUtilTest"><![CDATA[
 	   where 1=1
 	   [and a=#{a}]   --a参数存在则添加该条件:"and a=#{a}"
-	   [and b=#{a}]   --a参数存在则添加该条件:"and b=#{a}"
+	   [and b=#{b}]   --a参数存在则添加该条件:"and b=#{a}"
+	   [and c=2 ^#{c}]   --a参数存在则添加该条件:"and b=#{a}"
+	   [and d=${d}]   --a参数存在则添加该条件:"and b=#{a}"
+	   [and d=ddd ^${d}]   --a参数存在则添加该条件:"and b=#{a}"
 	   [
 	   	and d=#{d}    --d或者c存在则添加该条件"and d=#{d}"
 	   	and d1=#{d1}    --d或者c存在则添加该条件"and d=#{d}"
@@ -51,6 +54,14 @@
 	    [and c=#{c}]  --c存在则添加   "and d=#{d} and c=#{c}"
 	   ]  			  --d和c都不存在则不添加该条件
 	   ${xxxx}
+ 	]]></sql>
+ 	
+ 	
+ 	<!--
+		测试
+	-->
+	<sql sqlId="key.sqlTest.sqlUtil"><![CDATA[
+	   select * from bb ${key.sqlTest.sqlUtilTest}
  	]]></sql>
  	
 	
