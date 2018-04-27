@@ -12,7 +12,6 @@ import com.dlz.framework.cache.AbstractCache;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.framework.util.StringUtils;
 
 @Component
 public class DictCache extends AbstractCache<String, Dict>{
@@ -62,7 +61,7 @@ public class DictCache extends AbstractCache<String, Dict>{
 //				private Integer sort;//排序
 //				private Integer del=0;//是否删除
 				String sql=dict.getSqltext();
-				if(StringUtils.isEmpty(sql)){
+				if(sql==null||!sql.matches("\\s*(?i)select .+ from .+ where .*")){
 					sql="key.dict.getDictItem";
 				}
 				

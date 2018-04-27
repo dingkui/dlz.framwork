@@ -7,7 +7,7 @@
 <sqlList>
 	<sql sqlId="key.dict.getDict">
 	<![CDATA[
-	  select id,code,name,enable,source,sqltext from DS_DICT where 1=1 [and code=#{code}]
+	  select id,code,name,enable,sqltext from DS_DICT where 1=1 [and code=#{code}]
     ]]>
  	</sql>
 	<sql sqlId="key.dict.getDictItem">
