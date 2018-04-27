@@ -22,6 +22,9 @@ public class CreateSqlParaMap extends BaseParaMap{
 		super(Sql,page);
 		addPara(STR_TABLENAME, tableName);
 	}
+	public void setWhere(String where){
+		addPara(STR_WHERE, where);
+	}
 	public void addCondition(String paraName,String option,Object value){
 		if(value==null||"".equals(value)){
 			logger.error("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option);

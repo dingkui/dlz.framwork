@@ -94,5 +94,8 @@ public interface ICommService {
 	long getSeqWithTime(String seqName);
 	long getSeq(String seqName);
 	long getSeq(Class<?> clazz);
+
+	int update(String tableName, Object bean, String where);
+	int insert(String tableName, Object bean);
 	
 }

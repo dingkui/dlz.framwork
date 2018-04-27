@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.DbCoverUtil;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.cache.DbOprationCache;
@@ -15,8 +16,11 @@ import com.dlz.framework.db.dao.IDaoOperator;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseModel;
 import com.dlz.framework.db.modal.BaseParaMap;
+import com.dlz.framework.db.modal.DeleteParaMap;
+import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
@@ -400,5 +404,18 @@ public class CommServiceImpl implements ICommService {
 		BaseParaMap paraMap = SqlUtil.getParmMap(sql, para);
 		paraMap.setPage(new Page<ResultMap>(pageIndex,pageSize));
 		return getPage(paraMap);
+	}
+	@Override
+	public int update(String tableName, Object bean, String where) {
+		UpdateParaMap paraMap = new UpdateParaMap(tableName);
+		paraMap.addSetValues(new JSONMap(bean));
+		paraMap.setWhere(" where "+where);
+		return excuteSql(paraMap);
+	}
+	@Override
+	public int insert(String tableName, Object bean) {
+		InsertParaMap paraMap = new InsertParaMap(tableName);
+		paraMap.addValues(new JSONMap(bean));
+		return excuteSql(paraMap);
 	}
 }
