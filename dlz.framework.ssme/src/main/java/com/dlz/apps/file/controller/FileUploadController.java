@@ -2,6 +2,7 @@ package com.dlz.apps.file.controller;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -109,6 +110,9 @@ public class FileUploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/getFiles")
 	public List<Files> getFiles(Long dataId,String dType,String fOrd) throws Exception {
+		if(dataId == null || dType == null){
+			return new ArrayList<Files>();
+		}
 		return filesService.getFiles(dataId, fOrd, FileTypeEnum.valueOf(dType));
 	}
 	
