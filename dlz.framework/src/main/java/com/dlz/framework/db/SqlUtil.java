@@ -37,11 +37,30 @@ public class SqlUtil{
 	public final static String SU_STR_TABLE_NM = "SU_STR_TABLE_NM";
 	public final static String SU_STR_UPDATE_KEYS = "SU_STR_UPDATE_KEYS";
 	
-	private static Pattern sqlPattern_para = Pattern.compile("\\?");
-	private static Pattern sqlPattern0 = Pattern.compile("\\^[#\\$]\\{(\\w[\\.\\w]*)\\}");
-	private static Pattern sqlPattern = Pattern.compile("\\$\\{(\\w[\\.\\w]*)\\}");
-	private static Pattern sqlPattern1 = Pattern.compile("#\\{(\\w+[\\.\\w]*)\\}");
-	private static Pattern sqlPattern2 = Pattern.compile("\\[([^\\^][^\\[\\]]*)\\]");
+	/**
+	 * 参数匹配符：如  ?
+	 */
+	private static Pattern PATTERN_PARA = Pattern.compile("\\?");
+	/**
+	 * 替换内容匹配符：如  ${bb}
+	 */
+	private static Pattern PATTERN_REPLACE = Pattern.compile("\\$\\{(\\w[\\.\\w]*)\\}");
+	/**
+	 * 预处理匹配符：如   #{aa}
+	 */
+	private static Pattern PATTERN_PREPARE = Pattern.compile("#\\{(\\w+[\\.\\w]*)\\}");
+	/**
+	 * 条件判断符号（只用作条件判断，不做输出）：如   ^#{cc}
+	 */
+	private static Pattern PATTERN_NONE = Pattern.compile("\\^#\\{(\\w[\\.\\w]*)\\}");
+	/**
+	 * 条件语句匹配 ：如   [xxx #{aa} ${bb} ^#{cc}]
+	 */
+	private static Pattern PATTERN_CONDITION = Pattern.compile("\\[([^\\^][^\\[\\]]*)\\]");
+	/**
+	 * 是否数字
+	 */
+	private static Pattern PATTERN_ISNUM = Pattern.compile("^[\\d\\.-]+$");
 	
 	
 	private static IColumnMapperService columnMapper=new ColumnMapperToLower();
@@ -69,7 +88,7 @@ public class SqlUtil{
 		if(sql!=null){
 			StringBuffer sb = new StringBuffer();
 			int beginIndex=0;
-			Matcher mat = sqlPattern1.matcher(sql);
+			Matcher mat = PATTERN_PREPARE.matcher(sql);
 			JSONMap para=getParaMap(paraMap);
 			while(mat.find()){
 		  		sb.append(sql.substring(beginIndex, mat.start()));
@@ -96,7 +115,7 @@ public class SqlUtil{
 		String sqlInput = paraMap.getSqlInput();
 		if(sql==null && sqlInput!=null){
 			sql=createSqlRun(paraMap.getPara(), sqlInput);
-			sql=sqlPattern1.matcher(sql).replaceAll("#{para.$1}");
+			sql=PATTERN_PREPARE.matcher(sql).replaceAll("#{para.$1}");
 			paraMap.setSqlRun(sql);
 			
 //			if(sql.matches("[\\s]*(?i)select.*") && !sql.matches("[\\s]*(?i)select count(\\*).*") ){
@@ -123,7 +142,7 @@ public class SqlUtil{
 		if(para.length<1){
 			return paraMap;
 		}
-		Matcher mat = sqlPattern_para.matcher(sql);
+		Matcher mat = PATTERN_PARA.matcher(sql);
 		StringBuffer sb = new StringBuffer();
 		int i=1;
 		while(mat.find()){
@@ -136,10 +155,6 @@ public class SqlUtil{
 		}
 		paraMap.setSqlInput(sb.toString());
 		return paraMap;
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(String.valueOf(getParmMap("select 1 from dual where 1=? and 2=? and 3=3",1,2)));
 	}
 	
 	/**
@@ -195,17 +210,22 @@ public class SqlUtil{
 	}
 	
  
-	
+	/**
+	 * sql 语句中 ${aa} 的内容进行文本替换
+	 * @param sql
+	 * @param m
+	 * @param replaceTimes
+	 * @return
+	 */
 	public static String replaceSql(String sql,Map<String,Object> m,int replaceTimes){
 		int length = sql.length();
 		if(length>10000||replaceTimes++>3000){
 			throw new DbException("sql过长或出现引用死循环！");
 		}
-		Matcher mat = sqlPattern.matcher(sql);
+		Matcher mat = PATTERN_REPLACE.matcher(sql);
 		int start=0;
 		StringBuffer sb = new StringBuffer();
 	  	while(mat.find()){
-	  		sb.append(sql,start,mat.start());
 	  		String key=mat.group(1);
 	  		Object o = JacksonUtil.at(m,key);
 	  		if(o==null && key.startsWith("key.")){
@@ -213,34 +233,39 @@ public class SqlUtil{
 	  		}
 	  		String matStr = "";
 	  		if(o!=null){
-	  			if(o instanceof Object[]){
-	  				matStr = "'"+StringUtils.join((Object[])o, "','")+"'";
-	  			}else if(o instanceof Collection){
-	  				matStr = "'"+StringUtils.join((Collection<?>)o, "','")+"'";
+	  			if(o instanceof Object[] || o instanceof Collection){
+	  				matStr = getSqlInStr(o);
 	  			}else{
 	  				matStr=String.valueOf(o==null?"":o);
 	  			}
 	  		}
+	  		sb.append(sql,start,mat.start());
 	  		sb.append(replaceSql(matStr,m,replaceTimes));
 	  		start=mat.end();
 	  	}
-	  	if(start==0||start==length){
+	  	if(start==0){
 	  		return sql;
 	  	}
 	  	sb.append(sql,start,length);
 	  	return replaceSql(sb.toString(),m,replaceTimes);
 	}
 	
+	/**
+	 * sql 语句中 [] 提交内容进行处理
+	 * @param sql
+	 * @param m
+	 * @param replaceTimes
+	 * @return
+	 */
 	public static String getConditionStr(String sql,Map<String,Object> m){
-		Matcher mat = sqlPattern2.matcher(sql);
+		Matcher mat = PATTERN_CONDITION.matcher(sql);
 		int start=0;
 		StringBuffer sb = new StringBuffer();
 		while(mat.find()){
-			sb.append(sql,start,mat.start());
-			
-			String group = mat.group(1);
-			Matcher mat2 = sqlPattern1.matcher(group);
+			String conditionInfo = mat.group(1);
 			boolean append = false;
+			
+			Matcher mat2 = PATTERN_PREPARE.matcher(conditionInfo);
 			while(mat2.find()){
 				if(isNotEmpty(m,mat2.group(1))){
 					append = true;
@@ -248,7 +273,7 @@ public class SqlUtil{
 				}
 			}
 			if(!append){
-				Matcher mat3 = sqlPattern.matcher(group);
+				Matcher mat3 = PATTERN_REPLACE.matcher(conditionInfo);
 				while(mat3.find()){
 					if(isNotEmpty(m,mat3.group(1))){
 						append = true;
@@ -256,13 +281,15 @@ public class SqlUtil{
 					}
 				}
 			}
+			
+			sb.append(sql,start,mat.start());
 			if(append){
-				sb.append(sqlPattern0.matcher(group).replaceAll(""));
+				sb.append(PATTERN_NONE.matcher(conditionInfo).replaceAll(""));
 			}
 			start=mat.end();
 		}
 		
-		if(start==0||start==sql.length()){
+		if(start==0){
 	  		return sql;
 	  	}
 		sb.append(sql,start,sql.length());
@@ -443,6 +470,46 @@ public class SqlUtil{
 			sql.append(endSql);
 		}
 		return sql.toString();
+	}
+	
+	public static String getSqlInStr(Object o){
+		if(StringUtils.isEmpty(o)){
+			throw new CodeException("转换成in的参数不能为空！");
+		}
+		boolean isNum=true;
+		if(o instanceof CharSequence){
+			String valueOf = String.valueOf(o);
+			o=valueOf.replaceAll("\\s*,\\s*", ",").trim().split(",");
+		}else if(o instanceof Collection){
+			o=StringUtils.listToArray((Collection<?>)o);
+		}else if(!(o instanceof Object[])){
+			throw new CodeException("转换成in的参数只能是字符串或者列表，数组");
+		}
+		
+		Object[] o2 = (Object[])o;
+		for(int i=0;i<o2.length;i++){
+			if(o2[i] instanceof Number){
+				continue;
+			}
+			String valueOf = String.valueOf(o2[i]);
+			if(!PATTERN_ISNUM.matcher(valueOf).find()){
+				isNum=false;
+				if(valueOf.startsWith("'") && valueOf.endsWith("'")){
+					valueOf=valueOf.substring(1, valueOf.length()-1);
+				}
+				o2[i]=valueOf.replaceAll("'", "''");
+			}
+		}
+		if(isNum){
+			return StringUtils.join(o2, ",");
+		}
+		return "'"+StringUtils.join(o2, "','")+"'";
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(getSqlInStr(" 'a','b' ,c,d "));
+		System.out.println(getSqlInStr(" 1,2 ,3,d "));
+		System.out.println(getSqlInStr(" - 1,2 ,3,4 "));
 	}
 
 	public static String converStr2ClumnStr(String beanKey) {
