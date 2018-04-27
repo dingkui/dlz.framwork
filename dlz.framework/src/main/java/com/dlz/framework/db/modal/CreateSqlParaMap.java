@@ -32,12 +32,13 @@ public class CreateSqlParaMap extends BaseParaMap{
 		}
 		StringBuilder sbWhere = (StringBuilder)this.getPara().get(STR_WHERE);
 		if(sbWhere==null){
-			sbWhere=new StringBuilder(" where ");
+			sbWhere=new StringBuilder(" where 2=3");
 			addPara(STR_WHERE, sbWhere);
 		}
-		if(sbWhere.length()>7){
-			sbWhere.append(" and ");
+		if(sbWhere.toString().endsWith("2=3")){
+			sbWhere.replace(7, 10, "1=1");
 		}
+		sbWhere.append(" and ");
 		sbWhere.append(SqlUtil.converStr2ClumnStr(paraName));
 		sbWhere.append(' ');
 		sbWhere.append(option.equals("eq")?"=":option);
