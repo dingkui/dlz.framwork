@@ -83,6 +83,9 @@ public class AuthUser implements java.io.Serializable {
 	 * @return
 	 */
 	public boolean hasRole(String roles) {
+		if(roles==null){
+			return false;
+		}
 		String[] rs=roles.split(",");
 		boolean hasRole=false;
 		for(String r:rs){
