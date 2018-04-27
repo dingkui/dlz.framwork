@@ -35,7 +35,7 @@ public class CreateSqlParaMap extends BaseParaMap{
 			sbWhere=new StringBuilder(" where ");
 			addPara(STR_WHERE, sbWhere);
 		}
-		if(sbWhere.length()>6){
+		if(sbWhere.length()>7){
 			sbWhere.append(" and ");
 		}
 		sbWhere.append(SqlUtil.converStr2ClumnStr(paraName));
