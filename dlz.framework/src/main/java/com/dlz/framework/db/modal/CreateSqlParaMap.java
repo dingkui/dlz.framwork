@@ -32,10 +32,12 @@ public class CreateSqlParaMap extends BaseParaMap{
 		}
 		StringBuilder sbWhere = (StringBuilder)this.getPara().get(STR_WHERE);
 		if(sbWhere==null){
-			sbWhere=new StringBuilder(" where 1=1");
+			sbWhere=new StringBuilder(" where ");
 			addPara(STR_WHERE, sbWhere);
 		}
-		sbWhere.append(" and ");
+		if(sbWhere.length()>6){
+			sbWhere.append(" and ");
+		}
 		sbWhere.append(SqlUtil.converStr2ClumnStr(paraName));
 		sbWhere.append(' ');
 		sbWhere.append(option.equals("eq")?"=":option);
@@ -61,9 +63,8 @@ public class CreateSqlParaMap extends BaseParaMap{
 			addPara(paraName+"2", os[1]);
 		}else if(option.matches("(?i)in")){
 			sbWhere.append("(");
-			sbWhere.append("\\${").append(paraName).append("s}");
+			sbWhere.append(SqlUtil.getSqlInStr(value));
 			sbWhere.append(")");
-			addPara(paraName+"s", value);
 		}else if(option.matches("(?i)eq")||option.matches("=")){
 			sbWhere.append("#{").append(paraName).append("}");
 			addPara(paraName, value);
@@ -71,6 +72,7 @@ public class CreateSqlParaMap extends BaseParaMap{
 			sbWhere.append(value);
 		}
 	}
+	
 	/**
 	 * 添加要更新的值和更新条件集合
 	 * @param setValues
