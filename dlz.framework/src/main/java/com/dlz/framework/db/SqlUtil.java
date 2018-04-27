@@ -224,7 +224,7 @@ public class SqlUtil{
 	  		sb.append(replaceSql(matStr,m,replaceTimes));
 	  		start=mat.end();
 	  	}
-	  	if(start==0||start==length){
+	  	if(start==0){
 	  		return sql;
 	  	}
 	  	sb.append(sql,start,length);
