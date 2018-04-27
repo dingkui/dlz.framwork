@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Since: 
  */  
 @Retention(RetentionPolicy.RUNTIME)   
-@Target(ElementType.METHOD)   
+@Target({ElementType.METHOD,ElementType.TYPE})   
 public @interface AnnoAuth  
 {  
 	String value() default "*"; 
