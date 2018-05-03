@@ -29,6 +29,7 @@ import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.util.JacksonUtil;
+import com.dlz.framework.util.StringUtils;
 
 /**
  * 单位性质
@@ -69,6 +70,7 @@ public class FileUploadController extends BaseController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		String dType = request.getParameter("dType");
+		String saveDb = request.getParameter("saveDb");
 		Files files=null;
 		while(fileNames.hasNext()){
 			MultipartFile multipartFile = multipartRequest.getFile(fileNames.next());
@@ -84,7 +86,12 @@ public class FileUploadController extends BaseController {
 			m.put("userName", loginUser.getUserName());
 			m.put("userId", loginUser.getUserId());
 			m.put("fOrd", request.getParameter("fOrd"));
+			if(!StringUtils.isEmpty(saveDb)){
+				m.put("saveDb", false);
+			}
 			files = filesService.saveFile(multipartFile.getInputStream(), FileTypeEnum.valueOf(dType),m);
+			files.setfName(name);
+			files.setfSurfix(prefix);
 		}
 		return files;
 	}

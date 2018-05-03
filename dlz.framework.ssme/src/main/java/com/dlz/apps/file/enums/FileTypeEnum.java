@@ -26,7 +26,8 @@ public enum FileTypeEnum {
 	zlxjzx("21"),//资料下载中心
 	orderOutProof("22"),//销售订单打款凭证
 	receiptProof("23"),//发票打款凭证
-	fxs("24");//分销商
+	fxs("24"),//分销商
+	orderSend("25");//发货单
 	/*
 	 * 类型ID
 	 */
