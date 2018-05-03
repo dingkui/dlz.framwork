@@ -61,7 +61,7 @@ public class DictCache extends AbstractCache<String, Dict>{
 //				private Integer sort;//排序
 //				private Integer del=0;//是否删除
 				String sql=dict.getSqltext();
-				if(sql==null||!sql.matches("\\s*(?i)select .+ from .+ where .*")){
+				if(sql==null||(!sql.startsWith("key") && !sql.matches("\\s*(?i)select .+ from .+ where .*"))){
 					sql="key.dict.getDictItem";
 				}
 				
