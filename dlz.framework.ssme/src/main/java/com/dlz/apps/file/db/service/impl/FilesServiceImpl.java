@@ -92,7 +92,7 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		if (dataId == -1) {
 			Files f = new Files();
 			f.setfPath("/none" + prefix);
-			return f;
+			//return f;
 		}
 
 		// 构建文件保存路径
@@ -108,7 +108,9 @@ public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements Fi
 		if(org.apache.commons.lang3.StringUtils.isNotBlank(saveFolder)){
 			folderPath.append(File.separator + saveFolder);
 		}
-		folderPath.append(File.separator + dataId);
+		if (dataId != -1) {
+			folderPath.append(File.separator + dataId);
+		}
 //		folderPath.append(File.separator + month);
 //		folderPath.append(File.separator + day);
 		folderPath.append(File.separator + cdate + prefix);
