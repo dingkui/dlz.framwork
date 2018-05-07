@@ -21,6 +21,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,6 +80,18 @@ public class JacksonUtil {
 			return null;
 		}
 	}
+	public static <T> T readValue(String content, T valueType) {
+		try {
+			return objectMapper.readValue(content, new TypeReference<T>() {  
+            });
+		} catch (Exception e) {
+			logger.error("JacksonUtil.readValue error,content:"+content);
+			logger.error("JacksonUtil.readValue error,valueType:"+valueType);
+			logger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+	
 
 	public static JsonNode getJsonNode(String jsonStr, String key) {
 		// token
