@@ -346,10 +346,10 @@ public class Reflections {
 		Map<String,Object> map = new HashMap<String,Object>();
 		Method[] ms =po.getClass().getMethods();
 		for(Method m:ms){
-			if(!Modifier.isPublic(m.getModifiers()) || m.getParameterTypes().length>=0 || m.getAnnotation(NotDbField.class)!=null){
+			String name = m.getName();
+			if("getClass".equals(name)||!Modifier.isPublic(m.getModifiers()) || m.getParameterTypes().length>0 || m.getAnnotation(NotDbField.class)!=null){
 				continue;
 			}
-			String name = m.getName();
 			if(name.startsWith("get")||name.startsWith("is")){
 				try {
 					map.put(getFieldName(name), m.invoke(po));

@@ -52,7 +52,7 @@ public class JSONList extends ArrayList<Object>{
 			if(string.startsWith("[") && string.endsWith("]")){
 				addAll(JacksonUtil.readValue(string, JSONList.class));
 			}else{
-				throw new CodeException("参数不能转换成JSONMap:"+string);
+				throw new CodeException("参数不能转换成JSONList:"+string);
 			}
 		}
 	}

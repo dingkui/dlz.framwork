@@ -5,8 +5,11 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.dlz.common.util.api.AjaxApiUtil;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.holder.ThreadHolder;
 import com.dlz.framework.util.JacksonUtil;
 
 import freemarker.core.Environment;
@@ -41,6 +44,21 @@ public class MyToolDirectiveTag implements TemplateDirectiveModel {
         }
         if("toString".equalsIgnoreCase(method)){
         	toString(out, getObject(env.getVariable(name)));
+        }
+        if("api".equalsIgnoreCase(method)){
+        	String tagName=coverObject(getObject((TemplateModel) params.get("tagName")),String.class);
+	        String tagPara=coverObject(getObject((TemplateModel) params.get("tagPara")),String.class);
+			try{
+				JSONResult doAjax = AjaxApiUtil.doAjax(new JSONMap(tagPara), null, tagName, ThreadHolder.getAuthInfo(),"tag");
+				if(doAjax.isError()){
+					env.getOut().write(doAjax.getMsg());
+					env.getOut().flush();
+					return;
+				}
+				env.__setitem__(name, doAjax.getData());
+			}catch(Exception e){
+				throw new TemplateModelException("tag执行出错"+e.getMessage());
+			}
         }
         if("deal".equalsIgnoreCase(method)){
 	    	String tagName=coverObject(getObject((TemplateModel) params.get("tagName")),String.class);
