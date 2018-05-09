@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.FactoryBean;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.springframework.iproxy.anno.AnnoInterfaceDeal;
+import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
 
 /**
  * 接口代理创建工厂
@@ -55,7 +55,7 @@ class InterfaceProxyFactory<T> implements FactoryBean<T> {
         private AInterfaceProxyHandler getHandler(){
         	AInterfaceProxyHandler proxyHandler = cachedHandlers.get(handlerName);
         	if(proxyHandler==null){
-        		handlerName=cls.getAnnotation(AnnoInterfaceDeal.class).value();
+        		handlerName=cls.getAnnotation(AnnoApi.class).value();
         		proxyHandler=SpringHolder.getBean(handlerName);
         		cachedHandlers.put(handlerName, proxyHandler);
         	}

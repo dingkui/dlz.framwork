@@ -22,7 +22,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Component;
 
-import com.dlz.framework.springframework.iproxy.anno.AnnoInterfaceDeal;
+import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
 
 /**
  * 自定义扫描注册bean
@@ -51,19 +51,19 @@ public class InterfaceRegistryBean implements BeanDefinitionRegistryPostProcesso
     
     /**
      * 自定义扫描
-     * 只扫描接口和抽象类，并且注解了AnnoInterfaceProxy的类  命名为： I*Deal.java
+     * 只扫描接口和抽象类，并且注解了AnnoInterfaceProxy的类  命名为： I*Api.java
      * @author dk
      */
-    private static String CLASSPATH="classpath*:com/dlz/**/I*Deal.class";
+    private static String CLASSPATH="classpath*:com/dlz/**/I*Api.class";
     private class IntefaceDefinitionScanner extends ClassPathBeanDefinitionScanner{
         public IntefaceDefinitionScanner(BeanDefinitionRegistry registry) {
             super(registry,false);
-            this.addIncludeFilter(new AnnotationTypeFilter(AnnoInterfaceDeal.class, true, true));
+            this.addIncludeFilter(new AnnotationTypeFilter(AnnoApi.class, true, true));
         }
 
         @Override
         protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-            return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoInterfaceDeal.class.getName());
+            return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoApi.class.getName());
         }
         
     	private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
