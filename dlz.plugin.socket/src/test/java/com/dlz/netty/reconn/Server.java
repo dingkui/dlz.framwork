@@ -5,7 +5,7 @@ import java.util.Scanner;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.netty.handler.ServerHandler;
-import com.dlz.plugin.netty.listener.ANettyServerListener;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -61,7 +61,7 @@ public class Server {
                             protected void initChannel(SocketChannel sc) throws Exception {  
                                 // 增加任务处理  
                                 ChannelPipeline p = sc.pipeline(); 
-                                p.addLast(new ServerHandler(new ANettyServerListener() {
+                                p.addLast(new ServerHandler(new ISocketListener() {
 									@Override
 									public String deal(String reciveStr) {
 										return "我是服务器，你发给我的消息是："+reciveStr;

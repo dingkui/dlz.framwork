@@ -6,8 +6,8 @@ import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.handler.ClientHandler;
 import com.dlz.plugin.netty.handler.ClientSynHandler;
-import com.dlz.plugin.netty.listener.INettyListener;
-import com.dlz.plugin.netty.listener.impl.NettySynClientListenerImpl;
+import com.dlz.plugin.netty.listener.NettySynClientListener;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -28,7 +28,7 @@ public class NettyClient {
 	
 	private static boolean start=false;
 
-	public static void init(int port, String host, INettyListener lisner) {
+	public static void init(int port, String host, ISocketListener lisner) {
 		NettyClient.host = host;
 		NettyClient.port = port;
 		if(!start && lisner!=null){
@@ -48,7 +48,7 @@ public class NettyClient {
 	public static String synSend(String msg) {
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
-			NettySynClientListenerImpl lisner=new NettySynClientListenerImpl();
+			NettySynClientListener lisner=new NettySynClientListener();
 			ClientSynHandler clientSynHandler = new ClientSynHandler(lisner, msg);
 			Bootstrap b = new Bootstrap();
 			b.group(workerGroup);

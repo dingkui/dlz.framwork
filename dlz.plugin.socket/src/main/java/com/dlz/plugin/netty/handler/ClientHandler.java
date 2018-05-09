@@ -1,12 +1,12 @@
 package com.dlz.plugin.netty.handler;
 
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.plugin.netty.listener.INettyListener;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.channel.ChannelHandlerContext;
 
 public class ClientHandler extends BaseHandler { 
-	public ClientHandler(INettyListener lisner) {
+	public ClientHandler(ISocketListener lisner) {
 		super(lisner);
 	}
 	private static MyLogger logger = MyLogger.getLogger(ClientHandler.class);

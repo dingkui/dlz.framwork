@@ -6,7 +6,7 @@ import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.netty.handler.ServerHandler;
-import com.dlz.plugin.netty.listener.INettyListener;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -24,7 +24,7 @@ public class NettyServer {
 	private ServerSocketChannel serverSocketChannel;
 
 	ServerHandler serverHandler;
-	INettyListener listener;
+	ISocketListener listener;
 	private static NettyServer instace;
 	public static void broad(String msg){
 		if(instace!=null){
@@ -32,7 +32,7 @@ public class NettyServer {
 		}
 	}
 
-	public NettyServer(int serverPort, INettyListener listener) {
+	public NettyServer(int serverPort, ISocketListener listener) {
 		this.listener = listener;
 		bind(serverPort);
 		instace=this;

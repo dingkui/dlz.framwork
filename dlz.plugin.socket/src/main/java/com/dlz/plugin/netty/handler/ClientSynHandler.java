@@ -1,13 +1,13 @@
 package com.dlz.plugin.netty.handler;
 
 import com.dlz.plugin.netty.bean.RequestDto;
-import com.dlz.plugin.netty.listener.INettyListener;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.channel.ChannelHandlerContext;
 
 public class ClientSynHandler extends BaseHandler { 
 	private String msg;
-	public ClientSynHandler(INettyListener lisner,String msg) {
+	public ClientSynHandler(ISocketListener lisner,String msg) {
 		super(lisner);
 		this.msg=msg;
 	}

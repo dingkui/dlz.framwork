@@ -18,8 +18,9 @@ public class TestClient{
 		AsynClient client = new com.dlz.plugin.socket.conn.asyn.AsynClient("127.0.0.1", 9999, new ScoketIOLine());
 		client.init(new ISocketListener() {
 			@Override
-			public void deal(String postStr) {
+			public String deal(String postStr) {
 				logger.info("client deal:"+postStr);
+				return null;
 			}
 		});
 //		SocketClient client = new SocketClient("127.0.0.1", 9999, new ScoketIOSizeByte());

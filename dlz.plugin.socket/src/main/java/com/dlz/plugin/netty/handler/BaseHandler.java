@@ -2,7 +2,7 @@ package com.dlz.plugin.netty.handler;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
-import com.dlz.plugin.netty.listener.INettyListener;
+import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -10,9 +10,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 public class BaseHandler extends ChannelInboundHandlerAdapter {
 	private static MyLogger logger = MyLogger.getLogger(BaseHandler.class);
 
-	protected INettyListener lisner;
+	protected ISocketListener lisner;
 
-	public BaseHandler(INettyListener lisner) {
+	public BaseHandler(ISocketListener lisner) {
 		this.lisner = lisner;
 	}
 
@@ -47,7 +47,7 @@ public class BaseHandler extends ChannelInboundHandlerAdapter {
 			break;
 		case 3:// 同步返回
 			logger.debug("客户端接收到消息：" + info);
-			lisner.recive(info);
+			lisner.deal(info);
 			break;
 		case 5:// 异步返回
 		case 4:// 服务器端广播返回
@@ -55,7 +55,7 @@ public class BaseHandler extends ChannelInboundHandlerAdapter {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-					lisner.recive(info);
+					lisner.deal(info);
 				}
 			}).start();
 			break;
