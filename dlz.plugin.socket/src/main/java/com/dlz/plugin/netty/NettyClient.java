@@ -1,16 +1,16 @@
 package com.dlz.plugin.netty;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.handler.ClientHandler;
-import com.dlz.plugin.netty.handler.ClientSynHandler;
-import com.dlz.plugin.netty.listener.NettySynClientListener;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -22,22 +22,34 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class NettyClient {
 	private static MyLogger logger = MyLogger.getLogger(NettyClient.class);
-	private static int port;
-	private static String host;
-	private static SocketChannel socketChannel;
+	private int port;
+	private String host;
+	private SocketChannel socketChannel;
+	private ISocketListener lisner;
 	
-	private static boolean start=false;
+	/**
+	 * 运行状态
+	 * -1：运行错误
+	 * 0：初始
+	 * 1：开始初始化
+	 * 2：运行中
+	 */
 
-	public static void init(int port, String host, ISocketListener lisner) {
-		NettyClient.host = host;
-		NettyClient.port = port;
-		if(!start && lisner!=null){
-			start=true;
-			start(new ClientHandler(lisner));
+	NettyClient(int port, String host, ISocketListener lisner) {
+		this.host = host;
+		this.port = port;
+		this.lisner=lisner;
+		if(lisner==null){
+			throw new RuntimeException("lisner 不能为空");
 		}
+		start();
 	}
-	public static void send(String msg){
+
+	 void send(String msg) {
 		if (socketChannel != null) {
+			if(retryTimes>0){
+				throw new RuntimeException("连接已中断，发送失败。。");
+			}
 			RequestDto req = new RequestDto();
 			req.setType((byte) 1);
 			req.setInfo(msg);
@@ -45,43 +57,8 @@ public class NettyClient {
 		}
 	}
 
-	public static String synSend(String msg) {
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
-		try {
-			NettySynClientListener lisner=new NettySynClientListener();
-			ClientSynHandler clientSynHandler = new ClientSynHandler(lisner, msg);
-			Bootstrap b = new Bootstrap();
-			b.group(workerGroup);
-			b.channel(NioSocketChannel.class);
-			// b.option(ChannelOption.AUTO_READ, false);
-			b.handler(new ChannelInitializer<SocketChannel>() {
-				@Override
-				public void initChannel(SocketChannel ch) throws Exception {
-					ChannelPipeline p = ch.pipeline();
-					p.addLast(new MessageDecoder());
-					p.addLast(new MessageEncoder());
-					p.addLast(clientSynHandler);
-				}
-			});
-
-			// Start the client.
-			/**
-			 * await()方法：Waits for this future to be completed. Waits for this
-			 * future until it is done, and rethrows the cause of the failure if
-			 * this future failed.
-			 */
-			Channel channel = b.connect(host, port).channel();
-			channel.closeFuture().await();
-			return lisner.getResult();
-		} catch (InterruptedException e) {
-			logger.error(e.getMessage(), e);
-		} finally {
-			workerGroup.shutdownGracefully();
-		}
-		return null;
-	}
-
-	private static void start(ClientHandler clientHandler) {
+	private void start() {
+		ClientHandler clientHandler=new ClientHandler(lisner,this);
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -113,35 +90,37 @@ public class NettyClient {
 					if (future.isSuccess()) {
 						// 得到管道，便于通信
 						socketChannel = (SocketChannel) future.channel();
-						logger.debug("客户端开启成功...");
+						logger.debug("客户端连接成功...");
+						retryTimes=0;
 					} else {
 						logger.debug("客户端开启失败...");
 					}
 					// 等待客户端链路关闭，就是由于这里会将线程阻塞，导致无法发送信息，所以我这里开了线程
 					future.channel().closeFuture().sync();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					logger.error(e.getMessage());
 				} finally {
 					// 优雅地退出，释放相关资源
 					eventLoopGroup.shutdownGracefully();
+					shutdownAndRetry();
 				}
 			}
 		});
-
 		thread.start();
 	}
 
-//	public static void main(String[] args) {
-//		Scanner input = new Scanner(System.in);
-//		ClientUtil bootstrap = new ClientUtil(8080, "127.0.0.1");
-//
-//		String infoString = "";
-//		while (true) {
-//			infoString = input.nextLine();
-//			RequestInfo req = new RequestInfo();
-//			req.setType((byte) 1);
-//			req.setInfo(infoString);
-//			bootstrap.sendMessage(req);
-//		}
-//	}
+	int retryTimes=0;
+	public void shutdownAndRetry() {
+		retryTimes++;
+		if(socketChannel!=null){
+			socketChannel.eventLoop().shutdownGracefully();
+		}
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				logger.error("客户端重启第"+retryTimes+"次。。。");
+				start();
+			}
+		}, retryTimes>6?60000:(retryTimes-1)*10000);
+	}
 }

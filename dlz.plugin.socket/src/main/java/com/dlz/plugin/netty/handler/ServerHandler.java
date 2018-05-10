@@ -1,6 +1,5 @@
 package com.dlz.plugin.netty.handler;
 
-import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
@@ -11,31 +10,31 @@ public class ServerHandler extends BaseHandler {
 		super(lisner);
 	}
 
-	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);
-    @Override
-    public boolean isSharable() {
-        logger.debug("handler-sharable");
-        return super.isSharable();
-    }
-
-    @Override
-    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("channelRegistered "+ctx.name());
-        super.channelRegistered(ctx);
-    }
-
-
-    @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("channelUnregistered");
-        super.channelUnregistered(ctx);
-    }
+//	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);
+//    @Override
+//    public boolean isSharable() {
+//        logger.debug("handler-sharable");
+//        return super.isSharable();
+//    }
+//
+//    @Override
+//    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+//        logger.debug("channelRegistered "+ctx.name());
+//        super.channelRegistered(ctx);
+//    }
+//
+//
+//    @Override
+//    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+//        logger.debug("channelUnregistered");
+//        super.channelUnregistered(ctx);
+//    }
 	/**
 	 * 客户端与服务端创建连接的时候调用
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		logger.debug("客户端与服务端连接开始channelActive...");
+//		logger.debug("客户端与服务端连接开始channelActive...");
 		NettyConfig.group.add(ctx.channel());
 	}
 
@@ -44,7 +43,7 @@ public class ServerHandler extends BaseHandler {
 	 */
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		logger.debug("客户端与服务端连接关闭channelActive...");
+//		logger.debug("客户端与服务端连接关闭channelActive...");
 		NettyConfig.group.remove(ctx.channel());
 	}
 
@@ -54,7 +53,7 @@ public class ServerHandler extends BaseHandler {
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		ctx.flush();
-		logger.debug("信息接收完毕channelReadComplete...");
+//		logger.debug("信息接收完毕channelReadComplete...");
 	}
 
 	/**

@@ -2,8 +2,6 @@ package com.dlz.plugin.netty.codec;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.socket.util.StringCompress;
 
@@ -12,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 
 public class MessageDecoder extends ByteToMessageDecoder { 
-	private static Logger logger=Logger.getLogger(MessageDecoder.class);
+//	private static Logger logger=Logger.getLogger(MessageDecoder.class);
     @Override  
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {  
         //标记开始读取位置  
