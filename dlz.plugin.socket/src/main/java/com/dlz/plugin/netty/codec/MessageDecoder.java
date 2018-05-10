@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.dlz.plugin.netty.bean.RequestDto;
+import com.dlz.plugin.socket.util.StringCompress;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -23,8 +24,9 @@ public class MessageDecoder extends ByteToMessageDecoder {
         //in.readableBytes()即为剩下的字节数  
         byte[] info = new byte[in.readableBytes()];  
         in.readBytes(info);  
-        requestInfo.setInfo(new String(info, "utf-8"));  
-        logger.debug("MessageDecoder：type="+infoType+" msg=" + requestInfo.getInfo());  
+//        requestInfo.setInfo(new String(info, "utf-8"));  
+        requestInfo.setInfo(StringCompress.decompress(info));  
+//        logger.debug("MessageDecoder：type="+infoType+" msg=" + requestInfo.getInfo());  
         //最后把你想要交由ServerHandler的数据添加进去，就可以了  
         out.add(requestInfo);
     }  

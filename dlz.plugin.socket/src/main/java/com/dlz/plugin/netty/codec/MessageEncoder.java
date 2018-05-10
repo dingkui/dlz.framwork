@@ -1,6 +1,7 @@
 package com.dlz.plugin.netty.codec;
 
 import com.dlz.plugin.netty.bean.RequestDto;
+import com.dlz.plugin.socket.util.StringCompress;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
@@ -14,7 +15,8 @@ public class MessageEncoder  extends MessageToByteEncoder<RequestDto> {
         writer.writeByte(msg.getType());
         byte[] info = null;
         if (msg != null &&msg.getInfo() != null && msg.getInfo() != "") {
-        	info = msg.getInfo().getBytes("utf-8");
+//        	info = msg.getInfo().getBytes("utf-8");
+        	info = StringCompress.compress(msg.getInfo());
         	writer.write(info);
         }
     }
