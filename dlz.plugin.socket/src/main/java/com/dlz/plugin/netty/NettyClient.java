@@ -110,17 +110,27 @@ public class NettyClient {
 	}
 
 	int retryTimes=0;
+	boolean retrying=false;
 	public void shutdownAndRetry() {
+		if(retrying){
+			logger.error("客户端重启第"+retryTimes+"次中。。。");
+			return;
+		}
 		retryTimes++;
+		long times=retryTimes>6?60:(retryTimes-1)*10;
+		logger.error("出现异常，"+times+"秒后将重连。。。");
 		if(socketChannel!=null){
 			socketChannel.eventLoop().shutdownGracefully();
 		}
+		retrying=true;
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
 				logger.error("客户端重启第"+retryTimes+"次。。。");
 				start();
+				retrying=false;
 			}
-		}, retryTimes>6?60000:(retryTimes-1)*10000);
+		}, times*1000);
+		
 	}
 }

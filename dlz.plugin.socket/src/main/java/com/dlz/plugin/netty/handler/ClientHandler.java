@@ -22,7 +22,7 @@ public class ClientHandler extends BaseHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
     	if(cause!=null) {
     		logger.error(cause.getMessage());
-    		logger.error(ctx.channel().remoteAddress());
+    		logger.error(ctx.channel().remoteAddress().toString());
     	}
         if(null != ctx) ctx.close(); 
         if(null != client) client.shutdownAndRetry();
