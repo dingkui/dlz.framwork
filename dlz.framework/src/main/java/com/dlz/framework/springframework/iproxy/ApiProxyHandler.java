@@ -9,7 +9,7 @@ import com.dlz.framework.bean.JSONMap;
  * 接口代理实现类
  * @author dk
  */
-public abstract class AInterfaceProxyHandler {
+public abstract class ApiProxyHandler {
 	protected JSONMap getParaAsMap(Method method,Object[] args){
 		JSONMap m=new JSONMap();
 		Parameter[] parameters = method.getParameters();

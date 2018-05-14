@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dlz.cache.redis.queue.annotation.RedisQueueProvider;
-import com.dlz.framework.springframework.iproxy.AInterfaceProxyHandler;
+import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 
@@ -22,7 +22,7 @@ import redis.clients.jedis.JedisPool;
  *         2018/3/1 14:22
  */
 @Component("redisQueue")
-public class RedisQueueHandler extends AInterfaceProxyHandler {
+public class RedisQueueHandler extends ApiProxyHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired

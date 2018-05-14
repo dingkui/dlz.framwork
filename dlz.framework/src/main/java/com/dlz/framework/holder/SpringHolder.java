@@ -23,13 +23,11 @@ import com.dlz.framework.util.StringUtils;
 public class SpringHolder implements ApplicationContextAware {
 	private static ApplicationContext  beanFactory;
 	public static void init(){
-		if(beanFactory==null){
-			new ClassPathXmlApplicationContext("classpath*:spring_cfg/*.xml");
-		}
+		init("*");
 	}
 	public static void init(String xml){
 		if(beanFactory==null){
-			beanFactory=new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml");
+			new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml");
 		}
 	}
 	public static void init(ApplicationContext applicationContext){
@@ -43,6 +41,11 @@ public class SpringHolder implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		if(beanFactory==null){
 			beanFactory =applicationContext;
+//			ConfigurableApplicationContext applicationContext2 = (ConfigurableApplicationContext)applicationContext;
+//			BeanDefinitionRegistry bean = (BeanDefinitionRegistry)   applicationContext2.getBeanFactory();
+//			InterfaceRegistryBean interfaceRegistryBean=new InterfaceRegistryBean();
+//			interfaceRegistryBean.postProcessBeanDefinitionRegistry(bean);
+//			System.out.println(1);
 		}
 	}
 	

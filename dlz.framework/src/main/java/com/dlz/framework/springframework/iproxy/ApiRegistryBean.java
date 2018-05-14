@@ -30,8 +30,7 @@ import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
  *
  */
 @Component
-public class InterfaceRegistryBean implements BeanDefinitionRegistryPostProcessor{
-
+public class ApiRegistryBean implements BeanDefinitionRegistryPostProcessor{
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
     }
@@ -44,11 +43,10 @@ public class InterfaceRegistryBean implements BeanDefinitionRegistryPostProcesso
     		int lastIndexOf = beanName.lastIndexOf('.');
     		beanName=beanName.substring(lastIndexOf+1,lastIndexOf+2).toLowerCase()+beanName.substring(lastIndexOf+2);
 	        definition.getPropertyValues().add("interfaceClass", definition.getBeanClassName());
-	        definition.setBeanClassName(InterfaceProxyFactory.class.getName());
+	        definition.setBeanClassName(ApiProxyFactory.class.getName());
 	        beanDefinitionRegistry.registerBeanDefinition(beanName, definition);
     	}
     }
-    
     /**
      * 自定义扫描
      * 只扫描接口和抽象类，并且注解了AnnoInterfaceProxy的类  命名为： I*Api.java
@@ -63,7 +61,7 @@ public class InterfaceRegistryBean implements BeanDefinitionRegistryPostProcesso
 
         @Override
         protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-            return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoApi.class.getName());
+			return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoApi.class.getName());
         }
         
     	private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();

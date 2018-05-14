@@ -153,7 +153,7 @@ public class ValUtil{
 		if (input instanceof Date) {
 			return (Date)input;
 		}
-		String  value = getStr(input,"").replaceAll("/", "-");
+		String  value = getStr(input,"").replaceAll("/", "-").replaceAll("\"", "");
 		if (value.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}.*")) {
 			return DateUtil.parseDateTime(value.substring(0, 18));
 		} else if (value.matches("^\\d{4}年\\d{2}月\\d{2}日 \\d{2}时\\d{2}分\\d{2}秒")) {

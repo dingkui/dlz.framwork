@@ -17,7 +17,7 @@ import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
  *
  * @param <T>
  */
-class InterfaceProxyFactory<T> implements FactoryBean<T> {
+class ApiProxyFactory<T> implements FactoryBean<T> {
     private Class<T> clas;
     public Class<T> getInterfaceClass() {
         return clas;
@@ -42,7 +42,7 @@ class InterfaceProxyFactory<T> implements FactoryBean<T> {
         return true;
     }
     
-    private static Map<String,AInterfaceProxyHandler> cachedHandlers = new HashMap<>();
+    private static Map<String,ApiProxyHandler> cachedHandlers = new HashMap<>();
     /**
      * 接口代理实现
      * @author dingkui
@@ -52,10 +52,10 @@ class InterfaceProxyFactory<T> implements FactoryBean<T> {
         private Class<?> cls;
         private String handlerName;
         
-        private AInterfaceProxyHandler getHandler(){
-        	AInterfaceProxyHandler proxyHandler = cachedHandlers.get(handlerName);
+        private ApiProxyHandler getHandler(){
+        	ApiProxyHandler proxyHandler = cachedHandlers.get(handlerName);
         	if(proxyHandler==null){
-        		handlerName=cls.getAnnotation(AnnoApi.class).value();
+        		handlerName=cls.getAnnotation(AnnoApi.class).value()+"ApiHandler";
         		proxyHandler=SpringHolder.getBean(handlerName);
         		cachedHandlers.put(handlerName, proxyHandler);
         	}

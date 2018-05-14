@@ -9,14 +9,14 @@ public class Start {
 	@Before
 	public void setUp() throws Exception {
 		SpringHolder.init();
-		testService=SpringHolder.getBean("iTestDeal");
-		test2Service=SpringHolder.getBean("iTest2Deal");
-		test3Service=SpringHolder.getBean("iTestDeal");
+		testService=SpringHolder.getBean("iTestApi");
+		test2Service=SpringHolder.getBean("iTest2Api");
+		test3Service=SpringHolder.getBean("iTestApi");
 	}
 	
-	ITest2Deal test2Service;
-	ITestDeal testService;
-	ITestDeal test3Service;
+	ITest2Api test2Service;
+	ITestApi testService;
+	ITestApi test3Service;
 
     @Test
     public void test() {

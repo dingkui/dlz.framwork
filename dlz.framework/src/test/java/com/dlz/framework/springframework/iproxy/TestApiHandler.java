@@ -4,10 +4,10 @@ import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
-import com.dlz.framework.springframework.iproxy.AInterfaceProxyHandler;
+import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
 
 @Component
-public class TestHandler extends AInterfaceProxyHandler {
+public class TestApiHandler extends ApiProxyHandler {
 	@Override
 	public Object done(Class<?> clazz,Method method, Object[] args) throws Exception {
 		return method.getName()+getParaAsMap(method, args);
