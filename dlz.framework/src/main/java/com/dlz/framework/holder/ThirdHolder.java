@@ -20,6 +20,9 @@ public class ThirdHolder {
 		}
 		return thirdInfo;
 	}
+	public static void removeThirdInfo(){
+		ThreadHolder.getSession().removeAttribute(MEMBER_SESSION_THIRDINFO);
+	}
 	public static TokenInfo getWxMemberAccesToken(){
 		TokenInfo token = (TokenInfo) ThreadHolder.getSession().getAttribute(SESSION_WX_ACCESSTOKEN);
 		if (token == null) {
