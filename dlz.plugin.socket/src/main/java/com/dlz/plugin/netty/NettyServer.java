@@ -39,7 +39,7 @@ public class NettyServer {
 		this(serverPort, listener, new DefaultCoder());
 	}
 	public NettyServer(int serverPort, ISocketListener listener,ICoder coder) {
-		if(instace!=null){
+		if(instace==null){
 			instace=this;
 			this.listener = listener;
 			this.coder=new DefaultCoder();
@@ -83,9 +83,9 @@ public class NettyServer {
 					future = bootstrap.bind(serverPort).sync();
 					if (future.isSuccess()) {
 						serverSocketChannel = (ServerSocketChannel) future.channel();
-						logger.debug("服务端开启成功");
+						logger.info("服务端开启成功");
 					} else {
-						logger.debug("服务端开启失败");
+						logger.warn("服务端开启失败");
 					}
 
 					// 等待服务监听端口关闭,就是由于这里会将线程阻塞，导致无法发送信息，所以我这里开了线程

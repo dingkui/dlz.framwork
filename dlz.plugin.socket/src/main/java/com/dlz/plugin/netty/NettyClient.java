@@ -1,5 +1,6 @@
 package com.dlz.plugin.netty;
 
+import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -70,6 +71,8 @@ public class NettyClient {
 			socketChannel.writeAndFlush(req);
 		}
 	}
+	 
+	
 
 	private void start() {
 		ClientHandler clientHandler=new ClientHandler(lisner,this);
@@ -104,19 +107,20 @@ public class NettyClient {
 					if (future.isSuccess()) {
 						// 得到管道，便于通信
 						socketChannel = (SocketChannel) future.channel();
-						logger.debug("客户端连接成功...");
+						String message = "接服务器("+host+":"+port+")成功...";
+						System.out.println(message);
+						logger.info(message);
 						retryTimes=0;
 					} else {
-						logger.debug("客户端开启失败...");
+						logger.error("连接服务器失败...");
 					}
 					// 等待客户端链路关闭，就是由于这里会将线程阻塞，导致无法发送信息，所以我这里开了线程
 					future.channel().closeFuture().sync();
 				} catch (Exception e) {
-					logger.error(e.getMessage());
+					shutdownAndRetry(e.getMessage());
 				} finally {
 					// 优雅地退出，释放相关资源
 					eventLoopGroup.shutdownGracefully();
-					shutdownAndRetry();
 				}
 			}
 		});
@@ -125,26 +129,29 @@ public class NettyClient {
 
 	int retryTimes=0;
 	boolean retrying=false;
-	public void shutdownAndRetry() {
+	Timer timer = new Timer();
+	/**
+	 * 断线重连服务器
+	 * 第一次立即重连，在后面每一次重连失败，重连时间加10秒，达到120秒后，每120秒重试一次
+	 * @param msg
+	 */
+	public void shutdownAndRetry(String msg) {
 		if(retrying){
-			logger.error("客户端重启第"+retryTimes+"次中。。。");
+			logger.error("重连中。。。");
 			return;
 		}
-		retryTimes++;
-		long times=retryTimes>6?60:(retryTimes-1)*10;
-		logger.error("出现异常，"+times+"秒后将重连。。。");
-		if(socketChannel!=null){
-			socketChannel.eventLoop().shutdownGracefully();
-		}
 		retrying=true;
-		new Timer().schedule(new TimerTask() {
+		
+		retryTimes++;
+		long times=retryTimes>12?120:(retryTimes-1)*10;
+		logger.error("出现异常：["+msg+"],"+(times>0?times+"秒后将":"")+"重连。。。");
+		timer.schedule(new TimerTask(){
 			@Override
 			public void run() {
-				logger.error("客户端重启第"+retryTimes+"次。。。");
-				start();
 				retrying=false;
+				logger.warn("客户端重连服务器("+host+":"+port+")第"+retryTimes+"次。。。");
+				start();
 			}
 		}, times*1000);
-		
 	}
 }

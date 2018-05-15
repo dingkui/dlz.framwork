@@ -1,5 +1,7 @@
 package com.dlz.netty.syn;
 
+import com.dlz.plugin.netty.codec.DefaultCoder;
+import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 
@@ -14,7 +16,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class HelloServer {
-	public void start(int port) throws Exception {
+
+	public void start(int port,ICoder coder) throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -24,8 +27,8 @@ public class HelloServer {
 				public void initChannel(SocketChannel ch) throws Exception {
 					// 注册handler
 					ChannelPipeline p = ch.pipeline();
-					p.addLast(new MessageDecoder());
-                    p.addLast(new MessageEncoder());
+					p.addLast(new MessageDecoder(coder));
+                    p.addLast(new MessageEncoder(coder));
                     p.addLast(new HelloServerInHandler());
 				}
 			}).option(ChannelOption.SO_BACKLOG, 128);
@@ -39,6 +42,6 @@ public class HelloServer {
 
 	public static void main(String[] args) throws Exception {
 		HelloServer server = new HelloServer();
-		server.start(9090);
+		server.start(9090,new DefaultCoder());
 	}
 }

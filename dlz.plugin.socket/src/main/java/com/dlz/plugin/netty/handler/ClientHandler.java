@@ -1,5 +1,7 @@
 package com.dlz.plugin.netty.handler;
 
+import java.io.IOException;
+
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.NettyClient;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
@@ -20,12 +22,28 @@ public class ClientHandler extends BaseHandler {
       
     @Override  
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-    	if(cause!=null) {
-    		logger.error(cause.getMessage());
-    		logger.error(ctx.channel().remoteAddress().toString());
-    	}
+//    	if(cause!=null) {
+//    		logger.error(cause.getMessage());
+//    		logger.error(ctx.channel().remoteAddress().toString());
+//    	}
         if(null != ctx) ctx.close(); 
-        if(null != client) client.shutdownAndRetry();
+        if(null != client){
+        	if(cause!=null) {
+        		client.shutdownAndRetry(ctx.channel().remoteAddress().toString()+ cause.getMessage());
+        		if(!(cause instanceof IOException)){
+        			logger.error(cause.getMessage(),cause);
+        		}
+        	}else{
+        		client.shutdownAndRetry("异常重连");
+        	}
+        }else{
+        	if(!(cause instanceof IOException)){
+    			logger.error(cause.getMessage(),cause);
+    		}else{
+    			logger.error(cause.getMessage());
+        		logger.error(ctx.channel().remoteAddress().toString());
+    		}
+        }
     }
 //  @Override  
 //  public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {  

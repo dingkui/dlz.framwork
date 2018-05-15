@@ -1,6 +1,8 @@
 package com.dlz.netty.syn;
 
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.plugin.netty.codec.DefaultCoder;
+import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 
@@ -24,7 +26,7 @@ public class HelloClient {
 
 	StringBuffer message = new StringBuffer();
 
-	public String connect(String host, int port) throws Exception {
+	public String connect(String host, int port,ICoder coder) throws Exception {
 
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 
@@ -37,8 +39,8 @@ public class HelloClient {
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline p = ch.pipeline();
-					p.addLast(new MessageDecoder());
-					p.addLast(new MessageEncoder());
+					p.addLast(new MessageDecoder(coder));
+					p.addLast(new MessageEncoder(coder));
 					p.addLast(new HelloClientIntHandler(message));
 				}
 			});
@@ -61,6 +63,6 @@ public class HelloClient {
 
 	public static void main(String[] args) throws Exception {
 		HelloClient client = new HelloClient();
-		logger.debug(">>>>>>>>>>" + client.connect("127.0.0.1", 9090).toString());
+		logger.debug(">>>>>>>>>>" + client.connect("127.0.0.1", 9090,new DefaultCoder()).toString());
 	}
 }
