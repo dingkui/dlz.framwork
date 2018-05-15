@@ -1,5 +1,6 @@
 package com.dlz.plugin.netty.handler;
 
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
@@ -10,7 +11,7 @@ public class ServerHandler extends BaseHandler {
 		super(lisner);
 	}
 
-//	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);
+	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);
 //    @Override
 //    public boolean isSharable() {
 //        logger.debug("handler-sharable");
@@ -34,7 +35,7 @@ public class ServerHandler extends BaseHandler {
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//		logger.debug("客户端与服务端连接开始channelActive...");
+//		logger.debug("客户端已连接："+ctx.channel().remoteAddress());
 		NettyConfig.group.add(ctx.channel());
 	}
 
@@ -61,7 +62,9 @@ public class ServerHandler extends BaseHandler {
 	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		cause.printStackTrace();
+//		cause.printStackTrace();
+		logger.error(cause.getMessage());
+		logger.error("客户端："+ctx.channel().remoteAddress());
 		ctx.close();
 	}
 

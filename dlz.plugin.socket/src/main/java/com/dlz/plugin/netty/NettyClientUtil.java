@@ -3,6 +3,7 @@ package com.dlz.plugin.netty;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 public class NettyClientUtil {
@@ -20,6 +21,17 @@ public class NettyClientUtil {
 		}
 		if(!clientSynMap.containsKey(serverName)){
 			clientSynMap.put(serverName, new NettySynClient(port, host));
+		}
+	}
+	public static void init(String serverName,boolean isDefualt, int port, String host, ISocketListener lisner,ICoder coder) {
+		if(isDefualt){
+			defaultClient=serverName;
+		}
+		if(lisner!=null && !clientMap.containsKey(serverName)){
+			clientMap.put(serverName, new NettyClient(port, host, lisner,coder));
+		}
+		if(!clientSynMap.containsKey(serverName)){
+			clientSynMap.put(serverName, new NettySynClient(port, host,coder));
 		}
 	}
 	public static void send(String serverNam,String msg){

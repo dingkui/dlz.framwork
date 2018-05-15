@@ -5,6 +5,8 @@ import java.util.TimerTask;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
+import com.dlz.plugin.netty.codec.DefaultCoder;
+import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.handler.ClientHandler;
@@ -26,6 +28,7 @@ public class NettyClient {
 	private String host;
 	private SocketChannel socketChannel;
 	private ISocketListener lisner;
+	private ICoder coder;
 	
 	/**
 	 * 运行状态
@@ -34,11 +37,22 @@ public class NettyClient {
 	 * 1：开始初始化
 	 * 2：运行中
 	 */
-
 	NettyClient(int port, String host, ISocketListener lisner) {
+		this(port, host, lisner, new DefaultCoder());
+	}
+	
+	/**
+	 * 运行状态
+	 * -1：运行错误
+	 * 0：初始
+	 * 1：开始初始化
+	 * 2：运行中
+	 */
+	NettyClient(int port, String host, ISocketListener lisner,ICoder coder) {
 		this.host = host;
 		this.port = port;
 		this.lisner=lisner;
+		this.coder=coder;
 		if(lisner==null){
 			throw new RuntimeException("lisner 不能为空");
 		}
@@ -77,8 +91,8 @@ public class NettyClient {
 						// 增加任务处理
 						// 初始化编码器，解码器，处理器
 						ChannelPipeline p = socketChannel.pipeline();
-						p.addLast(new MessageDecoder());
-						p.addLast(new MessageEncoder());
+						p.addLast(new MessageDecoder(coder));
+						p.addLast(new MessageEncoder(coder));
 						p.addLast(clientHandler);
 					}
 				});

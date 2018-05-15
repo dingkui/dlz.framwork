@@ -1,6 +1,8 @@
 package com.dlz.plugin.netty;
 
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.plugin.netty.codec.DefaultCoder;
+import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.handler.ClientSynHandler;
@@ -19,10 +21,15 @@ class NettySynClient {
 	private static MyLogger logger = MyLogger.getLogger(NettySynClient.class);
 	private int port;
 	private String host;
+	private ICoder coder;
 
 	public NettySynClient(int port, String host) {
+		this(port, host, new DefaultCoder());
+	}
+	public NettySynClient(int port, String host,ICoder coder) {
 		this.host = host;
 		this.port = port;
+		this.coder=coder;
 	}
 
 	public String send(String msg) {
@@ -38,8 +45,8 @@ class NettySynClient {
 				@Override
 				public void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline p = ch.pipeline();
-					p.addLast(new MessageDecoder());
-					p.addLast(new MessageEncoder());
+					p.addLast(new MessageDecoder(coder));
+					p.addLast(new MessageEncoder(coder));
 					p.addLast(clientSynHandler);
 				}
 			});

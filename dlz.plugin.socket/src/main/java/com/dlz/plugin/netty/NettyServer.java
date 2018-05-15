@@ -2,6 +2,8 @@ package com.dlz.plugin.netty;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
+import com.dlz.plugin.netty.codec.DefaultCoder;
+import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.conf.NettyConfig;
@@ -25,6 +27,7 @@ public class NettyServer {
 
 	ServerHandler serverHandler;
 	ISocketListener listener;
+	private ICoder coder;
 	private static NettyServer instace;
 	public static void broad(String msg){
 		if(instace!=null){
@@ -33,9 +36,15 @@ public class NettyServer {
 	}
 
 	public NettyServer(int serverPort, ISocketListener listener) {
-		this.listener = listener;
-		bind(serverPort);
-		instace=this;
+		this(serverPort, listener, new DefaultCoder());
+	}
+	public NettyServer(int serverPort, ISocketListener listener,ICoder coder) {
+		if(instace!=null){
+			instace=this;
+			this.listener = listener;
+			this.coder=new DefaultCoder();
+			bind(serverPort);
+		}
 	}
 
 	private void bind(int serverPort) {
@@ -62,8 +71,8 @@ public class NettyServer {
 							protected void initChannel(SocketChannel sc) throws Exception {
 								// 增加任务处理
 								ChannelPipeline p = sc.pipeline();
-								p.addLast(new MessageDecoder());
-								p.addLast(new MessageEncoder());
+								p.addLast(new MessageDecoder(coder));
+								p.addLast(new MessageEncoder(coder));
 								p.addLast(new ServerHandler(listener));
 							}
 						});
