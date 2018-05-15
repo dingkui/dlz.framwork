@@ -365,6 +365,18 @@ public class WxUtil {
 		 * @return
 		 */
 		public static ThirdInfo getThirdInfoByCode(String code,String appid,String secret) {
+			return getThirdInfoByCode(code, appid, secret, true);
+		}
+		
+		/**
+		 * 获取用户信息（用户页面授权）
+		 * 获取用户接口访问凭证
+		 * 
+		 * @param appid
+		 * @param appsecret
+		 * @return
+		 */
+		public static ThirdInfo getThirdInfoByCode(String code,String appid,String secret,boolean needUserInfo) {
 			TokenInfo token = ThirdHolder.getWxMemberAccesToken();
 			ThirdInfo thirdInfo=ThirdHolder.getThirdInfo();
 			if (thirdInfo.isFromWx() || token.isUsefull()) {
@@ -392,8 +404,9 @@ public class WxUtil {
 					thirdInfo.setWx_unionid(userInfo.getStr("openid"));
 				}
 				
-				
-				UserInfo.getThirdInfoByToken(userInfo.getStr("access_token"),userInfo.getStr("openid"));
+				if(needUserInfo){
+					UserInfo.getThirdInfoByToken(userInfo.getStr("access_token"),userInfo.getStr("openid"));
+				}
 				return thirdInfo;
 			}
 			return thirdInfo;
@@ -408,7 +421,19 @@ public class WxUtil {
 		 * @return
 		 */
 		public static ThirdInfo getThirdInfoByCode(String code) {
-			return getThirdInfoByCode(code, WxConfig.getAppid(), WxConfig.getSecret(WxConfig.getAppid()));
+			return getThirdInfoByCode(code,true);
+		}
+		
+		/**
+		 * 获取用户信息（用户页面授权）
+		 * 获取用户接口访问凭证
+		 * 
+		 * @param appid
+		 * @param appsecret
+		 * @return
+		 */
+		public static ThirdInfo getThirdInfoByCode(String code,boolean needuserInfo) {
+			return getThirdInfoByCode(code, WxConfig.getAppid(), WxConfig.getSecret(WxConfig.getAppid()),needuserInfo);
 		}
 		/**
 		 * 获取用户信息（用户页面授权）
