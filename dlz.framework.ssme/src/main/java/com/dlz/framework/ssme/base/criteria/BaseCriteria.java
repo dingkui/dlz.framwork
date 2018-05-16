@@ -2,6 +2,7 @@ package com.dlz.framework.ssme.base.criteria;
 
 import java.util.List;
 
+import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.modal.Page;
 
 public abstract class BaseCriteria<T> {
@@ -10,6 +11,11 @@ public abstract class BaseCriteria<T> {
     protected List<T> oredCriteria;
     protected T currentCriteria;
     protected Page page;
+    protected String dbType;
+    
+    public BaseCriteria(){
+    	this.dbType=DbInfo.getDbtype();
+    }
 
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -75,4 +81,12 @@ public abstract class BaseCriteria<T> {
     public Page getPage() {
         return page;
     }
+
+	public String getDbType() {
+		return dbType;
+	}
+
+	public void setDbType(String dbType) {
+		this.dbType = dbType;
+	}
 }

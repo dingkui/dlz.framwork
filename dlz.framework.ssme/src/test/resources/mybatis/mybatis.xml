@@ -32,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     <!-- 加载 映射文件 -->
     <mappers>
         <mapper resource="com/dlz/framework/db/dao/IDaoOperator.xml"/>
+        <mapper resource="com/dlz/framework/ssme/db/dao/UserMapper.xml"/>
     </mappers>
     
 </configuration>

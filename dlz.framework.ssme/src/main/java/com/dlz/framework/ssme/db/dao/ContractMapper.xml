@@ -325,12 +325,13 @@
   </update>
   <sql id="OracleDialectPrefix" >
     <if test="page != null" >
-      select * from ( select row_.*, rownum rownum_ from ( 
+      <if test="dbType==null">select * from ( select row_.*, rownum rownum_ from (</if>
     </if>
   </sql>
   <sql id="OracleDialectSuffix" >
     <if test="page != null" >
-      <![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]>
+      <if test="dbType==null"><![CDATA[ ) row_ ) where rownum_ > #{page.begin} and rownum_ <= #{page.end} ]]></if>
+      <if test='dbType=="MYSQL"'>LIMIT #{page.begin},#{page.pageSize}</if>
     </if>
   </sql>
 </mapper>
