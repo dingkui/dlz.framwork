@@ -13,6 +13,7 @@ import com.dlz.framework.logger.MyLogger;
  * @author dk 2017-06-15
  * @version 1.1
  */
+@SuppressWarnings("unchecked")
 public class ThreadHolder  {
 	protected static final MyLogger logger = MyLogger.getLogger(ThreadHolder.class);
 	
@@ -39,12 +40,28 @@ public class ThreadHolder  {
 	public static HttpSession getSession() {
 		return HttpRequestThreadLocalHolder.get().getSession();
 	}
-	@SuppressWarnings("unchecked")
+	public static <T> T getSessionAttr(String key) {
+		return (T)HttpRequestThreadLocalHolder.get().getSession().getAttribute(key);
+	}
+	public static <T> T getReqeustAttr(String key) {
+		return (T)HttpRequestThreadLocalHolder.get().getAttribute(key);
+	}
+	public static void setSessionAttr(String key,Object o) {
+		HttpRequestThreadLocalHolder.get().getSession().setAttribute(key, o);
+	}
+	public static void setReqeustAttr(String key,Object o) {
+		HttpRequestThreadLocalHolder.get().setAttribute(key, o);
+	}
+	public static void removeSessionAttr(String key) {
+		HttpRequestThreadLocalHolder.get().getSession().removeAttribute(key);
+	}
+	public static void removeRequestAttr(String key) {
+		HttpRequestThreadLocalHolder.get().removeAttribute(key);
+	}
 	public static <T extends AuthUser> T getAuthInfo(){
 		return (T)HttpRequestThreadLocalHolder.get().getSession().getAttribute(SESSION_AUTHUSER);
 	}
 	public static void setAuthInfo(AuthUser user){
 		HttpRequestThreadLocalHolder.get().getSession().setAttribute(SESSION_AUTHUSER, user);
 	}
-	
 }
