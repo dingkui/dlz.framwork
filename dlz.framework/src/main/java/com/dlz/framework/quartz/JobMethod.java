@@ -16,6 +16,7 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.stereotype.Component;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.quartz.bean.ScheduleJob;
@@ -46,18 +47,19 @@ public class JobMethod {
 	 * @param job
 	 * @throws SchedulerException
 	 */
-	public void addAndResetScheduleJob(ScheduleJob job) {
+	public void addAndResetScheduleJobOld(ScheduleJob job) {
 		if(job==null || job.getJobName()==null){
 			throw new CodeException("任务不能为空");
 		}
 		TriggerKey triggerKey = TriggerKey.triggerKey(job.getJobName(), job.getJobGroup());
 		Trigger trigger;
 		try {
-			System.out.println(scheduler.checkExists(triggerKey));
 			trigger = scheduler.getTrigger(triggerKey);
 			if (null == trigger) {
 				JobDetail jobDetail = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(getJobKey(job)).build();
 				jobDetail.getJobDataMap().put("scheduleJob", job);
+				System.out.println("1111111111:"+jobDetail.getJobDataMap());
+				System.out.println("1111111111:"+job);
 				TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(triggerKey);
 				if(job instanceof ScheduleJobSimple){
 					ScheduleJobSimple jobSimple=(ScheduleJobSimple)job;
@@ -80,6 +82,9 @@ public class JobMethod {
 				}
 				scheduler.scheduleJob(jobDetail, trigger);
 			} else {
+				JobDetail jobDetail = scheduler.getJobDetail(getJobKey(job));
+				ScheduleJob jobOld = (ScheduleJob)jobDetail.getJobDataMap().get("scheduleJob");
+				jobOld.setPara(job.getPara());
 				/* Trigger已存在，那么更新相应的定时设置 */
 				if(job instanceof ScheduleJobSimple){
 					ScheduleJobSimple scheduleJobSimple=(ScheduleJobSimple)job;
@@ -101,6 +106,44 @@ public class JobMethod {
 				}
 				/* 按新的trigger重新设置job执行 */
 				scheduler.rescheduleJob(triggerKey, trigger);
+			}
+		} catch (SchedulerException e) {
+			logger.error(job);
+			logger.error("任务初始化失败", e);
+		}
+	}
+	/**
+	 * 添加一个任务，如果任务已经存在则更新该任务
+	 *
+	 * @param job
+	 * @throws SchedulerException
+	 */
+	public void addAndResetScheduleJob(ScheduleJob job) {
+		JobKey jobKey = getJobKey(job);
+		try {
+			scheduler.deleteJob(jobKey);
+
+			JobDetail jobDetail = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(jobKey).build();
+			jobDetail.getJobDataMap().put("scheduleJob", job);
+			TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(job.getJobName(), job.getJobGroup());
+			if (job instanceof ScheduleJobSimple) {
+				ScheduleJobSimple jobSimple = (ScheduleJobSimple) job;
+				SimpleScheduleBuilder sinpleSchedual = SimpleScheduleBuilder.simpleSchedule().withRepeatCount(jobSimple.getRepeatTimes());
+				if (jobSimple.getIntervalseconds() != null) {
+					sinpleSchedual.withIntervalInSeconds(jobSimple.getIntervalseconds());
+				}
+				if (jobSimple.getStartTime() != null) {
+					triggerBuilder.startAt(jobSimple.getStartTime());
+				}
+				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(sinpleSchedual).build());
+			} else if (job instanceof ScheduleJobCron) {
+				ScheduleJobCron jobCron = (ScheduleJobCron) job;
+				String cronExpression = jobCron.getCronExpression();
+				if (cronExpression == null) {
+					throw new CodeException("任务表达式不能为空！");
+				}
+				CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
+				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(scheduleBuilder).build());
 			}
 		} catch (SchedulerException e) {
 			logger.error(job);
