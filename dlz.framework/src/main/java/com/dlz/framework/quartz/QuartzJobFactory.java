@@ -19,7 +19,7 @@ public class QuartzJobFactory implements Job {
 		Object obj = null;
 		try {
 			if (scheduleJob.getBeanClass() != null) {
-				obj = Class.forName(scheduleJob.getBeanClass()).newInstance();
+				obj = SpringHolder.registerBean(Class.forName(scheduleJob.getBeanClass()));
 			}else{
 				obj = SpringHolder.getBean(scheduleJob.getJobName());
 			}

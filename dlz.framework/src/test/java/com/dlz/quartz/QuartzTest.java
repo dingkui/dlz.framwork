@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;
@@ -13,10 +14,10 @@ import com.dlz.framework.quartz.bean.ScheduleJobSimple;
 
 public class QuartzTest {
 	public static JobMethod jobMethod;
-
 	@BeforeClass
 	public static void before() throws Exception {
 		SpringHolder.init();
+		QuartzTest q=SpringHolder.registerBean(QuartzTest.class);
 		jobMethod = SpringHolder.getBean(JobMethod.class);
 	}
 	

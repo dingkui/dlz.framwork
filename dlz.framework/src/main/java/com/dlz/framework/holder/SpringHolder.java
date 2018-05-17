@@ -3,10 +3,13 @@ package com.dlz.framework.holder;
 import java.util.Map;
 
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
@@ -21,26 +24,26 @@ import com.dlz.framework.util.StringUtils;
 @Component
 @Lazy(false)
 public class SpringHolder implements ApplicationContextAware {
-	private static ApplicationContext  beanFactory;
+	private static ApplicationContext  application;
 	public static void init(){
 		init("*");
 	}
 	public static void init(String xml){
-		if(beanFactory==null){
-			beanFactory=new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml");
+		if(application==null){
+			application=new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml");
 		}
 	}
 	public static void init(ApplicationContext applicationContext){
-		if(beanFactory==null){
-			beanFactory = applicationContext;
+		if(application==null){
+			application = applicationContext;
 		}
 	}
 	/**
 	 * 实现ApplicationContextAware接口的context注入函数, 将其存入静态变量.
 	 */
 	public void setApplicationContext(ApplicationContext applicationContext) {
-		if(beanFactory==null){
-			beanFactory =applicationContext;
+		if(application==null){
+			application =applicationContext;
 //			ConfigurableApplicationContext applicationContext2 = (ConfigurableApplicationContext)applicationContext;
 //			BeanDefinitionRegistry bean = (BeanDefinitionRegistry)   applicationContext2.getBeanFactory();
 //			InterfaceRegistryBean interfaceRegistryBean=new InterfaceRegistryBean();
@@ -55,8 +58,8 @@ public class SpringHolder implements ApplicationContextAware {
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String name) {
 		checkApplicationContext();
-		if(beanFactory.containsBean(name))
-		return (T) beanFactory.getBean(name);
+		if(application.containsBean(name))
+		return (T) application.getBean(name);
 		return null;
 	}
 
@@ -67,47 +70,63 @@ public class SpringHolder implements ApplicationContextAware {
 	 * @return
 	 */
 	public static boolean containsBean(String beanName){
-		return beanFactory.containsBean(beanName);
+		return application.containsBean(beanName);
 	}
 	/**
 	 * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
 	 */
 	public static <T> T getBean(Class<T> clazz) {
 		checkApplicationContext();
-		return (T) beanFactory.getBean(clazz);
+		return (T) application.getBean(clazz);
 	}
 	/**
 	 * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
 	 */
 	public static <T> Map<String, T> getBeans(Class<T> clazz) {
 		checkApplicationContext();
-		return beanFactory.getBeansOfType(clazz);
+		return application.getBeansOfType(clazz);
 	}
 
 	private static void checkApplicationContext() {
-		if (beanFactory == null)
+		if (application == null)
 			throw new IllegalStateException("applicaitonContext未注入,请在applicationContext.xml中定义SpringContextUtil");
 	}
 	
 	/**
      * 注册bean
      * @param beanId 所注册bean的id
-     * @param className bean的className，
+     * @param clazz bean的className，
      *                     三种获取方式：1、直接书写，如：com.mvc.entity.User
      *                                   2、User.class.getName
      *                                   3.user.getClass().getName()
      */
-    public static void registerBean(String beanId,String className) {
-    	if(beanFactory.containsBean(beanId)){
-    		return;
+    @SuppressWarnings("unchecked")
+	private static <T> T registerBean(String beanId,Class<T> clazz) {
+    	if(application.containsBean(beanId)){
+    		return (T)application.getBean(beanId);
     	}
+    	ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) application;
+		BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) configurableContext.getBeanFactory();
+
         // get the BeanDefinitionBuilder
-        BeanDefinitionBuilder beanDefinitionBuilder =
-        BeanDefinitionBuilder.genericBeanDefinition(className);
+        BeanDefinitionBuilder beanDefinitionBuilder =BeanDefinitionBuilder.genericBeanDefinition(clazz);
         // get the BeanDefinition
         BeanDefinition beanDefinition=beanDefinitionBuilder.getBeanDefinition();
         // register the bean
-        ((DefaultListableBeanFactory) beanFactory).registerBeanDefinition(beanId,beanDefinition);
+        beanDefinitionRegistry.registerBeanDefinition(beanId,beanDefinition);
+        return (T)application.getBean(beanId);
+    }
+    /**
+     * 注册bean
+     * @param beanId 所注册bean的id
+     * @param className bean的className，
+     *                     三种获取方式：1、直接书写，如：com.mvc.entity.User
+     *                                   2、User.class.getName
+     *                                   3.user.getClass().getName()
+     * @throws ClassNotFoundException 
+     */
+    public static void registerBean(String className) throws ClassNotFoundException {
+    	registerBean(StringUtils.getBeanId(className), Class.forName(className));
     }
     /**
      * 注册bean
@@ -117,25 +136,14 @@ public class SpringHolder implements ApplicationContextAware {
      *                                   2、User.class.getName
      *                                   3.user.getClass().getName()
      */
-    public static void registerBean(String className) {
-    	registerBean(StringUtils.getBeanId(className), className);
-    }
-    /**
-     * 注册bean
-     * @param beanId 所注册bean的id
-     * @param className bean的className，
-     *                     三种获取方式：1、直接书写，如：com.mvc.entity.User
-     *                                   2、User.class.getName
-     *                                   3.user.getClass().getName()
-     */
-    public static void registerBean(Class<?> clazz) {
-    	registerBean(clazz.getName());
+    public static <T> T  registerBean(Class<T> clazz) {
+    	return registerBean(StringUtils.getBeanId(clazz.getName()),clazz);
     }
     /**
      * 移除bean
      * @param beanId bean的id
      */
     public static void unregisterBean(String beanId){
-    	((DefaultListableBeanFactory) beanFactory).removeBeanDefinition(beanId);
+    	((BeanDefinitionRegistry) application).removeBeanDefinition(beanId);
     }
 }
