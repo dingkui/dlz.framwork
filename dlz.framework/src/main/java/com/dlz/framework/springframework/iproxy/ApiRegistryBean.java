@@ -20,7 +20,6 @@ import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
-import org.springframework.stereotype.Component;
 
 import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
 
@@ -29,7 +28,6 @@ import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
  * @author dingkui
  *
  */
-@Component
 public class ApiRegistryBean implements BeanDefinitionRegistryPostProcessor{
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

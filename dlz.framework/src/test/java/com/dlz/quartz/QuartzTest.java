@@ -17,10 +17,14 @@ public class QuartzTest {
 	@BeforeClass
 	public static void before() throws Exception {
 		SpringHolder.init();
-		QuartzTest q=SpringHolder.registerBean(QuartzTest.class);
 		jobMethod = SpringHolder.getBean(JobMethod.class);
 	}
 	
+	@Test
+	public void init(){
+		System.out.println(SpringHolder.getBean(Test2.class));
+		System.out.println(SpringHolder.getBean(Test2.class));
+	}
 	
 	@Test
 	public void add1() throws InterruptedException{

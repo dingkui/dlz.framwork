@@ -17,7 +17,7 @@ import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
  *
  * @param <T>
  */
-class ApiProxyFactory<T> implements FactoryBean<T> {
+public class ApiProxyFactory<T> implements FactoryBean<T> {
     private Class<T> clas;
     public Class<T> getInterfaceClass() {
         return clas;

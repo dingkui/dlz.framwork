@@ -6,7 +6,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -21,36 +20,32 @@ import com.dlz.framework.util.StringUtils;
  * 
  * @author dk
  */
-@Component
-@Lazy(false)
-public class SpringHolder implements ApplicationContextAware {
-	private static ApplicationContext  application;
+public class SpringHolder{
+	private static ConfigurableListableBeanFactory beanFactory;
 	public static void init(){
 		init("*");
 	}
 	public static void init(String xml){
-		if(application==null){
-			application=new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml");
+		if(beanFactory==null){
+			beanFactory=new ClassPathXmlApplicationContext("classpath*:spring_cfg/"+xml+".xml").getBeanFactory();
 		}
 	}
-	public static void init(ApplicationContext applicationContext){
-		if(application==null){
-			application = applicationContext;
+	public static void init(ConfigurableListableBeanFactory applicationContext){
+		if(beanFactory==null){
+			beanFactory = applicationContext;
 		}
 	}
-	/**
-	 * 实现ApplicationContextAware接口的context注入函数, 将其存入静态变量.
-	 */
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		if(application==null){
-			application =applicationContext;
-//			ConfigurableApplicationContext applicationContext2 = (ConfigurableApplicationContext)applicationContext;
-//			BeanDefinitionRegistry bean = (BeanDefinitionRegistry)   applicationContext2.getBeanFactory();
-//			InterfaceRegistryBean interfaceRegistryBean=new InterfaceRegistryBean();
-//			interfaceRegistryBean.postProcessBeanDefinitionRegistry(bean);
-//			System.out.println(1);
-		}
+	public static BeanDefinitionRegistry getBeanDefinitionRegistry(){
+			return (BeanDefinitionRegistry)beanFactory;
 	}
+//	/**
+//	 * 实现ApplicationContextAware接口的context注入函数, 将其存入静态变量.
+//	 */
+//	public void setApplicationContext(ApplicationContext applicationContext) {
+//		if(beanFactory==null){
+//			beanFactory =((ConfigurableApplicationContext)applicationContext).getBeanFactory();
+//		}
+//	}
 	
 	/**
 	 * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
@@ -58,8 +53,8 @@ public class SpringHolder implements ApplicationContextAware {
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String name) {
 		checkApplicationContext();
-		if(application.containsBean(name))
-		return (T) application.getBean(name);
+		if(beanFactory.containsBean(name))
+		return (T) beanFactory.getBean(name);
 		return null;
 	}
 
@@ -70,25 +65,25 @@ public class SpringHolder implements ApplicationContextAware {
 	 * @return
 	 */
 	public static boolean containsBean(String beanName){
-		return application.containsBean(beanName);
+		return beanFactory.containsBean(beanName);
 	}
 	/**
 	 * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
 	 */
 	public static <T> T getBean(Class<T> clazz) {
 		checkApplicationContext();
-		return (T) application.getBean(clazz);
+		return (T) beanFactory.getBean(clazz);
 	}
 	/**
 	 * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.
 	 */
 	public static <T> Map<String, T> getBeans(Class<T> clazz) {
 		checkApplicationContext();
-		return application.getBeansOfType(clazz);
+		return beanFactory.getBeansOfType(clazz);
 	}
 
 	private static void checkApplicationContext() {
-		if (application == null)
+		if (beanFactory == null)
 			throw new IllegalStateException("applicaitonContext未注入,请在applicationContext.xml中定义SpringContextUtil");
 	}
 	
@@ -102,19 +97,19 @@ public class SpringHolder implements ApplicationContextAware {
      */
     @SuppressWarnings("unchecked")
 	private static <T> T registerBean(String beanId,Class<T> clazz) {
-    	if(application.containsBean(beanId)){
-    		return (T)application.getBean(beanId);
+    	if(beanFactory.getBeansOfType(clazz).isEmpty()){
+    		return (T)beanFactory.getBean(clazz);
     	}
-    	ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) application;
-		BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) configurableContext.getBeanFactory();
+//    	ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) application;
+//		BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) configurableContext.getBeanFactory();
 
         // get the BeanDefinitionBuilder
         BeanDefinitionBuilder beanDefinitionBuilder =BeanDefinitionBuilder.genericBeanDefinition(clazz);
         // get the BeanDefinition
         BeanDefinition beanDefinition=beanDefinitionBuilder.getBeanDefinition();
         // register the bean
-        beanDefinitionRegistry.registerBeanDefinition(beanId,beanDefinition);
-        return (T)application.getBean(beanId);
+        getBeanDefinitionRegistry().registerBeanDefinition(beanId,beanDefinition);
+        return (T)beanFactory.getBean(beanId);
     }
     /**
      * 注册bean
@@ -144,6 +139,8 @@ public class SpringHolder implements ApplicationContextAware {
      * @param beanId bean的id
      */
     public static void unregisterBean(String beanId){
-    	((BeanDefinitionRegistry) application).removeBeanDefinition(beanId);
+//    	ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) application;
+//		BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) configurableContext.getBeanFactory();
+    	getBeanDefinitionRegistry().removeBeanDefinition(beanId);
     }
 }
