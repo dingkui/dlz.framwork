@@ -50,6 +50,12 @@ public class JSONResult extends JSONMap{
 		put(MSG,msg);
 		return this;
 	}
+	public JSONResult addMsg(int flag,String msg) {
+		put(MSG,msg);
+		put(FLAG,flag);
+		return this;
+	}
+	
 	public String getMsg() {
 		return getStr(MSG);
 	}
@@ -66,4 +72,5 @@ public class JSONResult extends JSONMap{
 	public <T> T getData(Class<T> classs) {
 		return getObj(DATA,classs);
 	}
+
 }
