@@ -33,7 +33,7 @@ public class TracingAfterProcessor implements ApplicationListener<ContextRefresh
 		ApplicationContext applicationContext = event.getApplicationContext();
 		if(complete(applicationContext)){
 			logger.debug("Spring 初始化完成。。。"+applicationContext);
-			MySpringScaner.init();
+			new MySpringScaner().runScaner();
 		}
 	}
 }

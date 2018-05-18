@@ -6,12 +6,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
 
 import com.dlz.framework.util.StringUtils;
 
@@ -38,6 +33,9 @@ public class SpringHolder{
 	public static BeanDefinitionRegistry getBeanDefinitionRegistry(){
 			return (BeanDefinitionRegistry)beanFactory;
 	}
+	public static ConfigurableListableBeanFactory getBeanFactory(){
+		return beanFactory;
+}
 //	/**
 //	 * 实现ApplicationContextAware接口的context注入函数, 将其存入静态变量.
 //	 */

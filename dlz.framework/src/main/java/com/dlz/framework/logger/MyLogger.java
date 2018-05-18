@@ -1,5 +1,7 @@
 package com.dlz.framework.logger;
 
+import java.net.URL;
+
 public abstract class MyLogger {
 	protected static final String FQCN = MyLogger.class.getName();
 	private static int logType = 0;
@@ -10,16 +12,24 @@ public abstract class MyLogger {
 
 	static public MyLogger getLogger(String name) {
 		if (logType == 0) {
-			if (MyLogger.class.getClassLoader().getResource("logback.xml") != null) {
+			URL resource = MyLogger.class.getClassLoader().getResource("logback.xml");
+			if (resource != null) {
+				System.out.println("使用logback:"+resource.getFile());
 				logType = 1;
-			} else if (MyLogger.class.getClassLoader().getResource("log4j.properties") != null) {
-				logType = 2;
+			} else {
+				URL resource2 = MyLogger.class.getClassLoader().getResource("log4j.properties");
+				if (resource2 != null) {
+					System.out.println("使用log4j:"+resource2.getFile());
+					logType = 2;
+				}
 			}
 		}
 		switch (logType) {
 		case 1:
-			return new MyLoggerLogback(name);
+//			System.out.println("使用logback:");
+//			return new MyLoggerLogback(name);
 		case 2:
+			System.out.println("使用log4j:"+name);
 			return new MyLoggerLog4j(name);
 		}
 		return new MyLoggerSlf4j(name);
