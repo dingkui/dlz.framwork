@@ -48,24 +48,7 @@ public class MySpringScaner {
 		isInit = true;
 		logger.debug("自定义扫描处理中。。。");
 		BeanDefinitionRegistry registry = SpringHolder.getBeanDefinitionRegistry();
-		new MySpringScaner().doComponents(API_CLASSPATH, new IScaner() {
-			@Override
-			public boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition, Class<?> beanClass) {
-				return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoApi.class.getName());
-			}
-
-			@Override
-			public void doWithResult(AnnotatedBeanDefinition definition, Class<?> beanClass) {
-				AnnoApi annotation = beanClass.getAnnotation(AnnoApi.class);
-				String beanName = annotation.value();
-				if ("".equals(beanName)) {
-					beanName = StringUtils.getBeanId(definition.getBeanClassName());
-				}
-				definition.getPropertyValues().add("interfaceClass", definition.getBeanClassName());
-				definition.setBeanClassName(ApiProxyFactory.class.getName());
-				registry.registerBeanDefinition(StringUtils.getBeanId(definition.getBeanClassName()), definition);
-			}
-		}).doComponents("classpath*:com/dlz/**/*.class", new IScaner() {
+		IScaner MyCompmentScaner = new IScaner() {
 			@Override
 			public boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition, Class<?> beanClass) {
 				return beanDefinition.getMetadata().hasAnnotation(AnnoMyCompment.class.getName());
@@ -85,7 +68,25 @@ public class MySpringScaner {
 					SpringHolder.getBeans(forName);
 				}
 			}
-		});
+		};
+		new MySpringScaner().doComponents(API_CLASSPATH, new IScaner() {
+			@Override
+			public boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition, Class<?> beanClass) {
+				return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoApi.class.getName());
+			}
+
+			@Override
+			public void doWithResult(AnnotatedBeanDefinition definition, Class<?> beanClass) {
+				AnnoApi annotation = beanClass.getAnnotation(AnnoApi.class);
+				String beanName = annotation.value();
+				if ("".equals(beanName)) {
+					beanName = StringUtils.getBeanId(definition.getBeanClassName());
+				}
+				definition.getPropertyValues().add("interfaceClass", definition.getBeanClassName());
+				definition.setBeanClassName(ApiProxyFactory.class.getName());
+				registry.registerBeanDefinition(StringUtils.getBeanId(definition.getBeanClassName()), definition);
+			}
+		}).doComponents("classpath*:com/dlz/**/*.class", MyCompmentScaner).doComponents("classpath*:com/enation/app/**/*Work.class", MyCompmentScaner);
 	}
 
 	private ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
@@ -97,20 +98,27 @@ public class MySpringScaner {
 			Resource[] resources = resourcePatternResolver.getResources(classPath);
 			for (Resource resource : resources) {
 				if (resource.isReadable()) {
+					String beanClassName="";
 					try {
 						MetadataReader metadataReader = metadataReaderFactory.getMetadataReader(resource);
 						ScannedGenericBeanDefinition sbd = new ScannedGenericBeanDefinition(metadataReader);
 						sbd.setResource(resource);
 						sbd.setSource(resource);
-						Class<?> forName = Class.forName(sbd.getBeanClassName());
+						beanClassName = sbd.getBeanClassName();
+						Class<?> forName = Class.forName(beanClassName);
 						for (IScaner scaner : scaners) {
 							if (scaner.isCandidateComponent(sbd, forName)) {
 								scaner.doWithResult(sbd, forName);
 								continue;
 							}
 						}
+					} catch (ClassNotFoundException ex) {
+						logger.error("ClassNotFoundException:"+beanClassName+" "+ex.getMessage());
+					} catch (ExceptionInInitializerError ex) {
+						logger.error("ExceptionInInitializerError:"+beanClassName+" "+ex.getMessage());
 					} catch (Throwable ex) {
-						throw new BeanDefinitionStoreException("Failed to read candidate component class: " + resource, ex);
+						logger.error(ex.getMessage(), ex);
+//						throw new BeanDefinitionStoreException("Failed to read candidate component class: " + resource, ex);
 					}
 				}
 			}
