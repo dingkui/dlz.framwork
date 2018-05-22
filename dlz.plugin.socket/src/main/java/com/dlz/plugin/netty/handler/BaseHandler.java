@@ -1,5 +1,6 @@
 package com.dlz.plugin.netty.handler;
 
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
@@ -7,7 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class BaseHandler extends ChannelInboundHandlerAdapter {
-//	private static MyLogger logger = MyLogger.getLogger(BaseHandler.class);
+	private static MyLogger logger = MyLogger.getLogger(BaseHandler.class);
 
 	protected ISocketListener lisner;
 
@@ -23,7 +24,7 @@ public class BaseHandler extends ChannelInboundHandlerAdapter {
 		RequestDto requestInfo = (RequestDto) msg;
 		RequestDto responseInfo = new RequestDto();
 		String info = requestInfo.getInfo();
-		byte bt = requestInfo.getType();
+		int bt = requestInfo.getType();
 		switch (bt) {
 		case 1:// 异步请求
 //			logger.debug("服务器端接收到消息：" + info);
@@ -61,6 +62,7 @@ public class BaseHandler extends ChannelInboundHandlerAdapter {
 		default:
 			responseInfo.setType((byte) 5);
 			responseInfo.setInfo("无效访问");
+			logger.error("msg未识别：{0},{1},{2}",requestInfo, responseInfo,channelHandlerContext.channel().remoteAddress());
 			channelHandlerContext.writeAndFlush(responseInfo);
 			channelHandlerContext.close();
 			break;
