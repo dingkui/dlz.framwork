@@ -1,13 +1,13 @@
 package com.dlz.plugin.weixin.main;
 
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.framework.util.WxUtil.AccessToken;
 import com.dlz.plugin.weixin.menu.Button;
 import com.dlz.plugin.weixin.menu.ClickButton;
 import com.dlz.plugin.weixin.menu.ComplexButton;
 import com.dlz.plugin.weixin.menu.Menu;
 import com.dlz.plugin.weixin.menu.ViewButton;
 import com.dlz.plugin.weixin.util.MenuUtil;
+import com.dlz.web.util.WxUtil.AccessToken;
 
 /**
  * 菜单管理器类

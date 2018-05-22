@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import org.apache.commons.httpclient.HttpException;
-
 /**
  * BaseException for SDK
  */
@@ -31,7 +29,7 @@ public class RemoteException extends BaseException {
 	
 	public static RemoteException buildException(String message,Throwable cause){
 		RemoteException e = null;
-		if(cause!=null && cause instanceof UnknownHostException || cause instanceof HttpException || cause instanceof SocketException) {
+		if(cause!=null && cause instanceof UnknownHostException || cause instanceof IOException || cause instanceof SocketException) {
 			e = new RemoteException(7000,message, cause);
 		}else if(cause!=null && cause instanceof IOException){
 			e = new RemoteException(7002,message, cause);

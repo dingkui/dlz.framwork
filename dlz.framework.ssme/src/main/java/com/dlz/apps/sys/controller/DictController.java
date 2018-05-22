@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
-import com.dlz.common.bean.DictItem;
-import com.dlz.common.cache.DictCache;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.cache.DictCache;
+import com.dlz.framework.db.cache.bean.DictItem;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
@@ -26,7 +26,6 @@ import com.dlz.framework.ssme.db.model.DictDetail;
 import com.dlz.framework.ssme.db.model.DictDetailCriteria;
 import com.dlz.framework.ssme.db.service.DictDetailService;
 import com.dlz.framework.ssme.db.service.DictService;
-import com.dlz.framework.ssme.db.service.DictServiceExt;
 import com.dlz.framework.ssme.util.criterias.Criterias;
 
 @Controller
@@ -36,8 +35,6 @@ public class DictController {
 
 	@Autowired
 	private DictService dictService;
-	@Autowired
-	private DictServiceExt dictServiceExt;
 	@Autowired
 	private DictDetailService dictDetailService;
 	@Autowired
@@ -231,7 +228,7 @@ public class DictController {
 	@ResponseBody
 	@RequestMapping(value = "detail/{dictId}")
 	public List<ComboBoxModel> getDetail(@PathVariable("dictId") String dictId) {
-		com.dlz.common.bean.Dict dict = dictCache.get(dictId);
+		com.dlz.framework.db.cache.bean.Dict dict = dictCache.get(dictId);
 		List<ComboBoxModel> comboboxList = new ArrayList<ComboBoxModel>();
 		Collection<DictItem>  list=dict.getItemMap().values();
 		for (DictItem dictDetail : list) {

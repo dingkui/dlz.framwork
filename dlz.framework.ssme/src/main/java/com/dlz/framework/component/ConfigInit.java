@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
-import com.dlz.framework.util.WxUtil;
+import com.dlz.web.util.WxUtil;
 
 /**
  *配置文件初始化

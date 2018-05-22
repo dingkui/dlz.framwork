@@ -24,7 +24,7 @@
 	<dependencies>
 		<dependency>
 		  <groupId>com.dlz</groupId>
-		  <artifactId>dlz.framework</artifactId>
+		  <artifactId>dlz.web</artifactId>
 		  <version>1.0</version>
 		</dependency>
 		<dependency>

@@ -7,8 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.common.cache.DictCache;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.cache.DictCache;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.ssme.constants.Constants;
 import com.dlz.framework.ssme.db.model.Dict;

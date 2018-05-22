@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dlz.common.cache.DictCache;
 import com.dlz.framework.cache.AbstractCache;
+import com.dlz.framework.db.cache.DictCache;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.Dicts;
 import com.dlz.framework.ssme.db.model.DictsCriteria;

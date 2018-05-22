@@ -10,7 +10,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
 import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
-import com.dlz.framework.util.HttpUtil;
+import com.dlz.web.util.HttpUtil;
 
 /* *
  *类名：AlipayNotify

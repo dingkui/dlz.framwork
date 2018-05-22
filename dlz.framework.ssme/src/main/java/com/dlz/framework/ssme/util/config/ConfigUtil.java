@@ -1,6 +1,6 @@
 package com.dlz.framework.ssme.util.config;
 
-import com.dlz.common.util.config.ConfUtil;
+import com.dlz.framework.util.config.ConfUtil;
 
 
 public class ConfigUtil {

@@ -3,7 +3,7 @@ package com.dlz.framework.ssme.shiro;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dlz.common.bean.AuthUser;
+import com.dlz.app.sys.bean.AuthUser;
 
 /**
  * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.

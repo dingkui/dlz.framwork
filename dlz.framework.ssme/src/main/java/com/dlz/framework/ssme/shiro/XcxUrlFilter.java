@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 
-import com.dlz.framework.holder.ThreadHolder;
+import com.dlz.web.holder.ThreadHolder;
 
 public class XcxUrlFilter extends AuthorizationFilter {
 

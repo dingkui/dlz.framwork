@@ -2,11 +2,6 @@ package com.dlz.framework.ssme.shiro;
 
 import java.io.Serializable;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.dlz.framework.db.modal.ParaMap;
-import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.db.service.ICommService;
 import com.google.common.base.Objects;
 
 /**

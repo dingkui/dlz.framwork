@@ -14,12 +14,10 @@ public abstract class MyLogger {
 		if (logType == 0) {
 			URL resource = MyLogger.class.getClassLoader().getResource("logback.xml");
 			if (resource != null) {
-				System.out.println("使用logback:"+resource.getFile());
 				logType = 1;
 			} else {
 				URL resource2 = MyLogger.class.getClassLoader().getResource("log4j.properties");
 				if (resource2 != null) {
-					System.out.println("使用log4j:"+resource2.getFile());
 					logType = 2;
 				}
 			}
@@ -27,9 +25,8 @@ public abstract class MyLogger {
 		switch (logType) {
 		case 1:
 //			System.out.println("使用logback:");
-//			return new MyLoggerLogback(name);
+			return new MyLoggerLogback(name);
 		case 2:
-			System.out.println("使用log4j:"+name);
 			return new MyLoggerLog4j(name);
 		}
 		return new MyLoggerSlf4j(name);

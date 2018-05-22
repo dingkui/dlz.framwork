@@ -3,9 +3,9 @@ package com.dlz.framework.db.conver.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dlz.common.bean.Dict;
-import com.dlz.common.bean.DictItem;
-import com.dlz.common.cache.DictCache;
+import com.dlz.framework.db.cache.DictCache;
+import com.dlz.framework.db.cache.bean.Dict;
+import com.dlz.framework.db.cache.bean.DictItem;
 import com.dlz.framework.db.conver.ILogicServer;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.logger.MyLogger;

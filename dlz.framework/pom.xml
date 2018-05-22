@@ -4,7 +4,7 @@
   <groupId>com.dlz</groupId>
   <artifactId>dlz.framework</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
+  <version>2.0</version>
   <name>dlz.framework</name>
   <url>http://maven.apache.org</url>
   
@@ -48,17 +48,7 @@
     	<version>1.0</version>
 	</dependency>
 	
-	<dependency>
-		<groupId>commons-io</groupId>
-		<artifactId>commons-io</artifactId>
-		<version>2.4</version>
-	</dependency>
-
-	<dependency>
-		<groupId>ant</groupId>
-		<artifactId>ant</artifactId>
-		<version>1.6.5</version>
-	</dependency>
+	
 	
 	<dependency>
 		<groupId>org.springframework</groupId>
@@ -70,11 +60,7 @@
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
 	</dependency>
-	<dependency>
-		<groupId>org.freemarker</groupId>
-		<artifactId>freemarker</artifactId>
-		<version>${freemarker.version}</version>
-	</dependency>
+	
 	<dependency>
 		<groupId>dom4j</groupId>
 		<artifactId>dom4j</artifactId>
@@ -87,17 +73,7 @@
 		<version>2.6.5</version>
 	</dependency>
 	
-	<dependency>
-		<groupId>commons-httpclient</groupId>
-		<artifactId>commons-httpclient</artifactId>
-		<version>3.1</version>
-	</dependency>
 	
-    <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>4.5.1</version>
-    </dependency>
    
 	<dependency>
       <groupId>junit</groupId>
@@ -105,13 +81,6 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-        <groupId>redis.clients</groupId>
-        <artifactId>jedis</artifactId>
-        <version>2.9.0</version>
-        <scope>test</scope>
-    </dependency>
-	
 	<!-- logs -->
 	<dependency>
 	  <groupId>org.slf4j</groupId>
