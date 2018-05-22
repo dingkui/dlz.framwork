@@ -9,6 +9,7 @@ import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.codec.impl.DefaultCoder;
+import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.netty.handler.ClientHandler;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
@@ -59,11 +60,13 @@ public class NettyClient {
 				throw new RuntimeException("连接已中断，发送失败。。");
 			}
 			RequestDto req = new RequestDto((byte) 1 , msg);
-			socketChannel.writeAndFlush(req);
+			synchronized (a) {
+				socketChannel.writeAndFlush(req);
+			}
 		}
 	}
 	 
-	
+	static byte[] a=new byte[0];
 
 	private void start() {
 		ClientHandler clientHandler=new ClientHandler(lisner,this);
