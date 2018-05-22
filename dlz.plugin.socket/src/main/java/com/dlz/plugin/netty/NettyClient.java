@@ -1,15 +1,14 @@
 package com.dlz.plugin.netty;
 
-import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
-import com.dlz.plugin.netty.codec.DefaultCoder;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
+import com.dlz.plugin.netty.codec.impl.DefaultCoder;
 import com.dlz.plugin.netty.handler.ClientHandler;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
@@ -23,6 +22,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+/**
+ * 异步客户端 采用长连接
+ * @author dingkui
+ *
+ */
 public class NettyClient {
 	private static MyLogger logger = MyLogger.getLogger(NettyClient.class);
 	private int port;
@@ -31,24 +35,10 @@ public class NettyClient {
 	private ISocketListener lisner;
 	private ICoder coder;
 	
-	/**
-	 * 运行状态
-	 * -1：运行错误
-	 * 0：初始
-	 * 1：开始初始化
-	 * 2：运行中
-	 */
 	NettyClient(int port, String host, ISocketListener lisner) {
 		this(port, host, lisner, new DefaultCoder());
 	}
 	
-	/**
-	 * 运行状态
-	 * -1：运行错误
-	 * 0：初始
-	 * 1：开始初始化
-	 * 2：运行中
-	 */
 	NettyClient(int port, String host, ISocketListener lisner,ICoder coder) {
 		this.host = host;
 		this.port = port;
@@ -56,6 +46,9 @@ public class NettyClient {
 		this.coder=coder;
 		if(lisner==null){
 			throw new RuntimeException("lisner 不能为空");
+		}
+		if(coder==null){
+			throw new RuntimeException("编码器 不能为空");
 		}
 		start();
 	}
@@ -65,9 +58,7 @@ public class NettyClient {
 			if(retryTimes>0){
 				throw new RuntimeException("连接已中断，发送失败。。");
 			}
-			RequestDto req = new RequestDto();
-			req.setType((byte) 1);
-			req.setInfo(msg);
+			RequestDto req = new RequestDto((byte) 1 , msg);
 			socketChannel.writeAndFlush(req);
 		}
 	}
@@ -94,6 +85,9 @@ public class NettyClient {
 						// 增加任务处理
 						// 初始化编码器，解码器，处理器
 						ChannelPipeline p = socketChannel.pipeline();
+//						p.addLast(new LineBasedFrameDecoder(1024));
+//						p.addLast(new StringDecoder());
+//						p.addLast(new TimeClientHandler());
 						p.addLast(new MessageDecoder(coder));
 						p.addLast(new MessageEncoder(coder));
 						p.addLast(clientHandler);

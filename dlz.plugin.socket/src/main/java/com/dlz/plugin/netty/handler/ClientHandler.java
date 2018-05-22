@@ -62,7 +62,7 @@ public class ClientHandler extends BaseHandler {
     
     
 	/**
-	 * 服务端处理客户端websocket请求的核心方法，这里接收了客户端发来的信息
+	 * 异步客户端处理服务器websocket相应的核心方法，这里接收了服务端发来的信息
 	 */
 	@Override
 	public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {

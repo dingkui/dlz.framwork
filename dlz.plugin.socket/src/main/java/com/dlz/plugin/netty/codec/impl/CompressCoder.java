@@ -1,31 +1,25 @@
-package com.dlz.plugin.netty.codec;
+package com.dlz.plugin.netty.codec.impl;
 
 import com.dlz.plugin.netty.bean.RequestDto;
+import com.dlz.plugin.netty.codec.ICoder;
+import com.dlz.plugin.socket.util.StringCompress;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 
-/**
- * 默认编码器
- * 传递数据编码成utf-8
- * @author dingkui
- *
- */
-public class DefaultCoder implements ICoder{
-	private static String cataName="UTF-8";
+public class CompressCoder implements ICoder{
+
 	@Override
 	public Object decode(ByteBuf in) throws Exception {
 		//标记开始读取位置  
         in.markReaderIndex();  
         //判断协议类型  
         byte infoType = in.readByte();  
-        RequestDto requestInfo = new RequestDto();  
-        requestInfo.setType(infoType);  
         //in.readableBytes()即为剩下的字节数  
         byte[] info = new byte[in.readableBytes()];  
         in.readBytes(info);  
-        String decompress = new String(info, cataName);
-		requestInfo.setInfo(decompress);
+        String decompress = StringCompress.decompress(info);
+		RequestDto requestInfo = new RequestDto(infoType,decompress);  
 		return requestInfo;
 	}
 
@@ -35,8 +29,9 @@ public class DefaultCoder implements ICoder{
 		writer.writeByte(msg.getType());
         byte[] info = null;
         if (msg != null &&msg.getInfo() != null && msg.getInfo() != "") {
-        	info = msg.getInfo().getBytes(cataName);
+        	info = StringCompress.compress(msg.getInfo());
         	writer.write(info);
         }
 	}
+
 }

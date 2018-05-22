@@ -13,9 +13,26 @@ public class ServerTest {
 				return "我是服务器，你发给我的消息是：" + reciveStr;
 			}
 		});
+		
 		Scanner input = new Scanner(System.in);
 		while (true) {
-			nettyServer.broadMsg(input.nextLine());
+			String nextLine = input.nextLine();
+			//模拟100个线程向客户端推送消息
+			for(int i=0;i<100;i++){
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						//线程内发送100次推送
+						for (int j = 0; j < 100; j++) {
+							try {
+								nettyServer.broadMsg(nextLine+"-" + j);
+							} catch (Exception e) {
+								throw e;
+							}
+						}
+					}
+				}).start();
+			}
 		}
 	}
 }

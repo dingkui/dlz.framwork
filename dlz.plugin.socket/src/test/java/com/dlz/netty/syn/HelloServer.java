@@ -1,9 +1,9 @@
 package com.dlz.netty.syn;
 
-import com.dlz.plugin.netty.codec.DefaultCoder;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
+import com.dlz.plugin.netty.codec.impl.SimpleCoder;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -42,6 +42,6 @@ public class HelloServer {
 
 	public static void main(String[] args) throws Exception {
 		HelloServer server = new HelloServer();
-		server.start(9090,new DefaultCoder());
+		server.start(9090,new SimpleCoder());
 	}
 }

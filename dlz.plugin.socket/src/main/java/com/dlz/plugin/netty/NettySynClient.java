@@ -1,10 +1,10 @@
 package com.dlz.plugin.netty;
 
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.plugin.netty.codec.DefaultCoder;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
+import com.dlz.plugin.netty.codec.impl.DefaultCoder;
 import com.dlz.plugin.netty.handler.ClientSynHandler;
 import com.dlz.plugin.netty.listener.NettySynClientListener;
 
@@ -17,6 +17,11 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+/**
+ * 同步消息客户端 为短连接操作  每次发送消息等待服务器相应，相应完成后释放连接
+ * @author dingkui
+ *
+ */
 class NettySynClient {
 	private static MyLogger logger = MyLogger.getLogger(NettySynClient.class);
 	private int port;

@@ -6,11 +6,12 @@ import com.dlz.plugin.netty.NettyClientUtil;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 public class ClientTest {
+	static int cnt=0;
 	public static void main(String[] args) {
 		NettyClientUtil.init("test", true, 8080, "127.0.0.1", new ISocketListener() {
 			@Override
 			public String deal(String reciveStr) {
-				System.out.println("我是客户端，收到服务器消息：" + reciveStr);
+				System.out.println("客户端收到消息：" + reciveStr+"   "+cnt++);
 				return null;
 			}
 		});

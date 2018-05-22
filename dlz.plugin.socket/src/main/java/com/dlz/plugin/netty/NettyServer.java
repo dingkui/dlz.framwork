@@ -2,10 +2,10 @@ package com.dlz.plugin.netty;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.bean.RequestDto;
-import com.dlz.plugin.netty.codec.DefaultCoder;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
+import com.dlz.plugin.netty.codec.impl.DefaultCoder;
 import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.netty.handler.ServerHandler;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
@@ -21,6 +21,11 @@ import io.netty.channel.socket.ServerSocketChannel;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+/**
+ * 服务器端
+ * @author dingkui
+ *
+ */
 public class NettyServer {
 	private static MyLogger logger = MyLogger.getLogger(NettyServer.class);
 	private ServerSocketChannel serverSocketChannel;
@@ -35,14 +40,31 @@ public class NettyServer {
 		}
 	}
 
+	/**
+	 * @param serverPort 端口
+	 * @param listener 服务器监听器（客户端发送的消息监听并处理）
+	 * 默认编码器为长度标识
+	 */
 	public NettyServer(int serverPort, ISocketListener listener) {
 		this(serverPort, listener, new DefaultCoder());
 	}
+	/**
+	 * 
+	 * @param serverPort 端口
+	 * @param listener 服务器监听器（客户端发送的消息监听并处理）
+	 * @param coder 编码器
+	 */
 	public NettyServer(int serverPort, ISocketListener listener,ICoder coder) {
 		if(instace==null){
 			instace=this;
 			this.listener = listener;
-			this.coder=new DefaultCoder();
+			this.coder=coder;
+			if(listener==null){
+				throw new RuntimeException("lisner 不能为空");
+			}
+			if(coder==null){
+				throw new RuntimeException("编码器不能为空");
+			}
 			bind(serverPort);
 		}
 	}
@@ -71,6 +93,9 @@ public class NettyServer {
 							protected void initChannel(SocketChannel sc) throws Exception {
 								// 增加任务处理
 								ChannelPipeline p = sc.pipeline();
+//								p.addLast(new LineBasedFrameDecoder(1024));
+//								p.addLast(new StringDecoder());
+//								p.addLast(new TimeServerHandler());
 								p.addLast(new MessageDecoder(coder));
 								p.addLast(new MessageEncoder(coder));
 								p.addLast(new ServerHandler(listener));
@@ -108,10 +133,18 @@ public class NettyServer {
 	 */
 	public void broadMsg(String msg) {
 		if (serverSocketChannel != null) {
-			RequestDto req = new RequestDto();
-			req.setType((byte) 4);
-			req.setInfo(msg);
-			NettyConfig.group.writeAndFlush(req);
+			synchronized (a) {
+				RequestDto req = new RequestDto((byte) 4,msg);
+				NettyConfig.group.writeAndFlush(req);
+//				ByteBuf message = null;
+//				byte[] reqs=req.toString().getBytes();
+//		        for (int i = 0; i < 100; i++) {
+//		            message = Unpooled.buffer(reqs.length);
+//		            message.writeBytes(reqs);
+//		            NettyConfig.group.writeAndFlush(message);
+//		        }
+			}
 		}
 	}
+	static byte[] a=new byte[0];
 }

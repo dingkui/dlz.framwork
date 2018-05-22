@@ -35,6 +35,9 @@ public class MessageDecoder extends ByteToMessageDecoder {
 //        //最后把你想要交由ServerHandler的数据添加进去，就可以了  
 //        out.add(requestInfo);
     	
-    	out.add(coder.decode(in));
+    	Object decode = coder.decode(in);
+    	if(decode!=null){
+    		out.add(decode);
+    	}
     }  
 }  

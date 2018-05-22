@@ -17,14 +17,12 @@ public class ClientSynHandler extends BaseHandler {
     // 连接成功后，向server发送消息
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        RequestDto req = new RequestDto();    
-        req.setType((byte) 2);    
-        req.setInfo(msg);  
+        RequestDto req = new RequestDto((byte)2,msg);    
         ctx.writeAndFlush(req);
     }
     
 	/**
-	 * 服务端处理客户端websocket请求的核心方法，这里接收了客户端发来的信息
+	 * 同步客户端处理服务器websocket相应的核心方法，这里接收了服务端发来的信息
 	 */
 	@Override
 	public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {

@@ -1,10 +1,10 @@
 package com.dlz.netty.syn;
 
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.plugin.netty.codec.DefaultCoder;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
+import com.dlz.plugin.netty.codec.impl.SimpleCoder;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -63,6 +63,6 @@ public class HelloClient {
 
 	public static void main(String[] args) throws Exception {
 		HelloClient client = new HelloClient();
-		logger.debug(">>>>>>>>>>" + client.connect("127.0.0.1", 9090,new DefaultCoder()).toString());
+		logger.debug(">>>>>>>>>>" + client.connect("127.0.0.1", 9090,new SimpleCoder()).toString());
 	}
 }

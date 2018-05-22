@@ -12,6 +12,15 @@ public class NettyClientUtil {
 	
 	private static String defaultClient;
 	
+	/**
+	 * 客户端初始化
+	 * @param serverName 服务器名称
+	 * @param isDefualt 是否默认服务器
+	 * @param port 端口
+	 * @param host 
+	 * @param lisner 异步消息监听（服务器推送回来的消息或者异步消息处理）
+	 * 默认编码器未
+	 */
 	public static void init(String serverName,boolean isDefualt, int port, String host, ISocketListener lisner) {
 		if(isDefualt){
 			defaultClient=serverName;
@@ -23,6 +32,15 @@ public class NettyClientUtil {
 			clientSynMap.put(serverName, new NettySynClient(port, host));
 		}
 	}
+	/**
+	 * 客户端初始化
+	 * @param serverName 服务器名称
+	 * @param isDefualt 是否默认服务器
+	 * @param port 端口
+	 * @param host 
+	 * @param lisner 异步消息监听（服务器推送回来的消息或者异步消息处理）
+	 * @param coder
+	 */
 	public static void init(String serverName,boolean isDefualt, int port, String host, ISocketListener lisner,ICoder coder) {
 		if(isDefualt){
 			defaultClient=serverName;
