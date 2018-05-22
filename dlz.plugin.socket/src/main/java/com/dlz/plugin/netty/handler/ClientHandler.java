@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.netty.NettyClient;
+import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -58,5 +59,30 @@ public class ClientHandler extends BaseHandler {
 //    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
 //        logger.debug("channel--unregistered");
 //    }
+    
+    
+	/**
+	 * 服务端处理客户端websocket请求的核心方法，这里接收了客户端发来的信息
+	 */
+	@Override
+	public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
+		RequestDto requestInfo = (RequestDto) msg;
+		String info = requestInfo.getInfo();
+		int bt = requestInfo.getType();
+		switch (bt) {
+		case 5:// 异步返回
+		case 4:// 服务器端广播返回
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					lisner.deal(info);
+				}
+			}).start();
+			break;
+		default:
+			logger.error("异步客户端接收到无效信息：{0}", requestInfo);
+			break;
+		}
+	}
 	  
 } 

@@ -1,9 +1,13 @@
 package com.dlz.plugin.netty.handler;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.plugin.netty.conf.NettyConfig;
+import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ServerHandler extends BaseHandler {
@@ -30,13 +34,15 @@ public class ServerHandler extends BaseHandler {
 //        logger.debug("channelUnregistered");
 //        super.channelUnregistered(ctx);
 //    }
+	public static Set<Channel> group=new HashSet<>();
 	/**
 	 * 客户端与服务端创建连接的时候调用
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 //		logger.debug("客户端已连接："+ctx.channel().remoteAddress());
-		NettyConfig.group.add(ctx.channel());
+//		NettyConfig.group.add(ctx.channel());
+		group.add(ctx.channel());
 	}
 
 	/**
@@ -45,7 +51,8 @@ public class ServerHandler extends BaseHandler {
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 //		logger.debug("客户端与服务端连接关闭channelActive...");
-		NettyConfig.group.remove(ctx.channel());
+//		NettyConfig.group.remove(ctx.channel());
+		group.remove(ctx.channel());
 	}
 
 	/**
@@ -88,4 +95,43 @@ public class ServerHandler extends BaseHandler {
 //			logger.debug((iterator.next()).remoteAddress());
 //		}
 //	}
+	
+	/**
+	 * 服务端处理客户端websocket请求的核心方法，这里接收了客户端发来的信息
+	 */
+	@Override
+	public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
+		RequestDto requestInfo = (RequestDto) msg;
+		RequestDto responseInfo = new RequestDto();
+		String info = requestInfo.getInfo();
+		int bt = requestInfo.getType();
+		switch (bt) {
+		case 1:// 异步请求
+//			logger.debug("服务器端接收到消息：" + info);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					RequestDto responseInfo = new RequestDto();
+					responseInfo.setType((byte)5);
+					responseInfo.setInfo(lisner.deal(info));
+					channelHandlerContext.writeAndFlush(responseInfo);
+				}
+			}).start();
+			break;
+		case 2:// 同步请求
+//			logger.debug("服务器端接收到消息：" + info);
+			responseInfo.setType((byte)3);
+			responseInfo.setInfo(lisner.deal(info));
+			channelHandlerContext.writeAndFlush(responseInfo);
+			channelHandlerContext.close();
+			break;
+		default:
+			responseInfo.setType((byte)5);
+			responseInfo.setInfo("无效访问");
+			logger.error("服务器端接收到无效访问：{0},{1},{2}",requestInfo, responseInfo,channelHandlerContext.channel().remoteAddress());
+			channelHandlerContext.writeAndFlush(responseInfo);
+			channelHandlerContext.close();
+			break;
+		}
+	}
 }
