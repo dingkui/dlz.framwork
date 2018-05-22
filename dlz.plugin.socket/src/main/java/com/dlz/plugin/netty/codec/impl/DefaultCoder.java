@@ -22,7 +22,7 @@ public class DefaultCoder implements ICoder{
             // 防止socket字节流攻击  
             // 防止，客户端传来的数据过大  
             // 因为，太大的数据，是不合理的  
-            if (buffer.readableBytes() > 2048) {  
+            if (buffer.readableBytes() > 2048*1024) {  
                 buffer.skipBytes(buffer.readableBytes());  
             }  
   
