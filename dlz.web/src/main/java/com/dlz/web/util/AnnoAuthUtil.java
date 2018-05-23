@@ -13,16 +13,20 @@ public class AnnoAuthUtil {
 	protected static final MyLogger logger = MyLogger.getLogger(AnnoAuthUtil.class);
 	/**
 	 * @param needRole
-	 * @return 0 未设置权限 -1 未登录 -2 设置权限未通过 1 设置权限通过 2 设置权限通过
+	 * @return 0 不需要登录权限 -1 未登录 -2 设置权限未通过 1 需要登录且已登录 2 权限通过
 	 */
 	public static int doneAnno(AnnoAuth needRole, AuthUser member) {
 		if (needRole == null) {
 			return 0;
 		}
+		String value = needRole.value();
+		//AnnoAuth设置成N时不做权限判断
+		if ("N".equals(value)) {
+			return 0;
+		}
 		if (member == null) {
 			return -1;
 		}
-		String value = needRole.value();
 		if ("*".equals(value)) {
 			return 1;
 		}
