@@ -1,20 +1,20 @@
-package com.dlz.framework.db.template;
+package com.dlz.framework.db.rowMapper;
 
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Map;
 
-import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
-public class MySqlColumnMapRowMapper extends ColumnMapRowMapper {
+import com.dlz.framework.db.modal.ResultMap;
+
+public class MySqlColumnMapRowMapper extends ResultMapRowMapper{
 	@Override
-	public Map<String, Object>  mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public ResultMap  mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int columnCount = rsmd.getColumnCount();
-		Map mapOfColValues = createColumnMap(columnCount);
+		ResultMap mapOfColValues = new ResultMap();
 		for (int i = 1; i <= columnCount; i++) {
 			String key = getColumnKey(JdbcUtils.lookupColumnName(rsmd, i));
 			key = key.toLowerCase();

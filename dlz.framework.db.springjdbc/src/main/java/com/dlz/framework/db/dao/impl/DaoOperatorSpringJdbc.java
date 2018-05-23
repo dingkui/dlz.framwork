@@ -20,9 +20,20 @@ import com.dlz.framework.util.JacksonUtil;
 @Service
 public class DaoOperatorSpringJdbc implements IDaoOperator {
 	private static MyLogger logger = MyLogger.getLogger(DaoOperatorSpringJdbc.class);
-	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	private ResultSetExtractor<List<ResultMap>> extractor;
 	
+	@Autowired
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+		extractor=new ResultSetExtractor<List<ResultMap>>() {
+			@Override
+			public List<ResultMap> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				return JdbcUtil.buildResultMapList(rs);
+			}
+		};
+	}
+
 	@Override
 	public long getSeq(String seqName) {
 		seqName=seqName.toUpperCase();
@@ -42,13 +53,6 @@ public class DaoOperatorSpringJdbc implements IDaoOperator {
 		}
 		return jdbcTemplate.queryForObject(sql, Long.class);
 	}
-	
-	private static ResultSetExtractor<List<ResultMap>> extractor = new ResultSetExtractor<List<ResultMap>>() {
-		@Override
-		public List<ResultMap> extractData(ResultSet rs) throws SQLException, DataAccessException {
-			return JdbcUtil.buildResultMapList(rs);
-		}
-	};
 	
 	@Override
 	public List<ResultMap> getList(BaseParaMap paraMap) {

@@ -42,7 +42,9 @@ public class MyLoggerLogback extends MyLogger {
 	public boolean isDebugEnabled() {
 		return logger.isDebugEnabled();
 	}
-
+	public boolean isInfoEnabled() {
+		return logger.isInfoEnabled();
+	}
 	public boolean isWarnEnabled() {
 		return logger.isEnabledFor(Level.WARN);
 	}

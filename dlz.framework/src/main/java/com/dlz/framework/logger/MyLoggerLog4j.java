@@ -40,6 +40,9 @@ public class MyLoggerLog4j extends MyLogger {
 	public boolean isDebugEnabled() {
 		return logger.isDebugEnabled();
 	}
+	public boolean isInfoEnabled() {
+		return logger.isInfoEnabled();
+	}
 
 	public boolean isWarnEnabled() {
 		return logger.isEnabledFor(Level.WARN);
@@ -48,4 +51,5 @@ public class MyLoggerLog4j extends MyLogger {
 	public boolean isErrorEnabled() {
 		return logger.isEnabledFor(Level.ERROR);
 	}
+	
 }

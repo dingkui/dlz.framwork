@@ -38,7 +38,9 @@ public class CommServiceImpl implements ICommService {
 	@Override
 	public int excuteSql(BaseParaMap paraMap) {
 		paraMap = SqlUtil.dealParm(paraMap);
-		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
+			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+		}
 		try {
 			int r=daoOperator.updateSql(paraMap);
 			logger.info("result:"+r);
@@ -69,7 +71,9 @@ public class CommServiceImpl implements ICommService {
 		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createCntSql(paraMap);
-		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
+			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
+		}
 		try {
 			int cnt = daoOperator.getCnt(paraMap);
 			if(key!=null){
@@ -100,7 +104,9 @@ public class CommServiceImpl implements ICommService {
 		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createPageSql(paraMap);
-		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
+			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
+		}
 		try {
 			List<ResultMap> list = daoOperator.getList(paraMap);
 			List<ResultMap> list2=new ArrayList<ResultMap>();

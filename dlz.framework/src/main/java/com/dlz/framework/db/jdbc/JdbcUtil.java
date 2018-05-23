@@ -14,6 +14,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.modal.ResultMap;
 
 /**
@@ -122,7 +123,7 @@ public class JdbcUtil {
 	
 	public static void buildLabelNamesAndTypes(ResultSetMetaData rsmd, String[] labelNames, int[] types) throws SQLException {
 		for (int i=1; i<labelNames.length; i++) {
-			labelNames[i] = rsmd.getColumnLabel(i);
+			labelNames[i] = SqlUtil.converClumnStr2Str(rsmd.getColumnLabel(i));
 			types[i] = rsmd.getColumnType(i);
 		}
 	}

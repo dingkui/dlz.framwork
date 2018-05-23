@@ -1,30 +1,23 @@
-package com.dlz.framework.db.template;
+package com.dlz.framework.db.rowMapper;
 
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Map;
 
-import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
-/**
- * 小写key的columnrowmapper
- *  本类覆写了spring 的ColumnMapRowMapper，将字段名全部小写
- * @author kingapex
- * 2010-6-13上午11:01:34
- */
-public class OracleColumnMapRowMapper extends ColumnMapRowMapper {
+import com.dlz.framework.db.modal.ResultMap;
+
+public class OracleColumnMapRowMapper  extends ResultMapRowMapper{
 
 	@Override
-	public Map<String, Object>  mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public ResultMap  mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int columnCount = rsmd.getColumnCount();
-		Map mapOfColValues = createColumnMap(columnCount);
+		ResultMap mapOfColValues = new ResultMap();
 		for (int i = 1; i <= columnCount; i++) {
 			String key = getColumnKey(JdbcUtils.lookupColumnName(rsmd, i));
-			key = key.toLowerCase();
 			Object obj = null;
 			String typename= rsmd.getColumnTypeName(i);
 			if("NUMBER".equals(typename)){
@@ -42,7 +35,6 @@ public class OracleColumnMapRowMapper extends ColumnMapRowMapper {
 			}else{
 				obj = getColumnValue(rs, i);
 			}
- 
 			mapOfColValues.put(key, obj);
 		}
 		return mapOfColValues;
