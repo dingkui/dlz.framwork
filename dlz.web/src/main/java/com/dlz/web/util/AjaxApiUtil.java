@@ -168,7 +168,7 @@ public class AjaxApiUtil {
 			Throwable te = e.getTargetException();
 			if (te instanceof LogicException) {
 				logger.warn(te.getMessage());
-				m.addErr(-90, te.getMessage());
+				m.addErr(-90, ((LogicException) te).getErrorInfo());
 			} else {
 				logger.error("业务异常【" + apiLogic.getClass().getSimpleName() + "." + methodStr + "】");
 				logger.error("datas:" + datas.toString());
