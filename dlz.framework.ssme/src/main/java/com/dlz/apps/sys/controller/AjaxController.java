@@ -14,7 +14,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.web.inf.IApiAjax;
 import com.dlz.web.util.AjaxApiUtil;
 @Controller
-@RequestMapping(value = "/api_web")
+@RequestMapping("")
 public class AjaxController implements IApiAjax{
 	private static MyLogger logger = MyLogger.getLogger(AjaxController.class);
 	

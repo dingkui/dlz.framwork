@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.cloud.annotation.AnnoCloud;
 import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
-import com.dlz.framework.util.HttpUtil;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
+import com.dlz.web.util.HttpUtil;
 
 @Component
 public class HttpClientApiHandler extends ApiProxyHandler {
