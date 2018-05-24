@@ -3,6 +3,8 @@ package com.dlz.web.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import com.dlz.app.sys.bean.AuthUser;
@@ -125,7 +127,7 @@ public class AjaxApiUtil {
 			}
 			// 兼容老的api方法 doXx(HttpServletRequest,Page,Map)
 			if (method == null) {
-				method = Reflections.getMethod(apiLogic, methodStr, Page.class, JSONMap.class);
+				method = Reflections.getMethod(apiLogic, methodStr,HttpServletRequest.class, Page.class, JSONMap.class);
 				if (method != null) {
 					methodType = 2;
 				}
@@ -149,7 +151,7 @@ public class AjaxApiUtil {
 			if (methodType == 1) {
 				m.addData(method.invoke(apiLogic, datas));
 			} else if (methodType == 2) {
-				m.addData(method.invoke(apiLogic, page, datas));
+				m.addData(method.invoke(apiLogic,ThreadHolder.getHttpRequest(), page, datas));
 //				m.addData(method.invoke(pds, ParaUtil.getPage(ThreadHolder.getHttpRequest(), datas), datas));
 			}
 		} catch (NoSuchBeanDefinitionException e) {

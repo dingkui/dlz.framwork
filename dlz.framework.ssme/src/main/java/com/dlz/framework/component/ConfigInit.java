@@ -1,15 +1,14 @@
 package com.dlz.framework.component;
 
-import org.springframework.stereotype.Component;
-
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.springframework.AnnoMyComponent;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.web.util.WxUtil;
 
 /**
  *配置文件初始化
  */
-@Component
+@AnnoMyComponent
 public class ConfigInit {
 	private static MyLogger logger = MyLogger.getLogger(ConfigInit.class);
 	public ConfigInit(){
