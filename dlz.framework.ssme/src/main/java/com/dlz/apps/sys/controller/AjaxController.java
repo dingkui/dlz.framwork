@@ -2,6 +2,7 @@ package com.dlz.apps.sys.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,5 +62,11 @@ public class AjaxController implements IApiAjax{
 	@Override
 	public String getChannel() {
 		return "ssme";
+	}
+	
+	// 取得用户登录信息
+	@SuppressWarnings("unchecked")
+	public <T extends AuthUser> T getAuthInfo() {
+		return (T)SecurityUtils.getSubject().getPrincipal();
 	}
 }
