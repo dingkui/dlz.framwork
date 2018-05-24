@@ -26,7 +26,6 @@
 		<groupId>javax.servlet</groupId>
 		<artifactId>javax.servlet-api</artifactId>
 	  	<version>3.0.1</version>
-		<scope>provided</scope>
 	</dependency>
 
 	<!-- jdbc/ojdbc14-1.0.jar -->
@@ -36,13 +35,6 @@
     	<version>1.0</version>
     	<scope>runtime</scope>
 	 </dependency>
-	<dependency>
-		<groupId>com.alibaba</groupId>
-		<artifactId>druid</artifactId>
-		<version>1.0.29</version>
-		<scope>runtime</scope>
-	</dependency>
-	<!-- util/qrcode-1.0.jar -->
 	<dependency>
     	<groupId>comlib.util</groupId>
     	<artifactId>qrcode</artifactId>
