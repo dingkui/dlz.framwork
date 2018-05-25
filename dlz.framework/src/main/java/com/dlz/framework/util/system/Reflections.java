@@ -205,6 +205,25 @@ public class Reflections {
 		}
 		return null;
 	}
+	
+	/**
+	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
+	 * 如向上转型到Object仍无法找到, 返回null.
+	 * 只匹配函数名。
+	 */
+	public static Method getMethodByName(final Object obj, final String name) {
+		String methodName = name.intern();
+		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+			Method[] methods = searchType.getDeclaredMethods();
+			for (Method method : methods) {
+				if (method.getName()==methodName) {
+					makeAccessible(method);
+					return method;
+				}
+			}
+		}
+		return null;
+	}
 	@SuppressWarnings("unchecked")
 	private static boolean arrayContentsEq(Class[] a1, Class[] a2) {
         if (a1 == null) {
