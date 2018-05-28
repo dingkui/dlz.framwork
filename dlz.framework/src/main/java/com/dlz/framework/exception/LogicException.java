@@ -11,10 +11,14 @@ public class LogicException extends BaseException {
 	private static int DEFUALT_ERROR_CODE = 3001;
 
 	public LogicException(String message, Throwable cause) {
-		super(DEFUALT_ERROR_CODE, message, cause);
+		this(DEFUALT_ERROR_CODE, message, cause);
 	}
 
 	public LogicException(String message) {
-		super(DEFUALT_ERROR_CODE, message, null);
+		this(DEFUALT_ERROR_CODE, message, null);
+	}
+	
+	protected LogicException(int errorCode,String message, Throwable cause) {
+		super(errorCode, message, cause);
 	}
 }
