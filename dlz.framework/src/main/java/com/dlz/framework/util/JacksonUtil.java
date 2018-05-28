@@ -15,7 +15,6 @@ import javax.xml.bind.Unmarshaller;
 import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
-import com.dlz.framework.bean.RestPara;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
@@ -145,9 +144,9 @@ public class JacksonUtil {
 			}else{
 				str=JacksonUtil.getJson(o);
 			}
-			if(valueType.isAssignableFrom(RestPara.class)){
-				return (T)new RestPara(str);
-			}
+//			if(valueType.isAssignableFrom(RestPara.class)){
+//				return (T)new RestPara(str);
+//			}
 			return readValue(str, valueType);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
