@@ -5,11 +5,11 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.util.JacksonUtil;
-import com.dlz.web.holder.ThreadHolder;
 import com.dlz.web.util.AjaxApiUtil;
 
 import freemarker.core.Environment;
@@ -47,7 +47,7 @@ public class MyToolDirectiveTag implements TemplateDirectiveModel {
         	String tagName=coverObject(getObject((TemplateModel) params.get("tagName")),String.class);
 	        String tagPara=coverObject(getObject((TemplateModel) params.get("tagPara")),String.class);
 			try{
-				JSONResult doAjax = AjaxApiUtil.doAjax(new JSONMap(tagPara), null, tagName, ThreadHolder.getAuthInfo(),"tag");
+				JSONResult doAjax = AjaxApiUtil.doAjax(new JSONMap(tagPara), null, tagName, UserHolder.getAuthInfo(),"tag");
 				if(doAjax.isError()){
 					env.getOut().write(doAjax.getMsg());
 					env.getOut().flush();

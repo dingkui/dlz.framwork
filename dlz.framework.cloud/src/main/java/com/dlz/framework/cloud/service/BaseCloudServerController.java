@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.exception.LogicException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.ValUtil;
 import com.dlz.framework.util.system.Reflections;
 import com.dlz.web.holder.ThreadHolder;
-import com.dlz.web.holder.UserHolder;
 import com.dlz.web.util.AnnoAuthUtil;
 
 public class BaseCloudServerController {

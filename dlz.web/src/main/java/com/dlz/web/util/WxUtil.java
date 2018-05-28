@@ -28,6 +28,8 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
+import com.dlz.app.uim.holder.ThirdHolder;
+import com.dlz.app.uim.holder.ThirdHolder.ThirdInfo;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.TokenHolder;
@@ -37,8 +39,6 @@ import com.dlz.framework.util.Base64;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.PKCS7Encoder;
 import com.dlz.framework.util.StringUtils;
-import com.dlz.web.holder.ThirdHolder;
-import com.dlz.web.holder.ThirdHolder.ThirdInfo;
 import com.dlz.web.holder.ThreadHolder;
 
 

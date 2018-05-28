@@ -1,10 +1,10 @@
 package com.dlz.web.inf;
 
-import com.dlz.app.sys.bean.AuthUser;
+import com.dlz.app.uim.bean.AuthUser;
+import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.web.holder.ThreadHolder;
 import com.dlz.web.util.AjaxApiUtil;
 
 public interface IApiAjax {
@@ -32,7 +32,7 @@ public interface IApiAjax {
 
 	// 取得用户登录信息
 	default <T extends AuthUser> T getAuthInfo() {
-		return ThreadHolder.getAuthInfo();
+		return UserHolder.getAuthInfo();
 	}
 
 	// 取得客户端用户信息

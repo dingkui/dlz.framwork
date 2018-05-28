@@ -18,7 +18,6 @@ public class ThreadHolder  {
 	
 	private static ThreadLocal<HttpServletRequest> HttpRequestThreadLocalHolder = new ThreadLocal<HttpServletRequest>();
 	private static ThreadLocal<HttpServletResponse> HttpResponseThreadLocalHolder = new ThreadLocal<HttpServletResponse>();
-	private static String SESSION_AUTHUSER="curr_member";
 	
 	public static void setHttpRequest(HttpServletRequest request){
 		HttpRequestThreadLocalHolder.set(request);

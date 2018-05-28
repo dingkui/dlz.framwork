@@ -2,8 +2,8 @@ package com.dlz.web.util;
 
 import java.lang.reflect.Method;
 
-import com.dlz.app.sys.bean.AuthUser;
-import com.dlz.framework.annotation.AnnoAuth;
+import com.dlz.app.uim.annotation.AnnoAuth;
+import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.config.ConfUtil;

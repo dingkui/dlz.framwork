@@ -16,7 +16,6 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.stereotype.Component;
 
-import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.quartz.bean.ScheduleJob;
@@ -58,8 +57,6 @@ public class JobMethod {
 			if (null == trigger) {
 				JobDetail jobDetail = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(getJobKey(job)).build();
 				jobDetail.getJobDataMap().put("scheduleJob", job);
-				System.out.println("1111111111:"+jobDetail.getJobDataMap());
-				System.out.println("1111111111:"+job);
 				TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(triggerKey);
 				if(job instanceof ScheduleJobSimple){
 					ScheduleJobSimple jobSimple=(ScheduleJobSimple)job;

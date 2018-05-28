@@ -16,7 +16,6 @@ import com.dlz.framework.db.dao.IDaoOperator;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseModel;
 import com.dlz.framework.db.modal.BaseParaMap;
-import com.dlz.framework.db.modal.DeleteParaMap;
 import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;

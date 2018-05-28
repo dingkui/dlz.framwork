@@ -1,4 +1,4 @@
-package com.dlz.framework.annotation;
+package com.dlz.web.annotation;
 import java.lang.annotation.Documented;  
 import java.lang.annotation.ElementType;  
 import java.lang.annotation.Retention;  

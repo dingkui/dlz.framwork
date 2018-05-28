@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.web.holder.ThreadHolder;
 
@@ -20,7 +21,7 @@ public class NoAuthCommLogic{
 	 * @return
 	 */
 	protected  boolean hasAuth(){
-		return ThreadHolder.getAuthInfo()!=null;
+		return UserHolder.getAuthInfo()!=null;
 	}
 	public HttpServletRequest getRequest(){
 		return ThreadHolder.getHttpRequest();

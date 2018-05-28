@@ -5,9 +5,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.dlz.framework.annotation.AnnoRestPara;
 import com.dlz.framework.bean.RestPara;
-import com.dlz.framework.util.ValUtil;  
+import com.dlz.framework.util.ValUtil;
+import com.dlz.web.annotation.AnnoRestPara;  
  
 public class MyHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver{  
   
