@@ -14,11 +14,6 @@ public interface IUimDeptService {
 	/**
 	 * 添加或更新部门（单条）
 	 */
-	public Dept addOrUpdate(Dept dept);
-	
-	/**
-	 * 添加或更新部门（单条）
-	 */
 	public JSONMap addOrUpdate(String data);
 	/**
 	 * 删除部门
