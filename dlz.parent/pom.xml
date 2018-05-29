@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+     <groupId>com.dlz</groupId>
+     <artifactId>dlz.parent</artifactId>
+     <version>2.0</version>
+     <packaging>pom</packaging>
+    <parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.0.0.RELEASE</version>
+	<relativePath/> <!-- lookup parent from repository -->
+  </parent>
+  
+  <dependencies>
+ 	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+	  <groupId>net.sf.ehcache</groupId>
+	  <artifactId>ehcache</artifactId>
+	</dependency>
+	<!-- util/qrcode-1.0.jar -->
+	<dependency>
+    	<groupId>comlib.util</groupId>
+    	<artifactId>qrcode</artifactId>
+    	<version>1.0</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+	</dependency>
+	<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+	</dependency>
+	
+	<dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+	</dependency>
+	
+    <dependency>
+		<groupId>com.fasterxml.jackson.module</groupId>
+		<artifactId>jackson-module-jaxb-annotations</artifactId>
+	</dependency>
+	
+	<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- logs -->
+	<dependency>
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-api</artifactId>
+	</dependency>
+    <!-- logs -->
+  </dependencies>
+  
+  <!-- <modules>
+    <module>../dlz.framework</module>
+    <module>../dlz.framework.cloud</module>
+    <module>../dlz.framework.db.springjdbc</module>
+    <module>../dlz.framework.ssme</module>
+    <module>../dlz.framework.mongo</module>
+    <module>../dlz.plugin.cache.redis</module>
+  </modules> -->
+</project>

@@ -278,7 +278,6 @@
 			<version>1.2</version>
 			<scope>compile</scope>
 		</dependency>
-
 		<!-- SOAP begin -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
