@@ -150,7 +150,10 @@ public class DeptController {
 			deptService.updateByPrimaryKeySelective(dept);
 			if(!String.valueOf(oldD.getdManagerId()).equals(String.valueOf(dept.getdManagerId()))){
 				DeptUserCriteria dc = new DeptUserCriteria();
-				dc.createCriteria().andDuUIdEqualTo(dept.getdManagerId()).andDuDIdEqualTo(dept.getdId());
+				//删除老部门负责人(修改)-start lfeng.li 2018/5/30
+				//dc.createCriteria().andDuUIdEqualTo(dept.getdManagerId()).andDuDIdEqualTo(dept.getdId());
+				dc.createCriteria().andDuUIdEqualTo(oldD.getdManagerId()).andDuDIdEqualTo(oldD.getdId());
+				//删除老部门负责人(修改)-end
 				deptUserService.deleteByExample(dc);
 				DeptUser  du = new DeptUser();
 				du.setDuUId(dept.getdManagerId());
