@@ -24,6 +24,10 @@ public class ShiroUrlFilter extends AuthorizationFilter {
         boolean isPermitted = true;
         String requestURI = getPathWithinApplication(request);
         
+    	if(requestURI.startsWith("/api_xcx")){
+    		return isPermitted;
+    	}
+        
         if (!subject.isPermitted(requestURI)) {
 	        	HttpServletResponse httpResponse = (HttpServletResponse)response;
 	        	httpResponse.setStatus(HttpStatus.UNAUTHORIZED.value());

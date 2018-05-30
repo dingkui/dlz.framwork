@@ -9,7 +9,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
-import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
@@ -84,7 +83,7 @@ public class AjaxApiUtil {
 	}
 
 	public static JSONResult doAjaxs(String data, String ui,IApiAjax ajaxApi) {
-		AuthUser member = UserHolder.getAuthInfo();
+		AuthUser member = ajaxApi.getAuthInfo();
 		JSONResult m = JSONResult.createResult();
 		if (member == null) {
 			member = ajaxApi.autoLogin(ui, m);
