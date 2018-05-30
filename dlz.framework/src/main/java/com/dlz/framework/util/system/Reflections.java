@@ -194,7 +194,11 @@ public class Reflections {
 	 */
 	public static Method getMethod(final Object obj, final String name,Class<?>... parameterTypes) {
 		String methodName = name.intern();
-		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+		Class<?> searchType = obj.getClass();
+		if(searchType.getName().indexOf("BySpringCGLIB")>-1){
+			searchType=searchType.getSuperclass();
+		}
+		for (; searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
 				if (method.getName()==methodName && arrayContentsEq(parameterTypes, method.getParameterTypes())) {

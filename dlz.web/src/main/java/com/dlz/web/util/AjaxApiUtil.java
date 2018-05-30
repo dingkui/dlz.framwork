@@ -83,7 +83,7 @@ public class AjaxApiUtil {
 	}
 
 	public static JSONResult doAjaxs(String data, String ui,IApiAjax ajaxApi) {
-		AuthUser member = ThreadHolder.getAuthInfo();
+		AuthUser member = ajaxApi.getAuthInfo();
 		JSONResult m = JSONResult.createResult();
 		if (member == null) {
 			member = ajaxApi.autoLogin(ui, m);
