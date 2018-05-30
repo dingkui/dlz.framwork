@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--=========================================================================-->
+<!--  Copyright sl 2018 All Rights Reserved. -->
+<!--  @version	1.00												 -->
+<!--=========================================================================-->
+
+<sqlList>
+	<!-- 大于（$gt）、小于（$lt）、大于等于（$gte）、小于等于（$lte）、不等于（$ne）、等于（key:value、$eq） -->
+	<!-- 与（$and），或（$or），非（$not、$nor） -->
+	<!-- 求模（$mod），在范围之中（$in），不在范围之中（$nin） -->
+	<!-- 数组查询运算符：都存在（$all）、数量（$size）、部分显示（$slice）、属性查询（$elemMatch） -->
+	<!-- 属性存在（$exists）、javascript条件（$where） -->
+	<!-- 正则运算（//） -->
+	<filter key="filter.comm.byid">
+		<![CDATA[
+			{"_id":${_id}}
+		]]>
+	</filter>
+	<filter key="filter.comm.findbyage">
+		<![CDATA[
+			{
+				【age:{$gte:${min}},】
+				【age1:{$gte:${min}},】
+				【age2:{$gte:${min}},】
+			}
+		]]>
+	</filter>
+	<find key="find.comm.searchTable" name="test" clumns="age,name,!_id" filter="filter.comm.findbyage"/>
+	
+	<insert key="insert.comm.insertTest" name="test"/>
+	<delete key="delete.comm.deleteTest" name="test" filter="filter.comm.findbyage"/>
+	
+	<!-- 
+	1、$inc：主要针对于一个数字字段，增加某个数字字段的数据内容；
+		•语法：{"$inc" : {"成员" : 内容}}
+		范例：将所有年龄为19岁的学生成绩一律减少30分
+	2、 $set：进行内容的重新设置；
+		•语法：{"$set" : {"成员" : "新内容"}}；
+	3、 $unset：删除某个成员的内容；
+		•语法：{"$unset" : {"成员" : 1}}
+	4、 $push：相当于将内容追加到指定的成员之中（基本上是数组）；
+		•语法：${"$push" : {成员 : value}}
+		范例：向“李四”添加课程信息（此时张三信息下没有course信息）
+		就是进行数组数据的添加操作使用的，如果没有数组则进行一个新的数组的创建，如果有则进行内容的追加。
+	5、 $pushAll：与“$push”是类似的，可以一次追加多个内容到数组里面；
+		•语法：${"$pushAll" : {成员 : 数组内容}}
+		范例：向“王五”的信息里面添加多个课程内容
+	6、 $addToSet：向数组里面增加一个新的内容，只有这个内容不存在的时候才会增加；
+		•语法：{"$addToSet" : {成员 : 内容}}
+		范例：向王五的信息增加新的内容
+		此时会判断要增加的内容在数组里面是否已经存在了，如果不存在则向数组之中追加内容，如果存在了则不做任何的修改操作。
+	7、 $pop：删除数组内的数据；
+		•语法：{"$pop" : {成员 : 内容}}，内容如果设置为-1表示删除第一个，如果是1表示删除最后一个；
+		范例：删除王五的第一个课程
+		范例：删除王五的最后一个课程
+	8、 $pull：从数组内删除一个指定内容的数据
+		•语法：{"$pull" : {成员 : 数据}}，进行数据比对的，如果是此数据则删除；
+	9、 $pullAll：一次性删除多个内容；
+		•语法：{"$pull" : {成员 : [数据, 数据,...]}}
+	10、 $rename：为成员名称重命名；
+		•语法：{"$rename" : {旧的成员名称 : 新的成员名称}}
+	 -->
+	<update key="update.comm.updateTest" name="test" filter="filter.comm.findbyage">
+		<![CDATA[
+			{$set:{"new":${new}}}
+		]]>
+	</update>
+		
+	
+	<filter sqlId="key.comm.searchTable" name="test" clums="name">
+		<![CDATA[
+			{
+				【age:{$gte:${min}},】
+			}
+	    ]]>
+ 	</filter>
+</sqlList>

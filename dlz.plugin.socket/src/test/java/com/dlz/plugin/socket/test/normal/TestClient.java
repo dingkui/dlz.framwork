@@ -16,11 +16,12 @@ public class TestClient{
 		SocketClient client = new SocketClient("127.0.0.1", 9999, new ScoketIOLine(),new ISocketListener() {
 			int i=0;
 			long allt = new Date().getTime();
-			public void deal(String postStr) {
+			public String deal(String postStr) {
 				if(i++%10000==0){
 					System.out.println("客户端收到："+i+" 时间:"+(new Date().getTime()-allt));
 					allt = new Date().getTime();
 				}
+				return null;
 			}
 		});
 //		for(int i=0;i<1000;i++){

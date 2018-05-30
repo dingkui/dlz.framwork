@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.ssme.db.model.SysLog;
 import com.dlz.framework.ssme.db.model.SysLogCriteria;
@@ -27,7 +28,7 @@ import com.google.common.collect.ImmutableMap;
  * 方法上的注释为页面中Button的标题
  */
 @Controller
-@RequestMapping(value = "/rbac/sysLog")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/sysLog")
 public class SysLogController {
 	private static MyLogger logger = MyLogger.getLogger(SysLogController.class);
 

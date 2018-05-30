@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.DbCoverUtil;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.cache.DbOprationCache;
@@ -15,8 +16,10 @@ import com.dlz.framework.db.dao.IDaoOperator;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.BaseModel;
 import com.dlz.framework.db.modal.BaseParaMap;
+import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
@@ -34,7 +37,9 @@ public class CommServiceImpl implements ICommService {
 	@Override
 	public int excuteSql(BaseParaMap paraMap) {
 		paraMap = SqlUtil.dealParm(paraMap);
-		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
+			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+		}
 		try {
 			int r=daoOperator.updateSql(paraMap);
 			logger.info("result:"+r);
@@ -65,7 +70,9 @@ public class CommServiceImpl implements ICommService {
 		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createCntSql(paraMap);
-		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
+			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
+		}
 		try {
 			int cnt = daoOperator.getCnt(paraMap);
 			if(key!=null){
@@ -96,17 +103,19 @@ public class CommServiceImpl implements ICommService {
 		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createPageSql(paraMap);
-		logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
+			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
+		}
 		try {
 			List<ResultMap> list = daoOperator.getList(paraMap);
+			List<ResultMap> list2=new ArrayList<ResultMap>();
 			for(ResultMap r: list){
-				DbCoverUtil.converResultMap(r,paraMap.getConvert());
+				list2.add(DbCoverUtil.converResultMap(r,paraMap.getConvert()));
 			}
-			
 			if(key!=null){
-				dbOprationCache.put(key, new Page<ResultMap>(0,list), paraMap.getCacheTime());
+				dbOprationCache.put(key, new Page<ResultMap>(0,list2), paraMap.getCacheTime());
 			}
-			return list;
+			return list2;
 		} catch (Exception e) {
 			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(), e);
 		}
@@ -290,9 +299,19 @@ public class CommServiceImpl implements ICommService {
 				return page2;
 			}
 		}
+		//pageNow==0的情况，不统计条数
+		boolean needCount=page.getPageNow()>0;
+		//是否需要查询列表（需要统计条数并且条数是0的情况不查询，直接返回空列表）
+		boolean needList=true;
 		
-		page.setCount(getCnt(paraMap));
-		if(page.getCount()>0){
+		if(needCount){
+			page.setCount(getCnt(paraMap));
+			if(page.getCount()==0){
+				needList=false;
+			}
+		}
+		
+		if(needList){
 			if(t==ResultMap.class){
 				page.setData((List<T>) getMapList(paraMap));
 			}else{
@@ -306,5 +325,102 @@ public class CommServiceImpl implements ICommService {
 			dbOprationCache.put(key, page, paraMap.getCacheTime());
 		}
 		return page;
+	}
+	@Override
+	public int excuteSql(String sql, Object... para) {
+		return excuteSql(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Object getColum(String sql, Object... para) {
+		return getColum(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public String getStr(String sql, Object... para) {
+		return getStr(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public BigDecimal getBigDecimal(String sql, Object... para) {
+		return getBigDecimal(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Float getFloat(String sql, Object... para) {
+		return getFloat(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Integer getInt(String sql, Object... para) {
+		return getInt(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public Long getLong(String sql, Object... para) {
+		return getLong(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Object> getColumList(String sql, Object... para) {
+		return getColumList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<String> getStrList(String sql, Object... para) {
+		return getStrList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<BigDecimal> getBigDecimalList(String sql, Object... para) {
+		return getBigDecimalList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Float> getFloatList(String sql, Object... para) {
+		return getFloatList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Integer> getIntList(String sql, Object... para) {
+		return getIntList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<Long> getLongList(String sql, Object... para) {
+		return getLongList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public ResultMap getMap(String sql, Object... para) {
+		return getMap(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public List<ResultMap> getMapList(String sql, Object... para) {
+		return getMapList(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public <T> T getBean(String sql, Class<T> t, Object... para) {
+		return getBean(SqlUtil.getParmMap(sql, para),t);
+	}
+	@Override
+	public <T> List<T> getBeanList(String sql, Class<T> t, Object... para) {
+		return getBeanList(SqlUtil.getParmMap(sql, para),t);
+	}
+	@Override
+	public int getCnt(String sql, Object... para) {
+		return getCnt(SqlUtil.getParmMap(sql, para));
+	}
+	@Override
+	public <T> Page<T> getPage(String sql, Class<T> t, int pageSize, int pageIndex, Object... para) {
+		BaseParaMap paraMap = SqlUtil.getParmMap(sql, para);
+		paraMap.setPage(new Page<T>(pageIndex,pageSize));
+		return getPage(paraMap, t);
+	}
+	@Override
+	public Page<ResultMap> getPage(String sql, int pageSize, int pageIndex, Object... para) {
+		BaseParaMap paraMap = SqlUtil.getParmMap(sql, para);
+		paraMap.setPage(new Page<ResultMap>(pageIndex,pageSize));
+		return getPage(paraMap);
+	}
+	@Override
+	public int update(String tableName, Object bean, String where) {
+		UpdateParaMap paraMap = new UpdateParaMap(tableName);
+		paraMap.addSetValues(new JSONMap(bean));
+		paraMap.setWhere(" where "+where);
+		return excuteSql(paraMap);
+	}
+	@Override
+	public int insert(String tableName, Object bean) {
+		InsertParaMap paraMap = new InsertParaMap(tableName);
+		paraMap.addValues(new JSONMap(bean));
+		return excuteSql(paraMap);
 	}
 }

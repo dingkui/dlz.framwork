@@ -6,14 +6,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.BaseSet;
 import com.dlz.framework.ssme.db.model.BaseSetCriteria;
 import com.dlz.framework.ssme.db.service.BaseSetService;
@@ -27,7 +28,7 @@ import com.dlz.framework.util.StringUtils;
  * 2014-5-9 
  */
 @Controller
-@RequestMapping(value="/rbac/baseSet")
+@RequestMapping(value=ControllerConst.ADMIN+"/rbac/baseSet")
 public class BaseSetController {
 	private static MyLogger logger = MyLogger.getLogger(BaseSetController.class);
 

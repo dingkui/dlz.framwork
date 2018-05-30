@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.constance.SocketConstance;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.IDealService;
+
 
 public abstract class SocketHandlerWithHolder extends ASocketHandler {
 	private static MyLogger logger = MyLogger.getLogger(SocketHandlerWithHolder.class);
@@ -49,7 +52,7 @@ public abstract class SocketHandlerWithHolder extends ASocketHandler {
 	
 	boolean isDestroy=false;
 	// 返回信息给Client端
-	private synchronized void notifyClient(String recive) throws IOException {
+	private synchronized void notifyClient(String recive){
 		if(isDestroy){
 			return;
 		}
@@ -84,27 +87,21 @@ public abstract class SocketHandlerWithHolder extends ASocketHandler {
 		removeClient(this);
 	}
 	
-	
+	Timer timer = new Timer();
 	// 心跳通讯
 	private void doHart(long hartTime)  {
-		new Thread(new Runnable() {
+		if(isDestroy){
+			return;
+		}
+		timer.schedule(new TimerTask() {
 			public void run() {
-				try {
-					if(isDestroy){
-						return;
-					}
-					Thread.sleep(hartTime);
-					if(isDestroy){
-						return;
-					}
-//					holderSocket.sendUrgentData(0xFF);
-					notifyClient(SocketConstance.DOHART);
-					doHart(hartTime);
-				} catch (Exception e) {
-					logger.error("心跳异常，关闭连接：{0}:{1,number,#}" ,holderSocket.getInetAddress().getHostName(),holderSocket.getPort(),e);
-					clientNotifySevDetroy();
+				if(isDestroy){
+					return;
 				}
+//				holderSocket.sendUrgentData(0xFF);
+				notifyClient(SocketConstance.DOHART);
+				doHart(hartTime);
 			}
-		}).start();
+		}, hartTime);
 	}
 }

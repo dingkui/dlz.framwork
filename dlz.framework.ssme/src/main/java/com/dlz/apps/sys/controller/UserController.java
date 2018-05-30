@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
+import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.base.controller.BaseController;
-import com.dlz.framework.ssme.base.model.ResultJsonModel;
 import com.dlz.framework.ssme.constants.Constants;
 import com.dlz.framework.ssme.db.model.Role;
 import com.dlz.framework.ssme.db.model.User;
@@ -50,7 +51,7 @@ import net.sf.json.JSONObject;
  * 用户控制器类 方法上的注释为页面中Button的标题
  */
 @Controller
-@RequestMapping("/rbac/user")
+@RequestMapping(ControllerConst.ADMIN+"/rbac/user")
 public class UserController extends BaseController{
 	private static MyLogger logger = MyLogger.getLogger(UserController.class);
 
@@ -118,8 +119,8 @@ public class UserController extends BaseController{
 	 */
 	@ResponseBody
 	@RequestMapping(value = "save")
-	public ResultJsonModel save(String jsonParm, HttpServletRequest request) {
-		ResultJsonModel retM = createRsutlJson();
+	public JSONResult save(String jsonParm, HttpServletRequest request) {
+		JSONResult retM = createRsutlJson();
 		User user = JacksonUtil.readValue(jsonParm, User.class);
 		try {
 			if(user.getUserId()==null){

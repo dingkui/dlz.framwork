@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.freemaker.service.impl.FreemarkerEmailTemplateService;
 import com.dlz.apps.freemaker.service.impl.FreemarkerMsmTemplateService;
 import com.dlz.apps.freemaker.service.impl.FreemarkerResumeTemplateService;
@@ -26,7 +27,7 @@ import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.db.service.FunOptService;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
-import com.dlz.framework.ssme.util.config.XMLMessageUtil;
+import com.dlz.framework.util.config.XmlConfigUtil;
 import com.dlz.framework.util.system.Reflections;
 import com.google.common.collect.Maps;
 
@@ -34,7 +35,7 @@ import com.google.common.collect.Maps;
  * RoleController 说明：角色管理模块相关功能 2013-8-25
  */
 @Controller
-@RequestMapping(value = "/main")
+@RequestMapping(value = ControllerConst.ADMIN+"/main")
 public class MainController extends BaseController{
 
 	@Autowired
@@ -51,10 +52,12 @@ public class MainController extends BaseController{
 		Map<String, Object> paramMap = Maps.newHashMap();
 		paramMap.put("pidCondition", "and parent_fun_opt_id =0");
 		paramMap.put("fCode", "");
-		paramMap.put("roles", user.getRoleList());
+		paramMap.put("roles", user.getRoles());
 		model.addAttribute("menuList", funOptService.getOptsByRoles(paramMap));
 		return "index";
 	}
+	
+
 	/*
 	 * 左边树形菜单通过此方法跳转至页面
 	 * 
@@ -66,7 +69,7 @@ public class MainController extends BaseController{
 		Map<String, Object> paramMap = Maps.newHashMap();
 		paramMap.put("pidCondition", "and parent_fun_opt_id =0");
 		paramMap.put("fCode", "");
-		paramMap.put("roles", user.getRoleList());
+		paramMap.put("roles", user.getRoles());
 		List<Map<String, Object>> rootMenuList = funOptService.getOptsByRoles(paramMap);
 		model.addAttribute("menuList", rootMenuList);
 		return "index1";
@@ -86,7 +89,7 @@ public class MainController extends BaseController{
 				DbInfo.reload();
 				break;
 			case "xml":
-				XMLMessageUtil.load();
+				XmlConfigUtil.reload();
 				break;
 			case "freemarker":
 				SpringHolder.getBean(FreemarkerResumeTemplateService.class).init();
@@ -106,7 +109,7 @@ public class MainController extends BaseController{
 			case "All":
 				ConfigUtil.loadProperty();
 				DbInfo.reload();
-				XMLMessageUtil.load();
+				XmlConfigUtil.reload();
 				SpringHolder.getBean(FreemarkerResumeTemplateService.class).init();
 				SpringHolder.getBean(FreemarkerEmailTemplateService.class).init();
 				SpringHolder.getBean(FreemarkerMsmTemplateService.class).init();

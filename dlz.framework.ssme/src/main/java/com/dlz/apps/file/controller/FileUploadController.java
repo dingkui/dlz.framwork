@@ -2,6 +2,7 @@ package com.dlz.apps.file.controller;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,20 +21,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.dlz.apps.ControllerConst;
+import com.dlz.apps.file.db.model.Files;
+import com.dlz.apps.file.db.service.FilesService;
 import com.dlz.apps.file.enums.FileTypeEnum;
-import com.dlz.apps.file.model.Files;
-import com.dlz.apps.file.service.FilesService;
 import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.util.JacksonUtil;
+import com.dlz.framework.util.StringUtils;
 
 /**
  * 单位性质
  * 
  */
 @Controller
-@RequestMapping(value = "/fileUpload")
+@RequestMapping(value = ControllerConst.ADMIN+"/fileUpload")
 public class FileUploadController extends BaseController {
 	@Autowired
 	FilesService filesService;
@@ -67,6 +70,7 @@ public class FileUploadController extends BaseController {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		String dType = request.getParameter("dType");
+		String saveDb = request.getParameter("saveDb");
 		Files files=null;
 		while(fileNames.hasNext()){
 			MultipartFile multipartFile = multipartRequest.getFile(fileNames.next());
@@ -82,7 +86,12 @@ public class FileUploadController extends BaseController {
 			m.put("userName", loginUser.getUserName());
 			m.put("userId", loginUser.getUserId());
 			m.put("fOrd", request.getParameter("fOrd"));
+			if(!StringUtils.isEmpty(saveDb)){
+				m.put("saveDb", false);
+			}
 			files = filesService.saveFile(multipartFile.getInputStream(), FileTypeEnum.valueOf(dType),m);
+			files.setfName(name);
+			files.setfSurfix(prefix);
 		}
 		return files;
 	}
@@ -108,6 +117,9 @@ public class FileUploadController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/getFiles")
 	public List<Files> getFiles(Long dataId,String dType,String fOrd) throws Exception {
+		if(dataId == null || dType == null){
+			return new ArrayList<Files>();
+		}
 		return filesService.getFiles(dataId, fOrd, FileTypeEnum.valueOf(dType));
 	}
 	

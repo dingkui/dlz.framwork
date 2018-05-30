@@ -45,6 +45,7 @@ public class DbInfo {
 	private static Map<String, String> m_dbset = new HashMap<String, String>();
 	private static Map<String, String> m_sqlList = new HashMap<String, String>();
 	private static SqlDialect dialect = SqlDialect.ORACLE;
+	private static String dbtype = null;
 	private enum SqlDialect {
 		MYSQL(".mysql"), ORACLE(""), MSSQL(".sqlserver");
 		private String end;
@@ -54,6 +55,10 @@ public class DbInfo {
 		public String getEnd() {
 			return end;
 		}
+	}
+	
+	public static String getDbtype(){
+		return dbtype;
 	}
 	
 	private static boolean initIng = false;
@@ -78,11 +83,14 @@ public class DbInfo {
 		}
 		initIng = true;
 		dbConfig = ResourceBundle.getBundle(NAME_DB_CONFIG);
+		loadRsources("framework/*");
+		loadRsources("common/*");
 		for (Enumeration<String> enums = dbConfig.getKeys(); enums.hasMoreElements();) {
 			String name = enums.nextElement();
 			String str = dbConfig.getString(name).trim();
 			if(STR_DBTYPE.equals(name)){
-				dialect=SqlDialect.valueOf(str.toUpperCase());
+				dbtype=str.toUpperCase();
+				dialect=SqlDialect.valueOf(dbtype);
 				continue;
 			}
 			if("1".equals(str)){
@@ -98,7 +106,6 @@ public class DbInfo {
 			}
 			m_dbset.put(name, str);
 		}
-		loadRsources("common/*");
 		logger.debug("dbsettinhs:" + m_dbset);
 		logger.debug("sqlList:" + m_sqlList);
 		initIng = false;

@@ -12,7 +12,8 @@ public class MyLoggerSlf4j extends MyLogger{
 		this.logger=LoggerFactory.getLogger(name);
 	}
 	
-	public void debug(Object message,Throwable t,Object ...paras) {
+	public void debug(Object message,Object ...paras) {
+		Throwable t=null;
 		logger.debug(StringUtils.formatMsg(message, paras), t);
 	}
 	
@@ -31,6 +32,9 @@ public class MyLoggerSlf4j extends MyLogger{
 	
 	public boolean isDebugEnabled() {
 		return logger.isDebugEnabled();
+	}
+	public boolean isInfoEnabled() {
+		return logger.isInfoEnabled();
 	}
 	public boolean isWarnEnabled() {
 		return logger.isWarnEnabled();

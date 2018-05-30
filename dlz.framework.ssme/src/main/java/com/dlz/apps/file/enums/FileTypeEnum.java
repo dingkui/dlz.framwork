@@ -23,7 +23,11 @@ public enum FileTypeEnum {
 	tydxz("18"),//门店选址各角度照片
 	tydsqfile("19"),//其它文件（申请表、门店租赁合同、品牌授权书等）
 	orderProof("20"),//订单打款凭证
-	zlxjzx("21");//资料下载中心
+	zlxjzx("21"),//资料下载中心
+	orderOutProof("22"),//销售订单打款凭证
+	receiptProof("23"),//发票打款凭证
+	fxs("24"),//分销商
+	orderSend("25");//发货单
 	/*
 	 * 类型ID
 	 */

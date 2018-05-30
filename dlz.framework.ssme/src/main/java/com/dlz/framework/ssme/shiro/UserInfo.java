@@ -3,7 +3,7 @@ package com.dlz.framework.ssme.shiro;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dlz.common.bean.AuthUser;
+import com.dlz.app.uim.bean.AuthUser;
 
 /**
  * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
@@ -18,8 +18,33 @@ public class UserInfo extends AuthUser {
 	private String pRelation;
 
 	private String phone;
+	
+	private int priceLevel;
+	
+	private String wxXcxOpenid;
+	
+	private String wxUnionid;
+	
+	private int deptId;
+	
+	private String deptName;
+	
+	private int duDuty;//职务
+	
+	private int deptFId;//上级部门ID
+	
+	private int tjUserId;//推荐人
 
 	private List<Long> groups = new ArrayList<Long>();
+
+	
+	public int getTjUserId() {
+		return tjUserId;
+	}
+
+	public void setTjUserId(int tjUserId) {
+		this.tjUserId = tjUserId;
+	}
 
 	/**
 	 * 获取groups
@@ -105,4 +130,60 @@ public class UserInfo extends AuthUser {
 		this.phone = phone;
 	}
 
+	public int getPriceLevel() {
+		return priceLevel;
+	}
+
+	public void setPriceLevel(int priceLevel) {
+		this.priceLevel = priceLevel;
+	}
+
+	public String getWxXcxOpenid() {
+		return wxXcxOpenid;
+	}
+
+	public void setWxXcxOpenid(String wxXcxOpenid) {
+		this.wxXcxOpenid = wxXcxOpenid;
+	}
+
+	public String getWxUnionid() {
+		return wxUnionid;
+	}
+
+	public void setWxUnionid(String wxUnionid) {
+		this.wxUnionid = wxUnionid;
+	}
+
+	public int getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(int deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getDeptName() {
+		return deptName;
+	}
+
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}
+
+	public int getDuDuty() {
+		return duDuty;
+	}
+
+	public void setDuDuty(int duDuty) {
+		this.duDuty = duDuty;
+	}
+
+	public int getDeptFId() {
+		return deptFId;
+	}
+
+	public void setDeptFId(int deptFId) {
+		this.deptFId = deptFId;
+	}
+	
 }

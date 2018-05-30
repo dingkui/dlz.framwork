@@ -2,7 +2,6 @@ package com.dlz.apps.sys.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.DictDetail;
 import com.dlz.framework.ssme.db.model.DictDetailCriteria;
 import com.dlz.framework.ssme.db.model.DictDetailKey;
@@ -20,7 +21,7 @@ import com.dlz.framework.ssme.util.criterias.Criterias;
 import com.dlz.framework.util.JacksonUtil;
 
 @Controller
-@RequestMapping(value = "/rbac/dictDetail")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/dictDetail")
 public class DictDetailController {
 	private static MyLogger logger = MyLogger.getLogger(DictDetailController.class);
 
@@ -137,9 +138,8 @@ public class DictDetailController {
 	 * 删除-根据字典编号删除字典明细
 	 */
 	@ResponseBody
-	@RequestMapping(value = "delete/{dictId}/{dictParamValue}")
-	public String delete(@PathVariable("dictId") String dictId,
-			@PathVariable("dictParamValue") String dictParamValue) {
+	@RequestMapping(value = "/delete")
+	public String delete(String dictId,String dictParamValue) {
 		try {
 			DictDetailKey key = new DictDetailKey();
 			key.setDictId(dictId);

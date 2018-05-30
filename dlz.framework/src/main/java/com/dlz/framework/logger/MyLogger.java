@@ -1,34 +1,44 @@
 package com.dlz.framework.logger;
 
+import java.net.URL;
+
 public abstract class MyLogger {
 	protected static final String FQCN = MyLogger.class.getName();
-	private static int logType = 0;
+	private static int logType = -1;
 
 	static public MyLogger getLogger(Class<?> clazz) {
 		return getLogger(clazz.getName());
 	}
 
 	static public MyLogger getLogger(String name) {
-		if (logType == 0) {
-			if (MyLogger.class.getClassLoader().getResource("logback.xml") != null) {
+		if (logType == -1) {
+			URL resource = MyLogger.class.getClassLoader().getResource("logback.xml");
+			if (resource != null) {
 				logType = 1;
-			} else if (MyLogger.class.getClassLoader().getResource("log4j.properties") != null) {
-				logType = 2;
+			} else {
+				URL resource2 = MyLogger.class.getClassLoader().getResource("log4j.properties");
+				if (resource2 != null) {
+					logType = 2;
+				}else{
+					logType = 0;
+				}
 			}
+			System.out.println("logger type:"+logType);
 		}
 		switch (logType) {
 		case 1:
+//			System.out.println("使用logback:");
 			return new MyLoggerLogback(name);
 		case 2:
 			return new MyLoggerLog4j(name);
 		}
 		return new MyLoggerSlf4j(name);
 	}
-	
-	public void debug(Object message, Object... paras) {
-		debug(message, null, paras);
-	}
-	public abstract void debug(Object message, Throwable t, Object... paras);
+	public void debug(Object message) {
+		Object[] p=null;
+		debug(message,p);
+	}	
+	public abstract void debug(Object message, Object... paras);
 
 	public void error(Object message, Object... paras) {
 		error(message, null, paras);
@@ -46,6 +56,8 @@ public abstract class MyLogger {
 	public abstract void info(Object message, Throwable t, Object... paras);
 
 	public abstract boolean isDebugEnabled();
+	
+	public abstract boolean isInfoEnabled();
 
 	public abstract boolean isWarnEnabled();
 

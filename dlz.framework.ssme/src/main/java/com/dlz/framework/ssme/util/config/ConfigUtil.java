@@ -1,22 +1,9 @@
 package com.dlz.framework.ssme.util.config;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.dlz.framework.logger.MyLogger;
-import com.dlz.framework.db.modal.ParaMap;
-import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.ssme.db.model.BaseSet;
-import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.config.ConfUtil;
 
 
 public class ConfigUtil {
-	private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");
 	/*
 	 * 配置名称
 	 */
@@ -101,50 +88,9 @@ public class ConfigUtil {
 	}
 
 	/**
-	 * 配置文件
-	 */
-	public static final String CONFIG_FILE = "config.properties";
-
-	/**
-	 * 日志
-	 */
-	private static MyLogger logger = MyLogger.getLogger(ConfigUtil.class);
-
-	/**
-	 * Properties实例
-	 */
-	public static Properties props = new Properties();
-
-	/**
 	 * 构造方法
 	 */
 	private ConfigUtil() {
-
-	}
-
-	static {
-		loadProperty();
-	}
-
-	/**
-	 * 从配置文件中读取所有的属性
-	 */
-	public static void loadProperty() {
-		try {
-			InputStream file = new FileInputStream(ConfigUtil.class.getClassLoader().getResource("config.properties").getFile());
-			props.clear();
-			props.load(file);
-			ICommService baseSetService = (ICommService)SpringHolder.getBean(ICommService.class);
-			ParaMap pm=new ParaMap("select * from T_B_BASE_SET where status=1");
-			List<BaseSet> subjectList = baseSetService.getBeanList(pm,BaseSet.class);
-			for (BaseSet subject : subjectList) {
-				if(!props.containsKey(subject.getBaseCode())){
-					props.put(subject.getBaseCode(), StringUtils.NVL(subject.getBaseValue()));
-				}
-			}
-		} catch (Exception e) {
-			logger.error("读取配置文件出错", e);
-		}
 	}
 	
 	/**
@@ -157,20 +103,7 @@ public class ConfigUtil {
 	 * @return 属性对应的值
 	 */
 	public static String getConfig(String name, String defaultValue) {
-		String ret = props.getProperty(name, defaultValue);
-		if (ret == null) {
-			return defaultValue;
-		} else if(ret.indexOf("${")>-1){
-			Matcher mat = paraPattern.matcher(ret);
-		  	while(mat.find()){
-		  		ret = ret.replaceAll("\\$\\{"+mat.group(1)+"\\}", getConfig(mat.group(1),""));
-		  	}
-		  	ret=ret.trim();
-		  	props.setProperty(name, ret);
-			return ret;
-		}else{
-			return ret.trim();
-		}
+		return ConfUtil.getConfig(name, defaultValue);
 	}
 
 	/**
@@ -182,6 +115,10 @@ public class ConfigUtil {
 	 */
 	public static String getConfig(String name) {
 		return getConfig(name, null);
+	}
+
+	public static void loadProperty() {
+		ConfUtil.loadProperty();
 	}
 
 }

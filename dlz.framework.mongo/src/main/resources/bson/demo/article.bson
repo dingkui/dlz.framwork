@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--=========================================================================-->
+<!--  Copyright sl 2018 All Rights Reserved. -->
+<!--  @version	1.00												 -->
+<!--=========================================================================-->
+
+<sqlList>
+	<filter key="filter.comm.byid">
+		<![CDATA[
+			{"_id":[${_ids}]}
+		]]>
+	</filter>
+	<filter key="filter.article">
+		<![CDATA[
+			{
+				 【id:${id},】//ID
+				 【channel_id:[${dchannelIds}],】//频道
+				 【class_id:[${classIds}],】//栏目
+				 【topics:{$elemMatch:{topic_id:${topic_id}}},】//专题：注意，专题存储是的专题对象数组 topic_id,topic_name
+				 【ELITE:${isRecommend},】
+				 【hits:{$gte:${hisofhot}},】
+				 【update_time:{$gte:"${dateNum}"},】
+				 【default_picurl:{$exists:true}},^${isPicUrl}】
+				 【$or:[
+				 	{Title:/${key}/},
+				 	{SHORT_TITLE:/${key}/}
+				 ],】
+			}
+		]]>
+	</filter>
+	<find key="find.article" name="article" filter="filter.article"/>
+	<insert key="insert.article" name="article"/>
+	<delete key="delete.article.byid" name="article" filter="filter.comm.byid"/>
+	<delete key="delete.article.byfilter" name="article" filter="filter.article"/>
+	<update key="update.article.all" name="article" filter="filter.article">
+		<![CDATA[
+			{
+			$set:{"new":"${new}"}
+			}
+		]]>
+	</update>
+</sqlList>

@@ -19,9 +19,14 @@ public class BaseException extends RuntimeException {
 		E1003("数据库操作异常：参数异常"),//数据库操作异常：参数异常
 		E2001("非法访问异常"),//非法访问异常
 		E3001("业务异常"),//业务异常
+		E3002("代码异常"),//业务异常
+		E3003("校验错误"),//业务异常
 		E4001("批处理异常"),//批处理异常
 		E5002("参数异常"),//参数异常
 		E6001("系统异常"),//参数异常
+		E7000("远程服务器连接失败"),//远程服务器连接失败
+		E7001("远程调用异常"),//远程调用异常
+		E7002("远程调用数据读取异常"),//远程调用异常
 	  ;
 	  public String message;
 		private Errors(String message) {
@@ -40,6 +45,18 @@ public class BaseException extends RuntimeException {
 	 * 错误码 见Errors
 	 */
 	private String errorInfo;
+	
+	public BaseException(String message) {
+		this(3001,message,null);
+	}
+	
+	public BaseException(String message, Throwable exception) {
+		this(3001,message,exception);
+	}
+	
+	public BaseException(int errorCode, Throwable exception) {
+		this(errorCode,exception.getMessage(),exception);
+	}
 
 	public BaseException(int errorCode,String message,Throwable cause) {
 		this(Errors.valueOf("E"+errorCode),message);
@@ -60,34 +77,5 @@ public class BaseException extends RuntimeException {
 	}
 	public String getErrorInfo(){
 		return errorInfo;
-	}
-	
-	/**
-	 * 异常代码
-	 * 0：逻辑跳出返回结果（非异常），
-	 * 1:系统异常
-	 * 2:远程调用异常
-	 * 3:数据异常
-	 */
-	private int e_lv=0;
-
-	public BaseException(String msg) {
-		this(msg,0);
-	}
-	public BaseException(String msg,int e_lv) {
-		super(msg);
-		this.e_lv=e_lv;
-	}
-
-	public BaseException(String msg, Throwable exception) {
-		this(msg,0,exception);
-	}
-	public BaseException(String msg,int e_lv, Throwable exception) {
-		super(msg, exception);
-		this.e_lv=e_lv;
-	}
-	
-	public int getE_lv() {
-		return e_lv;
 	}
 }

@@ -6,10 +6,11 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+
+import com.dlz.framework.logger.MyLogger;
 
 /**
  * Properties文件载入工具类. 可载入多个properties文件, 相同的属性在最后载入的文件中的值将会覆盖之前的值，但以System的Property优先.

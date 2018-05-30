@@ -1,59 +1,36 @@
-<?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.dlz</groupId>
+	<parent>
+		<groupId>com.dlz</groupId>
+		<artifactId>dlz.parent</artifactId>
+		<version>2.2</version>
+		<relativePath />
+	</parent>
+
 	<artifactId>dlz.plugin.weixin</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0</version>
-	<name>dlz.plugin.weixin</name>
-	<url>http://maven.apache.org</url>
+
 	<properties>
-	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	    <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<spring.version>4.2.4.RELEASE</spring.version>
-		<commons-codec.version>1.10</commons-codec.version>
-		<junit.version>4.12</junit.version>
-		
-		<jackson.version>1.8.4</jackson.version>
 		<json-lib.version>2.1</json-lib.version>
 		<gson.version>2.2.4</gson.version>
 		<jdom.version>1.1</jdom.version>
-  	</properties>
+	</properties>
 	<dependencies>
 		<dependency>
-		  <groupId>com.dlz</groupId>
-		  <artifactId>dlz.framework</artifactId>
-		  <version>1.0</version>
+			<groupId>com.dlz</groupId>
+			<artifactId>dlz.web</artifactId>
+			<version>${dlz.framework.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
- 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-		  	<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>com.thoughtworks.xstream</groupId>
-		    <artifactId>xstream</artifactId>
-		    <version>1.4.9</version>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.9</version>
 		</dependency>
 		<!-- commons-codec -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>${commons-codec.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
@@ -61,40 +38,25 @@
 			<version>${json-lib.version}</version>
 			<classifier>jdk15</classifier>
 		</dependency>
-	    <dependency>
+		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>${gson.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.jdom</groupId>
-		    <artifactId>jdom</artifactId>
-		    <version>${jdom.version}</version>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>${jdom.version}</version>
 		</dependency>
 		<!-- 二维码 -->
 		<dependency>
-	    	<groupId>com.google.zxing</groupId>
+			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
 			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>javase</artifactId>
-            <version>3.0.0</version>
-        </dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 	</dependencies>
-  <build>
-	 <plugins>
-		  <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					 <encoding>UTF8</encoding> 
-				</configuration>
-		   </plugin>
-	  </plugins>
-  </build>
-</project> 
+</project>

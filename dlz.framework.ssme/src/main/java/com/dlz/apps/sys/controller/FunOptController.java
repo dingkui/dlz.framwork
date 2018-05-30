@@ -8,16 +8,17 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.FunOpt;
 import com.dlz.framework.ssme.db.model.FunOptCriteria;
 import com.dlz.framework.ssme.db.service.FunOptService;
@@ -28,7 +29,7 @@ import com.dlz.framework.ssme.db.service.RbacService;
  */
 
 @Controller
-@RequestMapping(value = "/rbac/funopt")
+@RequestMapping(value = ControllerConst.ADMIN+"/rbac/funopt")
 public class FunOptController {
 	private static MyLogger logger = MyLogger.getLogger(FunOptController.class);
 

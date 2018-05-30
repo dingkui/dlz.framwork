@@ -1,31 +1,14 @@
 package com.dlz.framework.ssme.util.config;
 
-import java.net.URL;
 import java.text.MessageFormat;
-import java.util.Map;
 
+import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.util.config.XmlConfigUtil;
 public class XMLMaterialUtil {
 	private static final MyLogger logger = MyLogger.getLogger(XMLMaterialUtil.class);
 	
 	private static String mesaageConfigName="material";
-	
-	static {
-		load(mesaageConfigName);
-	}
-	public static void load() {
-		load(mesaageConfigName);
-	}
-	/**
-	 * 加载xml配置
-	 * @param configName
-	 */
-	private static void load(String configName) {
-	  URL u = XMLMaterialUtil.class.getClassLoader().getResource(configName+".xml");
-	  if(u!=null){
-	  	XmlConfigUtil.loadXml(u.getFile(), mesaageConfigName);
-	  }
-	}
 	
 	/**
 	 * 取得配置文件中Map中的对应的key信息
@@ -37,12 +20,12 @@ public class XMLMaterialUtil {
 	 */
 	public static String getMapStr(String mapKey,String key,String lang,Object[] arguments){
 		lang=lang==null?"":"_"+lang;
-		Map<String, String> m = XmlConfigUtil.getMap(mesaageConfigName+lang, mapKey);
+		JSONMap m = XmlConfigUtil.getMap(mesaageConfigName+lang, mapKey);
 		if(m==null){
 			logger.error("message未配置："+mesaageConfigName+lang+".xml id:"+mapKey);
 			return mapKey+"__"+key;
 		}
-		String message=m.get(key);
+		String message=m.getStr(key);
 		if(message==null){
 			logger.error("message未配置："+mesaageConfigName+lang+".xml mapKey:"+mapKey+" id:"+key);
 			return mapKey+"__"+key;
@@ -54,8 +37,8 @@ public class XMLMaterialUtil {
 	 * @param mapid
 	 * @return
 	 */
-	public static Map<String, String> getMap(String mapid){
-		Map<String, String> m = XmlConfigUtil.getMap(mesaageConfigName, mapid);
+	public static JSONMap getMap(String mapid){
+		JSONMap m = XmlConfigUtil.getMap(mesaageConfigName, mapid);
 		if(m==null){
 			logger.error("message未配置："+mesaageConfigName+".xml id:"+mapid);
 		}
@@ -63,7 +46,7 @@ public class XMLMaterialUtil {
 	}
 	private static String getStr(String key,String lang,Object[] arguments){
 		lang=lang==null?"":"_"+lang;
-		String message = XmlConfigUtil.getText(mesaageConfigName+lang, key);
+		String message = XmlConfigUtil.getStr(mesaageConfigName+lang, key);
 		if(message==null){
 			logger.error("message未配置："+mesaageConfigName+lang+".xml id:"+key);
 			return key;

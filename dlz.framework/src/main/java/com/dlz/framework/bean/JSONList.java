@@ -1,9 +1,9 @@
 package com.dlz.framework.bean;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.util.JacksonUtil;
 
@@ -12,7 +12,7 @@ import com.dlz.framework.util.JacksonUtil;
  * @author dk 2017-09-05
  *
  */
-public class JSONList extends ArrayList<Object>{
+public class JSONList extends ArrayList<Object> implements IUniversalVals,IUniversalVals4List{
 	/**
 	 * 
 	 */
@@ -27,19 +27,35 @@ public class JSONList extends ArrayList<Object>{
 		if(obj==null){
 			return;
 		}
-		if(obj instanceof CharSequence){
-			addAll(JacksonUtil.readValue(obj.toString(), JSONList.class));
-		}else if(obj instanceof Collection){
+		if(obj instanceof Collection){
 			for(Object ci:(Collection)obj){
-				add(new JSONMap(ci));
+				add(ci);
 			}
 		}else if(obj instanceof Object[]){
-			for(Object ci:(Object[] )obj){
-				add(new JSONMap(ci));
+			for(Object ci:(Object[])obj){
+				add(ci);
 			}
-		}else if(obj instanceof Serializable){
-			addAll(JacksonUtil.readValue(JacksonUtil.getJson(obj),JSONList.class));
+		}else {
+			String string=null;
+			if(obj instanceof CharSequence){
+				string=obj.toString().trim();
+			}else{
+				string=JacksonUtil.getJson(obj);
+			}
+			if(string==null){
+				return;
+			}
+			if(string.startsWith("[") && string.endsWith("]")){
+				addAll(JacksonUtil.readValue(string, JSONList.class));
+			}else{
+				throw new CodeException("参数不能转换成JSONList:"+string);
+			}
 		}
+	}
+	
+	public JSONList adds(Object obj){
+		add(obj);
+		return this;
 	}
 	
 	public static JSONList createJsonList(Object json){
@@ -63,7 +79,19 @@ public class JSONList extends ArrayList<Object>{
 		return new JSONMap(o);
 	}
 
+	public JSONMap getObj(int index){
+		return getObj(index,JSONMap.class);
+	}
+
 	public String toString(){
 		return JacksonUtil.getJson(this);
+	}
+	@Override
+	public Object getIndexObject(int index) {
+		return get(index);
+	}
+	@Override
+	public Object getInfoObject() {
+		return this;
 	}
 }
