@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.aop.support.AopUtils;
 import org.springframework.util.Assert;
 
 import com.dlz.framework.annotation.NotDbField;
@@ -194,7 +195,7 @@ public class Reflections {
 	 */
 	public static Method getMethod(final Object obj, final String name,Class<?>... parameterTypes) {
 		String methodName = name.intern();
-		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+		for (Class<?> searchType =AopUtils.getTargetClass(obj); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
 				if (method.getName()==methodName && arrayContentsEq(parameterTypes, method.getParameterTypes())) {
