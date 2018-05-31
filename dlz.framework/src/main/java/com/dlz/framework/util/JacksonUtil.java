@@ -142,7 +142,7 @@ public class JacksonUtil {
 			if(o instanceof CharSequence){
 				str=o.toString().trim();
 			}else{
-				str=JacksonUtil.getJson(o);
+				str=getJson(o);
 			}
 //			if(valueType.isAssignableFrom(RestPara.class)){
 //				return (T)new RestPara(str);
@@ -153,7 +153,22 @@ public class JacksonUtil {
 		}
 		return null;
 	}
-	
+
+	public static String cover2String(Object o) {
+		try {
+			if(o==null){
+				return null;
+			}
+			if(o instanceof CharSequence || o instanceof Number){
+				return o.toString().trim();
+			}else{
+				return getJson(o);
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return null;
+	}
 	
 	public static <T> T at(Object data,String key, Class<T> valueType){
 		Object o=at(data, key);

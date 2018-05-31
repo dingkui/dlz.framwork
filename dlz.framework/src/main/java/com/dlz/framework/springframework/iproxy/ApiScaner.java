@@ -2,7 +2,6 @@ package com.dlz.framework.springframework.iproxy;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.stereotype.Component;
 
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
@@ -14,7 +13,6 @@ import com.dlz.framework.util.StringUtils;
  * 
  * @author dk
  */
-@Component
 public class ApiScaner implements IScaner{
 	@Override
 	public String getResoucePath() {
@@ -25,7 +23,9 @@ public class ApiScaner implements IScaner{
 			BeanDefinitionRegistry registry = SpringHolder.getBeanDefinitionRegistry();
 			@Override
 			public boolean isCandidate(AnnotatedBeanDefinition beanDefinition) {
-				return beanDefinition.getMetadata().isAbstract() && beanDefinition.getMetadata().hasAnnotation(AnnoApi.class.getName());
+				Class<?> forName=getBeanClass(beanDefinition, false);
+				AnnoApi annotation = forName.getAnnotation(AnnoApi.class);
+				return beanDefinition.getMetadata().isAbstract() && annotation!=null;
 			}
 
 			@Override

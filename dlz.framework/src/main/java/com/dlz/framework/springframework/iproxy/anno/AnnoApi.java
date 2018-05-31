@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface AnnoApi {
 	String value() default ""; 
+	String handler() default ""; 
 }

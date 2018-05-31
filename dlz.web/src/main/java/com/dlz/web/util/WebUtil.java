@@ -1,21 +1,29 @@
 package com.dlz.web.util;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
+import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
 import com.dlz.web.holder.ThreadHolder;
 
 @SuppressWarnings("unchecked")
 public class WebUtil {
+	private static MyLogger logger = MyLogger.getLogger(WebUtil.class);
 	/**
 	 * Stores an attribute in this request
 	 * 
@@ -618,5 +626,80 @@ public class WebUtil {
 	 */
 	public boolean isParaExists(String paraName) {
 		return getRequest().getParameterMap().containsKey(paraName);
+	}
+	
+	public static JSONMap getParaMatersFromRequest(ServletRequest request){
+		JSONMap datas=new JSONMap();
+		Map<String,String[]> paraMeterMap=request.getParameterMap();
+		for(Map.Entry<String,String[]> entry:paraMeterMap.entrySet()){
+			if(entry.getValue().length==1) {
+				datas.put(entry.getKey(), entry.getValue()[0]);
+			}else{
+				datas.put(entry.getKey(), entry.getValue());
+			}
+		}
+		return datas;
+	}
+
+	public static Page<?> getPage(boolean fromRequest) {
+		Page<?> pi = new Page<>();
+		if(fromRequest){
+			HttpServletRequest request=getRequest();
+			String parameter = request.getParameter("pageSize");
+			if (StringUtils.isNotEmpty(parameter)) {
+				pi.setPageSize(Integer.parseInt(parameter));
+			}
+			String parameter2 = request.getParameter("pageIndex");
+			if (StringUtils.isNotEmpty(parameter2)) {
+				pi.setPageIndex(Integer.parseInt(parameter2));
+			}
+			String parameter3 = request.getParameter("sortField");
+			if (StringUtils.isNotEmpty(parameter3)) {
+				pi.setSortField(parameter3);
+			}
+			String parameter4 = request.getParameter("sortOrder");
+			if (StringUtils.isNotEmpty(parameter4)) {
+				pi.setSortOrder(parameter4);
+			}
+		}
+		return pi;
+	}
+
+	public static Page<?> getPage(JSONMap data,boolean fromRequest) {
+		Page<?> pi = getPage(fromRequest);
+		if(data.containsKey("pageSize")){
+			pi.setPageSize(data.getInt("pageSize"));
+		}
+		if(data.containsKey("pageIndex")){
+			pi.setPageIndex(data.getInt("pageIndex"));
+		}
+		if(data.containsKey("sortField")){
+			pi.setSortField(data.getStr("sortField"));
+		}
+		if(data.containsKey("sortOrder")){
+			pi.setSortOrder(data.getStr("sortOrder"));
+		}
+		return pi;
+	}
+	
+	protected static final String contentType = "text/html; charset=UTF-8";
+	public static String renderErr(int statu,Object service, String methodName, String msg) {
+		HttpServletResponse response=getResponse();
+		msg=service.getClass() + "." + methodName+msg;
+		String err="访问异常：statu="+statu+" msg="+msg;
+		response.setStatus(statu);
+		PrintWriter writer = null;
+		try {
+			response.setContentType(contentType);
+			writer = response.getWriter();
+			writer.write(msg);
+			writer.flush();
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		} finally {
+			if (writer != null)
+				writer.close();
+		}
+		return err;
 	}
 }

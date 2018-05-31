@@ -55,8 +55,7 @@ public class ApiProxyFactory<T> implements FactoryBean<T> {
         private ApiProxyHandler getHandler(){
         	ApiProxyHandler proxyHandler = cachedHandlers.get(handlerName);
         	if(proxyHandler==null){
-        		handlerName=cls.getAnnotation(AnnoApi.class).value()+"ApiHandler";
-        		proxyHandler=SpringHolder.getBean(handlerName);
+        		proxyHandler=SpringHolder.getBean(handlerName+"ApiHandler");
         		cachedHandlers.put(handlerName, proxyHandler);
         	}
         	return proxyHandler;
@@ -65,6 +64,7 @@ public class ApiProxyFactory<T> implements FactoryBean<T> {
         @SuppressWarnings("unchecked")
     	public T bind(Class<T> cls) {
             this.cls = cls;
+            handlerName=cls.getAnnotation(AnnoApi.class).handler();
             return (T)Proxy.newProxyInstance(cls.getClassLoader(), new Class[] {cls}, this);
         }
 

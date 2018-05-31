@@ -96,7 +96,13 @@ public class ConfUtil {
 	 * @return 属性对应的值
 	 */
 	public static String getConfig(String name, String defaultValue) {
-		String ret = props.getProperty(name, defaultValue);
+		if(name==null){
+			return defaultValue;
+		}
+		String ret=props.getProperty(name, defaultValue);
+		if(ret == null && name.indexOf("${")>-1){
+			ret=name;
+		}
 		if (ret == null) {
 			return defaultValue;
 		}

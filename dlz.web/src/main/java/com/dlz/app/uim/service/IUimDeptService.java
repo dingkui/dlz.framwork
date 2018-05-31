@@ -4,32 +4,14 @@ import com.dlz.app.uim.bean.Dept;
 import com.dlz.app.uim.bean.DeptUser;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.service.IBaseService;
 
 /**
  * 用户部门操作相关接口
  * @author dingkui
  *
  */
-public interface IUimDeptService {
-	/**
-	 * 添加或更新部门（单条）
-	 */
-	public JSONMap addOrUpdate(String data);
-	/**
-	 * 删除部门
-	 * @param id
-	 * @return
-	 */
-	public String del(Long id);
-	/**
-	 * 查询组信息
-	 */
-	public Page<Dept> searchDepts(Page<?> page,JSONMap para);
-	/**
-	 * 根据id取得部门
-	 */
-	public Dept getDept(Long id);
-	
+public interface IUimDeptService extends IBaseService<Dept,String>{
 	/**
 	 * 添加机构用户
 	 * @param m

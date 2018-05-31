@@ -13,6 +13,8 @@ import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.HashMap;
@@ -26,11 +28,15 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.http.entity.StringEntity;
 
 import com.dlz.app.uim.holder.ThirdHolder;
 import com.dlz.app.uim.holder.ThirdHolder.ThirdInfo;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.exception.RemoteException;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.TokenHolder;
 import com.dlz.framework.holder.TokenHolder.TokenInfo;
@@ -40,6 +46,8 @@ import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.PKCS7Encoder;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.web.holder.ThreadHolder;
+import com.dlz.web.util.HttpUtil.HttpGetUtil;
+import com.dlz.web.util.HttpUtil.HttpPostUtil;
 
 
 /**
@@ -116,7 +124,7 @@ public class WxUtil {
 				}
 				String requestUrl = token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
 				// 发起GET请求获取凭证
-				JSONMap jsonObject = JSONMap.createJsonMap(HttpUtil.sendHttpsGET(requestUrl));//httpsRequest(requestUrl, "GET", null);
+				JSONMap jsonObject = HttpGetUtil.get4JSON(requestUrl);//httpsRequest(requestUrl, "GET", null);
 				if (jsonObject != null) {
 					try {
 						wxToken.setExpiresIn(jsonObject.getInt("expires_in"), jsonObject.getStr("access_token"));
@@ -155,7 +163,7 @@ public class WxUtil {
 				}
 				String requestUrl = token_url.replace("APPID", xcxAppId).replace("APPSECRET", xcxAppSecret);
 				// 发起GET请求获取凭证
-				JSONMap jsonObject = JSONMap.createJsonMap(HttpUtil.sendHttpsGET(requestUrl));//httpsRequest(requestUrl, "GET", null);
+				JSONMap jsonObject = HttpGetUtil.get4JSON(requestUrl);//httpsRequest(requestUrl, "GET", null);
 				if (jsonObject != null) {
 					try {
 						wxToken.setExpiresIn(jsonObject.getInt("expires_in"), jsonObject.getStr("access_token"));
@@ -237,7 +245,7 @@ public class WxUtil {
 					}
 		
 					String requestUrl = ticket_url.replace("TOKEN", accessToken);
-					String ruselt = HttpUtil.sendHttpsGET(requestUrl);
+					String ruselt = HttpGetUtil.get(requestUrl);
 					JSONMap resultMap = JacksonUtil.readValue(ruselt, JSONMap.class);
 					if ("0".equals(resultMap.getStr("errcode"))) {// 成功
 						wxTicket.setExpiresIn(resultMap.getInt("expires_in"), resultMap.getStr("ticket"));
@@ -386,7 +394,12 @@ public class WxUtil {
 			}
 			if (code != null) {
 				String requestUrl = access_token_url.replace("APPID", appid).replace("APPSEC", secret).replace("CODE", code);
-				String result = HttpUtil.sendHttpsPOST(requestUrl, null);
+				String result=null;
+				try {
+					result = HttpGetUtil.get(requestUrl);
+				} catch (Exception e) {
+					throw RemoteException.buildException("取得信息失败："+e.getMessage(), e);
+				}
 				JSONMap userInfo = JSONMap.createJsonMap(result);
 				if (userInfo.containsKey("errcode")) { // 是否有错误
 					if (userInfo.getLong("errcode")==40163) { // 是否有错误
@@ -454,13 +467,13 @@ public class WxUtil {
 			}
 			try {
 				String requestUrl = useriinfo_url.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
-				String resUserInfo = HttpUtil.sendHttpsGET(requestUrl);
+				String resUserInfo = HttpGetUtil.get(requestUrl);
 				logger.debug("----Get the user basic information:user OpenId:{0},Returns the result：{1}", openid,resUserInfo);
 				// {"subscribe":1,"openid":"ocdGC0d6-3DOutKcuJkdB9_H0f_g","nickname":"锤哥","sex":1,"language":"zh_CN","city":"武汉","province":"湖北","country":"中国",
 				// "headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/rpJnNOZphx5t2x24RKCSr5bUqaicC7SVicibrpJnfzDnBkicOAb8v56esfEPgjdH7Dg2STqySic9GW3fsFVOu373WL39Qb7NK83eL\/0",
 				// "subscribe_time":1491816542,"unionid":"oehLQwVChkSbanOXocB2bEtkGH44","remark":"","groupid":0,"tagid_list":[]}
 				// {"subscribe":0,"openid":"ocdGC0Re7vimutGa4LqudxEZtuC4","unionid":"oehLQwW6OB7AGo_vB53S334o1_5U","tagid_list":[]}
-				JSONMap userInfo = JacksonUtil.readValue(resUserInfo, JSONMap.class);
+				JSONMap userInfo = new JSONMap(resUserInfo);
 				if(userInfo!=null){
 					thirdInfo.setWx_openid(userInfo.getStr("openid"));
 					//如果unionid没有取到则用openid作为unionid
@@ -504,7 +517,7 @@ public class WxUtil {
 				}
 				String accessToken = AccessToken.getAccessToken();
 				String requestUrl = info_url.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
-				String resUserInfo = HttpUtil.sendHttpsGET(requestUrl);
+				String resUserInfo = HttpGetUtil.get(requestUrl);
 				logger.debug("----Get the user basic information:user OpenId:{0},Returns the result：{1}", openid,resUserInfo);
 				// {"subscribe":1,"openid":"ocdGC0d6-3DOutKcuJkdB9_H0f_g","nickname":"锤哥","sex":1,"language":"zh_CN","city":"武汉","province":"湖北","country":"中国",
 				// "headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/rpJnNOZphx5t2x24RKCSr5bUqaicC7SVicibrpJnfzDnBkicOAb8v56esfEPgjdH7Dg2STqySic9GW3fsFVOu373WL39Qb7NK83eL\/0",
@@ -564,16 +577,16 @@ public class WxUtil {
 			return authorize_url.replace("APPID", WxConfig.getAppid()).replace("FULURL", fulUrl).replace("SCOPE", scope);
 		}
 		
-		public static String getXcxSessionKey(String code) throws IOException {
-			String XcxAppId=WxConfig.getXcxAppid(); 
-			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
-			String resUserInfo=null;
-			if(!StringUtils.isEmpty(code)){
-				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
-				resUserInfo = HttpUtil.sendHttpsGET(requestUrl);
-			}		
-			return resUserInfo;
-		}
+//		public static String getXcxSessionKey(String code) throws IOException {
+//			String XcxAppId=WxConfig.getXcxAppid(); 
+//			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
+//			String resUserInfo=null;
+//			if(!StringUtils.isEmpty(code)){
+//				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
+//				resUserInfo = HttpGetUtil.get(requestUrl);
+//			}		
+//			return resUserInfo;
+//		}
 		
 		/**
 		 * 获取用户信息（用户页面授权）
@@ -594,8 +607,7 @@ public class WxUtil {
 			}
 			try {
 				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
-				String resSessionkey = HttpUtil.sendHttpsGET(requestUrl);
-				JSONMap sessionData = JacksonUtil.readValue(resSessionkey, JSONMap.class);
+				JSONMap sessionData = HttpGetUtil.get4JSON(requestUrl);
 				String sessionKey=sessionData.getStr("session_key");
 				if(sessionKey==null){
 					logger.error("session_key取得失败："+sessionData);
@@ -636,7 +648,7 @@ public class WxUtil {
 		if (accesstoken != null) {
 			String requestUrl = xcx_message_model_url.replace("ACCESS_TOKEN", accesstoken);
 			try {
-				HttpUtil.sendHttpsPOST(requestUrl, obj.toString());
+				HttpPostUtil.post(requestUrl, new StringEntity(obj.toString()));
 				//System.out.println("微信返回的结果：" + result.toString());
 			} catch (Exception e) {
 				logger.debug("小程序发送模板消息出错：",e.getMessage());
@@ -658,7 +670,7 @@ public class WxUtil {
 		if (accesstoken != null) {
 			String requestUrl = message_model_url.replace("ACCESS_TOKEN", accesstoken);
 			try {
-				HttpUtil.sendHttpsPOST(requestUrl, obj.toString());
+				HttpPostUtil.post(requestUrl, new StringEntity(obj.toString()));
 				//System.out.println("微信返回的结果：" + result.toString());
 			} catch (Exception e) {
 				logger.debug("公众号发送模板消息出错：",e.getMessage());
@@ -755,7 +767,22 @@ public class WxUtil {
 		String tic=null;		
 		try{
 			//创建SSLContext 对象，并使用我们制定的信任管理器初始化
-			TrustManager[] tm = { new Myx509TrustManager() };
+			TrustManager[] tm = { new X509TrustManager() {
+				@Override
+				public X509Certificate[] getAcceptedIssuers() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+				@Override
+				public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+					// TODO Auto-generated method stub
+				}
+				
+				@Override
+				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+					// TODO Auto-generated method stub
+				}
+			}};
 			SSLContext sslContext = SSLContext.getInstance("SSL","SunJSSE");
 			sslContext.init(null, tm, new SecureRandom());
 			//从上述 SSLContext 对象中得到 SSLSocketFactory对象

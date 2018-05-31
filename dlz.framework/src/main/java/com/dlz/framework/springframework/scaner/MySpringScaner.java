@@ -27,14 +27,14 @@ import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
 public class MySpringScaner {
 	private static MyLogger logger = MyLogger.getLogger(MySpringScaner.class);
 
+	ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+	MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(new PathMatchingResourcePatternResolver());
 	public void runScaner() {
 		logger.debug("自定义扫描处理中。。。");
 		Map<String, IScaner> beans = SpringHolder.getBeans(IScaner.class);
 		if (!beans.isEmpty()) {
-			ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-			MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(new PathMatchingResourcePatternResolver());
 			for (Entry<String, IScaner> entry : beans.entrySet()) {
-				doComponents(entry.getValue(), resourcePatternResolver, metadataReaderFactory);
+				doComponents(entry.getValue());
 				SpringHolder.unregisterBean(entry.getKey());
 			}
 			ConfigurableListableBeanFactory beanFactory = SpringHolder.getBeanFactory();
@@ -47,7 +47,7 @@ public class MySpringScaner {
 		}
 	}
 
-	private void doComponents(IScaner scaner, ResourcePatternResolver resourcePatternResolver, MetadataReaderFactory metadataReaderFactory) {
+	public void doComponents(IScaner scaner) {
 		if (scaner.getScanerProcessors().isEmpty()) {
 			logger.warn("自定义扫描处理器未装载处理器" + scaner.getClass() + " ResoucePath:" + scaner.getResoucePath());
 			return;

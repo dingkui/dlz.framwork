@@ -1,12 +1,17 @@
 package com.dlz.framework.springframework;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.springframework.scaner.IScaner;
 import com.dlz.framework.springframework.scaner.MySpringScaner;
 /**
  * spring 启动完成后执行
@@ -33,7 +38,16 @@ public class TracingAfterProcessor implements ApplicationListener<ContextRefresh
 		ApplicationContext applicationContext = event.getApplicationContext();
 		if(complete(applicationContext)){
 			logger.debug("Spring 初始化完成。。。"+applicationContext);
-			new MySpringScaner().runScaner();
+			
+			Map<String, IScaner> beans = SpringHolder.getBeans(IScaner.class);
+			MySpringScaner mySpringScaner = new MySpringScaner();
+			if (!beans.isEmpty()) {
+				for (Entry<String, IScaner> entry : beans.entrySet()) {
+					mySpringScaner.doComponents(entry.getValue());
+					SpringHolder.unregisterBean(entry.getKey());
+				}
+				SpringHolder.getBeanFactory().preInstantiateSingletons();
+			}
 		}
 	}
 }

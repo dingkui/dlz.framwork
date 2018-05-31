@@ -7,6 +7,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.springframework.iproxy.ApiScaner;
+import com.dlz.framework.springframework.scaner.MySpringScaner;
 
 /**
  *  spring 启动开始执行
@@ -18,6 +20,7 @@ public class TracingBeginProcessor implements BeanDefinitionRegistryPostProcesso
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
     	SpringHolder.init(beanFactory);
+    	new MySpringScaner().doComponents(new ApiScaner());
     }
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {

@@ -18,7 +18,7 @@ public class LogicException extends BaseException {
 		this(DEFUALT_ERROR_CODE, message, null);
 	}
 	
-	protected LogicException(int errorCode,String message, Throwable cause) {
+	public LogicException(int errorCode,String message, Throwable cause) {
 		super(errorCode, message, cause);
 	}
 }
