@@ -1,34 +1,13 @@
 package com.dlz.framework.util.encry;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.CharArrayWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-
-import com.dlz.framework.logger.MyLogger;
 
 /**
  * @version 1.3
  */
 public class Base64 {
-	final static String CHARSET_UTF8 = "UTF-8";
-	
-	
 	// 编码文件对象所指的文件
 	public static char[] encode(File file) {
 		if (!file.exists()) {
@@ -38,37 +17,25 @@ public class Base64 {
 		return encode(ByteUtil.readBytes(file));
 	}
 	public static char[] encode(String str,String charset){
-		try {
-			return encode(str.getBytes(charset));
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		return encode(ByteUtil.getBytes(str,charset));
 	}
 	public static char[] encode(String str){
-		return encode(str, CHARSET_UTF8);
+		return encode(ByteUtil.getBytes(str));
 	}
 	public static String encode2Str(byte[] data){
 		return new String(encode(data));
 	}	
 	public static String encode2Str(String str) {
-		try {
-			return new String(encode(str.getBytes(CHARSET_UTF8)));
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
-		}
+		return new String(encode(ByteUtil.getBytes(str)));
 	}
 	
 	public static String decode2Str(String str,String charset ){
-		try {
-			return new String(decode(str),charset);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		return ByteUtil.getStr(decode(str),charset);
 	}
 	public static String decode2Str(String str){
-		return decode2Str(str,CHARSET_UTF8);
+		return ByteUtil.getStr(decode(str));
 	}
-	public static byte[] decode(String str) throws Exception{
+	public static byte[] decode(String str){
 		return decode(str.toCharArray());
 	}
 	

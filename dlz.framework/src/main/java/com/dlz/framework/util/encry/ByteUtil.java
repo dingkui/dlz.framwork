@@ -77,6 +77,31 @@ public class ByteUtil {
 		}
 		return baos.toByteArray();
 	}
+	
+	final static String CHARSET_UTF8 = "UTF-8";
+	public static byte[] getBytes(String str,String charset) {
+		try {
+			return str.getBytes(charset);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	public static byte[] getBytes(long num) {
+		return getBytes(String.valueOf(num));
+	}
+	public static byte[] getBytes(String str) {
+		return getBytes(str,CHARSET_UTF8);
+	}
+	public static String getStr(byte[] bytes,String charset) {
+		try {
+			return new String(bytes,charset);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	public static String getStr(byte[] bytes) {
+		return getStr(bytes,CHARSET_UTF8);
+	}
 
 	// 写字节数组内容到二进制文件
 	public static void writeBytes(File file, byte[] data) {
