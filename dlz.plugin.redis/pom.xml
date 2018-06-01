@@ -8,7 +8,7 @@
 		<relativePath />
 	</parent>
 
-	<artifactId>dlz.plugin.cache.redis</artifactId>
+	<artifactId>dlz.plugin.redis</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
