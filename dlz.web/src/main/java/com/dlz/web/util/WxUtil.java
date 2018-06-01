@@ -41,10 +41,10 @@ import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.TokenHolder;
 import com.dlz.framework.holder.TokenHolder.TokenInfo;
 import com.dlz.framework.logger.MyLogger;
-import com.dlz.framework.util.Base64;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.PKCS7Encoder;
 import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.encry.Base64;
 import com.dlz.web.holder.ThreadHolder;
 import com.dlz.web.util.HttpUtil.HttpGetUtil;
 import com.dlz.web.util.HttpUtil.HttpPostUtil;
@@ -577,16 +577,16 @@ public class WxUtil {
 			return authorize_url.replace("APPID", WxConfig.getAppid()).replace("FULURL", fulUrl).replace("SCOPE", scope);
 		}
 		
-//		public static String getXcxSessionKey(String code) throws IOException {
-//			String XcxAppId=WxConfig.getXcxAppid(); 
-//			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
-//			String resUserInfo=null;
-//			if(!StringUtils.isEmpty(code)){
-//				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
-//				resUserInfo = HttpGetUtil.get(requestUrl);
-//			}		
-//			return resUserInfo;
-//		}
+		public static String getXcxSessionKey(String code) throws Exception {
+			String XcxAppId=WxConfig.getXcxAppid(); 
+			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
+			String resUserInfo=null;
+			if(!StringUtils.isEmpty(code)){
+				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
+				resUserInfo = HttpGetUtil.get(requestUrl);
+			}		
+			return resUserInfo;
+		}
 		
 		/**
 		 * 获取用户信息（用户页面授权）

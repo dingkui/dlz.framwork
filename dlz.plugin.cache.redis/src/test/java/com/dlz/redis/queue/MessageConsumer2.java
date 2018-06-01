@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.dlz.cache.redis.queue.annotation.RedisQueueConsumer;
-import com.dlz.cache.redis.queue.consumer.AbstractRedisQueueConsumer;
+import com.dlz.plugin.redis.annotation.AnnoRedisQueueConsumer;
+import com.dlz.plugin.redis.queue.consumer.ARedisQueueConsumer;
 
 //继承AbstractRedisQueueConsumer并通过RedisQueueConsumer注解标明队列名称即可
 @Component
-@RedisQueueConsumer("queue2")
-public class Message1Consumer2 extends AbstractRedisQueueConsumer<List<String>> {
+@AnnoRedisQueueConsumer("queue2")
+public class MessageConsumer2 extends ARedisQueueConsumer<List<String>> {
 	@Override
 	public void doConsume(List<String> msgList) {
 		System.out.println(msgList);

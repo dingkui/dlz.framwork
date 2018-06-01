@@ -91,6 +91,16 @@ public class JacksonUtil {
 			return null;
 		}
 	}
+	public static <T> T readValue(String content, TypeReference<T> valueType) {
+		try {
+			return objectMapper.readValue(content, valueType);
+		} catch (Exception e) {
+			logger.error("JacksonUtil.readValue error,content:"+content);
+			logger.error("JacksonUtil.readValue error,valueType:"+valueType);
+			logger.error(e.getMessage(), e);
+			return null;
+		}
+	}
 	
 
 	public static JsonNode getJsonNode(String jsonStr, String key) {

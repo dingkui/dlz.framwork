@@ -7,5 +7,6 @@ package com.dlz.app.uim.holder;
  */
 public interface ISessionDeal  {
 	public  <T> T getSessionAttr(String sessionName);
+	public  void removeSessionAttr(String sessionName);
 	public void setSessionAttr(String sessionName,Object user);
 }

@@ -1,8 +1,4 @@
-package com.dlz.framework.util;
-
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+package com.dlz.framework.util.encry;
 
 /**
  * 加密工具
@@ -29,11 +25,11 @@ public class EncryptUtil {
 			}
 			output[ind]=codes.charAt(l-i);
 		}
-		return base64_decode(new String(output).replaceAll("\\.$","").replaceAll("_","="));
+		return Base64.decode2Str(new String(output).replaceAll("\\.$","").replaceAll("_","="));
 	}
 	public static String simpleEncry(String input) {
 		int e=1;
-		String base64str=base64_encode(input).replaceAll("=","_");
+		String base64str=Base64.encode2Str(input).replaceAll("=","_");
 		int l=base64str.length();
 		if(l>14){
 			e=7;
@@ -120,15 +116,15 @@ public class EncryptUtil {
 					//note 取值越大，密文变动规律越大，密文变化 = 16 的 $ckey_length 次方
 					//note 当此值为 0 时，则不产生随机密钥
 
-		$key = md5($key);
-		String $keya = md5(substr($key, 0, 16));
-		String $keyb = md5(substr($key, 16, 16));
-		String $keyc = $ckey_length > 0? ($operation.equals("DECODE") ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : "";
+		$key = Md5Util.md5($key);
+		String $keya = Md5Util.md5(substr($key, 0, 16));
+		String $keyb = Md5Util.md5(substr($key, 16, 16));
+		String $keyc = $ckey_length > 0? ($operation.equals("DECODE") ? substr($string, 0, $ckey_length): substr(Md5Util.md5(microtime()), -$ckey_length)) : "";
 
-		String $cryptkey = $keya + md5( $keya + $keyc);
+		String $cryptkey = $keya + Md5Util.md5( $keya + $keyc);
 		int $key_length = $cryptkey.length();
 
-		$string = $operation.equals("DECODE") ? base64_decode(substr($string, $ckey_length)) : sprintf("%010d", $expiry>0 ? $expiry + time() : 0)+substr(md5($string+$keyb), 0, 16)+$string;
+		$string = $operation.equals("DECODE") ? Base64.decode2Str(substr($string, $ckey_length)) : sprintf("%010d", $expiry>0 ? $expiry + time() : 0)+substr(Md5Util.md5($string+$keyb), 0, 16)+$string;
 		int $string_length = $string.length();
 
 		StringBuffer $result1 = new StringBuffer();
@@ -166,13 +162,13 @@ public class EncryptUtil {
 
 		if($operation.equals("DECODE")) {
 			String $result = $result1.substring(0, $result1.length());
-			if((Integer.parseInt(substr($result.toString(), 0, 10)) == 0 || Long.parseLong(substr($result.toString(), 0, 10)) - time() > 0) && substr($result.toString(), 10, 16).equals( substr(md5(substr($result.toString(), 26)+ $keyb), 0, 16))) {
+			if((Integer.parseInt(substr($result.toString(), 0, 10)) == 0 || Long.parseLong(substr($result.toString(), 0, 10)) - time() > 0) && substr($result.toString(), 10, 16).equals( substr(Md5Util.md5(substr($result.toString(), 26)+ $keyb), 0, 16))) {
 				return substr($result.toString(), 26);
 			} else {
 				return "";
 			}
 		} else {
-			String str = $keyc+base64_encode($result1.toString());
+			String str = $keyc+Base64.encode2Str($result1.toString());
 			try{
 				str = str.replaceAll(" ",".0.");
 				str = str.replaceAll("=",".1.");
@@ -184,57 +180,6 @@ public class EncryptUtil {
 		}
 	}
 	
-	
-	public static String md5(byte[] input){
-		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return null;
-		}	
-		return byte2hex(md.digest(input));
-	}
-	public static String md5(String input){
-		try {
-			return md5(input.getBytes("UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return "";
-		}
-	}
-	
-	public static String md5(long input){
-		return md5(String.valueOf(input));
-	}
-	
-	public static String base64_decode(String input){
-		try {
-			return new String(Base64.decode(input.toCharArray()),"UTF-8");
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-	}
-	
-	public static String base64_encode(String input){
-		try {
-			return new String(Base64.encode(input.getBytes("UTF-8")));
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-	}
-	private static String byte2hex(byte[] b) {
-		StringBuffer hs = new StringBuffer();
-		String stmp = "";
-		for (int n = 0; n < b.length; n++) {
-			stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
-			if (stmp.length() == 1)
-				hs.append("0").append(stmp);
-			else
-				hs.append(stmp);
-		}
-		return hs.toString();
-	}
 	private static String substr(String input,int begin, int length){
 		return input.substring(begin, begin+length);
 	}
@@ -277,7 +222,7 @@ public class EncryptUtil {
 ////		}
 ////		System.out.println(l);
 ////		System.out.println(new Date().getTime()-d);
-////		System.out.println(md5("1"));
+////		System.out.println(Md5Util.md5("1"));
 //	}
  
 }

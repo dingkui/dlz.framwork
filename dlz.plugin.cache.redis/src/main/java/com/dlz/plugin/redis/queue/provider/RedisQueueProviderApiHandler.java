@@ -1,29 +1,26 @@
-package com.dlz.cache.redis.proxyHandler;
+package com.dlz.plugin.redis.queue.provider;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dlz.cache.redis.queue.annotation.RedisQueueProvider;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
+import com.dlz.plugin.redis.annotation.AnnoRedisQueueProvider;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 /**
- * @author 杨斌冰-工具组-技术中心
- *         <p>
- *         2018/3/1 14:22
+ * Redis队列生产者动态代理实现类
  */
-@Component("redisQueue")
-public class RedisIOHandler extends ApiProxyHandler {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+@Component
+public class RedisQueueProviderApiHandler extends ApiProxyHandler {
+    private MyLogger logger = MyLogger.getLogger(getClass());
 
     @Autowired
     private JedisPool jedisSentinelPool;
@@ -35,12 +32,13 @@ public class RedisIOHandler extends ApiProxyHandler {
 	@Override
 	public Object done(Class<?> clas, Method method, Object[] args) throws Exception {
 		long rId = 0;
-        if(method.isAnnotationPresent(RedisQueueProvider.class)){
+        if(method.isAnnotationPresent(AnnoRedisQueueProvider.class)){
             if(args == null || args.length != 1){
                 throw new Exception("Redis Queue Provider Java Interface Defined Error.");
             }
-            RedisQueueProvider redisQueueProvider = method.getDeclaredAnnotation(RedisQueueProvider.class);
-            String queueName = StringUtils.isNotEmpty(redisQueueProvider.value()) ? redisQueueProvider.value() : redisQueueProvider.queueName();
+            AnnoRedisQueueProvider redisQueueProvider = method.getDeclaredAnnotation(AnnoRedisQueueProvider.class);
+            String queueName = redisQueueProvider.value();
+//            String queueName = StringUtils.isNotEmpty(redisQueueProvider.value()) ? redisQueueProvider.value() : redisQueueProvider.queueName();
             if(StringUtils.isEmpty(queueName)){
                 throw new Exception("Redis Queue Provider Java Config Error,please Check your configuration");
             }

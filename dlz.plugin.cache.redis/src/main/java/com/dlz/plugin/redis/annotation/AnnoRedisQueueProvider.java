@@ -1,4 +1,4 @@
-package com.dlz.cache.redis.queue.annotation;
+package com.dlz.plugin.redis.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -6,29 +6,21 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.dlz.cache.redis.config.enums.SendStrategyEn;
+import com.dlz.plugin.redis.enums.SendStrategyEn;
 
 /**
- * @author 杨斌冰-工具组-技术中心
- *         <p>
- *         2018/3/1 13:55
+ * redis队列生产者注解
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface RedisQueueProvider {
+public @interface AnnoRedisQueueProvider {
 
     /**
-     * 队列名称 和queueName二选一
+     * 队列名称
      * @return
      */
     String value() default "";
-
-    /**
-     * 队列名称 和value二选一
-     * @return
-     */
-    String queueName() default "";
 
     /**
      * 发送策略，默认同步

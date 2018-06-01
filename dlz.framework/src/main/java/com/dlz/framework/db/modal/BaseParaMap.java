@@ -9,7 +9,7 @@ import com.dlz.framework.db.conver.Convert;
 import com.dlz.framework.db.conver.impl.DateConverter;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.enums.ParaTypeEnum;
-import com.dlz.framework.util.EncryptUtil;
+import com.dlz.framework.util.encry.Md5Util;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("rawtypes")
@@ -46,7 +46,7 @@ public class BaseParaMap implements Serializable,IPara{
 			sb.append(page.getBegin()).append(page.getEnd()).append(page.getOrderBy());
 		}
 		sb.append(para);
-		return EncryptUtil.md5(sb.toString());
+		return Md5Util.md5(sb.toString());
 	}
 	protected BaseParaMap(String sqlInput){
 		this.sqlInput=sqlInput;

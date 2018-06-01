@@ -30,6 +30,10 @@ public class UserHolder {
 						public void setSessionAttr(String sessionName, Object user) {
 							ThreadHolder.setSessionAttr(sessionName, user);
 						}
+						@Override
+						public void removeSessionAttr(String sessionName) {
+							ThreadHolder.removeSessionAttr(sessionName);
+						}
 					};
 				}
 			}
