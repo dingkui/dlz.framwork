@@ -79,7 +79,7 @@ public class HttpUtil {
 			String charsetNameSend, 
 			String charsetNamere, 
 			boolean showLog,
-			int returnType) throws Exception {
+			int returnType){
 		HttpClient httpClient = HttpConnUtil.wrapClient(url);
 		
 //		 CookieStore cookieStore = new BasicCookieStore();  
@@ -93,27 +93,27 @@ public class HttpUtil {
 			}
 		}
 		
-		if (para != null && !para.isEmpty()) {
-			if(request instanceof HttpEntityEnclosingRequestBase) {
-				List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
-				for (Map.Entry<String, Object> e : para.entrySet()) {
-					nameValuePairList.add(new BasicNameValuePair(e.getKey(), JacksonUtil.cover2String(e.getValue())));
-				}
-				UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(nameValuePairList, charsetNameSend);
-				formEntity.setContentType("application/x-www-form-urlencoded; charset="+charsetNameSend);
-				((HttpEntityEnclosingRequestBase)request).setEntity(formEntity);
-			}else{
-				request.setURI(new URI(buildUrl(url, null, para)));
-			}
-		}else if(entity!=null){
-			if(request instanceof HttpEntityEnclosingRequestBase) {
-				((HttpEntityEnclosingRequestBase)request).setEntity(entity);
-			}
-		}
 		
 		
 		Object result = null;
 		try {
+			if (para != null && !para.isEmpty()) {
+				if(request instanceof HttpEntityEnclosingRequestBase) {
+					List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+					for (Map.Entry<String, Object> e : para.entrySet()) {
+						nameValuePairList.add(new BasicNameValuePair(e.getKey(), JacksonUtil.cover2String(e.getValue())));
+					}
+					UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(nameValuePairList, charsetNameSend);
+					formEntity.setContentType("application/x-www-form-urlencoded; charset="+charsetNameSend);
+					((HttpEntityEnclosingRequestBase)request).setEntity(formEntity);
+				}else{
+					request.setURI(new URI(buildUrl(url, null, para)));
+				}
+			}else if(entity!=null){
+				if(request instanceof HttpEntityEnclosingRequestBase) {
+					((HttpEntityEnclosingRequestBase)request).setEntity(entity);
+				}
+			}
 			HttpResponse execute = httpClient.execute(request);
 			int statusCode = execute.getStatusLine().getStatusCode();
 			switch(statusCode){
@@ -149,7 +149,7 @@ public class HttpUtil {
 			throw e;
 		} catch (Exception e) {
 			logger.error("doHttp "+request.getMethod()+" Exception:" + e.getMessage()+" url:" + request.getURI(),e);
-			throw e;
+			throw new RuntimeException(e);
 		} finally {
 			if(showLog && logger.isDebugEnabled()){
 				if(result instanceof Document) {
@@ -190,7 +190,7 @@ public class HttpUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String doHttp(HttpRequestBase request,String url, Map<String, Object> para,Map<String, String> headers,  String charsetNameSend,String charsetNamere) throws Exception {
+	public static String doHttp(HttpRequestBase request,String url, Map<String, Object> para,Map<String, String> headers,  String charsetNameSend,String charsetNamere) {
 		return (String)doHttp(request, url, para,null, headers, charsetNameSend, charsetNamere, true,1);
 	}
 	
@@ -235,7 +235,7 @@ public class HttpUtil {
 	
 	public static class HttpGetUtil{
 		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere)
-				throws Exception {    	
+				{    	
 			return doHttp(new HttpGet(url), url, querys, headers, charsetNameSend, charsetNamere);
 		}
 		public static String get(String url, Map<String, Object> querys, String charsetName) throws Exception {
@@ -249,10 +249,10 @@ public class HttpUtil {
 				throws Exception {    	
 			return get(url, querys, null, CHARSET_UTF8, CHARSET_UTF8);
 		}
-		public static String get(String url) throws Exception {
+		public static String get(String url)  {
 			return get(url, null,null, CHARSET_UTF8, CHARSET_UTF8);
 		}
-		public static String get(String url, String charsetName) throws Exception {
+		public static String get(String url, String charsetName)  {
 			return get(url, null,null, charsetName, charsetName);
 		}
 		

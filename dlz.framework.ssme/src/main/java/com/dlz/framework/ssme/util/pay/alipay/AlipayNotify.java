@@ -10,7 +10,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
 import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
-import com.dlz.web.util.HttpUtil;
+import com.dlz.web.util.HttpUtil.HttpGetUtil;
 
 /* *
  *类名：AlipayNotify
@@ -103,7 +103,7 @@ public class AlipayNotify {
         String veryfy_url = HTTPS_VERIFY_URL + "partner=" + partner + "&notify_id=" + notify_id;
         //modify by wangsl  https访问报错  用系统工具类访问
         //return checkUrl(veryfy_url);
-        String s = HttpUtil.sendHttpsGET(veryfy_url);
+        String s = HttpGetUtil.get(veryfy_url);
         return s;
     }
 

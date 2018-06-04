@@ -577,7 +577,7 @@ public class WxUtil {
 			return authorize_url.replace("APPID", WxConfig.getAppid()).replace("FULURL", fulUrl).replace("SCOPE", scope);
 		}
 		
-		public static String getXcxSessionKey(String code) throws Exception {
+		public static String getXcxSessionKey(String code) {
 			String XcxAppId=WxConfig.getXcxAppid(); 
 			String XcxAppSecret=WxConfig.getSecret(XcxAppId);
 			String resUserInfo=null;

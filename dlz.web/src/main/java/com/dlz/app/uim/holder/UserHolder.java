@@ -34,6 +34,14 @@ public class UserHolder {
 						public void removeSessionAttr(String sessionName) {
 							ThreadHolder.removeSessionAttr(sessionName);
 						}
+						@Override
+						public <T extends AuthUser> T getAuthInfo(String sessionName) {
+							return (T) getSessionAttr(sessionName);
+						}
+						@Override
+						public void setAuthInfo(String sessionName, AuthUser user) {
+							setSessionAttr(sessionName, user);
+						}
 					};
 				}
 			}
@@ -42,18 +50,18 @@ public class UserHolder {
 	}
 
 	public static <T extends AuthUser> T getAuthInfo() {
-		return getAuthInfo(SESSION_AUTHUSER);
+		return holder.getAuthInfo(SESSION_AUTHUSER);
 	}
 
 	public static void setAuthInfo(AuthUser user) {
-		setAuthInfo(SESSION_AUTHUSER, user);
+		holder.setAuthInfo(SESSION_AUTHUSER, user);
 	}
 
 	public static <T extends AuthUser> T getAuthInfo(String sessionName) {
-		return (T) holder.getSessionAttr(sessionName);
+		return (T) holder.getAuthInfo(sessionName);
 	}
 
 	public static void setAuthInfo(String sessionName, AuthUser user) {
-		holder.setSessionAttr(sessionName, user);
+		holder.setAuthInfo(sessionName, user);
 	}
 }
