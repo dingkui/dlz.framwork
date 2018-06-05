@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.aop.support.AopUtils;
 import org.springframework.util.Assert;
 
 import com.dlz.framework.annotation.NotDbField;
@@ -194,10 +195,29 @@ public class Reflections {
 	 */
 	public static Method getMethod(final Object obj, final String name,Class<?>... parameterTypes) {
 		String methodName = name.intern();
-		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+		for (Class<?> searchType =AopUtils.getTargetClass(obj); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
 				if (method.getName()==methodName && arrayContentsEq(parameterTypes, method.getParameterTypes())) {
+					makeAccessible(method);
+					return method;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 循环向上转型, 获取对象的DeclaredMethod,并强制设置为可访问.
+	 * 如向上转型到Object仍无法找到, 返回null.
+	 * 只匹配函数名。
+	 */
+	public static Method getMethodByName(final Object obj, final String name) {
+		String methodName = name.intern();
+		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
+			Method[] methods = searchType.getDeclaredMethods();
+			for (Method method : methods) {
+				if (method.getName()==methodName) {
 					makeAccessible(method);
 					return method;
 				}

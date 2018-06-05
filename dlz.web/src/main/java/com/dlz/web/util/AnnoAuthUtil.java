@@ -67,4 +67,12 @@ public class AnnoAuthUtil {
 		}
 		return dealAnnoResult(annotation, member, m);
 	}
+	
+	public static int doneAnno(Class<?> clas, Method method, AuthUser member) {
+		AnnoAuth annotation = method.getAnnotation(AnnoAuth.class);
+		if(annotation==null){
+			annotation=clas.getAnnotation(AnnoAuth.class);
+		}
+		return doneAnno(annotation, member);
+	}
 }
