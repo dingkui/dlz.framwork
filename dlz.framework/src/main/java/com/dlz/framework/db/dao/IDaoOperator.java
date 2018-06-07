@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.mySequence.ISequenceMaker;
 
 /**
  * 数据库操作接口
@@ -11,6 +12,9 @@ import com.dlz.framework.db.modal.ResultMap;
  * @param <T>
  */
 public interface IDaoOperator  {
+	default void setSequenceMaker(ISequenceMaker sequenceMaker){
+		
+	}
 
 	long getSeq(String seqName);
 	

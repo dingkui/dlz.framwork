@@ -15,6 +15,7 @@ import com.dlz.framework.db.dao.IDaoOperator;
 import com.dlz.framework.db.jdbc.JdbcUtil;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.mySequence.ISequenceMaker;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
 @Service
@@ -22,6 +23,12 @@ public class DaoOperatorSpringJdbc implements IDaoOperator {
 	private static MyLogger logger = MyLogger.getLogger(DaoOperatorSpringJdbc.class);
 	private JdbcTemplate jdbcTemplate;
 	private ResultSetExtractor<List<ResultMap>> extractor;
+	
+	ISequenceMaker sequenceMaker;
+	
+	public void setSequenceMaker(ISequenceMaker sequenceMaker){
+		this.sequenceMaker=sequenceMaker;
+	}
 	
 	@Autowired
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
@@ -36,6 +43,9 @@ public class DaoOperatorSpringJdbc implements IDaoOperator {
 
 	@Override
 	public long getSeq(String seqName) {
+		if(sequenceMaker!=null){
+			return sequenceMaker.nextVal(seqName);
+		}
 		seqName=seqName.toUpperCase();
 		String sql="select SEQ_"+seqName+".nextval from dual";
 		if(seqName.startsWith("S_")||seqName.startsWith("SEQ_")){

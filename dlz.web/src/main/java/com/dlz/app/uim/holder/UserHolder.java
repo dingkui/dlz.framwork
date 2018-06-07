@@ -52,6 +52,9 @@ public class UserHolder {
 	public static <T extends AuthUser> T getAuthInfo() {
 		return getHolder().getAuthInfo(SESSION_AUTHUSER);
 	}
+	public static Integer getUserId() {
+		return getAuthInfo().getId();
+	}
 
 	public static void setAuthInfo(AuthUser user) {
 		holder.setAuthInfo(SESSION_AUTHUSER, user);

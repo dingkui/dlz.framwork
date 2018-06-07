@@ -25,6 +25,11 @@ public class JSONResult extends JSONMap{
 		r.put(FLAG,defualtFlag);
 		return r;
 	}
+	public static JSONResult createErrResult(String msg){
+		JSONResult r=new JSONResult();
+		r.addErr(msg);
+		return r;
+	}
 	public static JSONResult createResult(Object o){
 		JSONResult r=new JSONResult(o);
 		r.put(FLAG,defualtFlag);
