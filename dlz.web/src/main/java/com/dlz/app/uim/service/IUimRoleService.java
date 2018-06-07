@@ -13,6 +13,13 @@ import com.dlz.framework.db.service.IBaseService;
  */
 public interface IUimRoleService extends IBaseService<Role,String>{
 	/**
+	 * 启用/禁用角色
+	 * @param roleId
+	 * @param disabled
+	 * @return 
+	 */
+	public int setDisabled(Long roleId,String disabled);
+	/**
 	 * 一个角色下添加多个用户
 	 * @param updateAll 是否更新所有，true时删除角色下的所有用户，然后添加
 	 */
