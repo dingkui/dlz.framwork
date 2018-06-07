@@ -39,4 +39,10 @@ public interface IUimRoleService extends IBaseService<Role,String>{
 	 * 查询角色下用户ID
 	 */
 	public Page<Integer> searchRoleUsers(Page<?> page,Long roleId);
+	/**
+	 * 根据code获取角色
+	 * @param data
+	 * @return
+	 */
+	public JSONMap getRoleByCode(String code);
 }
