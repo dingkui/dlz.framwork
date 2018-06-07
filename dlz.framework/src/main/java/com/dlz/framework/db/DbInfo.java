@@ -101,7 +101,7 @@ public class DbInfo {
 					loadRsources(name.substring(STR_SQL_JAR.length()).replaceAll("\\.", "/"));
 				}else if (name.startsWith(STR_SQL_FOLDER)) {
 					String path="/sql/"+name.substring(STR_SQL_FOLDER.length()-1).replaceAll("\\.", "/");
-					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("").getPath()+path));
+					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("").getPath()+path)); 
 				}
 			}
 			m_dbset.put(name, str);

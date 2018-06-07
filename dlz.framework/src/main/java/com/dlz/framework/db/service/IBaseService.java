@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ResultMap;
 
 public interface IBaseService<T,PK> {
 	/**
@@ -25,6 +26,11 @@ public interface IBaseService<T,PK> {
 	 * @return 查询结果为0条则返回null，查询条数大于1则抛出异常
 	 */
 	T searchBean(JSONMap para);
+	/**
+	 * 条件查询单条ResultMap对象
+	 * @return 查询结果为0条则返回null，查询条数大于1则抛出异常
+	 */
+	ResultMap searchMap(JSONMap para);
 
 	/**
 	 * 根据主键查询单条数据
@@ -40,4 +46,8 @@ public interface IBaseService<T,PK> {
 	 * 构造查询条件查询数据列表（带分页信息）
 	 */
 	Page<T> pageByPara(Page<?> page, JSONMap para);
+	/**
+	 * 构造查询条件查询数据列表JSONMap（带分页信息）
+	 */
+	Page<JSONMap> mapPageByPara(Page<?> page, JSONMap para);
 }

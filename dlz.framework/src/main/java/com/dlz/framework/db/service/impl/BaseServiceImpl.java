@@ -10,6 +10,7 @@ import com.dlz.framework.db.modal.DeleteParaMap;
 import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.IBaseService;
@@ -68,6 +69,13 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		return commService.getBean(pm, getBeanClass());
 	}
 	@Override
+	public ResultMap searchMap(JSONMap para){
+		AnnoTable anno = getAnno();
+		ParaMap pm=new ParaMap(anno.sqlKey());
+		pm.addParas(para);
+		return commService.getBean(pm, ResultMap.class);
+	};
+	@Override
 	public T getByKey(PK pk) {
 		AnnoTable anno = getAnno();
 		SearchParaMap pm=new SearchParaMap(anno.value());
@@ -97,6 +105,13 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		ParaMap pm=new ParaMap(anno.sqlKey(),page);
 		pm.addParas(para);
 		return commService.getPage(pm, getBeanClass());
+	}
+	@Override
+	public Page<JSONMap> mapPageByPara(Page<?> page, JSONMap para){
+		AnnoTable anno = getAnno();
+		ParaMap pm=new ParaMap(anno.sqlKey(),page);
+		pm.addParas(para);
+		return commService.getPage(pm,JSONMap.class);
 	}
 	
 	

@@ -214,7 +214,7 @@ public class Reflections {
 	 */
 	public static Method getMethodByName(final Object obj, final String name) {
 		String methodName = name.intern();
-		for (Class<?> searchType = AopUtils.getTargetClass(obj); searchType != Object.class; searchType = searchType.getSuperclass()) {
+		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
 				if (method.getName()==methodName) {

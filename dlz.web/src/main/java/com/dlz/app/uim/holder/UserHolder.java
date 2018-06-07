@@ -50,7 +50,7 @@ public class UserHolder {
 	}
 
 	public static <T extends AuthUser> T getAuthInfo() {
-		return holder.getAuthInfo(SESSION_AUTHUSER);
+		return getHolder().getAuthInfo(SESSION_AUTHUSER);
 	}
 
 	public static void setAuthInfo(AuthUser user) {
