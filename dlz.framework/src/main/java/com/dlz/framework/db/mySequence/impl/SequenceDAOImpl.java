@@ -21,7 +21,7 @@ public class SequenceDAOImpl implements SequenceDAO {
 	 `val` bigint(20) NOT NULL COMMENT '目前序列值',
 	 `min` bigint(20) NOT NULL COMMENT '最小值',
 	 `max` bigint(20) NOT NULL COMMENT '最大值',
-	 `stp` bigint(20) NOT NULL COMMENT '每次取值的数量',
+	 `step` bigint(20) NOT NULL COMMENT '每次取值的数量',
 	 `ct` datetime NOT NULL COMMENT '创建时间',
 	 `ut` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
 	 PRIMARY KEY (`name`)
