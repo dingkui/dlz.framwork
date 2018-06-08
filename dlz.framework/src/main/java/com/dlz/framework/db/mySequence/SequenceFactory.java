@@ -7,11 +7,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.mySequence.bean.SequenceBo;
 
-@Component
 public class SequenceFactory {
 
 	private final Lock lock = new ReentrantLock();

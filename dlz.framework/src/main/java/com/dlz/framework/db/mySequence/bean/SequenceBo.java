@@ -12,7 +12,7 @@ public class SequenceBo {
 	/**
 	 * 当前值
 	 */
-	private Long val;
+	private Long val=1l;
 	/**
 	 * 最小值
 	 */

@@ -3,13 +3,11 @@ package com.dlz.framework.db.mySequence.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.mySequence.SequenceDAO;
 import com.dlz.framework.db.mySequence.bean.SequenceBo;
 import com.dlz.framework.db.service.ICommService;
 
-@Component
 public class SequenceDAOImpl implements SequenceDAO {
 	@Autowired
 	ICommService commServiceImpl;
