@@ -36,7 +36,7 @@ public class SequenceDAOImpl implements SequenceDAO {
 
 	@Override
 	public SequenceBo getSequence(String seqName) {
-		return commServiceImpl.getBean("select * from t_pub_sequence where SEQ_VALUE=?", SequenceBo.class, seqName);
+		return commServiceImpl.getBean("select * from t_pub_sequence where SEQ_NAME=?", SequenceBo.class, seqName);
 	}
 
 	@Override

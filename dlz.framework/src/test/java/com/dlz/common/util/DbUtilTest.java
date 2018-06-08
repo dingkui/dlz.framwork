@@ -22,10 +22,6 @@ public class DbUtilTest {
 	@Before
 	public void setUp() throws Exception {
 		SpringHolder.init();
-		/**
-		 * DB功能初始化
-		 */
-		new DbInfo(new ColumnMapperToLower());
 		cs=SpringHolder.getBean(ICommService.class);
 	}
 	@Test

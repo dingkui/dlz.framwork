@@ -42,6 +42,7 @@ public class DbInfo {
 	private final static String STR_SQL_FILE = "sqllist.sql.file.";
 	private final static String STR_SQL_FOLDER = "sqllist.sql.folder.";
 	private final static String STR_DBTYPE = "dbtype";
+	private final static String STR_COLUMNMAPPER = "columnmapper";
 	private static Map<String, String> m_dbset = new HashMap<String, String>();
 	private static Map<String, String> m_sqlList = new HashMap<String, String>();
 	private static SqlDialect dialect = SqlDialect.ORACLE;
@@ -69,14 +70,6 @@ public class DbInfo {
 			logger.error(e.getMessage(),e);;
 		}
 	}
-	public DbInfo(IColumnMapperService mapper){
-		try {
-			init();
-			SqlUtil.setMapper(mapper);
-		} catch (IOException e) {
-			logger.error(e.getMessage(),e);;
-		}
-	}
 	private static void init() throws IOException {
 		if (initIng || dbConfig != null) {
 			return;
@@ -91,6 +84,14 @@ public class DbInfo {
 			if(STR_DBTYPE.equals(name)){
 				dbtype=str.toUpperCase();
 				dialect=SqlDialect.valueOf(dbtype);
+				continue;
+			}
+			if(STR_COLUMNMAPPER.equals(name)){
+				try {
+					SqlUtil.setMapper((IColumnMapperService)Class.forName(str).newInstance());
+				} catch (Exception e) {
+					throw new DbException("字段转换类型设置无效："+name+"="+str+"\n"+e.getMessage(), e);
+				}
 				continue;
 			}
 			if("1".equals(str)){
