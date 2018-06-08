@@ -20,6 +20,10 @@ public interface IBaseService<T,PK> {
 	 * 查询数据列表
 	 */
 	List<T> searchList(JSONMap para);
+	/**
+	 * 查询数据列表返回ResultMap
+	 */
+	List<ResultMap> searchMapList(JSONMap para);
 
 	/**
 	 * 条件查询单条对象
