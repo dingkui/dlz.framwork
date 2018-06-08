@@ -88,7 +88,7 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		Long key=para.getLong(anno.pk());
 		if(key==null){
 			InsertParaMap pm=new InsertParaMap(anno.value());
-			//para.add(anno.pk(), commService.getSeq(anno.value()));
+			para.add(anno.pk(), commService.getSeq(anno.value()));
 			pm.addValues(para);
 			commService.excuteSql(pm);
 		}else{

@@ -37,7 +37,8 @@ public class ResultMapRowMapper implements RowMapper<ResultMap> {
 	 * @see java.sql.ResultSetMetaData#getColumnName
 	 */
 	protected String getColumnKey(String columnName) {
-		return SqlUtil.converClumnStr2Str(columnName);
+		return columnName;
+//		return SqlUtil.converClumnStr2Str(columnName);
 	}
 
 	/**
