@@ -48,7 +48,7 @@ public class SequenceHolder {
 		this.initRetryNum = initRetryNum;
 		this.getRetryNum = getRetryNum;
 		if (sequenceBo != null)
-			this.seqName = sequenceBo.getSeqName();
+			this.seqName = sequenceBo.getName();
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class SequenceHolder {
 		// 在限定次数内，乐观锁更新数据库记录
 		for (int i = 1; i < initRetryNum; i++) {
 			// 查询bo
-			SequenceBo curBo = sequenceDAO.getSequence(sequenceBo.getSeqName());
+			SequenceBo curBo = sequenceDAO.getSequence(sequenceBo.getName());
 			if (curBo == null) {
 				throw new DbException("[" + seqName + "] the current sequenceBo is null");
 			}
@@ -140,15 +140,15 @@ public class SequenceHolder {
 				throw new DbException("[" + seqName + "] the current sequenceBo validate fail");
 			}
 			// 改变当前值
-			long newValue = curBo.getSeqValue() + curBo.getStep();
+			long newValue = curBo.getVal() + curBo.getStep();
 			// 检查当前值
 			if (!checkCurrentValue(newValue, curBo)) {
 				newValue = resetCurrentValue(curBo);
 			}
-			int result = sequenceDAO.updSequence(sequenceBo.getSeqName(), curBo.getSeqValue(), newValue);
+			int result = sequenceDAO.updSequence(sequenceBo.getName(), curBo.getVal(), newValue);
 			if (result > 0) {
-				sequenceRange = new SequenceRange(curBo.getSeqValue(), newValue - 1);
-				curBo.setSeqValue(newValue);
+				sequenceRange = new SequenceRange(curBo.getVal(), newValue - 1);
+				curBo.setVal(newValue);
 				this.sequenceBo = curBo;
 				return;
 			} else {
@@ -170,7 +170,7 @@ public class SequenceHolder {
 	 * @author coderzl
 	 */
 	private boolean checkCurrentValue(long curValue, SequenceBo curBo) {
-		if (curValue > curBo.getMinValue() && curValue <= curBo.getMaxValue()) {
+		if (curValue > curBo.getMin() && curValue <= curBo.getMax()) {
 			return true;
 		}
 		return false;
@@ -187,7 +187,7 @@ public class SequenceHolder {
 	 * @author coderzl
 	 */
 	private long resetCurrentValue(SequenceBo curBo) {
-		return curBo.getMinValue();
+		return curBo.getMin();
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class SequenceHolder {
 	private SequenceRange retryRange() {
 		for (int i = 1; i < getRetryNum; i++) {
 			// 查询bo
-			SequenceBo curBo = sequenceDAO.getSequence(sequenceBo.getSeqName());
+			SequenceBo curBo = sequenceDAO.getSequence(sequenceBo.getName());
 			if (curBo == null) {
 				throw new DbException("[" + seqName + "] the current sequenceBo is null");
 			}
@@ -210,15 +210,15 @@ public class SequenceHolder {
 				throw new DbException("[" + seqName + "] the current sequenceBo validate fail");
 			}
 			// 改变当前值
-			long newValue = curBo.getSeqValue() + curBo.getStep();
+			long newValue = curBo.getVal() + curBo.getStep();
 			// 检查当前值
 			if (!checkCurrentValue(newValue, curBo)) {
 				newValue = resetCurrentValue(curBo);
 			}
-			int result = sequenceDAO.updSequence(sequenceBo.getSeqName(), curBo.getSeqValue(), newValue);
+			int result = sequenceDAO.updSequence(sequenceBo.getName(), curBo.getVal(), newValue);
 			if (result > 0) {
-				sequenceRange = new SequenceRange(curBo.getSeqValue(), newValue - 1);
-				curBo.setSeqValue(newValue);
+				sequenceRange = new SequenceRange(curBo.getVal(), newValue - 1);
+				curBo.setVal(newValue);
 				this.sequenceBo = curBo;
 				return sequenceRange;
 			} else {

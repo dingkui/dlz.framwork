@@ -52,7 +52,7 @@ public class SequenceFactory {
 			for (SequenceBo bo : boList) {
 				SequenceHolder holder = new SequenceHolder(msqlSequenceDAO, bo, initRetryNum, getRetryNum);
 				holder.init();
-				holderMap.put(bo.getSeqName(), holder);
+				holderMap.put(bo.getName(), holder);
 			}
 		} finally {
 			lock.unlock();

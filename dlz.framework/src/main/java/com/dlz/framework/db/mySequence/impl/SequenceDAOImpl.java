@@ -16,32 +16,32 @@ public class SequenceDAOImpl implements SequenceDAO {
 	/**
 	 * 
 	 * 
-	 CREATE TABLE `t_pub_sequence` (
-	 `SEQ_NAME` varchar(128) CHARACTER SET utf8 NOT NULL COMMENT '序列名称',
-	 `SEQ_VALUE` bigint(20) NOT NULL COMMENT '目前序列值',
-	 `MIN_VALUE` bigint(20) NOT NULL COMMENT '最小值',
-	 `MAX_VALUE` bigint(20) NOT NULL COMMENT '最大值',
-	 `STEP` bigint(20) NOT NULL COMMENT '每次取值的数量',
-	 `TM_CREATE` datetime NOT NULL COMMENT '创建时间',
-	 `TM_SMP` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-	 PRIMARY KEY (`SEQ_NAME`)
+	 CREATE TABLE `t_sequence` (
+	 `name` varchar(128) CHARACTER SET utf8 NOT NULL COMMENT '序列名称',
+	 `val` bigint(20) NOT NULL COMMENT '目前序列值',
+	 `min` bigint(20) NOT NULL COMMENT '最小值',
+	 `max` bigint(20) NOT NULL COMMENT '最大值',
+	 `stp` bigint(20) NOT NULL COMMENT '每次取值的数量',
+	 `ct` datetime NOT NULL COMMENT '创建时间',
+	 `ut` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+	 PRIMARY KEY (`name`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='流水号生成表';
 	 * 
 	 */
 
 	@Override
 	public int updSequence(String seqName, long oldValue, long newValue) {
-		return commServiceImpl.excuteSql("update t_pub_sequence set SEQ_VALUE=? where SEQ_NAME=?",newValue,seqName);
+		return commServiceImpl.excuteSql("update t_sequence set val=? where name=?",newValue,seqName);
 	}
 
 	@Override
 	public SequenceBo getSequence(String seqName) {
-		return commServiceImpl.getBean("select * from t_pub_sequence where SEQ_VALUE=?", SequenceBo.class, seqName);
+		return commServiceImpl.getBean("select * from t_sequence where name=?", SequenceBo.class, seqName);
 	}
 
 	@Override
 	public List<SequenceBo> getAll() {
-		return commServiceImpl.getBeanList("select * from t_pub_sequence", SequenceBo.class);
+		return commServiceImpl.getBeanList("select * from t_sequence", SequenceBo.class);
 	}
 
 }
