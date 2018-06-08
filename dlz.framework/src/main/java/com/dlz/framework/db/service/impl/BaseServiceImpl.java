@@ -62,6 +62,13 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		return commService.getBeanList(pm, getBeanClass());
 	}
 	@Override
+	public List<ResultMap> searchMapList(JSONMap para) {
+		AnnoTable anno = getAnno();
+		ParaMap pm=new ParaMap(anno.sqlKey());
+		pm.addParas(para);
+		return commService.getBeanList(pm, ResultMap.class);
+	}
+	@Override
 	public T searchBean(JSONMap para) {
 		AnnoTable anno = getAnno();
 		ParaMap pm=new ParaMap(anno.sqlKey());
