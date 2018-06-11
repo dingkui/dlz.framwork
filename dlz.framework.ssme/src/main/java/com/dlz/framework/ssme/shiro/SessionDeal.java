@@ -1,12 +1,14 @@
 package com.dlz.framework.ssme.shiro;
 
 import org.apache.shiro.SecurityUtils;
+import org.springframework.stereotype.Component;
 
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.app.uim.holder.ISessionDeal;
 import com.dlz.web.holder.ThreadHolder;
 
 @SuppressWarnings("unchecked")
+@Component
 public class SessionDeal implements ISessionDeal {
 
 	@Override
