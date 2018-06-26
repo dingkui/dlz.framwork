@@ -1,6 +1,8 @@
 package com.dlz.app.sys.apiLogic;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +12,10 @@ import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.config.ConfUtil;
 import com.dlz.web.logic.AuthedCommLogic;
 /**
  * 部门管理
@@ -34,23 +38,45 @@ public class MenuApiLogic extends AuthedCommLogic{
 	@AnnoAuth("N")
 	public JSONResult getAllList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
-		//一级菜单
-		List<ResultMap> resultMapList = menuService.searchMapList(new JSONMap("{parent_id:0}"));
-		resultMapList.parallelStream().forEach((res)->{
-			//二级菜单
-			List<ResultMap> resultMapList1 = menuService.searchMapList(new JSONMap("{parent_id:"+res.getStr("id")+"}"));
-			if(resultMapList1.size()>0){
-				res.add("children", resultMapList1);
-				resultMapList1.parallelStream().forEach((child)->{
-					//三级菜单
-					List<ResultMap> resultMapList2 = menuService.searchMapList(new JSONMap("{parent_id:"+child.getStr("id")+"}"));
-					if(resultMapList2.size()>0){
-						child.add("children", resultMapList2);
-					}
-				});
+		return r.addData(getMenus("0"));
+	}
+	
+	
+	private List<ResultMap> getMenus(String parentId){
+		List<ResultMap> resultMapList = menuService.searchMapList(new JSONMap("parent_id",parentId));
+		if(resultMapList.size()>0){
+			resultMapList.parallelStream().forEach((res)->{
+				setMenuAuths(res);
+				List<ResultMap> sub=getMenus(res.getStr("id"));
+				if(sub.size()>0){
+					res.add("children", sub);
+				}
+			});
+		}
+		return resultMapList;
+	}
+	
+	private void setMenuAuths(ResultMap res){
+		final String str = res.getStr("access");
+		if(str!=null){
+			String[] acces=str.split(",");
+			Set<Integer> roles=new HashSet<Integer>();
+			for(String acce:acces){
+				if(StringUtils.isNumber(acce)){
+					roles.add(Integer.parseInt(acce));
+					continue;
+				}
+				String str2 = ConfUtil.getStr("auth.role."+acce);
+				if(str2==null){
+					throw new CodeException("无效的权限："+acce);
+				}
+				String[] role=str2.split(",");
+				for(String r:role){
+					roles.add(Integer.parseInt(r));
+				}
 			}
-		});
-		return r.addData(resultMapList);
+			res.put("access", roles);
+		}
 	}
 	
 	/**
