@@ -67,12 +67,13 @@ public class ConfUtil{
 				if(resource==null){
 					continue;
 				}
+				boolean isProperties=config.endsWith(".properties");
 				InputStream file = new FileInputStream(resource.getFile());
 				final Properties properties = new Properties();
 				properties.load(file);
 				final Set<Entry<Object, Object>> entrySet = properties.entrySet();
 				for(Entry<Object, Object> e:entrySet){
-					props.put((String)e.getKey(),e.getValue());
+					props.put((String)e.getKey(),isProperties?e.getValue():new String(e.getValue().toString().getBytes("ISO-8859-1"),"UTF-8"));
 				}
 			}
 			String fromdbSetting=(String)props.get("fromdbSetting");
