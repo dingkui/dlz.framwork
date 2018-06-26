@@ -50,6 +50,21 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 			}
 		}
 	}
+	public JSONMap(String key,Object... value){
+		super();
+		final int length = value.length;
+		if(length%2==0){
+			throw new CodeException("参数个数只能是偶数");
+		}
+		put(key, value[0]);
+		int keys = length/2-1;
+		for(;keys>=0;keys--){
+			if(!(value[keys*2+1] instanceof String)){
+				throw new CodeException("键名必须为String");
+			}
+			put((String)value[keys*2+1], value[keys*2+2]);
+		}
+	}
 	public static JSONMap createJsonMap(Object json){
 		return new JSONMap(json);
 	}
@@ -113,6 +128,10 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 	}
 	public JSONMap add(String key,Object obj){
 		return add(key, obj, 2);
+	}
+	public JSONMap put(String key,Object value){
+		super.put(key, value);
+		return this;
 	}
 	public JSONMap getObj(String key){
 		return getObj(key,JSONMap.class);
