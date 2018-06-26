@@ -2,34 +2,39 @@ package com.dlz.framework.util.config;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.logger.MyLogger;
 
 
-public class ConfUtil {
+public class ConfUtil{
 	private static MyLogger logger = MyLogger.getLogger(ConfUtil.class);
 	
 	private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");
 	/**
 	 * 配置文件
 	 */
-	public static String CONFIG_FILE = "config.properties";
+	public static String CONFIG_FILE = "config.properties,config.txt";
 
 	/**
 	 * Properties实例
 	 */
-	public static Properties props = new Properties();
+	public static JSONMap props = new JSONMap();
 
 	/**
 	 * 构造方法
@@ -63,7 +68,12 @@ public class ConfUtil {
 					continue;
 				}
 				InputStream file = new FileInputStream(resource.getFile());
-				props.load(file);
+				final Properties properties = new Properties();
+				properties.load(file);
+				final Set<Entry<Object, Object>> entrySet = properties.entrySet();
+				for(Entry<Object, Object> e:entrySet){
+					props.put((String)e.getKey(),e.getValue());
+				}
 			}
 			String fromdbSetting=(String)props.get("fromdbSetting");
 			if("false".equals(fromdbSetting)){
@@ -99,7 +109,7 @@ public class ConfUtil {
 		if(name==null){
 			return defaultValue;
 		}
-		String ret=props.getProperty(name, defaultValue);
+		String ret=props.getStr(name, defaultValue);
 		if(ret == null && name.indexOf("${")>-1){
 			ret=name;
 		}
@@ -125,7 +135,7 @@ public class ConfUtil {
 	  	}
 	  	sb.append(ret.substring(end));
 	  	ret=sb.toString();
-	  	props.setProperty(name, ret);
+	  	props.put(name, ret);
 		return ret;
 	}
 
@@ -140,44 +150,86 @@ public class ConfUtil {
 		return getConfig(name, null);
 	}
 	
-	/**
-	 * 根据属性名称获得对应值
-	 * 
-	 * @param name
-	 *            属性名称
-	 * @return 属性对应的值
-	 */
-	public static JSONMap getConfigMap(String name) {
-		return new JSONMap(getConfig(name, null));
+	public static BigDecimal getBigDecimal(String key){
+		return  getBigDecimal(key,null);
 	}
-	/**
-	 * 根据属性名称获得对应值
-	 * 
-	 * @param name
-	 *            属性名称
-	 * @return 属性对应的值
-	 */
-	public static String getConfigStr(String name,String key) {
-		return getConfigMap(name).getStr(key);
+	public static JSONMap getMap(String key){
+		JSONMap obj = props.getObj(key);
+		if(obj==null){
+			obj=new JSONMap();
+			props.put(key, obj);
+			for(Map.Entry<String,Object> entrySet :props.entrySet()){
+				if(entrySet.getKey().startsWith(key+".")){
+					obj.put(entrySet.getKey().substring(key.length()+1), entrySet.getValue());
+				}
+			}
+		}
+		if(obj.isEmpty()){
+			throw new CodeException("无效的maop置,key="+key);
+		}
+		return obj;
 	}
-	/**
-	 * 根据属性名称获得对应值
-	 * 
-	 * @param name
-	 *            属性名称
-	 * @return 属性对应的值
-	 */
-	public static JSONList getConfigList(String name) {
-		return new JSONList(getConfig(name, null));
+	public static BigDecimal getBigDecimal(String key,BigDecimal defaultV){
+		return props.getBigDecimal(key,defaultV);
 	}
-	/**
-	 * 根据属性名称获得对应值
-	 * 
-	 * @param name
-	 *            属性名称
-	 * @return 属性对应的值
-	 */
-	public static String getConfigStr(String name,int index) {
-		return getConfigList(name).getStr(index);
+	public static Double getDouble(String key){
+		return getDouble(key,null);
+	}
+	public static Double getDouble(String key,Double defaultV){
+		return props.getDouble(key,defaultV);
+	}
+	public static Float getFloat(String key){
+		return  getFloat(key,null);
+	}
+	public static Float getFloat(String key,Float defaultV){
+		return props.getFloat(key,defaultV);
+	}
+	public static Integer getInt(String key){
+		return  getInt(key,null);
+	}
+	public static Integer getInt(String key,Integer defaultV){
+		return props.getInt(key,defaultV);
+	}
+	public static Long getLong(String key){
+		return  getLong(key,null);
+	}
+	public static Long getLong(String key,Long defaultV){
+		return props.getLong(key,defaultV);
+	}
+	public static Object[] getArray(String key){
+		return  getArray(key,null);
+	}
+	public static Object[] getArray(String key,Object[] defaultV){
+		return props.getArray(key,defaultV);
+	}
+	public static List getList(String key){
+		return  getList(key,null);
+	}
+	public static List getList(String key,List defaultV){
+		return props.getList(key,defaultV);
+	}
+	public static String getStr(String key){
+		return getConfig(key,null);
+	}
+	public static String getStr(String key,String defaultV){
+		return getConfig(key,defaultV);
+	}
+	public static Boolean getBoolean(String key){
+		return getBoolean(key,null);
+	}
+	public static Boolean getBoolean(String key,Boolean defaultV){
+		return props.getBoolean(key,defaultV);
+	}
+	public static Date getDate(String key){
+		return props.getDate(key);
+	}
+	public static Date getDate(String key,String format){
+		return props.getDate(key,format);
+	}
+	public static String getDateStr(String key){
+		return props.getDateStr(key);
+	}
+	public static String getDateStr(String key,String format){
+		return props.getDateStr(key,format);
 	}
 }
