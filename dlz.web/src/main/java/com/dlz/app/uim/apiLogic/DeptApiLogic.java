@@ -13,6 +13,7 @@ import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.web.logic.AuthedCommLogic;
+import com.dlz.web.logic.NoAuthCommLogic;
 /**
  * 部门管理
  * @author lxm 
@@ -20,8 +21,8 @@ import com.dlz.web.logic.AuthedCommLogic;
  * 2018年6月7日
  */
 @Service
-@AnnoAuth("admin")
-public class DeptApiLogic extends AuthedCommLogic{
+@AnnoAuth("ROLE_ADMIN")
+public class DeptApiLogic extends NoAuthCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	IUimDeptService deptService;

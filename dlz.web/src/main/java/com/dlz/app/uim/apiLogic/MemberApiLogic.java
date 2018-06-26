@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dlz.app.uim.annotation.AnnoAuth;
+import com.dlz.app.uim.bean.AuthUser;
+import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.app.uim.service.IUimMemberService;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.encry.Md5Util;
 import com.dlz.web.logic.AuthedCommLogic;
 /**
  * 用户管理
@@ -20,12 +24,43 @@ import com.dlz.web.logic.AuthedCommLogic;
  * 2018年6月7日
  */
 @Service
-@AnnoAuth("admin")
+@AnnoAuth("ROLE_ADMIN")
 public class MemberApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	IUimMemberService memberService;
 	
+	/**
+	 * 用户登录
+	 * @param data
+	 * @return
+	 */
+	@AnnoAuth("N")
+	public JSONResult login(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		String userName = data.getStr("userName");
+		String password = data.getStr("password");
+		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)){
+			return r.addErr("请输入用户名和密码");
+		}
+		ResultMap member = memberService.searchMap(new JSONMap("{'login_id':'"+userName+"'}"));
+		if(member!=null){
+			if(Md5Util.md5(member.getStr("userId")+password).equals(member.getStr("pwd"))){
+				AuthUser authUser =new AuthUser();
+				authUser.setId(member.getInt("userId"));
+				authUser.setL_id(member.getStr("loginId"));
+				authUser.setMobile(member.getStr("mobile"));
+				authUser.setName(member.getStr("userName"));
+				List<Integer> roles=memberService.getMemberRoles(member.getInt("userId"));
+				authUser.getRoles().addAll(roles);
+				UserHolder.setAuthInfo(authUser);
+				r.addData(authUser);
+			}
+		}else{
+			r.addErr("用户名或密码错误");
+		}
+		return r;
+	}
 	/**
 	 * 获取用户分页列表
 	 * @param data
