@@ -202,10 +202,10 @@ public class ConfUtil{
 	public static Object[] getArray(String key,Object[] defaultV){
 		return props.getArray(key,defaultV);
 	}
-	public static List getList(String key){
+	public static List<?> getList(String key){
 		return  getList(key,null);
 	}
-	public static List getList(String key,List defaultV){
+	public static List<?> getList(String key,List<?> defaultV){
 		return props.getList(key,defaultV);
 	}
 	public static String getStr(String key){

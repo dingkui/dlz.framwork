@@ -94,26 +94,25 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 				}
 				break;
 			case 2:
+				List list;
 				if(o instanceof Collection||o instanceof Object[]){
-					List list = ValUtil.getList(o);
-					list.add(obj);
-					if(obj instanceof Collection||obj instanceof Object[]){
-						list.addAll(ValUtil.getList(obj));
-					}
-					put(key, list);
+					list = ValUtil.getList(o);
+				}else{
+					list = new ArrayList();
+					list.add(o);
 				}
-				break;
-			case 3:
-				List list = new ArrayList();
-				list.add(o);
-				list.add(obj);
+				if(obj instanceof Collection||obj instanceof Object[]){
+					list.addAll(ValUtil.getList(obj));
+				}else{
+					list.add(obj);
+				}
 				put(key, list);
 				break;
 		}
 		return this;
 	}
 	public JSONMap add(String key,Object obj){
-		return add(key, obj, 3);
+		return add(key, obj, 2);
 	}
 	public JSONMap getObj(String key){
 		return getObj(key,JSONMap.class);
