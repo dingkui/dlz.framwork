@@ -16,7 +16,7 @@ public @interface AnnoTable {
 	 * 表名
 	 * @return
 	 */
-	String value();
+	String value() default "";
 	/**
 	 * 主键名，目前不支持复合主键
 	 * @return
