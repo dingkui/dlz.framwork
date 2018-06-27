@@ -20,7 +20,7 @@ import com.dlz.web.logic.AuthedCommLogic;
  * 2018年6月7日
  */
 @Service
-@AnnoAuth("admin")
+@AnnoAuth("ROLE_ADMIN")
 public class MenuApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired

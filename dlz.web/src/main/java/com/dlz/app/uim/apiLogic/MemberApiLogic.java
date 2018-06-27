@@ -55,9 +55,11 @@ public class MemberApiLogic extends AuthedCommLogic{
 				authUser.getRoles().addAll(roles);
 				UserHolder.setAuthInfo(authUser);
 				r.addData(authUser);
+			}else{
+				r.addErr("用户名或密码错误");
 			}
 		}else{
-			r.addErr("用户名或密码错误");
+			r.addErr("用户不存在");
 		}
 		return r;
 	}
