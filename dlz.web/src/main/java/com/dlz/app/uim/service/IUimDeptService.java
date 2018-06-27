@@ -1,6 +1,5 @@
 package com.dlz.app.uim.service;
 
-import com.dlz.app.uim.bean.Dept;
 import com.dlz.app.uim.bean.DeptUser;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
@@ -11,7 +10,7 @@ import com.dlz.framework.db.service.IBaseService;
  * @author dingkui
  *
  */
-public interface IUimDeptService extends IBaseService<Dept,String>{
+public interface IUimDeptService extends IBaseService{
 	/**
 	 * 添加机构用户
 	 * @param m

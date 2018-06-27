@@ -11,7 +11,7 @@ import com.dlz.framework.db.service.IBaseService;
  * 角色操作相关接口
  * @author dingkui
  */
-public interface IUimRoleService extends IBaseService<Role,String>{
+public interface IUimRoleService extends IBaseService{
 	/**
 	 * 启用/禁用角色
 	 * @param roleId

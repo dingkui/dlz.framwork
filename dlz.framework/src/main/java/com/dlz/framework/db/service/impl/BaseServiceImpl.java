@@ -11,13 +11,16 @@ import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.IBaseService;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.CodeException;
 
-public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
+/**
+ * 服务基本接口 增删改查（数据类型为JSONMap）
+ * @author dingkui 2018-06-27
+ */
+public abstract class BaseServiceImpl implements IBaseService {
 	@Autowired
 	protected ICommService commService;
 	protected AnnoTable getAnno(){
@@ -36,12 +39,9 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		}
 		return annotation;
 	}
-	@SuppressWarnings("unchecked")
-	protected Class<T> getBeanClass(){
-		return (Class<T>)this.getClass().getAnnotatedInterfaces()[0].getClass();
-	}
+	
 	@Override
-	public int delByKey(PK pk) {
+	public int delByKey(Object pk) {
 		AnnoTable anno = getAnno();
 		DeleteParaMap pm=new DeleteParaMap(anno.value());
 		pm.addEqCondition(anno.pk(), pk);
@@ -54,41 +54,37 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		pm.addCondition(anno.pk(),"in", keys);
 		return commService.excuteSql(pm);
 	}
-	@Override
-	public List<T> searchList(JSONMap para) {
-		AnnoTable anno = getAnno();
-		ParaMap pm=new ParaMap(anno.sqlKey());
-		pm.addParas(para);
-		return commService.getBeanList(pm, getBeanClass());
-	}
+	
 	@Override
 	public List<ResultMap> searchMapList(JSONMap para) {
-		AnnoTable anno = getAnno();
-		ParaMap pm=new ParaMap(anno.sqlKey());
+		return searchMapList(getAnno().sqlKey(), para);
+	}
+	@Override
+	public ResultMap searchMap(JSONMap para){
+		return searchMap(getAnno().sqlKey(), para);
+	};
+	@Override
+	public Page<ResultMap> mapPageByPara(Page<?> page, JSONMap para){
+		return mapPageByPara(getAnno().sqlKey(),page, para);
+	}
+	@Override
+	public List<ResultMap> searchMapList(String sqlKey,JSONMap para) {
+		ParaMap pm=new ParaMap(sqlKey);
 		pm.addParas(para);
 		return commService.getBeanList(pm, ResultMap.class);
 	}
 	@Override
-	public T searchBean(JSONMap para) {
-		AnnoTable anno = getAnno();
-		ParaMap pm=new ParaMap(anno.sqlKey());
+	public Page<ResultMap> mapPageByPara(String sqlKey,Page<?> page, JSONMap para){
+		ParaMap pm=new ParaMap(sqlKey,page);
 		pm.addParas(para);
-		return commService.getBean(pm, getBeanClass());
-	}
+		return commService.getPage(pm);
+	}	
 	@Override
-	public ResultMap searchMap(JSONMap para){
-		AnnoTable anno = getAnno();
-		ParaMap pm=new ParaMap(anno.sqlKey());
+	public ResultMap searchMap(String sqlKey,JSONMap para){
+		ParaMap pm=new ParaMap(sqlKey);
 		pm.addParas(para);
-		return commService.getBean(pm, ResultMap.class);
+		return commService.getMap(pm);
 	};
-	@Override
-	public T getByKey(PK pk) {
-		AnnoTable anno = getAnno();
-		SearchParaMap pm=new SearchParaMap(anno.value());
-		pm.addEqCondition(anno.pk(), pk);
-		return commService.getBean(pm, getBeanClass());
-	}
 	@Override
 	public JSONMap addOrUpdate(JSONMap para) {
 		AnnoTable anno = getAnno();
@@ -106,20 +102,4 @@ public abstract class BaseServiceImpl<T,PK> implements IBaseService<T,PK> {
 		}
 		return para;
 	}
-	@Override
-	public Page<T> pageByPara(Page<?> page, JSONMap para) {
-		AnnoTable anno = getAnno();
-		ParaMap pm=new ParaMap(anno.sqlKey(),page);
-		pm.addParas(para);
-		return commService.getPage(pm, getBeanClass());
-	}
-	@Override
-	public Page<JSONMap> mapPageByPara(Page<?> page, JSONMap para){
-		AnnoTable anno = getAnno();
-		ParaMap pm=new ParaMap(anno.sqlKey(),page);
-		pm.addParas(para);
-		return commService.getPage(pm,JSONMap.class);
-	}
-	
-	
 }

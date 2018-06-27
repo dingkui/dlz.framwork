@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.db.cache.bean.Dict;
 import com.dlz.framework.db.service.IBaseService;
 
 @Controller
-public interface IDictService extends IBaseService<Dict,String>{
+public interface IDictService extends IBaseService{
 	/**
 	 * 取得字典明细
 	 * @param dictCode

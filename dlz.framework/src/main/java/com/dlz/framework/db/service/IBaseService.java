@@ -6,40 +6,33 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 
-public interface IBaseService<T,PK> {
+/**
+ * 服务基本接口 增删改查（数据类型为JSONMap）
+ * @author dingkui 2018-06-27
+ *
+ */
+public interface IBaseService {
 	/**
-	 * 根据主键删除数据
+	 * 根据主键删除
 	 */
-	int delByKey(PK key);
+	int delByKey(Object pk);
+
 	/**
-	 * 根据主键删除数据
+	 * 根据多个主键删除
 	 */
 	int delByKeys(String keys);
 
-	/**
-	 * 查询数据列表
-	 */
-	List<T> searchList(JSONMap para);
 	/**
 	 * 查询数据列表返回ResultMap
 	 */
 	List<ResultMap> searchMapList(JSONMap para);
 
 	/**
-	 * 条件查询单条对象
-	 * @return 查询结果为0条则返回null，查询条数大于1则抛出异常
-	 */
-	T searchBean(JSONMap para);
-	/**
 	 * 条件查询单条ResultMap对象
+	 * 
 	 * @return 查询结果为0条则返回null，查询条数大于1则抛出异常
 	 */
 	ResultMap searchMap(JSONMap para);
-
-	/**
-	 * 根据主键查询单条数据
-	 */
-	T getByKey(PK pk);
 
 	/**
 	 * 添加或更新数据
@@ -47,11 +40,24 @@ public interface IBaseService<T,PK> {
 	JSONMap addOrUpdate(JSONMap para);
 
 	/**
-	 * 构造查询条件查询数据列表（带分页信息）
+	 * 构造查询条件查询数据列表JSONMap（带分页信息）
 	 */
-	Page<T> pageByPara(Page<?> page, JSONMap para);
+	Page<ResultMap> mapPageByPara(Page<?> page, JSONMap para);
+
+	/**
+	 * 查询数据列表返回ResultMap
+	 */
+	List<ResultMap> searchMapList(String sqlKey, JSONMap para);
+
+	/**
+	 * 条件查询单条ResultMap对象
+	 * 
+	 * @return 查询结果为0条则返回null，查询条数大于1则抛出异常
+	 */
+	ResultMap searchMap(String sqlKey, JSONMap para);
+
 	/**
 	 * 构造查询条件查询数据列表JSONMap（带分页信息）
 	 */
-	Page<JSONMap> mapPageByPara(Page<?> page, JSONMap para);
+	Page<ResultMap> mapPageByPara(String sqlKey, Page<?> page, JSONMap para);
 }
