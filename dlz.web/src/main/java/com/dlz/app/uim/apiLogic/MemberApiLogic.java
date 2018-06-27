@@ -59,7 +59,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 				r.addErr("密码错误");
 			}
 		}else{
-			r.addErr("用户名错误");
+			r.addErr("用户不存在");
 		}
 		return r;
 	}
