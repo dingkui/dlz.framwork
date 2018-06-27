@@ -11,7 +11,8 @@ public class ParseUtil {
 		D623("0Ix2fJqMsN5SrGQ3jzXgakWTRVCyAwY8Eho6L7Hpdi1t9ebO4BKDuZmFnvPlUc",3,3),
 		D523("YuaEilJnTzBKVQedwAbtjOWZUIpFrxXShoLsfqycDkvCGmRPgMHN",3,4),
 		D367("VYCT9ODEJQR5XILKGWH3PASZ06M12U47FB8N",7,4),
-		D3675("VYCT9ODEJQR5XILKGWH3PASZ06M12U47FB8N",7,5);
+		D3675("VYCT9ODEJQR5XILKGWH3PASZ06M12U47FB8N",7,5),
+		D1014("5930468271",1,4);
 		private char[] rDigits;
 		private int jm=7;//跳跃因子防止篡改
 		private long tl=0; //补齐到多少位
