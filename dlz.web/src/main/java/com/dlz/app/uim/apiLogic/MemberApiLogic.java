@@ -77,6 +77,15 @@ public class MemberApiLogic extends AuthedCommLogic{
 		return r.addData(memberService.mapPageByPara(new Page<>(pageIndex, pageSize),new JSONMap(data)));
 	}
 	/**
+	 * 获取用户列表
+	 * @param data
+	 * @return
+	 */
+	public JSONResult getMemberList(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		return r.addData(memberService.searchMapList(data));
+	}
+	/**
 	 * 获取用户角色列表
 	 * @param data
 	 * @return
