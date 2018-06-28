@@ -99,4 +99,18 @@ public class DictApiLogic extends AuthedCommLogic{
 		}
 		return r.addData(dictCache.getDictList(dictCode));
 	}
+	/**
+	 * 根据字典值获取字典Text
+	 * @param data
+	 * @return
+	 */
+	public JSONResult getDictText(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		String dictCode = data.getStr("dictCode");
+		String value = data.getStr("val");
+		if(StringUtils.isEmpty(dictCode)||StringUtils.isEmpty(value)){
+			return r.addErr("字典参数不能为空");
+		}
+		return r.addData(dictCache.getVal(dictCode, value));
+	}
 }
