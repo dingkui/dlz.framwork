@@ -3,7 +3,7 @@ package com.dlz.app.sys.apiLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dlz.app.sys.service.IDictService;
+import com.dlz.app.sys.service.IDictItemService;
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
@@ -13,17 +13,17 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.web.logic.AuthedCommLogic;
 /**
- * 字典管理
+ * 字典明细管理
  * @author lxm 
  *
  * 2018年6月7日
  */
 @Service
 @AnnoAuth("ROLE_ADMIN")
-public class DictApiLogic extends AuthedCommLogic{
+public class DictItemApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
-	IDictService dictService;
+	IDictItemService dictItemService;
 	@Autowired
 	DictCache dictCache;
 	
@@ -32,13 +32,13 @@ public class DictApiLogic extends AuthedCommLogic{
 	 * @param data
 	 * @return
 	 */
-	public JSONResult getDictList(JSONMap data){
+	public JSONResult getItemList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		int pageIndex = data.getInt("pageIndex");
 		int pageSize = data.getInt("pageSize");
 		data.remove("pageIndex");
 		data.remove("pageSize");
-		Page page =dictService.mapPageByPara(new Page<>(pageIndex, pageSize), data);
+		Page page =dictItemService.mapPageByPara(new Page<>(pageIndex, pageSize), data);
 		return r.addData(page);
 	}
 	
@@ -52,7 +52,7 @@ public class DictApiLogic extends AuthedCommLogic{
 	public JSONResult save(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		try {
-			dictService.addOrUpdate(data);
+			dictItemService.addOrUpdate(data);
 			r.addMsg("保存成功");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -70,11 +70,12 @@ public class DictApiLogic extends AuthedCommLogic{
 		JSONResult r = JSONResult.createResult();
 		String id = data.getStr("id");
 		String ids = data.getStr("ids");
+		String dictId = data.getStr("dictId");
 		if(!StringUtils.isEmpty(id)){
-			dictService.delByKey(id);
+			dictItemService.delByKey(id);
 			r.addMsg("删除成功");
 		}else if(!StringUtils.isEmpty(ids)){
-			dictService.delByKeys(ids);
+			dictItemService.delByKeys(ids);
 			r.addMsg("批量删除成功");
 		}else{
 			r.addErr("删除失败，ID不能为空");
@@ -82,31 +83,4 @@ public class DictApiLogic extends AuthedCommLogic{
 		return r;
 	}
 	
-	/**
-	 * 获取字典详情列表
-	 * @param data
-	 * @return
-	 */
-	public JSONResult getDictDetail(JSONMap data){
-		JSONResult r = JSONResult.createResult();
-		String dictCode = data.getStr("dictCode");
-		if(StringUtils.isEmpty(dictCode)){
-			return r.addErr("字典编号不能为空");
-		}
-		return r.addData(dictCache.getDictList(dictCode));
-	}
-	/**
-	 * 根据字典值获取字典Text
-	 * @param data
-	 * @return
-	 */
-	public JSONResult getDictText(JSONMap data){
-		JSONResult r = JSONResult.createResult();
-		String dictCode = data.getStr("dictCode");
-		String value = data.getStr("val");
-		if(StringUtils.isEmpty(dictCode)||StringUtils.isEmpty(value)){
-			return r.addErr("字典参数不能为空");
-		}
-		return r.addData(dictCache.getVal(dictCode, value));
-	}
 }
