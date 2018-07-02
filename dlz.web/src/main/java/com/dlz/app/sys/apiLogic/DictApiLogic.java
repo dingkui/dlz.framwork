@@ -70,14 +70,16 @@ public class DictApiLogic extends AuthedCommLogic{
 		JSONResult r = JSONResult.createResult();
 		String id = data.getStr("id");
 		String ids = data.getStr("ids");
+		Integer flag=1;
 		if(!StringUtils.isEmpty(id)){
-			dictService.delByKey(id);
-			r.addMsg("删除成功");
+			flag = dictService.delByKey(id);
 		}else if(!StringUtils.isEmpty(ids)){
-			dictService.delByKeys(ids);
-			r.addMsg("批量删除成功");
+			flag = dictService.delByKeys(ids);
 		}else{
 			r.addErr("删除失败，ID不能为空");
+		}
+		if(flag==-2){
+			r.addErr("您要删除的字典存在子节点，请先删除子节点再进行操作");
 		}
 		return r;
 	}
