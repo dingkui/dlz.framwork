@@ -43,7 +43,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)){
 			return r.addErr("请输入用户名和密码");
 		}
-		ResultMap member = memberService.searchMap(new JSONMap("login_id",userName));
+		ResultMap member = memberService.searchMap(new JSONMap("login_id",userName,"user_status",1));
 		if(member!=null){
 			if(Md5Util.md5(member.getStr("userId")+password).equals(member.getStr("pwd"))){
 				AuthUser authUser =new AuthUser();
