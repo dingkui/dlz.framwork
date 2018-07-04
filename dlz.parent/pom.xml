@@ -67,12 +67,12 @@
 	</dependencies>
 
 	<modules>
-		<!-- <module>../dlz.framework</module>
-		<module>../dlz.framework.cloud</module>
+		<module>../dlz.framework</module>
+		<!-- <module>../dlz.framework.cloud</module> -->
 		<module>../dlz.framework.db.springjdbc</module>
 		<module>../dlz.framework.ssme</module>
 		<module>../dlz.framework.mongo</module>
 		<module>../dlz.web</module>
-		<module>../dlz.plugin.cache.redis</module> -->
+		<!-- <module>../dlz.plugin.cache.redis</module> -->
 	</modules>
 </project>

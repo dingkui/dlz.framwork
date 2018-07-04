@@ -5,7 +5,7 @@
   <artifactId>dlz.framework.mongo</artifactId>
   <packaging>jar</packaging>
   <version>1.0</version>
-  <name>dlz.framework</name>
+  <name>dlz.framework.mongo</name>
   <url>http://maven.apache.org</url>
   
   <properties>
