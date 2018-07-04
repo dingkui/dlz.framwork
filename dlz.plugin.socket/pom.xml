@@ -9,8 +9,6 @@
 
 	<artifactId>dlz.plugin.socket</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
-
 	<dependencies>
 		<dependency>
 			<groupId>io.netty</groupId>

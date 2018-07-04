@@ -9,7 +9,6 @@
 
 	<artifactId>dlz.plugin.weixin</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0</version>
 
 	<properties>
 		<json-lib.version>2.1</json-lib.version>
