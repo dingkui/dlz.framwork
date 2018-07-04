@@ -10,7 +10,7 @@ xcopy %r%\dlz.web\%m%\* %m% /e/y/Q
 
 
 rd /s /q target
-@call mvn clean install -Dmaven.test.skip -offline
+@call mvn clean source:jar install -Dmaven.test.skip -offline
 rd /s /q %m%
 rd /s /q target\classes
 rd /s /q target\generated-sources
