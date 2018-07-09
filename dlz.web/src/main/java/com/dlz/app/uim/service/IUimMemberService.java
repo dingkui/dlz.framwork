@@ -25,4 +25,10 @@ public interface IUimMemberService extends IBaseService{
 	void deleteUserRole(Long id);
 	
 	void deleteUserDept(Long id);
+	/**
+	 * 获取用户上级部门ID
+	 * @param integer
+	 * @return 
+	 */
+	Integer getUserParentDeptId(Integer userId);
 }

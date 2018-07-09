@@ -89,6 +89,7 @@ public class DictApiLogic extends AuthedCommLogic{
 	 * @param data
 	 * @return
 	 */
+	@AnnoAuth("N")
 	public JSONResult getDictDetail(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		String dictCode = data.getStr("dictCode");
@@ -102,6 +103,7 @@ public class DictApiLogic extends AuthedCommLogic{
 	 * @param data
 	 * @return
 	 */
+	@AnnoAuth("N")
 	public JSONResult getDictText(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		String dictCode = data.getStr("dictCode");
