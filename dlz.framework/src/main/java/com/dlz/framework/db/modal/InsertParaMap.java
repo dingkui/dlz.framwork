@@ -36,14 +36,14 @@ public class InsertParaMap extends CreateSqlParaMap{
 			if(v.startsWith("sql:")){
 				sbValues.append(SqlUtil.converStr2ClumnStr(v.substring(4)));
 			}else{
-				sbValues.append("#{").append(str).append("}");
-				addPara(str, value);
+				sbValues.append("#{").append(str.replaceAll("`", "")).append("}");
+				addPara(str.replaceAll("`", ""), value);
 			}
 		}else{
-			sbValues.append("#{").append(str).append("}");
+			sbValues.append("#{").append(str.replaceAll("`", "")).append("}");
 			if(value==null)
 				value="";
-			addPara(str, value);
+			addPara(str.replaceAll("`", ""), value);
 		}
 	}
 	
