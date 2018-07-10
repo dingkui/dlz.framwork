@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
+import com.dlz.app.uim.enums.PwdTypeEnum;
 import com.dlz.app.uim.holder.UserHolder;
+import com.dlz.app.uim.service.IUimInfoService;
 import com.dlz.app.uim.service.IUimMemberService;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
@@ -29,6 +31,8 @@ public class MemberApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	IUimMemberService memberService;
+	@Autowired
+	IUimInfoService infoService;
 	
 	/**
 	 * 用户登录
@@ -114,6 +118,22 @@ public class MemberApiLogic extends AuthedCommLogic{
 		return r;
 	}
 	/**
+	 * 修改用户基本信息
+	 * @param data
+	 * @return
+	 */
+	public JSONResult saveBase(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		try {
+			infoService.saveExtInfo(data.getInt("id"), "Base", data);
+			r.addMsg("保存成功");
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			r.addErr("保存失败");
+		}
+		return r;
+	}
+	/**
 	 * 启用/禁用用户
 	 * @param data
 	 * @return
@@ -126,6 +146,54 @@ public class MemberApiLogic extends AuthedCommLogic{
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			r.addErr("操作失败");
+		}
+		return r;
+	}
+	/**
+	 * 更新密码
+	 * @param data
+	 * @return
+	 */
+	@AnnoAuth("admin")
+	public JSONResult editPasswd(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		try {
+			if(!data.getStr("newPass","@@@").equals(data.getStr("rePass","@"))){
+				return r.addErr("两次输入密码不一致");
+			}
+			if(infoService.checkPwd(data.getInt("id"), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("oldPass"))){
+				infoService.savePwd(data.getInt("id"), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("newPass","@@@"));
+			}else{
+				return r.addErr("原密码不正确");
+			}
+			r.addMsg("密码修改成功");
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			r.addErr("密码修改失败");
+		}
+		return r;
+	}
+	/**
+	 * 更新自己的密码
+	 * @param data
+	 * @return
+	 */
+	@AnnoAuth("*")
+	public JSONResult editMypwd(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		try {
+			if(!data.getStr("newPass","@@@").equals(data.getStr("rePass","@"))){
+				return r.addErr("两次输入密码不一致");
+			}
+			if(infoService.checkPwd(getMember().getId(), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("oldPass"))){
+				infoService.savePwd(getMember().getId(), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("newPass","@@@"));
+			}else{
+				return r.addErr("原密码不正确");
+			}
+			r.addMsg("密码修改成功");
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			r.addErr("密码修改失败");
 		}
 		return r;
 	}
