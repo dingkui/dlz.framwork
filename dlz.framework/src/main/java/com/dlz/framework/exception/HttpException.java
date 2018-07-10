@@ -11,7 +11,7 @@ public class HttpException extends RemoteException {
 	private int status;
 
 	public HttpException(String message, int status) {
-		super(DEFUALT_ERROR_CODE, message, null);
+		super(DEFUALT_ERROR_CODE, message+" http状态码："+status, null);
 		this.status=status;
 	}
 

@@ -177,6 +177,8 @@ public class HttpUtil {
 			}
 		} catch (LogicException e) {
 			throw e;
+		} catch (HttpException e) {
+			throw e;
 		} catch (Exception e) {
 			logger.error("doHttp "+request.getMethod()+" Exception:" + e.getMessage()+" url:" + request.getURI(),e);
 			throw new RuntimeException(e);
