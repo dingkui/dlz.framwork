@@ -27,6 +27,7 @@ public class BaseException extends RuntimeException {
 		E7000("远程服务器连接失败"),//远程服务器连接失败
 		E7001("远程调用异常"),//远程调用异常
 		E7002("远程调用数据读取异常"),//远程调用异常
+		E7003("Http状态非正常")//远程调用异常
 	  ;
 	  public String message;
 		private Errors(String message) {

@@ -24,6 +24,7 @@ import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -39,8 +40,8 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.exception.HttpException;
 import com.dlz.framework.exception.LogicException;
-import com.dlz.framework.exception.RemoteException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
@@ -80,20 +81,48 @@ public class HttpUtil {
 			String charsetNamere, 
 			boolean showLog,
 			int returnType){
+		return doHttp(request, url, para, entity, headers, charsetNameSend, charsetNamere, showLog, returnType,null);
+	}
+	/**
+	 * 
+	 * @param request
+	 * @param url
+	 * @param para
+	 * @param entity
+	 * @param headers
+	 * @param charsetNameSend
+	 * @param charsetNamere
+	 * @param showLog
+	 * @param returnType
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object doHttp(HttpRequestBase request,
+			String url, 
+			Map<String, Object> para, 
+			HttpEntity entity, 
+			Map<String, String> headers,
+			String charsetNameSend, 
+			String charsetNamere, 
+			boolean showLog,
+			int returnType,
+			HttpClientContext localContext/*,
+			CookieStore cookieStore*/){
 		HttpClient httpClient = HttpConnUtil.wrapClient(url);
 		
-//		 CookieStore cookieStore = new BasicCookieStore();  
-//		 CloseableHttpClient httpClient2 = HttpClients.custom()  
-//		             .setDefaultCookieStore(cookieStore)  
-//		             .build();  
+		if(localContext==null){
+			localContext = new HttpClientContext();
+		}
+//		if(cookieStore==null){
+//			cookieStore = new BasicCookieStore();
+//		}
+//		localContext.setCookieStore(cookieStore);
 		
 		if(headers!=null && !headers.isEmpty()){
 			for (Map.Entry<String, String> e : headers.entrySet()) {
 				request.addHeader(e.getKey(), e.getValue());
 			}
 		}
-		
-		
 		
 		Object result = null;
 		try {
@@ -114,7 +143,7 @@ public class HttpUtil {
 					((HttpEntityEnclosingRequestBase)request).setEntity(entity);
 				}
 			}
-			HttpResponse execute = httpClient.execute(request);
+			HttpResponse execute = httpClient.execute(request,localContext);
 			int statusCode = execute.getStatusLine().getStatusCode();
 			switch(statusCode){
 			case HttpStatus.SC_OK:
@@ -135,14 +164,15 @@ public class HttpUtil {
 //				}
 				return result;
 			case HttpStatus.SC_NOT_FOUND:
-				throw RemoteException.buildException("地址无效:"+request.getURI(),null);
+				throw new HttpException("地址无效:"+request.getURI(),statusCode);
+			case HttpStatus.SC_UNAUTHORIZED:
 			case HttpStatus.SC_FORBIDDEN:
-				throw RemoteException.buildException("无访问权限:"+request.getURI(),null);
+				throw new HttpException("无访问权限:"+request.getURI(),statusCode);
 			default :
 				if(statusCode>3000&&statusCode<3100){
 					throw new LogicException(statusCode, (String)getResult(execute.getEntity().getContent(), 1), null);
 				}else{
-					throw RemoteException.buildException("访问异常:"+request.getURI()+" 返回码:"+statusCode,null);
+					throw new HttpException("访问异常:"+request.getURI()+" 返回码:"+statusCode,statusCode);
 				}
 			}
 		} catch (LogicException e) {
@@ -195,8 +225,14 @@ public class HttpUtil {
 	}
 	
 	public static class HttpPostUtil{
+		public static String post(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere,HttpClientContext localContext){    	
+			return (String)doHttp(new HttpPost(url), url, querys,null, headers, charsetNameSend, charsetNamere, true,1,localContext);
+		}
 		public static String post(String url, Map<String, Object> para,Map<String, String> headers,  String charsetNameSend,String charsetNamere) throws Exception {
-			return doHttp(new HttpPost(url), url, para, headers, charsetNameSend, charsetNamere);
+			return post(url, para, headers, charsetNameSend, charsetNamere,null);
+		}
+		public static String post(String url, Map<String, Object> para,HttpClientContext localContext) throws Exception {
+			return post(url, para, null, CHARSET_UTF8, CHARSET_UTF8,localContext);
 		}
 		public static String post(String url, Map<String, Object> para, String charsetName) throws Exception {
 			return post(url, para, null, charsetName, charsetName);
@@ -234,9 +270,11 @@ public class HttpUtil {
 	}
 	
 	public static class HttpGetUtil{
-		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere)
-				{    	
-			return doHttp(new HttpGet(url), url, querys, headers, charsetNameSend, charsetNamere);
+		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere,HttpClientContext localContext){    	
+			return (String)doHttp(new HttpGet(url), url, querys,null, headers, charsetNameSend, charsetNamere, true,1,localContext);
+		}
+		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere){    	
+			return get(url, querys, headers, charsetNameSend, charsetNamere, null);
 		}
 		public static String get(String url, Map<String, Object> querys, String charsetName) throws Exception {
 			return get(url, querys, null, charsetName, charsetName);
@@ -248,6 +286,12 @@ public class HttpUtil {
 		public static String get(String url, Map<String, Object> querys)
 				throws Exception {    	
 			return get(url, querys, null, CHARSET_UTF8, CHARSET_UTF8);
+		}
+		public static String get(String url,HttpClientContext localContext)  {
+			return get(url, null,null, CHARSET_UTF8, CHARSET_UTF8,localContext);
+		}
+		public static String get(String url,Map<String, Object> querys,HttpClientContext localContext)  {
+			return get(url, querys,null, CHARSET_UTF8, CHARSET_UTF8,localContext);
 		}
 		public static String get(String url)  {
 			return get(url, null,null, CHARSET_UTF8, CHARSET_UTF8);

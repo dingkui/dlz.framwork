@@ -15,7 +15,7 @@ public class RemoteException extends BaseException {
 	private static final long serialVersionUID = -5345825923487658213L;
 	private static int DEFUALT_ERROR_CODE = 7001;
 
-	private RemoteException(int errorCode, String message, Throwable cause) {
+	protected RemoteException(int errorCode, String message, Throwable cause) {
 		super(errorCode, message, cause);
 	}
 
