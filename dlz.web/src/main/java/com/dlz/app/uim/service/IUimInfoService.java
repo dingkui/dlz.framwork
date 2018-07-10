@@ -5,6 +5,7 @@ import java.util.List;
 import com.dlz.app.uim.enums.PwdTypeEnum;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ResultMap;
 
 /**
  * 用户信息相关接口
@@ -72,7 +73,7 @@ public interface IUimInfoService {
 	 * @param extType
 	 * @return
 	 */
-	public List<JSONMap> getExtInfos(List<Integer> id, String extType);
+	public List<ResultMap> getExtInfos(List<Integer> id, String extType);
 
 	/**
 	 * 批量查询用户角色信息
@@ -80,7 +81,7 @@ public interface IUimInfoService {
 	 * @param roleId
 	 * @return
 	 */
-	public List<JSONMap> getRoleInfos(List<Integer> id, int roleId);
+	public List<ResultMap> getRoleInfos(List<Integer> id, int roleId);
 	
 	/**
 	 * 查询用户信息
