@@ -9,6 +9,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.quartz.bean.ScheduleJob;
+import com.dlz.framework.util.system.Reflections;
 
 public class QuartzJobFactory implements Job {
 	private static MyLogger logger = MyLogger.getLogger(JobMethod.class);
@@ -25,9 +26,9 @@ public class QuartzJobFactory implements Job {
 			}
 			JSONMap para = scheduleJob.getPara();
 			if (para == null) {
-				obj.getClass().getMethod(scheduleJob.getExecuteMethod()).invoke(obj);
+				Reflections.getMethod(obj, scheduleJob.getExecuteMethod()).invoke(obj);
 			} else {
-				obj.getClass().getMethod(scheduleJob.getExecuteMethod(), JSONMap.class).invoke(obj, para);
+				Reflections.getMethod(obj, scheduleJob.getExecuteMethod(),JSONMap.class).invoke(obj, para);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
