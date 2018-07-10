@@ -78,6 +78,7 @@ public class DbInfo {
 		dbConfig = ResourceBundle.getBundle(NAME_DB_CONFIG);
 		loadRsources("framework/*");
 		loadRsources("common/*");
+		loadRsources("service/*/*");
 		for (Enumeration<String> enums = dbConfig.getKeys(); enums.hasMoreElements();) {
 			String name = enums.nextElement();
 			String str = dbConfig.getString(name).trim();
