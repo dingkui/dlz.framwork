@@ -23,11 +23,9 @@ public abstract class MyLogger {
 					logType = 0;
 				}
 			}
-			System.out.println("logger type:"+logType);
 		}
 		switch (logType) {
 		case 1:
-//			System.out.println("使用logback:");
 			return new MyLoggerLogback(name);
 		case 2:
 			return new MyLoggerLog4j(name);
