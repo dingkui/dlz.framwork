@@ -1,5 +1,6 @@
 package com.dlz.plugin.websocket.client;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -18,8 +19,8 @@ import com.dlz.plugin.websocket.handler.IWsHandler;
 /**
  * Created by dk 2018-07-14
  */
-public class WsClient {
-	static MyLogger logger=MyLogger.getLogger(WsClient.class);
+public class MyWsClient {
+	static MyLogger logger=MyLogger.getLogger(MyWsClient.class);
 	public static WebSocketClient client;
 	static Timer timer = new Timer();
 	
@@ -29,9 +30,7 @@ public class WsClient {
 	int connectTimeout=0;//连接超时时间
 	long retryTime;//断线重连间隔时间
 	
-	
-	
-	public WsClient(String url,IWsHandler handler){
+	public MyWsClient(String url,IWsHandler handler){
 		try {
 			serverUri = new URI(url);
 		} catch (URISyntaxException e) {
@@ -118,6 +117,14 @@ public class WsClient {
 			throw new CodecException("发送失败，status="+status);
 		}
 		client.send(bytes);
+	}
+	/**
+	 * 发送消息，连接成功时才能执行
+	 * @param bytes
+	 * @throws UnsupportedEncodingException 
+	 */
+	public void send(String message,String charsetName) throws UnsupportedEncodingException {
+		send(message.getBytes(charsetName));
 	}
 	/**
 	 * 客户端连接，初始状态0和关闭状态-1可以连接

@@ -20,10 +20,14 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
@@ -57,9 +61,94 @@ public class HttpUtil {
 	private static MyLogger logger = MyLogger.getLogger(HttpUtil.class);
 	
 	private final static String CHARSET_UTF8="UTF-8";
+	
+	public static HttpUtilEnum getHttpUtil(String method){
+		return HttpUtilEnum.valueOf(method.toUpperCase());
+	}
+	
+	public enum HttpUtilEnum{
+		PUT,
+		DELETE,
+		UPDATEL,
+		POST,
+		TRACE,
+		GET;
+		private HttpRequestBase getRequest(String url){
+			switch (this.toString()) {
+				case "GET":
+					return new HttpGet(url);
+				case "POST":
+					return new HttpPost(url);
+				case "DELETE":
+					return new HttpDelete(url);
+				case "TRACE":
+					return new HttpTrace(url);
+				case "OPTIONS":
+					return new HttpOptions(url);
+				case "PUT":
+					return new HttpPut(url);
+				default:
+					return new HttpPost(url);
+			}
+		}
+		
+		public String send(String url, Map<String, Object> para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
+			return (String) doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 1, localContext);
+		}
+
+		public String send(String url, Map<String, Object> para, Map<String, String> headers){
+			return (String) doHttp(getRequest(url), url, para, null, headers, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+		}
+
+		public String send(String url, Map<String, Object> para){
+			return (String) doHttp(getRequest(url), url, para, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+		}
+
+		public String send(String url){
+			return (String) doHttp(getRequest(url), url, null, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+		}
+
+
+		public String send(String url, HttpEntity para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
+			return (String) doHttp(getRequest(url), url, null, para, headers, charsetNameSend, charsetNamere, true, 1, localContext);
+		}
+		public String send(String url, HttpEntity para) {
+			return (String) doHttp(getRequest(url), url, null, para, null, CHARSET_UTF8, CHARSET_UTF8, true, 1, null);
+		}
+		
+		public JSONMap send4JSON(String url, Map<String, Object> para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
+			try {
+				return new JSONMap(doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 1, localContext));
+			}catch (Exception e) {
+				logger.error(e.getMessage(), e);
+			}
+			return null;
+		}
+
+		public JSONMap send4JSON(String url, Map<String, Object> para) {
+			return send4JSON(url, para, null, CHARSET_UTF8, CHARSET_UTF8, null);
+		}
+		public JSONMap send4JSON(String url) {
+			return send4JSON(url,null);
+		}
+		
+		public Document send4Dom(String url, Map<String, Object> para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
+			try {
+				return (Document)doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 2, localContext);
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+			}
+			return null;
+		}
+		public Document send4Dom(String url, Map<String, Object> para) {
+			return send4Dom(url, para, null, CHARSET_UTF8, CHARSET_UTF8, null);
+		}
+		public Document send4Dom(String url) {
+			return send4Dom(url,null);
+		}
+	}
 
 	/**
-	 * 
 	 * @param request
 	 * @param url
 	 * @param para
@@ -106,17 +195,12 @@ public class HttpUtil {
 			String charsetNamere, 
 			boolean showLog,
 			int returnType,
-			HttpClientContext localContext/*,
-			CookieStore cookieStore*/){
+			HttpClientContext localContext){
 		HttpClient httpClient = HttpConnUtil.wrapClient(url);
 		
 		if(localContext==null){
 			localContext = new HttpClientContext();
 		}
-//		if(cookieStore==null){
-//			cookieStore = new BasicCookieStore();
-//		}
-//		localContext.setCookieStore(cookieStore);
 		
 		if(headers!=null && !headers.isEmpty()){
 			for (Map.Entry<String, String> e : headers.entrySet()) {
@@ -148,20 +232,6 @@ public class HttpUtil {
 			switch(statusCode){
 			case HttpStatus.SC_OK:
 				result=getResult(execute.getEntity().getContent(), returnType);
-//				if(returnType==1){
-//					BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-//					String temp = in.readLine();
-//					StringBuffer sb=new StringBuffer();
-//					/* 连接成一个字符串 */
-//					while (temp != null) {
-//						sb.append(temp);
-//						temp = in.readLine();
-//					}
-//					result=sb.toString();
-//				}else if(returnType==2){
-//					//获取输入流
-//					result=new SAXReader().read(inputStream);
-//				}
 				return result;
 			case HttpStatus.SC_NOT_FOUND:
 				throw new HttpException("地址无效:"+request.getURI(),statusCode);
@@ -226,6 +296,11 @@ public class HttpUtil {
 		return (String)doHttp(request, url, para,null, headers, charsetNameSend, charsetNamere, true,1);
 	}
 	
+	/**
+	 * 该方法在后面版本将删除，使用{@link HttpUtilEnum }代替
+	 * @author dingkui
+	 */
+	@Deprecated
 	public static class HttpPostUtil{
 		public static String post(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere,HttpClientContext localContext){    	
 			return (String)doHttp(new HttpPost(url), url, querys,null, headers, charsetNameSend, charsetNamere, true,1,localContext);
@@ -271,6 +346,11 @@ public class HttpUtil {
 		}
 	}
 	
+	/**
+	 * 该方法在后面版本将删除，使用{@link HttpUtilEnum }代替
+	 * @author dingkui
+	 */
+	@Deprecated
 	public static class HttpGetUtil{
 		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere,HttpClientContext localContext){    	
 			return (String)doHttp(new HttpGet(url), url, querys,null, headers, charsetNameSend, charsetNamere, true,1,localContext);
