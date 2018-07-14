@@ -278,15 +278,13 @@ public class HttpUtil {
 		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere){    	
 			return get(url, querys, headers, charsetNameSend, charsetNamere, null);
 		}
-		public static String get(String url, Map<String, Object> querys, String charsetName) throws Exception {
+		public static String get(String url, Map<String, Object> querys, String charsetName) {
 			return get(url, querys, null, charsetName, charsetName);
 		}
-		public static String get(String url, Map<String, Object> querys,Map<String, String> headers)
-				throws Exception {    	
+		public static String get(String url, Map<String, Object> querys,Map<String, String> headers){    	
 			return get(url, querys, headers, CHARSET_UTF8, CHARSET_UTF8);
 		}
-		public static String get(String url, Map<String, Object> querys)
-				throws Exception {    	
+		public static String get(String url, Map<String, Object> querys){    	
 			return get(url, querys, null, CHARSET_UTF8, CHARSET_UTF8);
 		}
 		public static String get(String url,HttpClientContext localContext)  {
