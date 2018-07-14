@@ -46,12 +46,12 @@ public class RoleApiLogic extends AuthedCommLogic{
 	
 	public JSONResult save(JSONMap data){
 		JSONResult r = JSONResult.createResult();
-		JSONMap role =roleService.getRoleByCode(data.getStr("code"));
-		data.put("disabled", "true".equals(data.getStr("disabled"))?1:0);
+	/*	JSONMap role =roleService.getRoleByCode(data.getStr("code"));
+		data.put("disabled", "true".equals(data.getStr("disabled"))?1:0);*/
 		if(data.getLong("role_id")==null){
-			if(role!=null){
-				return r.addErr("角色编号已存在");
-			}
+//			if(role!=null){
+//				return r.addErr("角色编号已存在");
+//			}
 			data.put("createTime", DateUtil.getCurDateStr("YYYY-MM-dd HH:mm:ss"));
 		}else{
 			data.put("updateTime", DateUtil.getCurDateStr("YYYY-MM-dd HH:mm:ss"));
