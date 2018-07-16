@@ -96,6 +96,9 @@ public class HttpUtil {
 			return (String) doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 1, localContext);
 		}
 
+		public String send(String url, Map<String, Object> para,HttpClientContext localContext){
+			return (String) doHttp(getRequest(url), url, para, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1,localContext);
+		}
 		public String send(String url, Map<String, Object> para, Map<String, String> headers){
 			return (String) doHttp(getRequest(url), url, para, null, headers, CHARSET_UTF8, CHARSET_UTF8, true, 1);
 		}
