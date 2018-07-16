@@ -46,17 +46,22 @@ public class MyWsClient {
 		httpHeaders.clear();
 		httpHeaders.put("Connection", "Upgrade");
 		httpHeaders.put("Upgrade", "websocket");
-		String sessionId=handler.getSessionId();
-		if(sessionId!=null){
-			httpHeaders.put("Cookie", "JSESSIONID="+sessionId);
+		try{
+			String sessionId=handler.getSessionId();
+			if(sessionId!=null){
+				httpHeaders.put("Cookie", "JSESSIONID="+sessionId);
+			}
+			final Map<String, String> headers = handler.getHeaders();
+			if(headers!=null && !headers.isEmpty()){
+				httpHeaders.putAll(headers);
+			}
+			client=new WebSockeC();
+			status=1;
+			client.connect();
+		}catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			status=-1;
 		}
-		final Map<String, String> headers = handler.getHeaders();
-		if(headers!=null && !headers.isEmpty()){
-			httpHeaders.putAll(headers);
-		}
-		client=new WebSockeC();
-		status=1;
-		client.connect();
 	}
 	
 	private class WebSockeC extends WebSocketClient{
