@@ -129,6 +129,19 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 	public JSONMap add(String key,Object obj){
 		return add(key, obj, 2);
 	}
+	public JSONMap add2List(String key,Object obj){
+		List list=this.getList(key);
+		if(list==null){
+			list=new ArrayList();
+		}
+		if(obj instanceof Collection||obj instanceof Object[]){
+			list = ValUtil.getList(obj);
+		}else{
+			list.add(obj);
+		}
+		put(key, list);
+		return this;
+	}
 	public JSONMap put(String key,Object value){
 		super.put(key, value);
 		return this;

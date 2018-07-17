@@ -32,9 +32,13 @@ public class ConfUtil{
 	public static String CONFIG_FILE = "config.properties,config.txt";
 
 	/**
-	 * Properties实例
+	 * 配置信息保持(配置文件中配置会覆盖数据库中配置)
 	 */
 	public static JSONMap props = new JSONMap();
+	/**
+	 * 配置信息保持成map
+	 */
+	public static JSONMap maps = new JSONMap();
 
 	/**
 	 * 构造方法
@@ -62,6 +66,7 @@ public class ConfUtil{
 		try {
 			String[] configs=CONFIG_FILE.split(",");
 			props.clear();
+			maps.clear();
 			for(String config:configs){
 				URL resource = ConfUtil.class.getClassLoader().getResource(config);
 				if(resource==null){
@@ -76,12 +81,9 @@ public class ConfUtil{
 					props.put((String)e.getKey(),isProperties?e.getValue():new String(e.getValue().toString().getBytes("ISO-8859-1"),"UTF-8"));
 				}
 			}
-			String fromdbSetting=(String)props.get("fromdbSetting");
-			if("false".equals(fromdbSetting)){
+			String fromdbSetting=props.getStr("fromdbSetting","key.setting.getSettings");
+			if(!fromdbSetting.startsWith("key.")){
 				return;
-			}
-			if(fromdbSetting==null){
-				fromdbSetting="key.setting.getSettings";
 			}
 			ICommService baseSetService = (ICommService)SpringHolder.getBean(ICommService.class);
 			ParaMap pm=new ParaMap(fromdbSetting);
@@ -155,19 +157,19 @@ public class ConfUtil{
 		return  getBigDecimal(key,null);
 	}
 	public static JSONMap getMap(String key){
-		JSONMap obj = props.getObj(key);
+		JSONMap obj = maps.getObj(key);
 		if(obj==null){
 			obj=new JSONMap();
-			props.put(key, obj);
+			maps.put(key, obj);
 			for(Map.Entry<String,Object> entrySet :props.entrySet()){
 				if(entrySet.getKey().startsWith(key+".")){
 					obj.put(entrySet.getKey().substring(key.length()+1), entrySet.getValue());
 				}
 			}
 		}
-		if(obj.isEmpty()){
-			throw new CodeException("无效的maop置,key="+key);
-		}
+//		if(obj.isEmpty()){
+//			throw new CodeException("无效的maop置,key="+key);
+//		}
 		return obj;
 	}
 	public static BigDecimal getBigDecimal(String key,BigDecimal defaultV){
