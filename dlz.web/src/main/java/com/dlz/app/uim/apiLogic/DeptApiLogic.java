@@ -34,23 +34,20 @@ public class DeptApiLogic extends NoAuthCommLogic{
 	 */
 	public JSONResult getDeptList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
-		//一级部门
-		List<ResultMap> resultMapList = deptService.searchMapList(new JSONMap("{d_fid:0}"));
-		resultMapList.parallelStream().forEach((res)->{
-			//二级部门
-			List<ResultMap> resultMapList1 = deptService.searchMapList(new JSONMap("{d_fid:"+res.getStr("dId")+"}"));
-			if(resultMapList1.size()>0){
-				res.add("children", resultMapList1);
-				resultMapList1.parallelStream().forEach((child)->{
-					//三级部门
-					List<ResultMap> resultMapList2 = deptService.searchMapList(new JSONMap("{d_fid:"+child.getStr("dId")+"}"));
-					if(resultMapList2.size()>0){
-						child.add("children", resultMapList2);
-					}
-				});
-			}
-		});
-		return r.addData(resultMapList);
+		return r.addData(getDepts("0"));
+	}
+	
+	private List<ResultMap> getDepts(String parentId){
+		List<ResultMap> resultMapList = deptService.searchMapList(new JSONMap("d_fid",parentId));
+		if(resultMapList.size()>0){
+			resultMapList.parallelStream().forEach((res)->{
+				List<ResultMap> sub=getDepts(res.getStr("dId"));
+				if(sub.size()>0){
+					res.add("children", sub);
+				}
+			});
+		}
+		return resultMapList;
 	}
 	
 	/**
