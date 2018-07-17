@@ -66,7 +66,7 @@ public class SequenceDeal{
 			}
 		}
 		try{
-			val=valCounter.getAndIncrement();
+			val=valCounter.incrementAndGet();
 			return val;
 		}finally{
 			updater.add(seqName, val);
