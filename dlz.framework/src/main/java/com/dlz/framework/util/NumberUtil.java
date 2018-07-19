@@ -22,4 +22,9 @@ public class NumberUtil{
 		return (new BigDecimal(money.doubleValue())).subtract(new BigDecimal(subtract.doubleValue())).doubleValue();
 	}
 
+	public static double roundNumber(Object number,Integer scale){
+		BigDecimal bigDecimal = new BigDecimal(number.toString());
+		return bigDecimal.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	
 }
