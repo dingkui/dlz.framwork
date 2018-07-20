@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.springframework.context.support.StaticApplicationContext;
+
 import com.dlz.framework.logger.MyLogger;
 
 public class DateUtil {
@@ -749,4 +751,12 @@ public class DateUtil {
 		return System.currentTimeMillis()/1000;
 	}
 	
+	public static String getCurrentTimeDistance(Long time){
+		long distanceTime =  (new Date().getTime() - time)/1000;
+		int day = (int) (distanceTime/(24*60*60));
+		int hour = (int) ((distanceTime - day*24*60*60)/(60*60));
+		int minute = (int) ((distanceTime - day*24*60*60 - hour*60*60)/(60));
+		int second = (int) (distanceTime - day*24*60*60 - hour*60*60 - minute * 60);
+		return day + "天" + hour + "时" + minute + "分" + second + "秒";
+	}
 }
