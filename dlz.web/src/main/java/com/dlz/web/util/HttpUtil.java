@@ -36,6 +36,7 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -101,6 +102,9 @@ public class HttpUtil {
 		}
 		public String send(String url, Map<String, Object> para, Map<String, String> headers){
 			return (String) doHttp(getRequest(url), url, para, null, headers, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+		}
+		public String sendWithEntry(String url, Map<String, Object> para, Map<String, String> headers){
+			return (String) doHttp(getRequest(url), url, null, para==null?null:new StringEntity(JacksonUtil.getJson(para),CHARSET_UTF8), headers, CHARSET_UTF8, CHARSET_UTF8, true, 1);
 		}
 
 		public String send(String url, Map<String, Object> para){
@@ -234,7 +238,7 @@ public class HttpUtil {
 			int statusCode = execute.getStatusLine().getStatusCode();
 			switch(statusCode){
 			case HttpStatus.SC_OK:
-				result=getResult(execute.getEntity().getContent(), returnType);
+				result=getResult(execute.getEntity().getContent(), returnType,charsetNamere);
 				return result;
 			case HttpStatus.SC_NOT_FOUND:
 				throw new HttpException("地址无效:"+request.getURI(),statusCode);
@@ -243,7 +247,7 @@ public class HttpUtil {
 				throw new HttpException("无访问权限:"+request.getURI(),statusCode);
 			default :
 				if(statusCode>3000&&statusCode<3100){
-					throw new LogicException(statusCode, (String)getResult(execute.getEntity().getContent(), 1), null);
+					throw new LogicException(statusCode, (String)getResult(execute.getEntity().getContent(), 1,charsetNamere), null);
 				}else{
 					throw new HttpException("访问异常:"+request.getURI()+" 返回码:"+statusCode,statusCode);
 				}
@@ -267,16 +271,26 @@ public class HttpUtil {
 		}
 	}
 	
-	private static Object getResult(InputStream inputStream,int returnType) throws Exception{
+	private static Object getResult(InputStream inputStream,int returnType,String charsetNamere) throws Exception{
 		if(returnType==1){
-			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-			String temp = in.readLine();
 			StringBuffer sb=new StringBuffer();
-			/* 连接成一个字符串 */
-			while (temp != null) {
-				sb.append(temp);
-				temp = in.readLine();
+			byte[] buffer = new byte[4096];
+			int read = 0;
+			while (read != -1) {
+				read = inputStream.read(buffer);
+				if (read > 0) {
+					sb.append(new String(buffer,0,read,charsetNamere));
+				}
 			}
+			
+//			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+//			String temp = new String(in.readLine().getBytes(charsetNamere));
+//			StringBuffer sb=new StringBuffer();
+//			/* 连接成一个字符串 */
+//			while (temp != null) {
+//				sb.append(temp);
+//				temp = in.readLine();
+//			}
 			return sb.toString();
 		}else if(returnType==2){
 			//获取输入流
