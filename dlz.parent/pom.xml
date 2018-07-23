@@ -74,6 +74,7 @@
 		<module>../dlz.plugin.redis</module>
 		<module>../dlz.plugin.weixin</module>
 		<module>../dlz.plugin.socket</module>
+		<module>../dlz.plugin.websocket</module>
 		<module>../dlz.web</module>
 	</modules>
 </project>
