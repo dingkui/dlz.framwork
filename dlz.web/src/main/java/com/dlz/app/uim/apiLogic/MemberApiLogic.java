@@ -108,6 +108,13 @@ public class MemberApiLogic extends AuthedCommLogic{
 	 */
 	public JSONResult save(JSONMap data){
 		JSONResult r = JSONResult.createResult();
+		Long key=data.getLong("userId");
+		if(key==null){
+			List<ResultMap> memberList = memberService.searchMapList(new JSONMap("login_id", data.getStr("loginId")));
+			if(memberList.size()>0){
+				return r.addErr("登录名已存在");
+			}
+		}
 		try {
 			memberService.addOrUpdate(data);
 			r.addMsg("保存成功");
