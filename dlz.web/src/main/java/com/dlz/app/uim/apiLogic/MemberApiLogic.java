@@ -108,7 +108,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 	 * @param data
 	 * @return
 	 */
-	public JSONResult save(JSONMap para){
+	public JSONResult save(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		Long key=data.getLong("userId");
 		if(key==null){
@@ -118,14 +118,14 @@ public class MemberApiLogic extends AuthedCommLogic{
 			}
 		}
 		try {
-			para=memberService.addOrUpdate(para);
+			data=memberService.addOrUpdate(data);
 			
-			Long key=para.getLong("userId");
+			key=data.getLong("userId");
 			
 			//保存用户基本信息
-			infoService.saveExtInfo(key, "Base", para);
+			infoService.saveExtInfo(key, "Base", data);
 			//保存用户角色
-			List<Integer> roleList = para.getList("roles");//用户角色
+			List<Integer> roleList = data.getList("roles");//用户角色
 			roleService.addUserRoles(key, StringUtils.join(roleList, ","), true);
 			r.addMsg("保存成功");
 		} catch (Exception e) {
