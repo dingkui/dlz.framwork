@@ -20,11 +20,11 @@ public interface IUimInfoService {
 	 * @param pwd
 	 * @return
 	 */
-	public boolean savePwd(int id, PwdTypeEnum pwdType, String pwd);
+	public boolean savePwd(Long id, PwdTypeEnum pwdType, String pwd);
 
-	public boolean checkPwd(int id, PwdTypeEnum pwdType, String pwd);
+	public boolean checkPwd(Long id, PwdTypeEnum pwdType, String pwd);
 
-	public boolean resetPwd(int id, PwdTypeEnum pwdType);
+	public boolean resetPwd(Long id, PwdTypeEnum pwdType);
 
 	/**
 	 * 保存用户角色信息
@@ -33,7 +33,7 @@ public interface IUimInfoService {
 	 * @param info
 	 * @return
 	 */
-	public boolean saveRoleInfo(int id, int roleId, JSONMap info);
+	public boolean saveRoleInfo(Long id, Long roleId, JSONMap info);
 
 	/**
 	 * 保存用户扩展信息
@@ -42,7 +42,7 @@ public interface IUimInfoService {
 	 * @param info
 	 * @return
 	 */
-	public boolean saveExtInfo(int id, String extType, JSONMap info);
+	public boolean saveExtInfo(Long id, String extType, JSONMap info);
 
 	/**
 	 * 取得用户扩展信息
@@ -50,7 +50,7 @@ public interface IUimInfoService {
 	 * @param extType
 	 * @return
 	 */
-	public JSONMap getExtInfo(int id, String extType);
+	public JSONMap getExtInfo(Long id, String extType);
 
 	/**
 	 * 取得用户角色对应的信息
@@ -58,14 +58,14 @@ public interface IUimInfoService {
 	 * @param extType
 	 * @return
 	 */
-	public JSONMap getRoleInfo(int id, int roleId);
+	public JSONMap getRoleInfo(Long id, Long roleId);
 	
 	/**
 	 * 取得用户的关系链
 	 * @param id
 	 * @return
 	 */
-	public List<Integer> getRelations(int id);
+	public List<Integer> getRelations(Long id);
 	
 	/**
 	 * 批量查询用户扩展信息
@@ -73,7 +73,7 @@ public interface IUimInfoService {
 	 * @param extType
 	 * @return
 	 */
-	public List<ResultMap> getExtInfos(List<Integer> id, String extType);
+	public List<ResultMap> getExtInfos(List<Long> id, String extType);
 
 	/**
 	 * 批量查询用户角色信息
@@ -81,7 +81,7 @@ public interface IUimInfoService {
 	 * @param roleId
 	 * @return
 	 */
-	public List<ResultMap> getRoleInfos(List<Integer> id, int roleId);
+	public List<ResultMap> getRoleInfos(List<Long> id, Long roleId);
 	
 	/**
 	 * 查询用户信息

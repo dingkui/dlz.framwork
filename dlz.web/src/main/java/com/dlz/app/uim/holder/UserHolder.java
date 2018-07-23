@@ -52,7 +52,7 @@ public class UserHolder {
 	public static <T extends AuthUser> T getAuthInfo() {
 		return getHolder().getAuthInfo(SESSION_AUTHUSER);
 	}
-	public static Integer getUserId() {
+	public static Long getUserId() {
 		return getAuthInfo().getId();
 	}
 

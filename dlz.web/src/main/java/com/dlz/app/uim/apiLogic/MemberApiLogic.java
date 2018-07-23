@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dlz.app.uim.annotation.AnnoAuth;
-import com.dlz.app.uim.bean.AuthUser;
+import com.dlz.app.uim.bean.AuthUserWithInfo;
 import com.dlz.app.uim.enums.PwdTypeEnum;
 import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.app.uim.service.IUimInfoService;
 import com.dlz.app.uim.service.IUimMemberService;
+import com.dlz.app.uim.service.IUimRoleService;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
@@ -30,10 +31,11 @@ import com.dlz.web.logic.AuthedCommLogic;
 public class MemberApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
-	IUimMemberService memberService;
+	private IUimMemberService memberService;
 	@Autowired
-	IUimInfoService infoService;
-	
+	private IUimInfoService infoService;
+	@Autowired
+	private IUimRoleService roleService;
 	/**
 	 * 用户登录
 	 * @param data
@@ -50,15 +52,15 @@ public class MemberApiLogic extends AuthedCommLogic{
 		ResultMap member = memberService.searchMap(new JSONMap("login_id",userName,"user_status",1));
 		if(member!=null){
 			if(Md5Util.md5(member.getStr("userId")+password).equals(member.getStr("pwd"))){
-				AuthUser authUser =new AuthUser();
-				authUser.setId(member.getInt("userId"));
-				authUser.setL_id(member.getStr("loginId"));
-				authUser.setMobile(member.getStr("mobile"));
-				authUser.setName(member.getStr("userName"));
-				List<Integer> roles=memberService.getMemberRoles(member.getInt("userId"));
+				AuthUserWithInfo authUser =new AuthUserWithInfo();
+				authUser.setId(member.getLong("userId"));
+//				authUser.setL_id(member.getStr("loginId"));
+//				authUser.setMobile(member.getStr("mobile"));
+//				authUser.setName(member.getStr("userName"));
+				List<Long> roles=memberService.getMemberRoles(member.getInt("userId"));
 				authUser.getRoles().addAll(roles);
 				UserHolder.setAuthInfo(authUser);
-				r.addData(authUser);
+//				r.addData(authUser);
 			}else{
 				r.addErr("密码错误");
 			}
@@ -97,7 +99,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 	public JSONResult getMemberRoles(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		int id = data.getInt("id");
-		List<Integer> roles=memberService.getMemberRoles(id);
+		List<Long> roles=memberService.getMemberRoles(id);
 		return r.addData(roles);
 	}
 	
@@ -106,10 +108,18 @@ public class MemberApiLogic extends AuthedCommLogic{
 	 * @param data
 	 * @return
 	 */
-	public JSONResult save(JSONMap data){
+	public JSONResult save(JSONMap para){
 		JSONResult r = JSONResult.createResult();
 		try {
-			memberService.addOrUpdate(data);
+			para=memberService.addOrUpdate(para);
+			
+			Long key=para.getLong("userId");
+			
+			//保存用户基本信息
+			infoService.saveExtInfo(key, "Base", para);
+			//保存用户角色
+			List<Integer> roleList = para.getList("roles");//用户角色
+			roleService.addUserRoles(key, StringUtils.join(roleList, ","), true);
 			r.addMsg("保存成功");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -125,7 +135,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 	public JSONResult saveBase(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		try {
-			infoService.saveExtInfo(data.getInt("id"), "Base", data);
+			infoService.saveExtInfo(data.getLong("id"), "Base", data);
 			r.addMsg("保存成功");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -161,8 +171,8 @@ public class MemberApiLogic extends AuthedCommLogic{
 			if(!data.getStr("newPass","@@@").equals(data.getStr("rePass","@"))){
 				return r.addErr("两次输入密码不一致");
 			}
-			if(infoService.checkPwd(data.getInt("id"), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("oldPass"))){
-				infoService.savePwd(data.getInt("id"), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("newPass","@@@"));
+			if(infoService.checkPwd(data.getLong("id"), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("oldPass"))){
+				infoService.savePwd(data.getLong("id"), PwdTypeEnum.valueOf(data.getStr("pwdType","login")), data.getStr("newPass","@@@"));
 			}else{
 				return r.addErr("原密码不正确");
 			}

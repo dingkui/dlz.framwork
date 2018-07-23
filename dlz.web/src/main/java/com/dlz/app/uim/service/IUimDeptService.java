@@ -1,8 +1,11 @@
 package com.dlz.app.uim.service;
 
+import java.util.List;
+
 import com.dlz.app.uim.bean.DeptUser;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.IBaseService;
 
 /**
@@ -40,4 +43,17 @@ public interface IUimDeptService extends IBaseService{
 	 * @return
 	 */	
 	public Page<DeptUser> searchDeptUsers(Page<?> page,JSONMap para);
+	/**
+	 * 取得用户部门
+	 * @param userId
+	 * @param dCode
+	 * @return
+	 */
+	List<ResultMap> getUserDepts(long userId, String dCode);
+	/**
+	 * 保存用户部门
+	 * @param deptUser
+	 * @return
+	 */
+	int saveUserDept(DeptUser deptUser);
 }

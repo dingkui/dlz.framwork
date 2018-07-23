@@ -13,17 +13,17 @@ public class AuthUser implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5070462418563344534L;
-	private Integer id;	//ID
+	private Long id;	//ID
 	private String name;//会员名
 	private String l_id;//用户名
 	private String pwd;	//密码
 	private String mobile;//会员手机号
-	private Set<Integer> roles=new HashSet<Integer>();//会员角色
+	private Set<Long> roles=new HashSet<Long>();//会员角色
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -50,7 +50,7 @@ public class AuthUser implements java.io.Serializable {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public Set<Integer> getRoles() {
+	public Set<Long> getRoles() {
 		return this.roles;
 	}
 	/**
@@ -59,7 +59,7 @@ public class AuthUser implements java.io.Serializable {
 	 * @return
 	 */
 	public boolean hasRole(Integer role) {
-		return roles.contains(role);
+		return roles.contains(role.longValue());
 	}
 	
 	/**

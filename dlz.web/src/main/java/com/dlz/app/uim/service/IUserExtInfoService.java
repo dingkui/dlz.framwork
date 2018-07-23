@@ -6,7 +6,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ResultMap;
 
 public interface IUserExtInfoService {
-	public boolean saveExtInfo(int id,JSONMap info);
-	public JSONMap getExtInfo(Integer id);
-	public List<ResultMap> getExtInfo(List<Integer> ids);
+	public boolean saveExtInfo(Long id,JSONMap info);
+	public JSONMap getExtInfo(Long id);
+	public List<ResultMap> getExtInfo(List<Long> ids);
 }

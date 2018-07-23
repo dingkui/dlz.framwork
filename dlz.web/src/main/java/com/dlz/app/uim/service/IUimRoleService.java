@@ -5,6 +5,7 @@ import java.util.List;
 import com.dlz.app.uim.bean.Role;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.IBaseService;
 
 /**
@@ -33,16 +34,10 @@ public interface IUimRoleService extends IBaseService{
 	/**
 	 * 查询用户的所有角色
 	 */
-	public List<Role> getUserRoles(Long userId);
+	public List<ResultMap> getUserRoles(Long userId);
 	
 	/**
-	 * 查询角色下用户ID
+	 * 查询角色下用户
 	 */
-	public Page<Integer> searchRoleUsers(Page<?> page,Long roleId);
-	/**
-	 * 根据code获取角色
-	 * @param data
-	 * @return
-	 */
-	public JSONMap getRoleByCode(String code);
+	Page<ResultMap> getRoleUsers(Page<?> page, Long roleId);
 }

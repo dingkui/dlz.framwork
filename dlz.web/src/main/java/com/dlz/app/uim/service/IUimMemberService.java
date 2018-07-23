@@ -15,7 +15,7 @@ public interface IUimMemberService extends IBaseService{
 	 * @param id
 	 * @return
 	 */
-	List<Integer> getMemberRoles(int id);
+	List<Long> getMemberRoles(int id);
 	/**
 	 * 修改用户状态：启用/禁用
 	 * @param data
@@ -30,5 +30,5 @@ public interface IUimMemberService extends IBaseService{
 	 * @param integer
 	 * @return 
 	 */
-	Integer getUserParentDeptId(Integer userId);
+	Long getUserParentDeptId(Long userId);
 }

@@ -107,7 +107,7 @@ public class BaseController extends PageDealCommonLogic {
 					String roleOpt = m.getExt1().replaceAll(":userId", String.valueOf(loginUser.getUserId()));
 					String[] roleids = m.getRoleIds().replaceAll(" ", "").split(",");
 					Set<String> strSet = new HashSet<String>(Arrays.asList(roleids));
-					for (Integer role : loginUser.getRoles()) {
+					for (Long role : loginUser.getRoles()) {
 						if (strSet.contains(String.valueOf(role))) {
 							roleOpt = null;
 							break;
@@ -203,7 +203,7 @@ public class BaseController extends PageDealCommonLogic {
 	 * @param nosetPass 无设置时是否通过
 	 * @return
 	 */
-	private boolean checkRole(String sets,Set<Integer> userroles){
+	private boolean checkRole(String sets,Set<Long> userroles){
 		if("".equals(sets)){
 			return false;
 		}
