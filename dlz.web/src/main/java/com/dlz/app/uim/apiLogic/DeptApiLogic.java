@@ -21,7 +21,7 @@ import com.dlz.web.logic.NoAuthCommLogic;
  * 2018年6月7日
  */
 @Service
-@AnnoAuth("ROLE_ADMIN")
+@AnnoAuth("sys_admin")
 public class DeptApiLogic extends NoAuthCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired

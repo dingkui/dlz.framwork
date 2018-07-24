@@ -24,7 +24,7 @@ import com.dlz.web.logic.AuthedCommLogic;
  *
  */
 @Service
-@AnnoAuth("ROLE_ADMIN")
+@AnnoAuth("admin")
 public class BaseSetApiLogic extends AuthedCommLogic{
 	@Autowired
 	IBaseSetService baseSetService;

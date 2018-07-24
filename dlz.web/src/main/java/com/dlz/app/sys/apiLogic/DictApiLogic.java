@@ -19,7 +19,7 @@ import com.dlz.web.logic.AuthedCommLogic;
  * 2018年6月7日
  */
 @Service
-@AnnoAuth("ROLE_ADMIN")
+@AnnoAuth("admin")
 public class DictApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
