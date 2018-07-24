@@ -1,14 +1,17 @@
 package com.dlz.app.sys.apiLogic;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dlz.app.sys.service.IMenuService;
 import com.dlz.app.uim.annotation.AnnoAuth;
+import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.ResultMap;
@@ -24,30 +27,62 @@ import com.dlz.web.logic.AuthedCommLogic;
  * 2018年6月7日
  */
 @Service
-@AnnoAuth("ROLE_ADMIN")
+@AnnoAuth("admin")
 public class MenuApiLogic extends AuthedCommLogic{
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	IMenuService menuService;
 	
 	/**
-	 * 获取菜单树（三级）
+	 * 获取用户菜单树
 	 * @param data
 	 * @return
 	 */
-	@AnnoAuth("N")
+	@AnnoAuth("*")
+	public JSONResult done(JSONMap data){
+		JSONResult r = JSONResult.createResult();
+		List<ResultMap> resultMapList=menuService.searchMapList(new JSONMap());
+		return r.addData(getMenus(resultMapList,"0",true));
+	}
+	
+	/**
+	 * 获取菜单树
+	 * @param data
+	 * @return
+	 */
 	public JSONResult getAllList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
-		return r.addData(getMenus("0"));
+		List<ResultMap> resultMapList=menuService.searchMapList(new JSONMap());
+		return r.addData(getMenus(resultMapList,"0",false));
 	}
 	
 	
-	private List<ResultMap> getMenus(String parentId){
-		List<ResultMap> resultMapList = menuService.searchMapList(new JSONMap("parent_id",parentId));
+	private List<ResultMap> getMenusByParent(List<ResultMap> resultMapListAll,String parentId,boolean checkAtuh){
+		AuthUser user=getMember();
+		return resultMapListAll.size()>0?resultMapListAll.stream().filter(res->{
+			if(!res.getStr("parentId").equals(parentId)){
+				return false;
+			}
+			if(checkAtuh){
+				final Set<Integer> menuAuths = getMenuAuths(user, res);
+				for(Integer auth:menuAuths){
+					if(user.hasRole(auth)){
+						res.put("access", menuAuths);
+						return true;
+					}
+				}
+				return false;
+			}else{
+				return true;
+			}
+		}).collect(Collectors.toList()):new ArrayList<>();
+	}	
+	
+	private List<ResultMap> getMenus(List<ResultMap> resultMapListAll,String parentId,boolean checkAtuh){
+		List<ResultMap> resultMapList = getMenusByParent(resultMapListAll, parentId,checkAtuh);
 		if(resultMapList.size()>0){
 			resultMapList.parallelStream().forEach((res)->{
-				setMenuAuths(res);
-				List<ResultMap> sub=getMenus(res.getStr("id"));
+				List<ResultMap> sub=getMenus(resultMapListAll,res.getStr("id"),checkAtuh);
 				if(sub.size()>0){
 					res.add("children", sub);
 				}
@@ -56,11 +91,16 @@ public class MenuApiLogic extends AuthedCommLogic{
 		return resultMapList;
 	}
 	
-	private void setMenuAuths(ResultMap res){
-		final String str = res.getStr("access");
+	@SuppressWarnings("unchecked")
+	private Set<Integer> getMenuAuths(AuthUser user,ResultMap res){
+		final Object access = res.get("access");
+		if (access instanceof Set) {
+			return (Set<Integer>)access;
+		}
+		final String str = (String)access;
+		Set<Integer> roles=new HashSet<Integer>();
 		if(str!=null){
 			String[] acces=str.split(",");
-			Set<Integer> roles=new HashSet<Integer>();
 			for(String acce:acces){
 				if(StringUtils.isNumber(acce)){
 					roles.add(Integer.parseInt(acce));
@@ -75,8 +115,8 @@ public class MenuApiLogic extends AuthedCommLogic{
 					roles.add(Integer.parseInt(r));
 				}
 			}
-			res.put("access", roles);
 		}
+		return roles;
 	}
 	
 	/**
