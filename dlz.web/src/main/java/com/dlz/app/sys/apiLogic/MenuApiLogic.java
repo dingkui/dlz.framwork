@@ -42,7 +42,7 @@ public class MenuApiLogic extends AuthedCommLogic{
 	public JSONResult done(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		List<ResultMap> resultMapList=menuService.searchMapList(new JSONMap());
-		return r.addData(getMenus(resultMapList,"0",true));
+		return r.addData(getMenus(resultMapList,"0",true,getMember()));
 	}
 	
 	/**
@@ -53,12 +53,11 @@ public class MenuApiLogic extends AuthedCommLogic{
 	public JSONResult getAllList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		List<ResultMap> resultMapList=menuService.searchMapList(new JSONMap());
-		return r.addData(getMenus(resultMapList,"0",false));
+		return r.addData(getMenus(resultMapList,"0",false,getMember()));
 	}
 	
 	
-	private List<ResultMap> getMenusByParent(List<ResultMap> resultMapListAll,String parentId,boolean checkAtuh){
-		AuthUser user=getMember();
+	private List<ResultMap> getMenusByParent(List<ResultMap> resultMapListAll,String parentId,boolean checkAtuh,AuthUser user){
 		return resultMapListAll.size()>0?resultMapListAll.stream().filter(res->{
 			if(!res.getStr("parentId").equals(parentId)){
 				return false;
@@ -78,11 +77,11 @@ public class MenuApiLogic extends AuthedCommLogic{
 		}).collect(Collectors.toList()):new ArrayList<>();
 	}	
 	
-	private List<ResultMap> getMenus(List<ResultMap> resultMapListAll,String parentId,boolean checkAtuh){
-		List<ResultMap> resultMapList = getMenusByParent(resultMapListAll, parentId,checkAtuh);
+	private List<ResultMap> getMenus(List<ResultMap> resultMapListAll,String parentId,boolean checkAtuh,AuthUser user){
+		List<ResultMap> resultMapList = getMenusByParent(resultMapListAll, parentId,checkAtuh,user);
 		if(resultMapList.size()>0){
-			resultMapList.parallelStream().forEach((res)->{
-				List<ResultMap> sub=getMenus(resultMapListAll,res.getStr("id"),checkAtuh);
+			resultMapList.stream().forEach((res)->{
+				List<ResultMap> sub=getMenus(resultMapListAll,res.getStr("id"),checkAtuh,user);
 				if(sub.size()>0){
 					res.add("children", sub);
 				}

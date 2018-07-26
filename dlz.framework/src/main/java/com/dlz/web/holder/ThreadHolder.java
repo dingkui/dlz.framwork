@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 
 
@@ -23,7 +24,11 @@ public class ThreadHolder  {
 		HttpRequestThreadLocalHolder.set(request);
 	}
 	public static HttpServletRequest getHttpRequest(){
-		return  HttpRequestThreadLocalHolder.get();
+		final HttpServletRequest httpServletRequest = HttpRequestThreadLocalHolder.get();
+		if(httpServletRequest==null) {
+			throw new CodeException(1);
+		}
+		return httpServletRequest;
 	}
 	public static void remove(){
 		HttpRequestThreadLocalHolder.remove();
@@ -36,24 +41,24 @@ public class ThreadHolder  {
 		return HttpResponseThreadLocalHolder.get();
 	}
 	public static HttpSession getSession() {
-		return HttpRequestThreadLocalHolder.get().getSession();
+		return getHttpRequest().getSession();
 	}
 	public static <T> T getSessionAttr(String key) {
-		return (T)HttpRequestThreadLocalHolder.get().getSession().getAttribute(key);
+		return (T)getHttpRequest().getSession().getAttribute(key);
 	}
 	public static <T> T getReqeustAttr(String key) {
-		return (T)HttpRequestThreadLocalHolder.get().getAttribute(key);
+		return (T)getHttpRequest().getAttribute(key);
 	}
 	public static void setSessionAttr(String key,Object o) {
-		HttpRequestThreadLocalHolder.get().getSession().setAttribute(key, o);
+		getSession().setAttribute(key, o);
 	}
 	public static void setReqeustAttr(String key,Object o) {
-		HttpRequestThreadLocalHolder.get().setAttribute(key, o);
+		getHttpRequest().setAttribute(key, o);
 	}
 	public static void removeSessionAttr(String key) {
-		HttpRequestThreadLocalHolder.get().getSession().removeAttribute(key);
+		getSession().removeAttribute(key);
 	}
 	public static void removeRequestAttr(String key) {
-		HttpRequestThreadLocalHolder.get().removeAttribute(key);
+		getHttpRequest().removeAttribute(key);
 	}
 }

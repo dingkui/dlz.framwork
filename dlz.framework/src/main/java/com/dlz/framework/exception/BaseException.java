@@ -20,6 +20,7 @@ public class BaseException extends RuntimeException {
 		E2001("非法访问异常"),//非法访问异常
 		E3001("业务异常"),//业务异常
 		E3002("代码异常"),//业务异常
+		E3004("代码异常"),//业务异常
 		E3003("校验错误"),//业务异常
 		E4001("批处理异常"),//批处理异常
 		E5002("参数异常"),//参数异常
@@ -46,14 +47,6 @@ public class BaseException extends RuntimeException {
 	 * 错误码 见Errors
 	 */
 	private String errorInfo;
-	
-	public BaseException(String message) {
-		this(3001,message,null);
-	}
-	
-	public BaseException(String message, Throwable exception) {
-		this(3001,message,exception);
-	}
 	
 	public BaseException(int errorCode, Throwable exception) {
 		this(errorCode,exception.getMessage(),exception);
