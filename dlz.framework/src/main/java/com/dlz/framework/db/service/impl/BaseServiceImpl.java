@@ -48,6 +48,11 @@ public abstract class BaseServiceImpl implements IBaseService {
 		return commService.excuteSql(pm);
 	}
 	@Override
+	public ResultMap getMapByKey(Object pk) {
+		JSONMap para=new JSONMap(getAnno().pk(),pk);
+		return searchMap(para);
+	}
+	@Override
 	public int delByKeys(String keys) {
 		AnnoTable anno = getAnno();
 		DeleteParaMap pm=new DeleteParaMap(anno.value());
@@ -71,7 +76,7 @@ public abstract class BaseServiceImpl implements IBaseService {
 	public List<ResultMap> searchMapList(String sqlKey,JSONMap para) {
 		ParaMap pm=new ParaMap(sqlKey);
 		pm.addParas(para);
-		return commService.getBeanList(pm, ResultMap.class);
+		return commService.getMapList(pm);
 	}
 	@Override
 	public Page<ResultMap> mapPageByPara(String sqlKey,Page<?> page, JSONMap para){

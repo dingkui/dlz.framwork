@@ -21,6 +21,10 @@ public interface IBaseService {
 	 * 根据多个主键删除
 	 */
 	int delByKeys(String keys);
+	/**
+	 * 根据主键查询
+	 */
+	ResultMap getMapByKey(Object key);
 
 	/**
 	 * 查询数据列表返回ResultMap
