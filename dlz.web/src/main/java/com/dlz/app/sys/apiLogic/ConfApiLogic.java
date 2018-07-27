@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.exception.ValidateException;
 import com.dlz.framework.util.config.ConfUtil;
 import com.dlz.web.logic.AuthedCommLogic;
@@ -26,6 +27,24 @@ public class ConfApiLogic extends AuthedCommLogic{
 	@AnnoAuth("N")
 	public Map done(JSONMap data){
 		return ConfUtil.getMap("conf.sitefront");
+	}
+	/**
+	 * 获取某个配置
+	 * @param data
+	 * @return
+	 */
+	public String reload(JSONMap data){
+		ConfUtil.loadProperty();
+		return "ok";
+	}
+	/**
+	 * 获取某个配置
+	 * @param data
+	 * @return
+	 */
+	public String reloadSql(JSONMap data){
+		DbInfo.reload();
+		return "ok";
 	}
 	/**
 	 * 获取某个配置
