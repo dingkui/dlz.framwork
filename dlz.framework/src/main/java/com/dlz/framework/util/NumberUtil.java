@@ -23,6 +23,9 @@ public class NumberUtil{
 	}
 
 	public static double roundNumber(Object number,Integer scale){
+		if(number == null){
+			return 0D;
+		}
 		BigDecimal bigDecimal = new BigDecimal(number.toString());
 		return bigDecimal.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
