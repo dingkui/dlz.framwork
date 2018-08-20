@@ -42,8 +42,6 @@ public class DictItemApiLogic extends AuthedCommLogic{
 		return r.addData(page);
 	}
 	
-	
-	
 	/**
 	 * 字典新增/修改
 	 * @param data
@@ -53,6 +51,7 @@ public class DictItemApiLogic extends AuthedCommLogic{
 		JSONResult r = JSONResult.createResult();
 		try {
 			dictItemService.addOrUpdate(data);
+			dictCache.reload(data.getStr("dictId"));
 			r.addMsg("保存成功");
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
