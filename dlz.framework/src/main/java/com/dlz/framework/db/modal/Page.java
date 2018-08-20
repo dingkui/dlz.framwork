@@ -2,6 +2,7 @@ package com.dlz.framework.db.modal;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.util.StringUtils;
@@ -25,6 +26,7 @@ public class Page<T>  implements Serializable{
 	private String orderBy;
 	private boolean needFy=true;//是否需要分页
 	private boolean needCount=true;//是否需要统计条数
+	private  Map<String, Object> extData;//扩展数据
 	
 	public boolean isNeedFy() {
 		return needFy;
@@ -174,4 +176,13 @@ public class Page<T>  implements Serializable{
 	public void setData(List<T> data) {
 		this.data = data;
 	}
+	
+	public Map<String, Object> getExtData() {
+		return extData;
+	}
+	
+	public void setExtData(Map<String, Object> extData) {
+		this.extData = extData;
+	}
+	
 }
