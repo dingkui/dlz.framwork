@@ -67,21 +67,27 @@ public class DaoOperatorSpringJdbc implements IDaoOperator {
 	@Override
 	public List<ResultMap> getList(BaseParaMap paraMap) {
 		SqlUtil.dealParmToJdbc(paraMap, paraMap.getSql_page());
-		logger.info("JdbcRun:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
+		if(logger.isInfoEnabled()){
+			logger.info("JdbcRun:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
+		}
 		return jdbcTemplate.query(paraMap.getSqlJdbc(), paraMap.getSqlJdbcPara(), extractor);
 	}
 
 	@Override
 	public int getCnt(BaseParaMap paraMap) {
 		SqlUtil.dealParmToJdbc(paraMap, paraMap.getSql_cnt());
-		logger.info("JdbcRun:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
+		if(logger.isInfoEnabled()){
+			logger.info("JdbcRun:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
+		}
 		return jdbcTemplate.queryForObject(paraMap.getSqlJdbc(), Integer.class, paraMap.getSqlJdbcPara());
 	}
 
 	@Override
 	public int updateSql(BaseParaMap paraMap) {
 		SqlUtil.dealParmToJdbc(paraMap, paraMap.getSqlRun());
-		logger.info("JdbcRun:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
+		if(logger.isInfoEnabled()){
+			logger.info("JdbcRun:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
+		}
 		return jdbcTemplate.update(paraMap.getSqlJdbc(), paraMap.getSqlJdbcPara());
 	}
 }

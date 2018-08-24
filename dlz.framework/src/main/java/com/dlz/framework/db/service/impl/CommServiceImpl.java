@@ -44,7 +44,9 @@ public class CommServiceImpl implements ICommService {
 		}
 		try {
 			int r=daoOperator.updateSql(paraMap);
-			logger.info("result:"+r);
+			if(logger.isInfoEnabled()){
+				logger.info("result:"+r);
+			}
 			return r;
 		} catch (Exception e) {
 			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(), e);
