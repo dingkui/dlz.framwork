@@ -156,6 +156,24 @@ public class JobMethod {
 	}
 
 	/**
+	 * 取得已经设定的job
+	 *
+	 * @param scheduleJob
+	 * @throws SchedulerException
+	 */
+	public ScheduleJob getScheduledJob(ScheduleJob scheduleJob) {
+		try {
+			final JobDetail jobDetail = scheduler.getJobDetail(getJobKey(scheduleJob));
+			if(jobDetail==null){
+				return null;
+			}
+			return (ScheduleJob)jobDetail.getJobDataMap().get("scheduleJob");
+		} catch (SchedulerException e) {
+			logger.error("Task pause failed.", e);
+		}
+		return null;
+	}
+	/**
 	 * 暂停一个job
 	 *
 	 * @param scheduleJob
