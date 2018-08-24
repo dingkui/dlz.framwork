@@ -54,9 +54,9 @@ public class MemberApiLogic extends AuthedCommLogic{
 			if(Md5Util.md5(member.getStr("userId")+password).equals(member.getStr("pwd"))){
 				AuthUserWithInfo authUser =new AuthUserWithInfo();
 				authUser.setId(member.getLong("userId"));
-//				authUser.setL_id(member.getStr("loginId"));
+				authUser.setL_id(member.getStr("loginId"));
 //				authUser.setMobile(member.getStr("mobile"));
-//				authUser.setName(member.getStr("userName"));
+				authUser.setName(member.getStr("userName"));
 				List<Long> roles=memberService.getMemberRoles(member.getInt("userId"));
 				authUser.getRoles().addAll(roles);
 				UserHolder.setAuthInfo(authUser);
