@@ -19,6 +19,7 @@ import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.encry.Md5Util;
+import com.dlz.web.holder.ThreadHolder;
 import com.dlz.web.logic.AuthedCommLogic;
 /**
  * 用户管理
@@ -49,6 +50,9 @@ public class MemberApiLogic extends AuthedCommLogic{
 		if(StringUtils.isEmpty(userName)||StringUtils.isEmpty(password)){
 			return r.addErr("请输入用户名和密码");
 		}
+		if(!data.getStr("vcode","1").equals(ThreadHolder.getSessionAttr("valid_code"))){
+			return r.addErr("验证码有误");
+		}
 		ResultMap member = memberService.searchMap(new JSONMap("login_id",userName,"user_status",1));
 		if(member!=null){
 			if(Md5Util.md5(member.getStr("userId")+password).equals(member.getStr("pwd"))){
@@ -60,6 +64,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 				List<Long> roles=memberService.getMemberRoles(member.getInt("userId"));
 				authUser.getRoles().addAll(roles);
 				UserHolder.setAuthInfo(authUser);
+				return r;
 //				r.addData(authUser);
 			}else{
 				r.addErr("密码错误");
@@ -67,6 +72,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 		}else{
 			r.addErr("用户不存在");
 		}
+		ThreadHolder.getSession().invalidate();
 		return r;
 	}
 	/**
@@ -87,6 +93,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 	 * @param data
 	 * @return
 	 */
+	@AnnoAuth("N")
 	public JSONResult getMemberList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		return r.addData(memberService.searchMapList(data));

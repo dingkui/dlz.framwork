@@ -163,10 +163,12 @@ public class ApiUtil {
 			logger.error(e.getMessage(), e);
 			m.addErr(-99, "系统开小差了，休息一会再回来！");
 		} finally {
-			if (member != null) {
-				logger.info(getInfo(doType + " " + aType, member.getId(), member.getL_id(), datas, m, ui));
-			} else {
-				logger.info(getInfo(doType + " " + aType, datas, m, ui));
+			if(logger.isInfoEnabled()){
+				if (member != null) {
+						logger.info(getInfo(doType + " " + aType, member.getId(), member.getL_id(), datas, m, ui));
+				} else {
+					logger.info(getInfo(doType + " " + aType, datas, m, ui));
+				}
 			}
 		}
 		return m;

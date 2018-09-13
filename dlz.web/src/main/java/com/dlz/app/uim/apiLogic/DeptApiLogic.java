@@ -55,6 +55,7 @@ public class DeptApiLogic extends NoAuthCommLogic{
 	 * @param data
 	 * @return
 	 */
+	@AnnoAuth("N")
 	public JSONResult getAllDeptList(JSONMap data){
 		JSONResult r = JSONResult.createResult();
 		List<ResultMap> resultMapList = deptService.searchMapList(new JSONMap());
