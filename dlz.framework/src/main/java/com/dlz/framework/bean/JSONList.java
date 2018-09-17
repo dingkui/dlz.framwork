@@ -2,6 +2,7 @@ package com.dlz.framework.bean;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.exception.SystemException;
@@ -21,8 +22,11 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 	public JSONList(){
 		super();
 	}
-	@SuppressWarnings({ "rawtypes" })
 	public JSONList(Object obj){
+		this(obj,JSONMap.class);
+	}
+	@SuppressWarnings({ "rawtypes" })
+	public <T> JSONList(Object obj,Class<T> objectClass){
 		super();
 		if(obj==null){
 			return;
@@ -46,7 +50,7 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 				return;
 			}
 			if(string.startsWith("[") && string.endsWith("]")){
-				addAll(JacksonUtil.readValue(string, JSONList.class));
+				addAll(JacksonUtil.readListValue(string, objectClass));
 			}else{
 				throw new CodeException("参数不能转换成JSONList:"+string);
 			}
@@ -60,6 +64,15 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 	
 	public static JSONList createJsonList(Object json){
 		return new JSONList(json);
+	}
+	
+	@SuppressWarnings({"unchecked" })
+	public <T> List<T> asList(Class<T> objectClass){
+		return (List<T>)(Object)this;
+	}
+	@SuppressWarnings({"unchecked" })
+	public List<JSONMap> asList(){
+		return (List<JSONMap>)(Object)this;
 	}
 	
 	public JSONMap getMap(int index){

@@ -80,9 +80,22 @@ public class JacksonUtil {
 			return null;
 		}
 	}
+
+	public static <T> List<T> readListValue(String content, Class<T> valueType) {
+		try {
+			return objectMapper.readValue(content, new TypeReference<List<T>>() {  
+            });
+		} catch (Exception e) {
+			logger.error("JacksonUtil.readValue error,content:"+content);
+			logger.error("JacksonUtil.readValue error,valueType:"+valueType);
+			logger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+	
 	public static <T> T readValue(String content, T valueType) {
 		try {
-			return objectMapper.readValue(content, new TypeReference<T>() {  
+			return objectMapper.readValue(content, new TypeReference<T>() {
             });
 		} catch (Exception e) {
 			logger.error("JacksonUtil.readValue error,content:"+content);
