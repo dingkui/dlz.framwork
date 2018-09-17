@@ -117,7 +117,7 @@ public class ValUtil{
 		return !"false".equalsIgnoreCase(r)&&!"0".equals(r)&&!"".equals(r);
 	}
 	private static Number getNumber(Object input,Number defaultV){
-		if(input==null){
+		if(input==null || "".equals(input)){
 			return defaultV;
 		}
 		if (input instanceof Number) {

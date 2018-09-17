@@ -8,7 +8,9 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -32,6 +34,26 @@ public class QRCodeUtil {
 		return createQRCode(0,content, saveFile,null);
 	}
 	public static boolean createQRCode(int w, String content, String saveFile, String logoFile) {
+		FileOutputStream fo=null;
+		try {
+			fo=new FileOutputStream(saveFile);
+			return createQRCode(w, content, fo, logoFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				if(fo!=null){
+					fo.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static boolean createQRCode(int w, String content, OutputStream outputStream, String logoFile) {
 		try {
 			w=w==0?256:w;
 			int m = 2;// 边框宽度
@@ -61,7 +83,7 @@ public class QRCodeUtil {
 
 			gs.dispose();
 			image.flush();
-			ImageIO.write(image, "png", new File(saveFile));
+			ImageIO.write(image, "png", outputStream);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
