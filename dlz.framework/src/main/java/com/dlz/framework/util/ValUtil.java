@@ -1,11 +1,13 @@
 package com.dlz.framework.util;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import com.dlz.framework.bean.JSONList;
+import com.dlz.framework.exception.CodeException;
+import com.dlz.framework.logger.MyLogger;
 
 /**
  * 对象转换工具类
@@ -13,6 +15,7 @@ import java.util.List;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ValUtil{
+	private static MyLogger logger=MyLogger.getLogger(ValUtil.class);
 	
 	public static BigDecimal getBigDecimal(Object input,BigDecimal defaultV){
 		Number o=getNumber(input,null);
@@ -83,7 +86,7 @@ public class ValUtil{
 	public static Object[] getArray(Object input){
 		return getArray(input, null);
 	}
-	public static List getList(Object input){
+	public static JSONList getList(Object input){
 		return getList(input, null);
 	}
 	
@@ -125,22 +128,19 @@ public class ValUtil{
 		}
 		return new BigDecimal(input.toString());
 	}
-	public static List getList(Object input,List defaultV){
+	public static JSONList getList(Object input,List defaultV){
 		if(input==null){
-			return defaultV;
+			return new JSONList(defaultV);
 		}
-		if (input instanceof List) {
-			return (List)input;
-		}else if(input instanceof Collection) {
-			List list=new ArrayList();
-			list.addAll((Collection)input);
-			return list;
-		}else if(input instanceof Object[]) {
-			List list=new ArrayList();
-			Collections.addAll(list, (Object[])input);
-			return list;
+		if (input instanceof JSONList) {
+			return (JSONList)input;
 		}
-		return defaultV;
+		try{
+			return new JSONList(input);
+		}catch(CodeException e){
+			logger.warn(e.getMessage());
+		}
+		return new JSONList(defaultV);
 	}
 	
 	public static Date getDate(Object input){
@@ -191,6 +191,11 @@ public class ValUtil{
 		}else if (input instanceof Collection) {
 			return ((Collection)input).toArray();
 		}
+		try{
+			return new JSONList(input).toArray();
+		}catch(CodeException e){
+			logger.warn(e.getMessage());
+		}
 		return defaultV;
 	}
 	public static <T> T getObj(Object input,Class<T> classs){
@@ -221,7 +226,7 @@ public class ValUtil{
 		if(classs==Boolean.class){
 			return (T) getBoolean(input);
 		}
-		if(classs==List.class){
+		if(classs==JSONList.class){
 			return (T) getList(input);
 		}
 		return JacksonUtil.coverObj(input, classs);

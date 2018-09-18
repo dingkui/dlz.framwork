@@ -2,6 +2,7 @@ package com.dlz.framework.bean;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.dlz.framework.exception.CodeException;
@@ -19,26 +20,25 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 	 */
 	private static final long serialVersionUID = 7554800764909179290L;
 	
+	public JSONList(int initialCapacity){
+		super(initialCapacity);
+	}
 	public JSONList(){
 		super();
 	}
 	public JSONList(Object obj){
-		this(obj,JSONMap.class);
+		this(obj,null);
 	}
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public <T> JSONList(Object obj,Class<T> objectClass){
 		super();
 		if(obj==null){
 			return;
 		}
 		if(obj instanceof Collection){
-			for(Object ci:(Collection)obj){
-				add(ci);
-			}
+			addAll((Collection)obj);
 		}else if(obj instanceof Object[]){
-			for(Object ci:(Object[])obj){
-				add(ci);
-			}
+			Collections.addAll(this, (Object[])obj);
 		}else {
 			String string=null;
 			if(obj instanceof CharSequence){
@@ -50,7 +50,11 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 				return;
 			}
 			if(string.startsWith("[") && string.endsWith("]")){
-				addAll(JacksonUtil.readListValue(string, objectClass));
+				if(objectClass!=null){
+					addAll(JacksonUtil.readListValue(string, objectClass));
+				}else{
+					addAll(JacksonUtil.readValue(string,JSONList.class));
+				}
 			}else{
 				throw new CodeException("参数不能转换成JSONList:"+string);
 			}

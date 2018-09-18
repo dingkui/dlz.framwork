@@ -4,29 +4,26 @@ import org.junit.Test;
 
 import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
 
 public class JSONMapTest {
-	private static MyLogger logger =  MyLogger.getLogger(JSONMapTest.class);
-	
 	@Test
 	public void test(){
 		JSONMap paras = new JSONMap();
 		paras.put("puid", "1111111111111111123123123213413333333333333333333333333333333333333333333333333333333333333333333333234124312341431324.21352345324534253");
-		logger.info(paras.getBigDecimal("puid"));
+		System.out.println(paras.getBigDecimal("puid"));
 		paras.put("puid1", "123");
-		logger.info(paras.getBigDecimal("puid1"));
+		System.out.println(paras.getBigDecimal("puid1"));
 		paras.put("puid2", 123l);
-		logger.info(paras.getBigDecimal("puid2"));
+		System.out.println(paras.getBigDecimal("puid2"));
 		paras.put("puid3", "123.1");
-		logger.info(paras.getBigDecimal("puid3"));
+		System.out.println(paras.getBigDecimal("puid3"));
 		paras.put("puid4", 123.1);
-		logger.info(paras.getBigDecimal("puid4"));
-		logger.info(paras.getFloat("puid4"));
-		logger.info(paras.getLong("puid4"));
-		logger.info(paras.getInt("puid4"));
-		logger.info(paras.getStr("puid4"));
+		System.out.println(paras.getBigDecimal("puid4"));
+		System.out.println(paras.getFloat("puid4"));
+		System.out.println(paras.getLong("puid4"));
+		System.out.println(paras.getInt("puid4"));
+		System.out.println(paras.getStr("puid4"));
 	}
 	
 	/**
@@ -36,21 +33,21 @@ public class JSONMapTest {
 	public void test2(){
 		JSONMap paras = new JSONMap();
 		paras.put("puid", "1111111111111111123123123213413333333333333333333333333333333333333333333333333333333333333333333333234124312341431324.21352345324534253");
-		logger.info(paras.getBigDecimal("puid"));
+		System.out.println(paras.getBigDecimal("puid"));
 		paras.put("puid1", "123");
-		logger.info(paras.getBigDecimal("puid1"));
+		System.out.println(paras.getBigDecimal("puid1"));
 		paras.put("puid2", 123l);
-		logger.info(paras.getBigDecimal("puid2"));
+		System.out.println(paras.getBigDecimal("puid2"));
 		paras.put("puid3", "123.1");
-		logger.info(paras.getBigDecimal("puid3"));
+		System.out.println(paras.getBigDecimal("puid3"));
 		paras.put("puid4", 123.1);
-		logger.info(paras.getBigDecimal("puid4"));
+		System.out.println(paras.getBigDecimal("puid4"));
 		
 		JSONMap paras2 = new JSONMap(null);
-		logger.info(paras2.getFloat("puid4"));
-		logger.info(paras2.getLong("puid4"));
-		logger.info(paras2.getInt("puid4"));
-		logger.info(paras2.getStr("puid4"));
+		System.out.println(paras2.getFloat("puid4"));
+		System.out.println(paras2.getLong("puid4"));
+		System.out.println(paras2.getInt("puid4"));
+		System.out.println(paras2.getStr("puid4"));
 	}
 	
 	/**
@@ -64,8 +61,8 @@ public class JSONMapTest {
 		paras.put("a", paras2);
 		paras2.put("b", paras3);
 		paras3.put("c", 1);
-		logger.info(paras.getStr("a.b.c"));
-		logger.info(paras2.getFloat("b.c"));
+		System.out.println(paras.getStr("a.b.c"));
+		System.out.println(paras2.getFloat("b.c"));
 	}
 	/**
 	 * JSON构造
@@ -80,10 +77,10 @@ public class JSONMapTest {
 		paras3.put("c", 1);
 		
 		String json1=paras.toString();
-		logger.info(json1);
+		System.out.println(json1);
 		JSONMap paras4 = new JSONMap(json1);
-		logger.info(paras4.getObj("a.b").get("c"));
-		logger.info(paras4.getStr("a.b.c"));
+		System.out.println(paras4.getObj("a.b").get("c"));
+		System.out.println(paras4.getStr("a.b.c"));
 	}
 	
 	
@@ -93,14 +90,14 @@ public class JSONMapTest {
 	@Test
 	public void test5(){
 		JSONMap paras = new JSONMap("{\"a\":[1,2,3],\"b\":{\"b\":1,\"a\":2}}");
-		logger.info(paras.getList("a"));
-		logger.info(paras.getArray("a"));
-		logger.info(paras.getList("b"));
+		System.out.println(paras.getList("a"));
+		System.out.println(paras.getArray("a"));
+		System.out.println(paras.getList("b"));
 		
 		JSONMap c2=JacksonUtil.coverObj(paras, JSONMap.class);
-		logger.info(c2.getList("a"));
-		logger.info(c2.getArray("a"));
-		logger.info(c2.getList("b"));
+		System.out.println(c2.getList("a"));
+		System.out.println(c2.getArray("a"));
+		System.out.println(c2.getList("b"));
 	}
 	
 	/**
@@ -110,9 +107,9 @@ public class JSONMapTest {
 	public void test6(){
 		JSONList a=new JSONList("[\"{\\\"b\\\":1,\\\"a\\\":2}\",{\"b\":1,\"a\":2},{\"b1\":1,\"a1\":2}]");
 		
-		logger.info(a.getMap(0).getStr("b"));
-//		logger.info(c2.getArray("a"));
-//		logger.info(c2.getList("b"));
+		System.out.println(a.getMap(0).getStr("b"));
+//		System.out.println(c2.getArray("a"));
+//		System.out.println(c2.getList("b"));
 	}
 	
 	
@@ -134,8 +131,19 @@ public class JSONMapTest {
 		System.out.println(a.getStr("l1[1][1].l1_2"));
 		System.out.println(b.getStr("info.l1[1][-1].l1_2"));
 		
-//		logger.info(c2.getArray("a"));
-//		logger.info(c2.getList("b"));
+//		System.out.println(c2.getArray("a"));
+//		System.out.println(c2.getList("b"));
+	}
+	/**
+	 * 类型转换
+	 */
+	@Test
+	public void test8(){
+		String a="[{\"xxx\":null,\"c\":[{\"d\":1}]}]";
+		final JSONList jsonList = new JSONList(a,AA.class);
+		System.out.println(jsonList.get(0) instanceof JSONMap);
+		System.out.println(jsonList.get(0) instanceof AA);
+		System.out.println(jsonList);
 	}
 	
 }

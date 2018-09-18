@@ -22,9 +22,26 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.cfg.DeserializerFactoryConfig;
+import com.fasterxml.jackson.databind.deser.BeanDeserializerFactory;
+import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
+import com.fasterxml.jackson.databind.deser.Deserializers;
+import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
+import com.fasterxml.jackson.databind.type.ArrayType;
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.MapLikeType;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.ReferenceType;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 /**
@@ -34,8 +51,60 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 public class JacksonUtil {
 	private static MyLogger logger = MyLogger.getLogger(JacksonUtil.class);
 	private static ObjectMapper objectMapper = new ObjectMapper();
-
+	private final static Class<?> CLASS_OBJECT = Object.class;
 	static {
+		Deserializers deserializers=new Deserializers() {
+			@Override
+			public JsonDeserializer<?> findTreeNodeDeserializer(Class<? extends JsonNode> nodeType, DeserializationConfig config, BeanDescription beanDesc)
+					throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findReferenceDeserializer(ReferenceType refType, DeserializationConfig config, BeanDescription beanDesc,
+					TypeDeserializer contentTypeDeserializer, JsonDeserializer<?> contentDeserializer) throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findMapLikeDeserializer(MapLikeType type, DeserializationConfig config, BeanDescription beanDesc,
+					KeyDeserializer keyDeserializer, TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findMapDeserializer(MapType type, DeserializationConfig config, BeanDescription beanDesc, KeyDeserializer keyDeserializer,
+					TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findEnumDeserializer(Class<?> type, DeserializationConfig config, BeanDescription beanDesc) throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findCollectionLikeDeserializer(CollectionLikeType type, DeserializationConfig config, BeanDescription beanDesc,
+					TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findCollectionDeserializer(CollectionType type, DeserializationConfig config, BeanDescription beanDesc,
+					TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+				return null;
+			}
+			@Override
+			public JsonDeserializer<?> findBeanDeserializer(JavaType type, DeserializationConfig config, BeanDescription beanDesc) throws JsonMappingException {
+				Class<?> rawType = type.getRawClass();
+		        if (rawType == CLASS_OBJECT) {
+		            return new JacksonObjectDeserializer();
+		        }
+		        return null;
+			}
+			@Override
+			public JsonDeserializer<?> findArrayDeserializer(ArrayType type, DeserializationConfig config, BeanDescription beanDesc,
+					TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+				return null;
+			}
+		};
+		final DeserializerFactoryConfig config = new DeserializerFactoryConfig().withAdditionalDeserializers(deserializers);
+		final DefaultDeserializationContext.Impl dc = new DefaultDeserializationContext.Impl(new BeanDeserializerFactory(config));
+		objectMapper=new ObjectMapper(null,null,dc);
 		// https://github.com/FasterXML/jackson-databind
 		objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
 		objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
@@ -64,6 +133,7 @@ public class JacksonUtil {
 //		System.out.println(getJson(null));
 		System.out.println(Map.class.isAssignableFrom(JSONMap.class));
 		System.out.println(ResultMap.class.isAssignableFrom(JSONMap.class));
+		
 	}
 	
 	public static ObjectMapper getObjectMapper() {
@@ -83,8 +153,8 @@ public class JacksonUtil {
 
 	public static <T> List<T> readListValue(String content, Class<T> valueType) {
 		try {
-			return objectMapper.readValue(content, new TypeReference<List<T>>() {  
-            });
+			JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, valueType);
+			return objectMapper.readValue(content,javaType);
 		} catch (Exception e) {
 			logger.error("JacksonUtil.readValue error,content:"+content);
 			logger.error("JacksonUtil.readValue error,valueType:"+valueType);

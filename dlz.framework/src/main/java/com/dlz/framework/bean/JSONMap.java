@@ -68,6 +68,17 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 	public static JSONMap createJsonMap(Object json){
 		return new JSONMap(json);
 	}
+	
+	public <T> Map<String,T> asMap(Class<T> objectClass){
+		return (Map<String,T>)(Object)this;
+	}
+	public Map<String,JSONMap> asMap(){
+		return (Map<String,JSONMap>)(Object)this;
+	}
+	public Map<String,JSONList> asMapList(){
+		return (Map<String,JSONList>)(Object)this;
+	}
+	
 	public JSONMap clearEmptyProp(){
 		List<String> emputyKeys=new ArrayList<String>();
 		for(Entry<String,Object> entry:this.entrySet()){
