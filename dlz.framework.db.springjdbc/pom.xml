@@ -16,10 +16,5 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.dlz</groupId>
-			<artifactId>dlz.framework</artifactId>
-			<version>${dlz.framework.version}</version>
-		</dependency>
 	</dependencies>
 </project>

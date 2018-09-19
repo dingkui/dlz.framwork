@@ -13,7 +13,11 @@
 		<dependency>
 			<groupId>com.dlz</groupId>
 			<artifactId>dlz.web</artifactId>
-			<version>${dlz.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.java-websocket</groupId>

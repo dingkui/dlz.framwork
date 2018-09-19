@@ -10,13 +10,7 @@
 	<artifactId>dlz.framework.mongo</artifactId>
 	<packaging>jar</packaging>
 
-
 	<dependencies>
-		<dependency>
-			<groupId>com.dlz</groupId>
-			<artifactId>dlz.framework</artifactId>
-			<version>${dlz.framework.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongo-java-driver</artifactId>

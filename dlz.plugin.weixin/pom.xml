@@ -12,14 +12,16 @@
 
 	<properties>
 		<json-lib.version>2.1</json-lib.version>
-		<gson.version>2.2.4</gson.version>
 		<jdom.version>1.1</jdom.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.dlz</groupId>
 			<artifactId>dlz.web</artifactId>
-			<version>${dlz.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
@@ -46,16 +48,6 @@
 			<artifactId>jdom</artifactId>
 			<version>${jdom.version}</version>
 		</dependency>
-		<!-- 二维码 -->
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>core</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.zxing</groupId>
-			<artifactId>javase</artifactId>
-			<version>3.0.0</version>
-		</dependency>
+		
 	</dependencies>
 </project>

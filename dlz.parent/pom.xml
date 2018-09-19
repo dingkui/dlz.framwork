@@ -8,28 +8,50 @@
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
+		<artifactId>spring-boot-dependencies</artifactId>
 		<version>2.0.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<properties>
+		<mybatis.version>3.4.0</mybatis.version>
+		<mybatis-spring.version>1.3.0</mybatis-spring.version>
 		<dlz.framework.version>2.2</dlz.framework.version>
 	</properties>
+	
 
 	<dependencies>
 		<dependency>
+			<groupId>com.dlz</groupId>
+			<artifactId>dlz.framework</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
+		</dependency>
+
+		<!-- util/qrcode-1.0.jar -->
+		<dependency>
+			<groupId>comlib.util</groupId>
+			<artifactId>qrcode</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
@@ -49,8 +71,84 @@
 		<!-- logs -->
 	</dependencies>
 
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.dlz</groupId>
+				<artifactId>dlz.framework</artifactId>
+				<version>${dlz.framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dlz</groupId>
+				<artifactId>dlz.web</artifactId>
+				<version>${dlz.framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dlz</groupId>
+				<artifactId>dlz.framework.ssme</artifactId>
+				<version>${dlz.framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dlz</groupId>
+				<artifactId>dlz.plugin.weixin</artifactId>
+				<version>${dlz.framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.dlz</groupId>
+				<artifactId>dlz.framework.db.sjdbc</artifactId>
+				<version>${dlz.framework.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>c3p0</groupId>
+				<artifactId>c3p0</artifactId>
+				<version>0.9.1.2</version>
+			</dependency>
+			<!-- jdbc/ojdbc14-1.0.jar -->
+			<dependency>
+				<groupId>comlib.jdbc</groupId>
+				<artifactId>ojdbc14</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>1.0.29</version>
+			</dependency>
+			<!-- util/qrcode-1.0.jar -->
+			<dependency>
+				<groupId>comlib.util</groupId>
+				<artifactId>qrcode</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+			
+			<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<modules>
-		<module>../dlz.framework</module>
+		<!-- <module>../dlz.framework</module> -->
+		<module>../dlz.web</module>
 		<module>../dlz.framework.db.springjdbc</module>
 		<module>../dlz.framework.ssme</module>
 		<module>../dlz.framework.mongo</module>
@@ -58,6 +156,19 @@
 		<module>../dlz.plugin.weixin</module>
 		<module>../dlz.plugin.socket</module>
 		<module>../dlz.plugin.websocket</module>
-		<module>../dlz.web</module>
+		
 	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
