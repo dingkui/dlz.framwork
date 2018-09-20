@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 
 import com.dlz.framework.logger.MyLogger;
 public class CreateKey {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(CreateKey.class);
 	@SuppressWarnings("resource")
 	public void createKey(String keyName) throws Exception {

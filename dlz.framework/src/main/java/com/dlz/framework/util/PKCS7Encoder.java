@@ -15,6 +15,7 @@ import java.util.Arrays;
  * 提供基于PKCS7算法的加解
  */
 public class PKCS7Encoder {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
   private static final Charset CHARSET = Charset.forName("utf-8");
   private static final int BLOCK_SIZE = 32;

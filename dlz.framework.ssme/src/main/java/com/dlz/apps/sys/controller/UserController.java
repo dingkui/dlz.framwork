@@ -53,6 +53,7 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping(ControllerConst.ADMIN+"/rbac/user")
 public class UserController extends BaseController{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(UserController.class);
 
 	@Autowired

@@ -15,6 +15,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoManager {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private  static int PORT = 27017;// 端口
 	private  static int POOLSIZE = 100;// 连接数量
 	private  static int BLOCKSIZE = 100; // 等待队列长度

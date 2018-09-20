@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BaseGeneratedCriteria {
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	protected List<Criterion> criteria;
 
 	public BaseGeneratedCriteria() {

@@ -22,6 +22,7 @@ import net.sf.ehcache.Element;
  */
 @SuppressWarnings("unchecked")
 public abstract class AbstractCache<KEY,T>{
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(AbstractCache.class);
 
 	private static Set<String> CacheSet = new HashSet<String>();

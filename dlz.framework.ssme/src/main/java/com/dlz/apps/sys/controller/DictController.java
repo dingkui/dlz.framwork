@@ -31,6 +31,7 @@ import com.dlz.framework.ssme.util.criterias.Criterias;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/dict")
 public class DictController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DictController.class);
 
 	@Autowired

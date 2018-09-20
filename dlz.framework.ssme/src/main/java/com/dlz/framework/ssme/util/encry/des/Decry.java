@@ -9,6 +9,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 public class Decry {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     public static void main(String[] args) throws Exception {
         // DES算法要求有一个可信任的随机数源
          SecureRandom sr = new SecureRandom();

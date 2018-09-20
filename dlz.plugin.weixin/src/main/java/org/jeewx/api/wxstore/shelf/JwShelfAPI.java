@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwShelfAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	// 增加货架
 	private static String create_shelf_url = "https://api.weixin.qq.com/merchant/shelf/add?access_token=ACCESS_TOKEN";

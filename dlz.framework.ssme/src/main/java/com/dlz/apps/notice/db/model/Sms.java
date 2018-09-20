@@ -5,6 +5,7 @@ import java.util.Date;
 import com.dlz.framework.db.modal.BaseModel;
 
 public class Sms extends BaseModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private static final long serialVersionUID = 1L;
 
     /**

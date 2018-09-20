@@ -1,6 +1,7 @@
 package com.dlz.plugin.weixin.pojo;
 
 public class Knowledge {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	
 	private int id;

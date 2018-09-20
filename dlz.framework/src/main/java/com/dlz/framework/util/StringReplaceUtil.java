@@ -5,6 +5,7 @@ package com.dlz.framework.util;
  *
  */
 public class StringReplaceUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     /**
      * 根据用户名的不同长度，来进行替换 ，达到保密效果

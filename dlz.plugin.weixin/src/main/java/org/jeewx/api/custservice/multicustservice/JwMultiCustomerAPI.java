@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.jeewx.api.core.common.JSONHelper;
 import org.jeewx.api.core.common.WxstoreUtils;
 import org.jeewx.api.custservice.multicustservice.model.ChatRecord;
 import org.jeewx.api.custservice.multicustservice.model.CustService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * 客户服务- 多客户
@@ -18,6 +18,7 @@ import org.jeewx.api.custservice.multicustservice.model.CustService;
  * @author caojm
  */
 public class JwMultiCustomerAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     //转发多客户端类型
     private final static String TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";

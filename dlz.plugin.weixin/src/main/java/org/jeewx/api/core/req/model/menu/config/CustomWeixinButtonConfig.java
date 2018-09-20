@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class CustomWeixinButtonConfig {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/** 菜单是否开启，0代表未开启，1代表开启 */
 	private String is_menu_open;
 	/** 菜单信息 */

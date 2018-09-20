@@ -7,6 +7,7 @@ package com.dlz.plugin.weixin.menu;
  *
  */
 public class ComplexButton extends Button {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private Button[] sub_button;
 

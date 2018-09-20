@@ -18,6 +18,7 @@ import com.dlz.framework.ssme.util.string.Collections3;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class DictServiceExtImpl implements DictServiceExt {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Autowired
 	private DictDetailMapper detailMapper = null;

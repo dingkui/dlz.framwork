@@ -1,12 +1,10 @@
 package com.dlz.common.util;
 
 
-import java.rmi.RemoteException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.junit.Test;
-import org.springframework.util.StopWatch.TaskInfo;
 
 public class TimerTest {
 

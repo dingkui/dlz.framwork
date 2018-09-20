@@ -1,13 +1,15 @@
 package com.dlz.framework.ssme.db.model;
 
-import com.dlz.framework.ssme.base.criteria.BaseCriteria;
-import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
-import com.dlz.framework.ssme.db.model.DeptUserCriteria.GeneratedCriteria;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.dlz.framework.ssme.base.criteria.BaseCriteria;
+import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
+import com.dlz.framework.ssme.db.model.DeptUserCriteria.GeneratedCriteria;
+
 public class DeptUserCriteria extends BaseCriteria<GeneratedCriteria> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     protected GeneratedCriteria createCriteriaInternal1() {
         return new GeneratedCriteria();

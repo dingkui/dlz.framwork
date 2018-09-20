@@ -8,6 +8,7 @@ import com.dlz.plugin.socket.interfaces.ISocketListener;
  *
  */
 public class NettySynClientListener implements ISocketListener {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String result;
 	public String getResult(){
 		return result;

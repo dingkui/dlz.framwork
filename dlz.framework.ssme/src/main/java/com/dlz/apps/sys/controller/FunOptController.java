@@ -31,6 +31,7 @@ import com.dlz.framework.ssme.db.service.RbacService;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/funopt")
 public class FunOptController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(FunOptController.class);
 
 	@Autowired

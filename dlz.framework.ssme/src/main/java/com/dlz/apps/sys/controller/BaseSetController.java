@@ -30,6 +30,7 @@ import com.dlz.framework.util.StringUtils;
 @Controller
 @RequestMapping(value=ControllerConst.ADMIN+"/rbac/baseSet")
 public class BaseSetController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(BaseSetController.class);
 
 	@Autowired

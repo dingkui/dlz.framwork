@@ -7,6 +7,7 @@ package org.jeewx.api.coupon.manage.model;
  * @version v1.0
  */
 public class Discount {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 基本的卡券数据，见下表，所有卡券通用
 	private BaseInfo base_info;
 	// 折扣券专用，表示打折额度（百分比）。填	30 就是七折。

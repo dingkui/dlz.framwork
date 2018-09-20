@@ -6,6 +6,7 @@ package org.jeewx.api.wxsendmsg.model;
  *
  */
 public class WxMedia {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String fileName;
 	private String filePath;
 	private String type;

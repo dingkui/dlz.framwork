@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static String NVL(String cs) {
 		return NVL(cs, "");
 	}

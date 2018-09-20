@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.product.model;
 import java.util.List;
 
 public class AttrInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 商品名称
 	private String name;
 	// 商品分类id

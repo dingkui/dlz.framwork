@@ -9,6 +9,7 @@ package com.dlz.plugin.weixin.message.resp;
  *
  */
 public class MusicMessage extends BaseMessage  {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 音乐
 	private Music Music;

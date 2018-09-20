@@ -10,6 +10,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("shorturlCreate")
 public class ShortUrlCreate extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String action = "long2short";
 	

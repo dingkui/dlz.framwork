@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwAccountAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 二维码类型，QR_SCENE为临时, QR_LIMIT_SCENE为永久, QR_LIMIT_STR_SCENE为永久的字符串参数值

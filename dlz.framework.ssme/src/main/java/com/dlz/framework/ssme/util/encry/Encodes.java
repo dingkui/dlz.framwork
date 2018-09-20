@@ -23,6 +23,7 @@ import com.dlz.framework.ssme.util.system.Exceptions;
  * @author calvin
  */
 public class Encodes {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static final String DEFAULT_URL_ENCODING = "UTF-8";
 	private static final char[] BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();

@@ -14,6 +14,7 @@ import com.dlz.framework.util.ValUtil;
  */
 @SuppressWarnings({ "rawtypes" })
 public interface IUniversalVals {
+	default void doNothingI(){new java.util.ArrayList<>().forEach(a->{});}
 	default BigDecimal getBigDecimal(String key){
 		return  getBigDecimal(key,null);
 	}

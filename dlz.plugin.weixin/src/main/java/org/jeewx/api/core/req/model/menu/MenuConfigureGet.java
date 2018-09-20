@@ -10,5 +10,6 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("menuConfigureGet")
 public class MenuConfigureGet extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 }

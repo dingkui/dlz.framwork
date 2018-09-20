@@ -6,6 +6,7 @@ package com.dlz.app.uim.bean;
  *
  */
 public class Role implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

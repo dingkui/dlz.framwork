@@ -1,26 +1,26 @@
 package com.dlz.framework.ssme.util.pay.alipay.httpClient;
 
-import org.apache.commons.httpclient.HttpException;
+import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.util.IdleConnectionTimeoutThread;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.FilePartSource;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.httpclient.util.IdleConnectionTimeoutThread;
 
 /* *
  *类名：HttpProtocolHandler
@@ -34,6 +34,7 @@ import java.util.List;
  */
 
 public class HttpProtocolHandler {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     private static String              DEFAULT_CHARSET                     = "GBK";
 

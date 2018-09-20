@@ -20,6 +20,7 @@ import com.dlz.plugin.websocket.handler.IWsHandler;
  * Created by dk 2018-07-14
  */
 public class MyWsClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	static MyLogger logger=MyLogger.getLogger(MyWsClient.class);
 	public static WebSocketClient client;
 	static Timer timer = new Timer();

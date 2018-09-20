@@ -10,6 +10,7 @@ import com.dlz.web.util.WxUtil;
  */
 @AnnoMyComponent
 public class ConfigInit {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ConfigInit.class);
 	public ConfigInit(){
 		WxUtil.init(ConfigUtil.getConfig("weixin.appids"), ConfigUtil.getConfig("setting.localhost"));

@@ -27,6 +27,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  *
  */
 public class NettyServer {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(NettyServer.class);
 	private ServerSocketChannel serverSocketChannel;
 

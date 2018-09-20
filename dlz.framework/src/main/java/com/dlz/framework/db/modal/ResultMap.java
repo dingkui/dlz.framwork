@@ -5,6 +5,7 @@ import java.util.Date;
 import com.dlz.framework.bean.JSONMap;
 
 public class ResultMap extends JSONMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = -7368198549742264784L;
 	public void coverDate2Str(String dateFormat){
 		for(String k:super.keySet()){

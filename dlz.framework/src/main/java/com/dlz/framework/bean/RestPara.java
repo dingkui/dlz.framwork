@@ -10,6 +10,7 @@ import com.dlz.framework.util.JacksonUtil;
  *
  */
 public class RestPara implements IUniversalVals,Serializable{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

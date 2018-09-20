@@ -1,6 +1,7 @@
 package org.jeewx.api.report.interfacesummary.model;
 
 public class InterfaceSummary {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 数据的日期
 	private String ref_date;
 	// 通过服务器配置地址获得消息后，被动回复用户消息的次数

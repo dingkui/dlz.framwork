@@ -6,6 +6,7 @@ package com.dlz.framework.ssme.util.encry;
  *
  */
 public class Parse64 {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static char[] rDigits = { 
 		'K', 'F', 'Q', 'Z', 'O', 'T', 'L', 'M', 'D', 'E',
 		'A', 'X', 'Y', '5', 'R', 'S', '6', '7', 'I', 'J',

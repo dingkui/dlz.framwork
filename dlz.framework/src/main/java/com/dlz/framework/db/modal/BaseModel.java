@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * POJO基类
  */
 public class BaseModel implements java.io.Serializable {
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = -5972679257248081155L;
 	@JsonIgnore
 	protected String tableName;

@@ -1,6 +1,7 @@
 package org.jeewx.api.wxsendmsg.model;
 
 public class SendMessageReport {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** 公众号的微信号 */
 	private String ToUserName;

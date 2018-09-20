@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.stock.model;
 
 public class StockInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 商品ID
 	private String product_id;
 	// sku信息

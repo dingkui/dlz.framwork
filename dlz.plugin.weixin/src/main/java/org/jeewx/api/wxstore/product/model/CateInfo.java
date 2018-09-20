@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class CateInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 子分类ID
 	private String id;
 	// 子分类名称

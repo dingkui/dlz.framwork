@@ -9,6 +9,7 @@ import com.dlz.framework.util.DateUtil;
  *
  */
 public class Token {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//接口访问凭证
 	private String accessToken;

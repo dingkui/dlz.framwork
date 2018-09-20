@@ -11,6 +11,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 */
 @ReqType("getUserSummary")
 public class WxDataCubeStreamUserSummaryParam extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/** 
 	* 获取数据的起始日期<br/>

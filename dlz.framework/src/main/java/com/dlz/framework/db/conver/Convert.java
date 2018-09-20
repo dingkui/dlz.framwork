@@ -20,6 +20,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 @SuppressWarnings("rawtypes")
 public class Convert {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static MyLogger logger = MyLogger.getLogger(Convert.class);
 	Map<String,AClassConverter> classMap = new HashMap<String,AClassConverter>();
 	Map<String,ANameConverter> nameMap = new HashMap<String,ANameConverter>();

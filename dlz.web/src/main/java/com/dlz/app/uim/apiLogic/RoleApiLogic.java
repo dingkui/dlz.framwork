@@ -20,6 +20,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @Service
 @AnnoAuth("sys_admin")
 public class RoleApiLogic extends AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	IUimRoleService roleService;
 	

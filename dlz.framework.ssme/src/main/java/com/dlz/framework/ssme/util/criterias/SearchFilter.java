@@ -9,6 +9,7 @@ import com.dlz.framework.ssme.util.string.Collections3;
 import com.dlz.framework.util.StringUtils;
 
 public class SearchFilter {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public enum Operator {
 		CONDITION("condition"),

@@ -28,6 +28,7 @@ import com.google.gson.Gson;
  *
  */
 public class WeiXinReqUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static MyLogger logger = MyLogger.getLogger(WeiXinReqUtil.class);
 	

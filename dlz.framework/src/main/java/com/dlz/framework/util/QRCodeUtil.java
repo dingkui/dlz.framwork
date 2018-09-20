@@ -24,6 +24,7 @@ import com.swetake.util.Qrcode;
  * 
  */
 public class QRCodeUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static boolean createQRCode(String content, String saveFile, String logoFile) {
 		return createQRCode(0,content, saveFile, logoFile);
 	}

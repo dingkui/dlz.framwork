@@ -23,6 +23,7 @@ import com.dlz.web.holder.ThreadHolder;
 
 @SuppressWarnings("unchecked")
 public class WebUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(WebUtil.class);
 	/**
 	 * Stores an attribute in this request

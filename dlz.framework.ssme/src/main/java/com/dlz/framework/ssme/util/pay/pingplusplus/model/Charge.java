@@ -1,6 +1,8 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.model;
 
 
+import java.util.Map;
+
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIConnectionException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.AuthenticationException;
@@ -8,9 +10,8 @@ import com.dlz.framework.ssme.util.pay.pingplusplus.exception.ChannelException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.InvalidRequestException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.net.APIResource;
 
-import java.util.Map;
-
 public class Charge extends APIResource {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     String id;
     String object;
     Long created;

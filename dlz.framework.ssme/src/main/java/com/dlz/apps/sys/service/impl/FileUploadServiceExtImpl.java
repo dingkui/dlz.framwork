@@ -18,6 +18,7 @@ import com.dlz.framework.ssme.util.office.ImageUtil;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class FileUploadServiceExtImpl implements FileUploadServiceExt {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	protected ICommService commService;
 

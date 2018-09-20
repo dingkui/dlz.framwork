@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
  * JSONHelper.java
  */
 public final class JSONHelper {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 将数组转换成JSON
 	public static String array2json(Object object) {

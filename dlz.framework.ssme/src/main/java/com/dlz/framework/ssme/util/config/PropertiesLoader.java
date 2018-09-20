@@ -18,6 +18,7 @@ import com.dlz.framework.logger.MyLogger;
  * @author calvin
  */
 public class PropertiesLoader {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger logger = MyLogger.getLogger(PropertiesLoader.class);
 

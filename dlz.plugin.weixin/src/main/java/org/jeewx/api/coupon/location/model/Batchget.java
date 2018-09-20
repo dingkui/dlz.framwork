@@ -5,6 +5,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 @ReqType("getBatchget")
 public class Batchget extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//偏移量，0 开始
 	private Integer offset ;
 	//拉取数量

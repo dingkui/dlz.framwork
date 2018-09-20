@@ -10,6 +10,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 // 该handler是InboundHandler类型
 public class HelloServerInHandler extends ChannelInboundHandlerAdapter {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(HelloServerInHandler.class);
     @Override
     public boolean isSharable() {

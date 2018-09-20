@@ -11,6 +11,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.socket.handler.ASocketHandler;
 
 public abstract class ASocketServer  extends Thread{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger logger = MyLogger.getLogger(ASocketServer.class);
 

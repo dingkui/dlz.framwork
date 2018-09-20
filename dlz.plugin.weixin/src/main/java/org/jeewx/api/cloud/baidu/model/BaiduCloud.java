@@ -5,6 +5,7 @@ import org.jeewx.api.core.annotation.ReqType;
 
 @ReqType("baidu_cloud")
 public class BaiduCloud {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//服务器url 
 	private String host;

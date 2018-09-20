@@ -11,6 +11,7 @@ import com.dlz.framework.util.JacksonUtil;
  * 
  */
 public class DbCoverUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 从Map里取得字符串
 	 * @param m

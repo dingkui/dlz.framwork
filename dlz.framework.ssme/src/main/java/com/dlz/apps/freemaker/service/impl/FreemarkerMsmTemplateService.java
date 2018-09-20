@@ -19,6 +19,7 @@ import freemarker.template.Template;
  */
 @Service
 public class FreemarkerMsmTemplateService implements TemplateService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
      * 短信模板的存放位置
      */

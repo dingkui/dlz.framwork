@@ -7,6 +7,7 @@ package com.dlz.plugin.weixin.message.event;
  *
  */
 public class LocationEvent extends BaseEvent {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//地理位置维度
 	private String Latitude;

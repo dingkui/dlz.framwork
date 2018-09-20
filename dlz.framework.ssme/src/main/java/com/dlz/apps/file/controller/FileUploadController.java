@@ -38,6 +38,7 @@ import com.dlz.framework.util.StringUtils;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/fileUpload")
 public class FileUploadController extends BaseController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	FilesService filesService;
 	/*

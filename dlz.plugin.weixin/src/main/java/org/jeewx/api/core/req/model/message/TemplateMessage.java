@@ -8,6 +8,7 @@ package org.jeewx.api.core.req.model.message;
  * 
  */
 public class TemplateMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 
 	private TemplateData first;

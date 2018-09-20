@@ -8,6 +8,7 @@ package org.jeewx.api.core.req.model.kfaccount;
  * 
  */
 public class MsgText {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String content;
 

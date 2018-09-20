@@ -20,8 +20,6 @@ import com.dlz.framework.db.nosql.operator.mongo.MongoManager;
 import com.dlz.framework.db.nosql.service.INosqlService;
 import com.dlz.framework.holder.SpringHolder;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.diagnostics.logging.Logger;
-import com.mongodb.diagnostics.logging.Loggers;
 
  
 
@@ -29,10 +27,10 @@ import com.mongodb.diagnostics.logging.Loggers;
  * 单元测试支撑类<br>
  * @author dk
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes","unused"})
 public class DbUtilTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	INosqlService cs;
-	 private static final Logger LOGGER = Loggers.getLogger("connection");
 	@Before
 	public void setUp() throws Exception {
 		SpringHolder.init("ApplicationMongo");

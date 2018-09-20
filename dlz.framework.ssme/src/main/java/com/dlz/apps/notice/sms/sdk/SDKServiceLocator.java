@@ -11,6 +11,7 @@ import com.dlz.framework.ssme.util.config.ConfigUtil;
 
 @SuppressWarnings("rawtypes")
 public class SDKServiceLocator extends org.apache.axis.client.Service implements SDKService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     /**
 	 * 

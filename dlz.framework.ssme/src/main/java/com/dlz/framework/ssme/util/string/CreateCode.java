@@ -8,6 +8,7 @@ import com.dlz.framework.util.StringUtils;
 
 
 public class CreateCode{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String LOAN_APPLY = "A";
 	private static String LOAN_CODE = "B";
 	private static String CONTRAT_CODE = "HT";

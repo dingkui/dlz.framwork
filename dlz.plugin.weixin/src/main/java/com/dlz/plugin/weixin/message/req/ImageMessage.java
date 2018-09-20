@@ -8,6 +8,7 @@ package com.dlz.plugin.weixin.message.req;
  */
 
 public class ImageMessage extends BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 图片链接
 	private String PicUrl;

@@ -14,6 +14,7 @@ import com.dlz.framework.ssme.db.model.Dept;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class DeptServiceExtImpl implements DeptServiceExt {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	protected ICommService commService;
 	@Override

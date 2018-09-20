@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.manage.model;
 
 public class Card {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 卡券类型: 目前支持11中类型，具体参考CardConsts.CardType常量类.
 	 * 团购券：GROUPON; 

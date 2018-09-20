@@ -4,6 +4,7 @@ package org.jeewx.api.third.model;
  *
  */
 public class ApiGetAuthorizer {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//第三方平台appid
 	private String component_appid;  
 	//授权方appid

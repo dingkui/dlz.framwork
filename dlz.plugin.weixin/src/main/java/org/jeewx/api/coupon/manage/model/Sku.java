@@ -5,6 +5,7 @@ package org.jeewx.api.coupon.manage.model;
  * @version v1.0
  */
 public class Sku {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//库存数量。
 	private Integer quantity;
 	

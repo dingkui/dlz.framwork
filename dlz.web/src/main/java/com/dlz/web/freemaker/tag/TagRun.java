@@ -16,6 +16,7 @@ import freemarker.template.TemplateModelException;
  * @author dk
  */
 public class TagRun implements TemplateMethodModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 
 	/**

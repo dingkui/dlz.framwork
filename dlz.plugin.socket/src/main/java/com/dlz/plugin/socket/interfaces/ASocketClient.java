@@ -3,6 +3,7 @@ package com.dlz.plugin.socket.interfaces;
 import java.io.IOException;
 
 public abstract class ASocketClient{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected ASocketIO sio;
 	protected String server;
 	protected int port;

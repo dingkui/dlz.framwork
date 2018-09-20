@@ -14,6 +14,7 @@ import freemarker.template.TemplateModelException;
  *2013-8-1上午9:48:05
  */
 public class TagCreator implements TemplateMethodModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 
 	/**

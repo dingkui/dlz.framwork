@@ -15,6 +15,7 @@ import com.dlz.framework.ssme.util.xml.mapper.JaxbMapper;
 import com.dlz.framework.ssme.util.xml.wrapper.CollectionWrapper;
 
 public class MapAdapter extends XmlAdapter<Element, Map<?, ?>> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Override
 	public Map<?, ?> unmarshal(Element element) throws Exception {
 		return null;

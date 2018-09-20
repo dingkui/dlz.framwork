@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class WxArticlesRequest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	List<WxArticle> articles = new ArrayList<WxArticle>();
 
 	public List<WxArticle> getArticles() {

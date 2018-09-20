@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class SkuValue {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// vid
 	private String id;
 	// vid名称

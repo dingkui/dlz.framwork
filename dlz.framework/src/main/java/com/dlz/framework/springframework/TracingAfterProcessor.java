@@ -20,6 +20,7 @@ import com.dlz.framework.springframework.scaner.MySpringScaner;
  */
 @Component
 public class TracingAfterProcessor implements ApplicationListener<ContextRefreshedEvent> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger=MyLogger.getLogger(TracingAfterProcessor.class);
 	private boolean complete(ApplicationContext applicationContext){
 		try{

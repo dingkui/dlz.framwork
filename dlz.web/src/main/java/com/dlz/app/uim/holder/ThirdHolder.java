@@ -10,6 +10,7 @@ import com.dlz.web.holder.ThreadHolder;
  *
  */
 public class ThirdHolder {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private final static String MEMBER_SESSION_THIRDINFO="member_session_thirdInfo";
 	private final static String SESSION_WX_ACCESSTOKEN = "session_wx_accessToken";
 	

@@ -13,6 +13,7 @@ import org.jeewx.api.wxbase.wxtoken.JwTokenAPI;
 
 
 public class Test {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static String appid = "wx00737224cb9dbc7d";
 	private static String appscret = "b9479ebdb58d1c6b6efd4171ebe718b5";

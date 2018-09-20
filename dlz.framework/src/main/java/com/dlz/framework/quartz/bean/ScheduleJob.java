@@ -6,8 +6,8 @@ import com.dlz.framework.bean.JSONMap;
  * 定时任务封装类
  * @author   xiaohe
  */
-public class ScheduleJob
-{
+public class ScheduleJob{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /** 任务id */
     private int jobId;
     

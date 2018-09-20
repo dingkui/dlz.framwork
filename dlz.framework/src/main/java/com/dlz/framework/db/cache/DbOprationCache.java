@@ -12,6 +12,7 @@ import com.dlz.framework.db.modal.Page;
 @SuppressWarnings("rawtypes")
 @Component
 public class DbOprationCache extends AbstractCache<String, Page> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public DbOprationCache() {
 		super(DbOprationCache.class.getSimpleName());
 		dbOperator = null; 

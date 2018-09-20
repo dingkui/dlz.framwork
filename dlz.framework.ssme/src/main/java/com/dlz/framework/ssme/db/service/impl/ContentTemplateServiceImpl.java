@@ -12,6 +12,7 @@ import com.dlz.framework.ssme.db.service.ContentTemplateService;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ContentTemplateServiceImpl extends BaseServiceImpl<ContentTemplate, Long> implements ContentTemplateService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	public void setMapper(ContentTemplateMapper contentTemplateMapper) {
 		super.mapper = contentTemplateMapper;

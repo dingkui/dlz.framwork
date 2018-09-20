@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.stereotype.Component;
 
+import com.dlz.framework.logger.MyLogger;
 import com.gexin.rp.sdk.base.IPushResult;
 import com.gexin.rp.sdk.base.impl.ListMessage;
 import com.gexin.rp.sdk.base.impl.SingleMessage;
@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 
 @Component
 public class GTPushService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger logger = MyLogger.getLogger(GTPushService.class);
 

@@ -1,6 +1,7 @@
 package com.dlz.app.sys.bean;
 
 public class Dicts implements java.io.Serializable  {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private static final long serialVersionUID = 1L;
     /**
      * T_B_DICTS.ID

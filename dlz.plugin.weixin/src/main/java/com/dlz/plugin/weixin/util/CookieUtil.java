@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 设置cookie
 	 * @param response

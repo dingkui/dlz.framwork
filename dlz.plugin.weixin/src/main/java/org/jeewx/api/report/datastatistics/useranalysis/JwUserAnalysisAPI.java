@@ -21,6 +21,7 @@ import net.sf.json.JSONObject;
 * @author zhaoxl
 */
 public class JwUserAnalysisAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static MyLogger logger = MyLogger.getLogger(JwUserAnalysisAPI.class);
 	

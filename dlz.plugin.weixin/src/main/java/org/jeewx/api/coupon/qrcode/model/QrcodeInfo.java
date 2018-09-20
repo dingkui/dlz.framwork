@@ -5,6 +5,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 @ReqType("getGrcodeInfo")
 public class QrcodeInfo  extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 名称
 	private String action_name;
 	// 卡卷对象

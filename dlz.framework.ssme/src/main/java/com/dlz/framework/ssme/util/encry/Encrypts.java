@@ -7,9 +7,11 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.io.Charsets;
-import com.dlz.framework.util.StringUtils;
+
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.util.StringUtils;
 public class Encrypts {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(Encrypts.class);
 	private static final Charset CHARSET_ENCODING = Charsets.UTF_8;
 

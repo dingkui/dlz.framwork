@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class EidEInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 分组信息
 	private GroupEInfos group_infos;
 	// 分组照片(图片需调用图片上传接口获得图片Url填写至此，

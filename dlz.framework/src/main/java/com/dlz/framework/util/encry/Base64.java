@@ -8,6 +8,7 @@ import java.io.File;
  * @version 1.3
  */
 public class Base64 {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 编码文件对象所指的文件
 	public static char[] encode(File file) {
 		if (!file.exists()) {

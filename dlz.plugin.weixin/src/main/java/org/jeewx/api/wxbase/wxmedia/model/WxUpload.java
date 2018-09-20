@@ -6,6 +6,7 @@ package org.jeewx.api.wxbase.wxmedia.model;
  *
  */
 public class WxUpload {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String type;
 	

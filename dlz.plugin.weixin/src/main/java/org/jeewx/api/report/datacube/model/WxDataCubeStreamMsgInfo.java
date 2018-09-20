@@ -8,6 +8,7 @@ package org.jeewx.api.report.datacube.model;
  * 2015年1月27日
  */
 public class WxDataCubeStreamMsgInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/**日期**/
 	private String ref_date;

@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);     
     
     /** 

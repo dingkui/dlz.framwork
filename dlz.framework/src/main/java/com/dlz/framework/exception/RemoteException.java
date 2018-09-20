@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
  * BaseException for SDK
  */
 public class RemoteException extends BaseException {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * Serial version UID

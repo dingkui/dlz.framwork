@@ -1,8 +1,8 @@
 package com.dlz.framework.db.nosql.modal;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
@@ -13,6 +13,7 @@ import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
 
 public class NosqlFilterPara extends NosqlBasePara implements IPara{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private String filterBson;
 	private JSONMap para = new JSONMap();

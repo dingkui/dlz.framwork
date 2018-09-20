@@ -4,6 +4,7 @@ package com.dlz.framework.exception;
  * HttpException for SDK
  */
 public class HttpException extends RemoteException {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 4454410583070023L;
 
 	private static int DEFUALT_ERROR_CODE = 7003;

@@ -12,6 +12,7 @@ import com.dlz.framework.logger.MyLogger;
  *
  */
 public class CreateSqlParaMap extends BaseParaMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(CreateSqlParaMap.class);
 	private static final long serialVersionUID = 8374167270612933157L;
 	protected static final String STR_TABLENAME="tableName";

@@ -9,6 +9,7 @@ import java.util.Set;
  *
  */
 public class AuthUser implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

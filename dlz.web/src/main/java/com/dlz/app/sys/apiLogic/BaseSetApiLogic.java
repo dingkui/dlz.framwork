@@ -26,6 +26,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @Service
 @AnnoAuth("admin")
 public class BaseSetApiLogic extends AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	IBaseSetService baseSetService;
 	

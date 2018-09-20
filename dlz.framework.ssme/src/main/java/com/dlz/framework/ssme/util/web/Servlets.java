@@ -21,6 +21,7 @@ import com.dlz.framework.ssme.util.encry.Encodes;
  */
 @SuppressWarnings({"rawtypes"})
 public class Servlets {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// -- 常用数值定义 --//
 	public static final long ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;

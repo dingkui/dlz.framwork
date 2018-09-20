@@ -37,6 +37,7 @@ import com.google.common.collect.Maps;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/main")
 public class MainController extends BaseController{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Autowired
 	private FunOptService funOptService;

@@ -5,6 +5,7 @@ package org.jeewx.api.coupon.manage.model;
  * @version v1.0
  */
 public class DateInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 使用时间的类型。1：固定日期区间，2：固定时长（自领取后按天算）
 	private Integer type;
 	// 固定日期区间专用，表示起用时间

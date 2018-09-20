@@ -8,6 +8,7 @@ import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.rpc.handler.IClientHandler;
 
 public class ARpcClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String server;
 	private String id;
 	private String pwd;

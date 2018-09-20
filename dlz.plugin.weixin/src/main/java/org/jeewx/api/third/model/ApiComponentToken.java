@@ -1,6 +1,7 @@
 package org.jeewx.api.third.model;
 
 public class ApiComponentToken {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String component_appid;
 	private String component_appsecret;

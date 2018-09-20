@@ -15,6 +15,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 @SuppressWarnings("unchecked")
 public class ThreadHolder  {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected static final MyLogger logger = MyLogger.getLogger(ThreadHolder.class);
 	
 	private static ThreadLocal<HttpServletRequest> HttpRequestThreadLocalHolder = new ThreadLocal<HttpServletRequest>();

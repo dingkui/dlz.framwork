@@ -1,5 +1,8 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.net;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.ChargeRefundCollection;
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.Refund;
 import com.google.gson.FieldNamingPolicy;
@@ -11,10 +14,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
 public class ChargeRefundCollectionDeserializer implements JsonDeserializer<ChargeRefundCollection> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     public ChargeRefundCollection deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {

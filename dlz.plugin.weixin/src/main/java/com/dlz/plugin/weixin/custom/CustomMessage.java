@@ -16,6 +16,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class CustomMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/**
 	 * 组装文本客服消息

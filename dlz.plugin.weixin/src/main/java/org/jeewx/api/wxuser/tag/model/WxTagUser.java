@@ -1,6 +1,7 @@
 package org.jeewx.api.wxuser.tag.model;
 
 public class WxTagUser {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	Integer count ;
 	String next_openid;

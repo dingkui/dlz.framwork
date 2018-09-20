@@ -2,7 +2,6 @@ package com.dlz.apps.notice.cache;
 
 import java.util.List;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +10,14 @@ import com.dlz.apps.notice.db.model.MailtempCriteria;
 import com.dlz.apps.notice.db.model.MailtempCriteria.GeneratedCriteria;
 import com.dlz.apps.notice.db.service.MailtempService;
 import com.dlz.framework.cache.AbstractCache;
+import com.dlz.framework.logger.MyLogger;
 /**
  * 用级别信息缓存
  * @author dingkui
  */
 @Component
 public class MailTemplateCache extends AbstractCache<String, String> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 日志logger
 	 */

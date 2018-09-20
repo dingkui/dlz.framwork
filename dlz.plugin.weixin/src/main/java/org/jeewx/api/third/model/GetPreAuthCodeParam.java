@@ -9,6 +9,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  *
  */
 public class GetPreAuthCodeParam  extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String component_appid;
 	public String getComponent_appid() {

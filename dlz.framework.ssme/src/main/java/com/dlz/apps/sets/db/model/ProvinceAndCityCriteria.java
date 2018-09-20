@@ -1,12 +1,14 @@
 package com.dlz.apps.sets.db.model;
 
-import com.dlz.framework.ssme.base.criteria.BaseCriteria;
-import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
-import com.dlz.apps.sets.db.model.ProvinceAndCityCriteria.GeneratedCriteria;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dlz.apps.sets.db.model.ProvinceAndCityCriteria.GeneratedCriteria;
+import com.dlz.framework.ssme.base.criteria.BaseCriteria;
+import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
+
 public class ProvinceAndCityCriteria extends BaseCriteria<GeneratedCriteria> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     protected GeneratedCriteria createCriteriaInternal1() {
         return new GeneratedCriteria();

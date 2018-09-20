@@ -9,6 +9,7 @@ import com.dlz.plugin.weixin.service.ACoreService;
  */
 @SuppressWarnings("unused")
 public class BaseCoreService extends ACoreService{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//文本消息
 	public String dealText(String fromUserName,String toUserName,Map<String, String> requestMap){
 		String txtContent = requestMap.get("Content");

@@ -39,6 +39,7 @@ import com.google.common.collect.Maps;
 @Controller
 @RequestMapping(ControllerConst.ADMIN+"/menu")
 public class MenuController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(MenuController.class);
 	@Autowired
 	private RoleService roleService;

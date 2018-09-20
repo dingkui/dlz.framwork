@@ -1,6 +1,7 @@
 package com.dlz.plugin.weixin.message.req;
 
 public class LocationMessage extends BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 地理位置维度
 	private String Location_X;

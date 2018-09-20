@@ -5,6 +5,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 @ReqType("getLocationInfo")
 public class LocationInfo extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 图片地址
 	private String filePathName;
 

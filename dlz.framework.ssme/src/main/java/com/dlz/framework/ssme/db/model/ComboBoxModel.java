@@ -1,6 +1,7 @@
 package com.dlz.framework.ssme.db.model;
 
 public class ComboBoxModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private String id;
 	private String text;

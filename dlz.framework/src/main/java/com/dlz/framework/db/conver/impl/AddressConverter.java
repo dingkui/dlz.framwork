@@ -7,6 +7,7 @@ import com.dlz.framework.db.conver.ILogicServer;
 import com.dlz.framework.holder.SpringHolder;
 
 public class AddressConverter extends AGroupConverter<Object,Object,String>{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	ILogicServer<Object,Map<String,Object>> logicServer=null;
 	public AddressConverter(String name, String para) {
 		super(name, para);

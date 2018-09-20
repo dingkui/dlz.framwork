@@ -3,6 +3,7 @@ package com.dlz.plugin.socket.test.threads;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
 
 public class TestThread2 extends Thread {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	ASocketClient client = null;
 	String msg = null;
 

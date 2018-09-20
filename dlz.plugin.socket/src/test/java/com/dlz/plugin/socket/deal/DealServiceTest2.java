@@ -7,6 +7,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
  * @author dk
  */
 public class DealServiceTest2 implements IDealService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//取得返回信息
 	public String getResStr(String input){
 		try {

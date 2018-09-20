@@ -26,6 +26,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwShopAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 创建门店
 	private static String create_shop_url = "http://api.weixin.qq.com/cgi-bin/poi/addpoi?access_token=TOKEN";
 	// 查询门店信息

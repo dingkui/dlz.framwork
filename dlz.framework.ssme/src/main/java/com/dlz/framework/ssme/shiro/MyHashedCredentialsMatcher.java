@@ -27,6 +27,7 @@ import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
 
 
 public class MyHashedCredentialsMatcher extends HashedCredentialsMatcher {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     public MyHashedCredentialsMatcher(String hashAlgorithmName) {
         super(hashAlgorithmName);
     }

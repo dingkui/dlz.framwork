@@ -9,6 +9,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
  * @author dk
  */
 public class DealServiceTest1 implements IDealService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	static int i=0;
 	static long allt = new Date().getTime();
 	public void deal(String postStr) {

@@ -4,6 +4,7 @@ package org.jeewx.api.third;
  * 成功返回 errcode":0,"errmsg":"ok"
  */
 public class AuthorizerSetOptionRet {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private Integer errcode;//	错误码
 	private String errmsg;//	错误信息
 	public Integer getErrcode() {

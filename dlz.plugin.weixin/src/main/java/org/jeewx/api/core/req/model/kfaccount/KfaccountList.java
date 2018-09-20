@@ -19,5 +19,6 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("getkflist")
 public class KfaccountList extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 }

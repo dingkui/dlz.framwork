@@ -1,6 +1,7 @@
 package com.dlz.plugin.weixin.message.resp;
 
 public class Voice {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String MediaId;
 

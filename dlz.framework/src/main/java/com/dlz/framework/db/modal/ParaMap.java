@@ -5,6 +5,7 @@ import java.util.Map;
 import com.dlz.framework.util.StringUtils;
 
 public class ParaMap extends BaseParaMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	
 	@SuppressWarnings("rawtypes")

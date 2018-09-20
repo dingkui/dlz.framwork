@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.deliveryMoney.model;
 import java.util.List;
 
 public class DeliveryMoney {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 邮费模板名称
 	private String Name;
 	// 支付方式(0-买家承担运费, 1-卖家承担运费)

@@ -5,6 +5,7 @@ import org.jeewx.api.core.annotation.ReqType;
 
 @ReqType("access_token")
 public class AccessToken extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 获取access_token填写client_credential

@@ -1,6 +1,7 @@
 package org.jeewx.api.third.model;
 
 public class ApiGetAuthorizerRetAuthortionFuncCate {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private Integer id;
 
 	public Integer getId() {

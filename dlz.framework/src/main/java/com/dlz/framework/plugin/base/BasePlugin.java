@@ -8,6 +8,7 @@ import com.dlz.framework.plugin.inf.IPluginPile;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class BasePlugin<T extends IPluginPile, T2 extends IPluginGroup> extends BasePluginBase implements IPlugin {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	T pile;
 	

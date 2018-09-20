@@ -10,6 +10,7 @@ import com.dlz.framework.bean.JSONMap;
  * @author dk
  */
 public abstract class ApiProxyHandler {
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	protected JSONMap getParaAsMap(Method method,Object[] args){
 		JSONMap m=new JSONMap();
 		Parameter[] parameters = method.getParameters();

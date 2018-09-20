@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @SuppressWarnings("rawtypes")
 public class BaseParaMap implements Serializable,IPara{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	@JsonIgnore
 	private Convert convert;

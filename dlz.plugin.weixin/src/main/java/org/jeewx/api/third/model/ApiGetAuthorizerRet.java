@@ -4,6 +4,7 @@ package org.jeewx.api.third.model;
  * @author machaolin
  */
 public class ApiGetAuthorizerRet {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//授权方的账户信息
 	private ApiGetAuthorizerRetAuthorizer authorizer_info;
 	//二维码地址

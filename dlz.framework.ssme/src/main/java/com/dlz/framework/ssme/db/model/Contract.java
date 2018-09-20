@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 @SuppressWarnings({"rawtypes"})
 public class Contract {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	//合同ID
     private Integer contractId; 

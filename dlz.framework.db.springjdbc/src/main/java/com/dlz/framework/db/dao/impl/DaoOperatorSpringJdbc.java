@@ -20,6 +20,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.JacksonUtil;
 @Service
 public class DaoOperatorSpringJdbc implements IDaoOperator {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DaoOperatorSpringJdbc.class);
 	private JdbcTemplate jdbcTemplate;
 	private ResultSetExtractor<List<ResultMap>> extractor;

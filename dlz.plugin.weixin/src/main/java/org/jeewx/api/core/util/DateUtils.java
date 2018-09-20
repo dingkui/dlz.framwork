@@ -20,6 +20,7 @@ import com.dlz.framework.logger.MyLogger;
  * @version 1.0
  */
 public class DateUtils extends PropertyEditorSupport {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DateUtils.class);
 	// 各种时间格式
 	public static final SimpleDateFormat date_sdf = new SimpleDateFormat(

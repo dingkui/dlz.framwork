@@ -3,6 +3,7 @@ package org.jeewx.api.coupon.location.model;
 import java.util.List;
 
 public class GetcolorsRtn {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码
 	private String errcode;
 	// 错误信息

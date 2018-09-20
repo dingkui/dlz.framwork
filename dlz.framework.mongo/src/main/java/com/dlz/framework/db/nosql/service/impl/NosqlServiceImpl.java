@@ -26,6 +26,7 @@ import com.dlz.framework.util.ValUtil;
 @SuppressWarnings("unchecked")
 @DependsOn("nosqlDaoOperatorMongo")
 public class NosqlServiceImpl implements INosqlService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(NosqlServiceImpl.class);
 	@Autowired
 	private INosqlDaoOperator daoOperator;

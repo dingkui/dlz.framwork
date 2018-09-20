@@ -35,6 +35,7 @@ import net.sf.json.JSONObject;
  * @
  */
 public class WxstoreUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(WxstoreUtils.class);
 
 	public static JSONObject httpRequest(String requestUrl,

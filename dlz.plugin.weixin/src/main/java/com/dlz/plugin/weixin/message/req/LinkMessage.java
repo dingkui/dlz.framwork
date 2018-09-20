@@ -9,6 +9,7 @@ package com.dlz.plugin.weixin.message.req;
  *
  */
 public class LinkMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 消息标题
 	private String Title;

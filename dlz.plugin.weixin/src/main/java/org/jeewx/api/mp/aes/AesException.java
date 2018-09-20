@@ -2,6 +2,7 @@ package org.jeewx.api.mp.aes;
 
 @SuppressWarnings("serial")
 public class AesException extends Exception {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public final static int OK = 0;
 	public final static int ValidateSignatureError = -40001;

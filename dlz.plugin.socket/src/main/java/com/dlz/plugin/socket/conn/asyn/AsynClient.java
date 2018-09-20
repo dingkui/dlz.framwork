@@ -15,6 +15,7 @@ import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 
 public class AsynClient extends ASocketClient{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(AsynClient.class);
 	
 	private SenderDeal sender;

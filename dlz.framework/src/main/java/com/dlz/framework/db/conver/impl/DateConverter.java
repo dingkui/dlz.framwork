@@ -9,6 +9,7 @@ import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.util.DateUtil;
 
 public class DateConverter extends AClassConverter<Date,String,DateFormatEnum> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String COVERCLASS_TIME="java.sql.Timestamp";
 	public DateConverter(DateFormatEnum para) {
 		super(para);

@@ -9,6 +9,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 //TimeServerHandler 继承自ChannelHandlerAdapter，它用于对网络事件进行读写操作
 public class TimeServerHandler extends ChannelInboundHandlerAdapter{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     
     private int counter;
     

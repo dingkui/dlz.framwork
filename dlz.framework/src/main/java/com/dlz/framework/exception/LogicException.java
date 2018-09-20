@@ -4,6 +4,7 @@ package com.dlz.framework.exception;
  * BaseException for SDK
  */
 public class LogicException extends BaseException {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * Serial version UID
 	 */

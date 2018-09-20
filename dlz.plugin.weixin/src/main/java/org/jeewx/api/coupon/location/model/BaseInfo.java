@@ -3,6 +3,7 @@ package org.jeewx.api.coupon.location.model;
 import org.jeewx.api.wxstore.product.model.Sku;
 
 public class BaseInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//卡券的商户logo，尺寸为300*300。
 	private String logo_url;
 	//code 码展示类型

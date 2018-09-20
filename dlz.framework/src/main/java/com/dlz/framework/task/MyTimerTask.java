@@ -15,6 +15,7 @@ import com.dlz.framework.logger.MyLogger;
  * @param <T>
  */
 public abstract class MyTimerTask<T> extends TimerTask {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(TimerTask.class);
 
 	private Set<String> sets = new HashSet<String>();

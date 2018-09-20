@@ -8,7 +8,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
 public class MessageEncoder  extends MessageToByteEncoder<RequestInfo> {  
   
   
-    @Override  
+    @SuppressWarnings("resource")
+	@Override  
     protected void encode(ChannelHandlerContext ctx, RequestInfo msg, ByteBuf out) throws Exception {  
   
         ByteBufOutputStream writer = new ByteBufOutputStream(out);  

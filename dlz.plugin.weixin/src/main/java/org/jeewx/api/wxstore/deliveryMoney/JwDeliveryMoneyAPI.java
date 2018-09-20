@@ -17,6 +17,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwDeliveryMoneyAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 增加邮费模板
 	private static String create_postage_url = "https://api.weixin.qq.com/merchant/express/add?access_token=ACCESS_TOKEN";
 	// 修改邮费模板

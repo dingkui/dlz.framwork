@@ -5,5 +5,6 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 @ReqType("autoReplyRuleGet")
 public class AutoReplyRuleGet extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 }

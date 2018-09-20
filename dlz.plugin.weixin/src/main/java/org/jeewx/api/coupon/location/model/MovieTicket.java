@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class MovieTicket {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//基本的卡券数据
 	private BaseInfo base_info;
 	//电影票详情

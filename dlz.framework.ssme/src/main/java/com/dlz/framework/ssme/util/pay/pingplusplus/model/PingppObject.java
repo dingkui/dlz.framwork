@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public abstract class PingppObject {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     public static final Gson PRETTY_PRINT_GSON = new GsonBuilder().
             setPrettyPrinting().

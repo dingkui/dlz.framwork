@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.util.pay.pingplusplus.model;
 import java.util.List;
 
 public abstract class PingppCollection<T> extends PingppObject {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     String object;
     String url;
     Boolean hasMore;

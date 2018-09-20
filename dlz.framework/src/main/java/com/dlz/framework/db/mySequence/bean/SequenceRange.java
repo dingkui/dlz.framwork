@@ -3,6 +3,7 @@ package com.dlz.framework.db.mySequence.bean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SequenceRange {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private final long min;
 	private final long max;
 	/** */

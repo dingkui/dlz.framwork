@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Notify {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     class InnerObject {
         String object;
     }

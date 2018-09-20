@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class MoneySerializer extends JsonSerializer<Long> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static MyLogger logger = MyLogger.getLogger(MoneySerializer.class);
 

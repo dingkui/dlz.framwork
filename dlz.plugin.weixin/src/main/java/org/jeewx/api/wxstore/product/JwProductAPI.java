@@ -27,6 +27,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwProductAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 增加商品
 	private static String create_commodity_url = "https://api.weixin.qq.com/merchant/create?access_token=${ACCESS_TOKEN}";
 	// 修改商品

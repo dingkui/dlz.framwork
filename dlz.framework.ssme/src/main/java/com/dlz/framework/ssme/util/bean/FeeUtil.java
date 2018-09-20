@@ -2,9 +2,11 @@ package com.dlz.framework.ssme.util.bean;
 
 import java.io.InputStream;
 import java.util.Properties;
+
 import com.dlz.framework.logger.MyLogger;
 
 public class FeeUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 配置文件

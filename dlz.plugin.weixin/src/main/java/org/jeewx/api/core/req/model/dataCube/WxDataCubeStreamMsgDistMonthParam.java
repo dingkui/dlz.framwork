@@ -11,6 +11,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("getupstreammsgdistmonth")
 public class WxDataCubeStreamMsgDistMonthParam extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	// 开始时间
 	private String begin_date = null;

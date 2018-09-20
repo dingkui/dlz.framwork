@@ -32,6 +32,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 public class HttpUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/**
 	 * get

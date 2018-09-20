@@ -22,6 +22,7 @@ import com.dlz.framework.ssme.util.system.Exceptions;
  * @author calvin
  */
 public class Digests {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(Digests.class);
 	private static final String SHA1 = "SHA-1";
 	private static final String MD5 = "MD5";

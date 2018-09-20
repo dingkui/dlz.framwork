@@ -22,6 +22,7 @@ import com.dlz.framework.ssme.db.service.RoleService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements RoleService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Autowired
 	public void setMapper(RoleMapper mapper) {

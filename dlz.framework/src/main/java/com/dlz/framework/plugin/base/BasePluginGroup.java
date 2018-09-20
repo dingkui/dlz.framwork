@@ -7,6 +7,7 @@ import com.dlz.framework.plugin.inf.IPlugin;
 import com.dlz.framework.plugin.inf.IPluginGroup;
 
 public abstract class BasePluginGroup extends BasePluginBase implements IPluginGroup {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected List<IPlugin> plugins=new ArrayList<IPlugin>();
 
 	@Override

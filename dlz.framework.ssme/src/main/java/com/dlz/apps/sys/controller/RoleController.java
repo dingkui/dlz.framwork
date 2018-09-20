@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import com.dlz.apps.sys.cache.MenuRolesCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
 import com.dlz.framework.ssme.db.model.FunOpt;
 import com.dlz.framework.ssme.db.model.FunOptCriteria;
@@ -47,6 +47,7 @@ import com.google.common.collect.Sets;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/role")
 public class RoleController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(RoleController.class);
 
 	@Autowired

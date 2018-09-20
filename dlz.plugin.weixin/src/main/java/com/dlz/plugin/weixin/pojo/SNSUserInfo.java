@@ -3,6 +3,7 @@ package com.dlz.plugin.weixin.pojo;
 import java.util.List;
 
 public class SNSUserInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//用户标识
 	private String openId;
 	//用户昵称

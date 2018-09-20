@@ -12,6 +12,7 @@ import com.dlz.framework.ssme.db.service.DictService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class DictServiceImpl extends BaseServiceImpl<Dict, String> implements DictService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     @Autowired
     public void setMapper(DictMapper mapper) {

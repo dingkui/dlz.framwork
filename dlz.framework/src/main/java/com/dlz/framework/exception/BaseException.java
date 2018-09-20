@@ -4,6 +4,7 @@ package com.dlz.framework.exception;
  * BaseException for SDK
  */
 public class BaseException extends RuntimeException {
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * Serial version UID

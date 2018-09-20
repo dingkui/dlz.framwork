@@ -20,6 +20,7 @@ import com.dlz.framework.logger.MyLogger;
 
 @SuppressWarnings({"rawtypes"})
 public class MapUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(MapUtil.class);
 	/**
 	 * 隐藏构造器

@@ -3,6 +3,7 @@ package org.jeewx.api.wxsendmsg.test;
 import org.jeewx.api.wxsendmsg.JwSendMessageAPI;
 
 public class TestMain {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * @param args

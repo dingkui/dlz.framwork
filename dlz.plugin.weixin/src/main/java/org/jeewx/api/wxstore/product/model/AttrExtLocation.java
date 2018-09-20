@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class AttrExtLocation {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 国家
 	private String country;
 	// 省份

@@ -7,6 +7,7 @@ import java.util.Map;
  * Handler Pingpp response when you request charge from pingxx
  */
 public class PingppResponse {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     private int responseCode;
     private String responseBody;

@@ -3,6 +3,7 @@ package com.dlz.framework.logger;
 import java.net.URL;
 
 public abstract class MyLogger {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected static final String FQCN = MyLogger.class.getName();
 	private static int logType = -1;
 

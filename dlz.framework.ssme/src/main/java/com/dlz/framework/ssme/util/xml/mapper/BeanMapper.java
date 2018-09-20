@@ -18,6 +18,7 @@ import org.dozer.DozerBeanMapper;
  * @author calvin
  */
 public class BeanMapper {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 持有Dozer单例, 避免重复创建DozerMapper消耗资源.

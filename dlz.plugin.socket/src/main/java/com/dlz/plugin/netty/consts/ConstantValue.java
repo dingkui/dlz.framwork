@@ -1,6 +1,7 @@
 package com.dlz.plugin.netty.consts;
 
 public class ConstantValue {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	 /** 
      * 消息的开头的信息标志 
      */  

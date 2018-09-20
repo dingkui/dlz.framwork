@@ -9,7 +9,6 @@ import org.jeewx.api.wxstore.group.model.GroupDetailInfo;
 import org.jeewx.api.wxstore.group.model.GroupProductInfo;
 import org.jeewx.api.wxstore.group.model.GroupRtnInfo;
 
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -19,6 +18,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwGroupManangerAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 增加分组
 	private static String create_group_url = "https://api.weixin.qq.com/merchant/group/add?access_token=ACCESS_TOKEN";
 	// 修改分组属性

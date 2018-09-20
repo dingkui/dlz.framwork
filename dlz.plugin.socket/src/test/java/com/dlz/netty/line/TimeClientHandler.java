@@ -7,6 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class TimeClientHandler extends ChannelInboundHandlerAdapter{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     
     private static final Logger logger = Logger.getLogger(TimeClientHandler.class.getName());
     

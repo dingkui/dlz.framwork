@@ -32,6 +32,7 @@ import com.dlz.framework.util.StringUtils;
  * 
  */
 public class SqlUtil{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SqlUtil.class);
 	private final static String BLOB_CHARSETNAME = "dbset.blob_charsetname";
 	public final static String SU_STR_TABLE_NM = "SU_STR_TABLE_NM";

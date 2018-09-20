@@ -8,6 +8,7 @@ package com.dlz.plugin.weixin.message.event;
  *
  */
 public class QRCodeEvent extends BaseEvent {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//事件 key 值
 	private String EventKey;

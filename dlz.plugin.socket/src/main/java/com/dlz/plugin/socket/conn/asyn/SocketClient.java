@@ -21,6 +21,7 @@ import com.dlz.plugin.socket.interfaces.ISocketListener;
  *
  */
 public class SocketClient extends ASocketClient{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SocketClient.class);
 	
 	public SocketClient(String server,int port,ASocketIO sio) {

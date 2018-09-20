@@ -10,6 +10,7 @@ import com.dlz.framework.db.service.ICommService;
 import com.dlz.web.holder.ThreadHolder;
 
 public class NoAuthCommLogic{
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	protected ICommService commService;
 	public boolean needAuth() {

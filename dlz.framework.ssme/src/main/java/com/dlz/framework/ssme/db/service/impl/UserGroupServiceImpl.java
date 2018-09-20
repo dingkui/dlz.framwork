@@ -18,6 +18,7 @@ import com.dlz.framework.ssme.db.service.UserGroupService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class UserGroupServiceImpl extends BaseServiceImpl<UserGroup, Long> implements UserGroupService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	public void setMapper(UserGroupMapper mapper) {
 		super.mapper = mapper;

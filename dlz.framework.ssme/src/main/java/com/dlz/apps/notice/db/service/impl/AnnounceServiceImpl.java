@@ -12,6 +12,7 @@ import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class AnnounceServiceImpl extends BaseServiceImpl<Announce, Long> implements AnnounceService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     @Autowired
     public void setMapper(AnnounceMapper mapper) {

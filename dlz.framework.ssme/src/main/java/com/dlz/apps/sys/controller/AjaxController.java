@@ -15,6 +15,7 @@ import com.dlz.web.util.ApiUtil;
 @Controller
 @RequestMapping("")
 public class AjaxController implements IApiAjax{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@RequestMapping(value = "/api_web/m")
 	@ResponseBody
 	public JSONResult doAjaxs(String data, String ui) {

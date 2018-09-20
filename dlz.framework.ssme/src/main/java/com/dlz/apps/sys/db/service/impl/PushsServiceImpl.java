@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dlz.apps.sys.db.dao.PushsMapper;
 import com.dlz.apps.sys.db.model.Pushs;
 import com.dlz.apps.sys.db.service.PushsService;
-import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 import com.google.gson.JsonObject;
@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class PushsServiceImpl extends BaseServiceImpl<Pushs, Long> implements PushsService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(PushsServiceImpl.class);
 
 	@Autowired

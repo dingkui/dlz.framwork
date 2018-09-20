@@ -24,6 +24,7 @@ import com.dlz.plugin.weixin.util.SignUtil;
 @Controller
 @RequestMapping("/wxCore")
 public class WxCoreController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	ACoreService coreService;
 	

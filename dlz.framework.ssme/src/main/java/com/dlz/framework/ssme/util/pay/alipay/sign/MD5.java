@@ -2,6 +2,7 @@ package com.dlz.framework.ssme.util.pay.alipay.sign;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 /** 
@@ -14,6 +15,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 * */
 
 public class MD5 {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 		/**
 		 * 签名字符串

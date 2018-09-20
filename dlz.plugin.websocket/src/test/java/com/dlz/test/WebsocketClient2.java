@@ -3,7 +3,6 @@ package com.dlz.test;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,9 +10,7 @@ import java.util.TimerTask;
 import org.apache.http.Header;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.cookie.BasicClientCookie;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
@@ -25,6 +22,7 @@ import com.dlz.web.util.HttpUtil.HttpPostUtil;
  * Created by jack on 2017/10/25.
  */
 public class WebsocketClient2 {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static WebSocketClient client;
 	static Timer timer = new Timer();
 	

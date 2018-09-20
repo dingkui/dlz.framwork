@@ -11,6 +11,7 @@ import com.dlz.framework.db.SqlUtil;
  *
  */
 public class UpdateParaMap extends CreateSqlParaMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private static final String SQL="key.comm.updateTable";
 	private static final String STR_SETS="sets";

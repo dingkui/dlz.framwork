@@ -1,5 +1,6 @@
 package com.dlz.framework.ssme.util.web;
 public final class HttpHeaders {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
   private HttpHeaders() {}
 
   // HTTP Request and Response header fields

@@ -27,6 +27,7 @@ import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 
 public class MessageUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(MessageUtil.class);
 	/**
 	 * 响应消息类型：文本
@@ -202,7 +203,6 @@ public class MessageUtil {
 				// 对所有xml节点的转换都增加CDATA标记
 				boolean cdata = true;
 				
-				@SuppressWarnings("unchecked")
 				public void startNode(String name, Class clazz){
 					super.startNode(name, clazz);
 				}

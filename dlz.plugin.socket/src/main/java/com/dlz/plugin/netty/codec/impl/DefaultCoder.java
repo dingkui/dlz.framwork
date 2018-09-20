@@ -14,6 +14,7 @@ import io.netty.buffer.ByteBufOutputStream;
  *
  */
 public class DefaultCoder implements ICoder{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String cataName="UTF-8";
 	@Override
 	public Object decode(ByteBuf buffer) throws Exception {

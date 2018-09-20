@@ -13,6 +13,7 @@ import io.netty.buffer.ByteBufOutputStream;
  *
  */
 public class SimpleCoder implements ICoder{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String cataName="UTF-8";
 	@Override
 	public Object decode(ByteBuf in) throws Exception {

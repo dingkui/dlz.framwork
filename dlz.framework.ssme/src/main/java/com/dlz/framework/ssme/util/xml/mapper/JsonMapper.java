@@ -26,6 +26,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
  */
 @SuppressWarnings("unchecked")
 public class JsonMapper {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static MyLogger logger = MyLogger.getLogger(JsonMapper.class);
 

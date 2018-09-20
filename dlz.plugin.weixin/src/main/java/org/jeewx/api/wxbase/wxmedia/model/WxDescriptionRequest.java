@@ -6,6 +6,7 @@ package org.jeewx.api.wxbase.wxmedia.model;
  *
  */
 public class WxDescriptionRequest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	WxDescription description = new WxDescription();
 
 	

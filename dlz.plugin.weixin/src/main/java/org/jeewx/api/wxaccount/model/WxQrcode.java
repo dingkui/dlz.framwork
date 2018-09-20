@@ -1,6 +1,7 @@
 package org.jeewx.api.wxaccount.model;
 
 public class WxQrcode {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String ticket;
 	

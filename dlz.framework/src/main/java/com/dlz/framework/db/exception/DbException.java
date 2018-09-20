@@ -11,6 +11,7 @@ import com.dlz.framework.exception.BaseException;
  *
  */
 public class DbException extends BaseException {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 序列号
 	 */

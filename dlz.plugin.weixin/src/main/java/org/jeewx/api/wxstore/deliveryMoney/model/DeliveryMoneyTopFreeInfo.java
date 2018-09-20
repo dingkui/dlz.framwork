@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.deliveryMoney.model;
 import java.util.List;
 
 public class DeliveryMoneyTopFreeInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 快递类型ID
 	private Integer Type;
 	// 默认邮费计算方法

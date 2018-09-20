@@ -29,6 +29,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @Service
 @AnnoAuth("admin")
 public class MenuApiLogic extends AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	IMenuService menuService;

@@ -6,5 +6,6 @@ package com.dlz.framework.task;
  *
  */
 public interface AutoTask {
+	default void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public void start();
 }

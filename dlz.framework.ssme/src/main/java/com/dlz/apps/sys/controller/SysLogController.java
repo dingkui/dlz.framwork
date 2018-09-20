@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.db.model.SysLog;
 import com.dlz.framework.ssme.db.model.SysLogCriteria;
 import com.dlz.framework.ssme.db.service.SysLogService;
@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableMap;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/sysLog")
 public class SysLogController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SysLogController.class);
 
 	@Autowired

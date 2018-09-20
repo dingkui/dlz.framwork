@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 public class HtmlUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static String delHTMLTag(String htmlStr) {
 		String regEx_script = "<script[^>]*?>[//s//S]*?<///script>"; // 定义script的正则表达式

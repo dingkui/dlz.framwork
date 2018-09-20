@@ -12,6 +12,7 @@ import com.dlz.framework.ssme.db.service.MenuDataOptService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class MenuDataOptServiceImpl  extends BaseServiceImpl<MenuDataOpt, Long> implements MenuDataOptService  {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	public void setMapper(MenuDataOptMapper mapper) {
 		super.mapper = mapper;

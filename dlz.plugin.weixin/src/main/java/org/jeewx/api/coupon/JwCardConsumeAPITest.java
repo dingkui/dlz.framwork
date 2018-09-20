@@ -16,6 +16,7 @@ import org.jeewx.api.coupon.consume.model.EncryptRtnInfo;
  * @version v1.0
  */
 public class JwCardConsumeAPITest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static String appid = "wxb512901288a94943";
 	private static String appscret = "?";

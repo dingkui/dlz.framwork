@@ -1,6 +1,7 @@
 package org.jeewx.api.wxsendmsg.model.auto;
 
 public class KeywordListInfo extends AutoReplyInfo{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/** 匹配模式，contain代表消息中含有该关键词即可，equal表示消息内容必须和关键词严格相同 */
 	private String match_mode;
 

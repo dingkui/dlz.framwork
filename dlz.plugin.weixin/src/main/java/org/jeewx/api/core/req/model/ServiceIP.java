@@ -10,5 +10,6 @@ import org.jeewx.api.core.annotation.ReqType;
  */
 @ReqType("getcallbackip")
 public class ServiceIP extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 }

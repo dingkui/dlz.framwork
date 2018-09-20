@@ -6,6 +6,7 @@ package com.dlz.framework.bean;
  *
  */
 public class JSONResult extends JSONMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

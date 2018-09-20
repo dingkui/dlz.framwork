@@ -1,6 +1,7 @@
 package org.jeewx.api.third.model;
 
 public class ReOpenAccessToken {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
    /**
 	* access_token	接口调用凭证

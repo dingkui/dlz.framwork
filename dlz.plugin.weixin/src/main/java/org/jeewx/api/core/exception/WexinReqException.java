@@ -6,6 +6,7 @@ package org.jeewx.api.core.exception;
  *
  */
 public class WexinReqException extends Exception {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static final long serialVersionUID = 1L;
 

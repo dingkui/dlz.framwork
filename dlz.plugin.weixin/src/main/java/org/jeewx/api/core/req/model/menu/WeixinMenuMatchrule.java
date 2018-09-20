@@ -1,8 +1,7 @@
 package org.jeewx.api.core.req.model.menu;
 
-import java.util.List;
-
 public class WeixinMenuMatchrule {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String group_id;
 	

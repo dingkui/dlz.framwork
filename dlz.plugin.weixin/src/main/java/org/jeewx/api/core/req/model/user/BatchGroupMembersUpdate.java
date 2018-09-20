@@ -13,6 +13,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("batchGroupMembersUpdate")
 public class BatchGroupMembersUpdate extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private List<String> openid_list;
 	

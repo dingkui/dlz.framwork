@@ -10,6 +10,7 @@ import org.jeewx.api.wxsendmsg.model.WxArticle;
  *
  */
 public class WxArticlesRespponseByMaterial {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	List<WxArticle> news_item = new ArrayList<WxArticle>();
 
 	

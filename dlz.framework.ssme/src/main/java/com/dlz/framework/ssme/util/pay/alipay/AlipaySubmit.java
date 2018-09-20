@@ -33,6 +33,7 @@ import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
  */
 
 public class AlipaySubmit {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     
     /**
      * 支付宝提供给商户的服务接入网关URL(新)

@@ -12,6 +12,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.util.ValUtil;
 @SuppressWarnings("unchecked")
 public class XmlConfigUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	final static String XML_ID = "id";
 	final static String XML_TYPE_LIST = "list";
 	final static String XML_TYPE_MAP = "map";

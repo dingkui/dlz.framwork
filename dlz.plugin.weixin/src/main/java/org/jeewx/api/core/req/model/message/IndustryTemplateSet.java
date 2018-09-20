@@ -11,6 +11,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("industryTemplateSet")
 public class IndustryTemplateSet extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 
 	private String industry_id1;

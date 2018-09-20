@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class Cash {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//基本的卡券
 	private BaseInfo base_info;
 	//代金券专用，表示起用金额

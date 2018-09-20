@@ -1,13 +1,13 @@
 package org.jeewx.api.coupon.qrcode;
 
-import net.sf.json.JSONObject;
-
 import org.jeewx.api.core.exception.WexinReqException;
 import org.jeewx.api.core.req.WeiXinReqService;
 import org.jeewx.api.coupon.qrcode.model.Getticket;
 import org.jeewx.api.coupon.qrcode.model.GetticketRtn;
 import org.jeewx.api.coupon.qrcode.model.QrcodeInfo;
 import org.jeewx.api.coupon.qrcode.model.QrcodeRtnInfo;
+
+import net.sf.json.JSONObject;
 
 
 /**
@@ -16,6 +16,7 @@ import org.jeewx.api.coupon.qrcode.model.QrcodeRtnInfo;
  *
  */
 public class JwQrcodeAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 创建二维码

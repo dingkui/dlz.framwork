@@ -6,6 +6,7 @@ import com.dlz.plugin.netty.NettyServer;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 public class ServerTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static void main(String[] args) {
 		NettyServer nettyServer = new NettyServer(8080, new ISocketListener() {
 			@Override

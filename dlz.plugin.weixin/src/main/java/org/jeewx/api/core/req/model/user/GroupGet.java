@@ -11,5 +11,6 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("groupsGet")
 public class GroupGet extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 }

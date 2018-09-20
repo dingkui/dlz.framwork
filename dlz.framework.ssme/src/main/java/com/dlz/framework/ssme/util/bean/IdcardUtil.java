@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import com.dlz.framework.logger.MyLogger;
 public class IdcardUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(IdcardUtil.class);
 	private static Map<String, String> cityCodeMap = new HashMap<String, String>() {
 		private static final long serialVersionUID = 197936596282292049L;

@@ -9,6 +9,7 @@ package com.dlz.plugin.weixin.message.resp;
  */
 
 public class Music {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	// 音乐名称
 	private String Title;

@@ -30,6 +30,7 @@ import java.util.zip.Checksum;
 import com.dlz.framework.logger.MyLogger;
 
 public final class IOUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     private static final MyLogger logger = MyLogger.getLogger( IOUtils.class );
 

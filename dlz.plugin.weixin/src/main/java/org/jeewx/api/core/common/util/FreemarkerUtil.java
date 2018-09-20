@@ -22,6 +22,7 @@ import freemarker.template.Template;
  * @version V1.0
  */
 public class FreemarkerUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(FreemarkerUtil.class);
 	private static Configuration _tplConfig = new Configuration();
 

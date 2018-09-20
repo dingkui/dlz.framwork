@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeixinUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	public static String parseWeiXinHttpUrl(String url,Map<String, Object> paras) {
 		return FreemarkerUtil.parseTemplateContent(url, paras);

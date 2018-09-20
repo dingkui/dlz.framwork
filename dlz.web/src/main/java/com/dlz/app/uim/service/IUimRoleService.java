@@ -2,8 +2,6 @@ package com.dlz.app.uim.service;
 
 import java.util.List;
 
-import com.dlz.app.uim.bean.Role;
-import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.IBaseService;

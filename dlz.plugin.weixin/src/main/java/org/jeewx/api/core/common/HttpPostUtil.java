@@ -19,6 +19,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
 public class HttpPostUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	URL url;
 	HttpURLConnection conn;
 	String boundary = "--------httppost123";

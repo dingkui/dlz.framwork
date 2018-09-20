@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import com.dlz.framework.db.service.IColumnMapperService;
 public class ColumnMapperCamel implements IColumnMapperService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Override
 	public String converClumnStr2Str(String dbKey) {
 		if (dbKey == null) {

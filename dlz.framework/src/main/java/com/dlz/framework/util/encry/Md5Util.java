@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Md5Util {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static String md5(byte[] input){
 		MessageDigest md;
 		try {

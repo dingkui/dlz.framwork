@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
 
+@SuppressWarnings({"resource","unused"})
 public class RedisTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Test 
 	public void test1Normal() { 
 	    long start = System.currentTimeMillis(); 

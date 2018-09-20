@@ -6,6 +6,7 @@ package com.dlz.framework.db.modal;
  *
  */
 public class DeleteParaMap extends CreateSqlParaMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private static final String SQL="key.comm.deleteTable";
 	public DeleteParaMap(String tableName){

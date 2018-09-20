@@ -7,6 +7,7 @@ import java.util.List;
  * @version v1.0
  */
 public class BaseInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// card_id
 	private String id;
 	// 卡券的商户logo

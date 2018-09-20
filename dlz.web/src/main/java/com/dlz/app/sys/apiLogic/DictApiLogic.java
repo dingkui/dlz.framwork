@@ -21,6 +21,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @Service
 @AnnoAuth("admin")
 public class DictApiLogic extends AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	IDictService dictService;

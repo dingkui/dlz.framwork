@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WxTagUserList {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	List<String> openid = new ArrayList<String>();
 
 	public List<String> getOpenid() {

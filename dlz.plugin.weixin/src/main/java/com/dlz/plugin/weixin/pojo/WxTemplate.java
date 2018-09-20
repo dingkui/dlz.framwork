@@ -3,6 +3,7 @@ package com.dlz.plugin.weixin.pojo;
 import java.util.Map;
 
 public class WxTemplate {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String template_id;
 	private String touser;
 	private String url;

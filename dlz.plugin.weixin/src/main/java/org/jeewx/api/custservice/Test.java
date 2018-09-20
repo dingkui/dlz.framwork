@@ -9,6 +9,7 @@ import org.jeewx.api.custservice.multicustservice.JwMultiCustomerAPI;
 import org.jeewx.api.custservice.multicustservice.model.ChatRecord;
 
 public class Test {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private static String appid = "wxb512901288a94943";
     private static String appscret = "?";
 

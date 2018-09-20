@@ -18,6 +18,7 @@ import com.dlz.framework.ssme.util.xml.mapper.JsonMapper;
 import com.dlz.framework.util.StringUtils;
 
 public class DictUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 取得字典对应的下拉框

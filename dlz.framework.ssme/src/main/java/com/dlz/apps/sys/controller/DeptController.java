@@ -51,6 +51,7 @@ import com.dlz.framework.util.StringUtils;
 @Controller
 @RequestMapping(ControllerConst.ADMIN+"/rbac/dept")
 public class DeptController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DeptController.class);
 	
 	@Autowired

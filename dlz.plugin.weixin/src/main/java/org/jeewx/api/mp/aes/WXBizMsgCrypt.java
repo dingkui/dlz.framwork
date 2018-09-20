@@ -40,6 +40,7 @@ import org.apache.commons.codec.binary.Base64;
  * </ol>
  */
 public class WXBizMsgCrypt {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	static Charset CHARSET = Charset.forName("utf-8");
 	Base64 base64 = new Base64();
 	byte[] aesKey;

@@ -6,6 +6,7 @@ package com.dlz.plugin.weixin.message.resp;
  *
  */
 public class Image {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//媒体文件ID
 	private String MediaId;

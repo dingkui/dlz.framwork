@@ -3,12 +3,10 @@ package com.dlz.common.util;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.db.service.impl.ColumnMapperToLower;
 import com.dlz.framework.holder.SpringHolder;
  
 

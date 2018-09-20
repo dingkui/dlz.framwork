@@ -1,6 +1,7 @@
 package org.jeewx.api.wxshop.model;
 
 public class PoiId {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//id
 	private String poi_id;
 

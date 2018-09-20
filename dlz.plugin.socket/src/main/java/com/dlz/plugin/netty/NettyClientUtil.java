@@ -7,6 +7,7 @@ import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 public class NettyClientUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static Map<String,NettyClient> clientMap=new HashMap<>();
 	private static Map<String,NettySynClient> clientSynMap=new HashMap<>();
 	

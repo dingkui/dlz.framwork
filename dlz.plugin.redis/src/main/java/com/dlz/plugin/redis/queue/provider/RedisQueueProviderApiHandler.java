@@ -20,6 +20,7 @@ import redis.clients.jedis.JedisPool;
  */
 @Component
 public class RedisQueueProviderApiHandler extends ApiProxyHandler {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private MyLogger logger = MyLogger.getLogger(getClass());
 
     @Autowired

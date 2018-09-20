@@ -14,6 +14,7 @@ import com.dlz.framework.ssme.util.web.Servlets;
 
 @SuppressWarnings("unchecked")
 public class PageDealCommonLogic {
+	void doNothing2(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	ICommService commService;
 

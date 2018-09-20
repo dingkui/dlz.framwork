@@ -15,6 +15,7 @@ import com.dlz.framework.ssme.util.xml.adapter.MapAdapter;
  */
 @XmlRootElement(name = "map")
 public class MapWrapper {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	@XmlAnyElement
 	@XmlJavaTypeAdapter(MapAdapter.class)

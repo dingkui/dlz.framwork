@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.product.model;
 import java.util.List;
 
 public class Product {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 商品id
 	private String product_id;
 	// 基本属性

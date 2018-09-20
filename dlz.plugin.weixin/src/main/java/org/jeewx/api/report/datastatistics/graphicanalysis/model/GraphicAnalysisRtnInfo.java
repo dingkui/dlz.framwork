@@ -10,6 +10,7 @@ import java.util.List;
 * @date 2015年1月29日 下午10:44:11  
 */
 public class GraphicAnalysisRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** 
 	* 数据的日期，需在begin_date和end_date之间

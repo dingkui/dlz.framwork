@@ -6,6 +6,7 @@ import java.util.List;
  * Created by afon on 14/11/24.
  */
 public class App extends PingppObject {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     String id;
     String object;
     Long created;

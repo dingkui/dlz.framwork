@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.product.model;
 import java.util.List;
 
 public class SkuInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// sku id
 	private String id;
 	// sku 名称

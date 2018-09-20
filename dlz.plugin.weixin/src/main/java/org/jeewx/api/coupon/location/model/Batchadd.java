@@ -7,6 +7,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 @ReqType("getBatchadd")
 public class Batchadd extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//门店信息
 	private List<LocationList> location_list;
 

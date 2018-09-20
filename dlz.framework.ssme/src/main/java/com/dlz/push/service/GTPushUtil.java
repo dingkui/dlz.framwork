@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.CommServiceImpl;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.util.StringUtils;
 import com.gexin.rp.sdk.base.IPushResult;
@@ -29,6 +29,7 @@ import com.google.gson.JsonObject;
 
 @Component
 public class GTPushUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger logger = MyLogger.getLogger(GTPushUtil.class);
 

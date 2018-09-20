@@ -4,6 +4,7 @@ import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 
 public class SingletonClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SingletonClient.class);
 	private static Client client=null;
 	private SingletonClient(){

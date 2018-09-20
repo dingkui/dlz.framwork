@@ -11,6 +11,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("groupMembersUpdate")
 public class GroupMembersUpdate extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private String openid;
 	

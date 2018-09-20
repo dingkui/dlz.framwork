@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.order.model;
 
 public class OrderRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码 
 	private Integer errcode;
 	// 错误信息

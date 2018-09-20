@@ -6,6 +6,7 @@ package org.jeewx.api.wxsendmsg.model;
  *
  */
 public class WxKfaccount {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String kf_account;
 	

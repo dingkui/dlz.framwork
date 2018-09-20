@@ -32,6 +32,7 @@ import com.dlz.framework.ssme.util.config.ConfigUtil;
  *
  */
 public class Uploader {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//文件大小常量, 单位kb
 	private static final int MAX_SIZE = 10000;
 	// 输出文件地址

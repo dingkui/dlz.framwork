@@ -6,6 +6,7 @@ package com.dlz.framework.util;
  *
  */
 public class ParseUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public enum ParserEnum{
 		D627("ZmXgakWAwbFnvPMsNiDrGYpdTRVCy3jzL7H2ulh45BKOQ0IxS1t9efJqo6Uc8E",7,3),
 		D623("0Ix2fJqMsN5SrGQ3jzXgakWTRVCyAwY8Eho6L7Hpdi1t9ebO4BKDuZmFnvPlUc",3,3),

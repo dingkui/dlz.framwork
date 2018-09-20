@@ -42,6 +42,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwMediaAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(JwMediaAPI.class);
 	// 新增永久图文素材
 	private static String material_add_news_url ="https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";

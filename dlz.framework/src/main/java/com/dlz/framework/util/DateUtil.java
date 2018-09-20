@@ -9,11 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.springframework.context.support.StaticApplicationContext;
-
 import com.dlz.framework.logger.MyLogger;
 
 public class DateUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DateUtil.class);
 	private static final long ONE_MINUTE = 60000L;
 	private static final long ONE_HOUR = 3600000L;

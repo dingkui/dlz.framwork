@@ -30,6 +30,7 @@ import com.dlz.framework.util.ValUtil;
 @SuppressWarnings("unchecked")
 @DependsOn("dbInfo")
 public class CommServiceImpl implements ICommService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(CommServiceImpl.class);
 	@Autowired
 	private IDaoOperator daoOperator;

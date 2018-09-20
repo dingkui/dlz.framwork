@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class KeyWordAutoReplyInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/** 规则名称 */
 	private String rule_name;
 	/** 创建时间 */

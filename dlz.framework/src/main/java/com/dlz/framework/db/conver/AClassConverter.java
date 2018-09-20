@@ -6,6 +6,7 @@ package com.dlz.framework.db.conver;
  *
  */
 public abstract class AClassConverter<DB,OBJ,PARA>{
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	public abstract String getCoverClass();
 	/**
 	 * 转换成显示对象

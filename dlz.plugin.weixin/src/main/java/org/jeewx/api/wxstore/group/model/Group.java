@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.group.model;
 
 public class Group {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 分组详细
 	private GroupDetailInfo group_detail;
 	// 分组D

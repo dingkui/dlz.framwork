@@ -6,6 +6,7 @@ import java.util.List;
 import com.dlz.framework.plugin.inf.IPluginPile;
 
 public class BasePluginPile<T> implements IPluginPile<T> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected List<T> plugins=new ArrayList<T>();
 	/**
 	 * 添加到插件桩

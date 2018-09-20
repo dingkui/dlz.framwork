@@ -8,6 +8,7 @@ import net.sf.json.util.PropertyFilter;
  *
  */
 public class CustomJsonConfig extends JsonConfig{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@SuppressWarnings("rawtypes")
 	private Class clazz;
 	public CustomJsonConfig(){

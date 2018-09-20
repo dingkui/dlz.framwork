@@ -5,6 +5,7 @@ import java.util.Map;
 
 @SuppressWarnings({"rawtypes","unchecked"})
 public class ThreadLocalMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static ThreadLocal<Map> serialNum = new ThreadLocal<Map>(){
 		protected Map initialValue() {
 			return new HashMap();

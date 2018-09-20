@@ -11,6 +11,7 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
 public class TimeClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     public void connect(int port,String host) throws Exception{
         //配置客户端NIO线程组,客户端处理I/O读写的NioEventLoopGroup线程组

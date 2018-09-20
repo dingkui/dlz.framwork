@@ -1,5 +1,7 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.model;
 
+import java.util.Map;
+
 import com.dlz.framework.ssme.util.pay.pingplusplus.Pingpp;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIConnectionException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIException;
@@ -7,9 +9,8 @@ import com.dlz.framework.ssme.util.pay.pingplusplus.exception.AuthenticationExce
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.ChannelException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.InvalidRequestException;
 
-import java.util.Map;
-
 public class ChargeRefundCollection extends PingppColllectionAPIResource<Refund> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     public ChargeRefundCollection all(Map<String, Object> params)
             throws AuthenticationException, InvalidRequestException,

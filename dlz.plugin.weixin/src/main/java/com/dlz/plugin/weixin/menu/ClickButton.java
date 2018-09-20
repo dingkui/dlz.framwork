@@ -7,6 +7,7 @@ package com.dlz.plugin.weixin.menu;
  *
  */
 public class ClickButton extends Button {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	
 	//按钮键值，开发者通过他来判断用户点击的按钮

@@ -13,6 +13,7 @@ import com.dlz.plugin.socket.interfaces.ASocketIO;
  *
  */
 public class ScoketIOSizeByte  extends ASocketIO {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ScoketIOSizeByte.class);
 	private static int headerLength=8;
 	private static String charsetName="UTF-8";

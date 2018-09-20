@@ -133,6 +133,7 @@ public interface BaseService<T, PK extends Serializable> {
 	   * @return
 	   * @throws Exception
 	   */			
+		@SuppressWarnings("rawtypes")
 		Page<T>  getPageByExample(Object example,Page page) throws Exception;
 	  /**
 	   * 根据主键更新数据（数据对象中所有字段都做更新）（包含大字段）

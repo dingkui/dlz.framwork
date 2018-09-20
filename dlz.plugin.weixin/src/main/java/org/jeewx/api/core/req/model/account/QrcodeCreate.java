@@ -10,6 +10,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("qrcodeCreate")
 public class QrcodeCreate extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String expire_seconds;
 	

@@ -14,6 +14,7 @@ import com.dlz.plugin.socket.util.StringCompress;
  *
  */
 public class ScoketIOCompress extends ASocketIO {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ScoketIOCompress.class);
 	private static int headerLength=8;
 	

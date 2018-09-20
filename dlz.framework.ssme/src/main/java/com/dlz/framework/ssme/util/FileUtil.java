@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class FileUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 

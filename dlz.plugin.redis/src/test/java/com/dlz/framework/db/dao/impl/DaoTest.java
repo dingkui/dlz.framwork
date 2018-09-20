@@ -14,6 +14,7 @@ import com.dlz.framework.util.JacksonUtil;
 
 @Service
 public class DaoTest implements IDaoOperator {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DaoTest.class);
 	@Override
 	public long getSeq(String seqName) {

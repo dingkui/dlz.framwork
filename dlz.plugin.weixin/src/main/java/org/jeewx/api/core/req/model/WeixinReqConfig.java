@@ -6,6 +6,7 @@ package org.jeewx.api.core.req.model;
  *
  */
 public class WeixinReqConfig {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	
 	 private String key;

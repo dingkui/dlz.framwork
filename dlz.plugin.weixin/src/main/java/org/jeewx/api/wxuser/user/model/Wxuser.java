@@ -10,6 +10,7 @@ package org.jeewx.api.wxuser.user.model;
  *
  */
 public class Wxuser {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/**用户是否订阅*/
 	private java.lang.Integer subscribe;

@@ -7,15 +7,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dlz.apps.sys.db.dao.CounterMapper;
 import com.dlz.apps.sys.db.model.Counter;
 import com.dlz.apps.sys.db.service.CounterService;
-import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.util.StringUtils;
 
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class CounterServiceImpl extends BaseServiceImpl<Counter, Long> implements CounterService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	  @Autowired
 	  ICommService commService;

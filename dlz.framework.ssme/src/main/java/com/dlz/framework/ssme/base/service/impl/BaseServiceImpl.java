@@ -5,147 +5,153 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.base.dao.BaseMapper;
 import com.dlz.framework.ssme.base.service.BaseService;
 import com.dlz.framework.util.system.Reflections;
 import com.google.common.collect.Lists;
 
+@SuppressWarnings("unchecked")
 public abstract class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
+	void doNothing1() {new java.util.ArrayList<>().forEach(a -> {});}
+
 	private static MyLogger logger = MyLogger.getLogger(BaseServiceImpl.class);
 	protected BaseMapper<T, PK> mapper;
 	@Autowired
 	protected ICommService commService;
-	
-	@SuppressWarnings("unchecked")
-	private Class<T> getBeanClass(){
-		return (Class <T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
+	private Class<T> getBeanClass() {
+		return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
+
 	@Override
-   public List<T> getBeanList(BaseParaMap pm) throws Exception{
-	   return commService.getBeanList(pm, getBeanClass());
-   }
-   @Override
-   public T getBean(BaseParaMap pm) throws Exception{
-	   return commService.getBean(pm, getBeanClass());
-   }
-   @Override
-   public Page<T> getPage(BaseParaMap pm) throws Exception{
-	   return commService.getPage(pm,getBeanClass());
-   }
-   @Override
-   public int excute(BaseParaMap pm) throws Exception{
-	   return commService.excuteSql(pm);
-   }
+	public List<T> getBeanList(BaseParaMap pm) throws Exception {
+		return commService.getBeanList(pm, getBeanClass());
+	}
+
+	@Override
+	public T getBean(BaseParaMap pm) throws Exception {
+		return commService.getBean(pm, getBeanClass());
+	}
+
+	@Override
+	public Page<T> getPage(BaseParaMap pm) throws Exception {
+		return commService.getPage(pm, getBeanClass());
+	}
+
+	@Override
+	public int excute(BaseParaMap pm) throws Exception {
+		return commService.excuteSql(pm);
+	}
+
 	/**
 	 * 
 	 */
 	@Override
-	public int countByExample(Object example)throws Exception {
+	public int countByExample(Object example) throws Exception {
 		return mapper.countByExample(example);
 	}
 
 	@Override
-	public int deleteByExample(Object example)throws Exception {
+	public int deleteByExample(Object example) throws Exception {
 		return mapper.deleteByExample(example);
 	}
 
-
 	@Override
-	public int deleteByPrimaryKey(PK pk)throws Exception {
+	public int deleteByPrimaryKey(PK pk) throws Exception {
 		return mapper.deleteByPrimaryKey(pk);
 	}
-	
+
 	@Override
-	public int insert(T record)throws Exception {
+	public int insert(T record) throws Exception {
 		return mapper.insert(record);
 	}
 
 	@Override
-	public int insertSelective(T record)throws Exception {
+	public int insertSelective(T record) throws Exception {
 		return mapper.insertSelective(record);
 	}
 
 	@Override
-	public List<T> selectByExample(Object example)throws Exception {
+	public List<T> selectByExample(Object example) throws Exception {
 		return mapper.selectByExample(example);
 	}
-	
+
 	@Override
-	public List<T> selectByExampleWithBLOBs(Object example)throws Exception {
+	public List<T> selectByExampleWithBLOBs(Object example) throws Exception {
 		return mapper.selectByExampleWithBLOBs(example);
 	}
 
-	
 	@Override
-	public T selectBeanByExample(Object example)throws Exception {
-		List<T> list= mapper.selectByExample(example);
-		if(list.isEmpty()){
+	public T selectBeanByExample(Object example) throws Exception {
+		List<T> list = mapper.selectByExample(example);
+		if (list.isEmpty()) {
 			return null;
-		}else if(list.size()>1){
-			throw new RuntimeException("查询结果为多条："+example);
-		}else{
+		} else if (list.size() > 1) {
+			throw new RuntimeException("查询结果为多条：" + example);
+		} else {
 			return list.get(0);
 		}
 	}
 
 	@Override
-	public T selectByPrimaryKey(PK pk)throws Exception {
+	public T selectByPrimaryKey(PK pk) throws Exception {
 		return mapper.selectByPrimaryKey(pk);
 	}
 
 	@Override
-	public int updateByExampleSelective(T record, Object example)throws Exception {
+	public int updateByExampleSelective(T record, Object example) throws Exception {
 		return mapper.updateByExampleSelective(record, example);
 	}
 
 	@Override
-	public int updateByExample(T record, Object example)throws Exception {
+	public int updateByExample(T record, Object example) throws Exception {
 		return mapper.updateByExample(record, example);
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(T record)throws Exception {
+	public int updateByPrimaryKeySelective(T record) throws Exception {
 		return mapper.updateByPrimaryKeySelective(record);
 	}
 
 	@Override
-	public int updateByPrimaryKey(T record)throws Exception {
+	public int updateByPrimaryKey(T record) throws Exception {
 		return mapper.updateByPrimaryKey(record);
 	}
-	
+
 	@Override
-	public int updateByPrimaryKeyWithBLOBs(T record)throws Exception {
+	public int updateByPrimaryKeyWithBLOBs(T record) throws Exception {
 		return mapper.updateByPrimaryKeyWithBLOBs(record);
 	}
-	
+
 	@Override
-	public int updateByExampleWithBLOBs(T record,Object example)throws Exception {
-		return mapper.updateByExampleWithBLOBs(record,example);
+	public int updateByExampleWithBLOBs(T record, Object example) throws Exception {
+		return mapper.updateByExampleWithBLOBs(record, example);
 	}
+
 	/**
 	 * 分页查询所有
 	 */
 	@Override
-	public Page<T> pageByExample(Object example)throws Exception {
-		if(example == null){
+	public Page<T> pageByExample(Object example) throws Exception {
+		if (example == null) {
 			return new Page<T>(0, Lists.newArrayListWithExpectedSize(0));
-		}else{
+		} else {
 			Page<T> page = null;
-			try{
-				Method m1=Reflections.getAccessibleMethodByName(example, "getPage");
+			try {
+				Method m1 = Reflections.getAccessibleMethodByName(example, "getPage");
 				page = (Page<T>) m1.invoke(example);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
-			if(page==null){
+			if (page == null) {
 				return new Page<T>(mapper.countByExample(example), mapper.selectByExample(example));
-			}else{
+			} else {
 				return getPageByExample(example, page);
 			}
 		}
@@ -153,19 +159,19 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 
 	@Override
 	public Page<T> pageByExampleWithBlobs(Object example) throws Exception {
-		if(example == null){
+		if (example == null) {
 			return new Page<T>(0, Lists.newArrayListWithExpectedSize(0));
-		}else{
+		} else {
 			Page<T> page = null;
-			try{
-				Method m1=Reflections.getAccessibleMethodByName(example, "getPage");
+			try {
+				Method m1 = Reflections.getAccessibleMethodByName(example, "getPage");
 				page = (Page<T>) m1.invoke(example);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
-			if(page==null){
+			if (page == null) {
 				return new Page<T>(mapper.countByExample(example), mapper.selectByExampleWithBLOBs(example));
-			}else{
+			} else {
 				page.setCount(mapper.countByExample(example));
 				page.setData(mapper.selectByExampleWithBLOBs(example));
 				return page;
@@ -173,14 +179,14 @@ public abstract class BaseServiceImpl<T, PK extends Serializable> implements Bas
 		}
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	@Override
-	public Page<T> getPageByExample(Object example,Page page)throws Exception {
-		if(example != null){
+	public Page<T> getPageByExample(Object example, Page page) throws Exception {
+		if (example != null) {
 			page.setCount(mapper.countByExample(example));
-			page.setData(mapper.selectByExample(example)) ;
+			page.setData(mapper.selectByExample(example));
 			return page;
-		}else{
+		} else {
 			return null;
 		}
 	}

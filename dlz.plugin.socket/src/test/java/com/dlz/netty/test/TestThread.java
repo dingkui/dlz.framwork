@@ -5,6 +5,7 @@ import java.util.Date;
 import com.dlz.plugin.netty.NettyServer;
 
 public class TestThread extends Thread {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	static int all = 0;
 	static long allt = new Date().getTime();
 	NettyServer client = null;

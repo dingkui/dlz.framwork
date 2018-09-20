@@ -16,6 +16,7 @@ import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.logger.MyLogger;
 
 public class SequenceDeal{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SequenceDeal.class);
 	
 	_Updater updater = null;

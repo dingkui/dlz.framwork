@@ -4,6 +4,7 @@ import org.jeewx.api.core.exception.WexinReqException;
 import org.jeewx.api.wxuser.user.JwUserAPI;
 
 public class Test {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static void main(String[] args) {
 		try {

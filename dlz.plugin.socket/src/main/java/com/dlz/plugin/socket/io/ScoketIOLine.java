@@ -14,6 +14,7 @@ import com.dlz.plugin.socket.interfaces.ASocketIO;
  * @author dingkui
  */
 public class ScoketIOLine  extends ASocketIO{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ScoketIOLine.class);
 	private static String charsetName="UTF-8";
 	public static String separatorReplace="<separatorReplace>";

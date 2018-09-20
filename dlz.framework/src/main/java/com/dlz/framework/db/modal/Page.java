@@ -8,6 +8,7 @@ import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.util.StringUtils;
 
 public class Page<T>  implements Serializable{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 2651739814148073895L;
 
 	public static final int DEFAULT_PAGE_SIZE = 20;

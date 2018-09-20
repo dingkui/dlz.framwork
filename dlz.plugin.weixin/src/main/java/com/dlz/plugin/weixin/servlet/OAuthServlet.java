@@ -20,6 +20,7 @@ import com.dlz.plugin.weixin.util.AdvancedUtil;
  *
  */
 public class OAuthServlet extends HttpServlet{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = -1691855555267177572L;
 	private static MyLogger logger = MyLogger.getLogger(OAuthServlet.class);
 	public void doGet(HttpServletRequest request,HttpServletResponse response

@@ -13,6 +13,7 @@ import com.dlz.framework.plugin.base.BasePluginPile;
  */
 @Component
 public class UserPluginPile extends BasePluginPile<IUserPlugin> implements IUserPlugin{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Override
 	public void afterGetUser(JSONResult result, Long userId) {
 		for(IUserPlugin userPlugin:plugins){

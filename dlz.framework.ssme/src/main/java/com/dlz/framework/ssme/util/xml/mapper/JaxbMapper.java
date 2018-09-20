@@ -15,9 +15,9 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.util.Assert;
 
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.system.Exceptions;
 import com.dlz.framework.ssme.util.xml.wrapper.CollectionWrapper;
 import com.dlz.framework.util.StringUtils;
@@ -33,6 +33,7 @@ import com.sun.xml.bind.marshaller.CharacterEscapeHandler;
  */
 @SuppressWarnings({ "rawtypes" })
 public class JaxbMapper {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static ConcurrentMap<Class, JAXBContext> jaxbContexts = new ConcurrentHashMap<Class, JAXBContext>();
 	private static MyLogger logger = MyLogger.getLogger(JaxbMapper.class);

@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.db.model;
 import java.io.Serializable;
 
 public class FunRole implements Serializable{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 自动生成的序列号

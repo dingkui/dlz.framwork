@@ -7,6 +7,7 @@ import java.math.BigDecimal;
  * @author dk 2017-11-03
  */
 public class NumberUtil{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static BigDecimal B100=new BigDecimal(100);
 	private static BigDecimal B0=new BigDecimal(0);
 	public static long getLongMoney(Object money){

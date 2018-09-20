@@ -3,6 +3,7 @@ package org.jeewx.api.third.model;
  * 授权方的账户信息实体
  */
 public class ApiGetAuthorizerRetAuthorizer {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//昵称
 	private String nick_name ;
 	//头像

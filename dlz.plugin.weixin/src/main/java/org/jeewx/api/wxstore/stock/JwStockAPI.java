@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwStockAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 增加库存
 	private static String add_stock_url = "https://api.weixin.qq.com/merchant/stock/add?access_token=ACCESS_TOKEN";
 	// 减少库存

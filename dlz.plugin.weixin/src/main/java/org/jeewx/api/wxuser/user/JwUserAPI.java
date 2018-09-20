@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwUserAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 
 	/**

@@ -20,6 +20,7 @@ import org.junit.Test;
  * 
  */
 public class MessageTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String newAccessToken = null;
 	private static String touser = null;
 

@@ -8,6 +8,7 @@ package org.jeewx.api.wxbase.wxmedia.model;
  * 
  */
 public class WxCountResponse {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/** 语音总数量 */
 	private String voice_count;

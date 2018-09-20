@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
-import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.modal.ResultMap;
 
 /**
@@ -16,6 +15,7 @@ import com.dlz.framework.db.modal.ResultMap;
  * @author dingkui
  */
 public class ResultMapRowMapper implements RowMapper<ResultMap> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Override
 	public ResultMap  mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();

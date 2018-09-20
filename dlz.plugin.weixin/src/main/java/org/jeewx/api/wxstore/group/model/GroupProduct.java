@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.group.model;
 
 public class GroupProduct {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 商品ID
 	private String product_id;
 	// 修改操作(0-删除, 1-增加)

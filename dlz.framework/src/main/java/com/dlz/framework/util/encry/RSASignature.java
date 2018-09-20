@@ -7,6 +7,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 public class RSASignature {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 

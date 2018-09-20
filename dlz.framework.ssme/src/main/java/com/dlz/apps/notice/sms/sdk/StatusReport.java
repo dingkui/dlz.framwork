@@ -9,6 +9,7 @@ package com.dlz.apps.notice.sms.sdk;
 
 
 public class StatusReport  implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
 	 * 
 	 */

@@ -3,6 +3,7 @@ package org.jeewx.api.core.common;
 import net.sf.json.JSONObject;
 
 public class AccessToken {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String appid;
 	private String appscret;

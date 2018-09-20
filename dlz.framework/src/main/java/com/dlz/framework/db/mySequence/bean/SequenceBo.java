@@ -5,6 +5,7 @@ import java.util.Date;
 import com.dlz.framework.util.StringUtils;
 
 public class SequenceBo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * seq名
 	 */

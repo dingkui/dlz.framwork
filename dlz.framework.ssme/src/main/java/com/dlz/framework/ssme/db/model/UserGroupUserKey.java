@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.db.model;
 import java.io.Serializable;
 
 public class UserGroupUserKey implements Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
 	 * 
 	 */

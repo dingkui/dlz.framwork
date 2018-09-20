@@ -1,8 +1,6 @@
 package com.dlz.web.util;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -59,6 +57,7 @@ import com.dlz.framework.util.StringUtils;
  */
 
 public class HttpUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(HttpUtil.class);
 	
 	private final static String CHARSET_UTF8="UTF-8";

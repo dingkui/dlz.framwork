@@ -29,6 +29,7 @@ import com.dlz.framework.quartz.bean.ScheduleJobSimple;
  */
 @Component
 public class JobMethod {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(JobMethod.class);
 	Scheduler scheduler;
 	JobMethod(){

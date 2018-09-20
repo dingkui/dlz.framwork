@@ -3,6 +3,7 @@ package org.jeewx.api.coupon.location.model;
 import java.util.Date;
 
 public class DataInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String type;
 	private Date begin_timestamp ;

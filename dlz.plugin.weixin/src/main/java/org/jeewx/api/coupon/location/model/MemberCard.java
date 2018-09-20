@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class MemberCard {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//基本的卡券数据
 	private BaseInfo base_info;
 	//是否支持积分

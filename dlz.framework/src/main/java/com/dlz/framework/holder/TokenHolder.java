@@ -12,6 +12,7 @@ import com.dlz.framework.util.DateUtil;
  *
  */
 public class TokenHolder {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static Map<String,TokenInfo> holder=new HashMap<String,TokenInfo>();
 	
 	public static TokenInfo getToken(String key){

@@ -14,6 +14,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("getUserInfoList")
 public class UserInfoListGet extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String next_openid;
 

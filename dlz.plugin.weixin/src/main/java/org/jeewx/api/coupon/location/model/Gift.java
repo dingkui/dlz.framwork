@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class Gift {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//基本的卡券
 	private BaseInfo base_info;
 	//礼品券专用

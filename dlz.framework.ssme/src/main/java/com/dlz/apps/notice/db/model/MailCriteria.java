@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.dlz.apps.notice.db.model.MailCriteria.GeneratedCriteria;
 import com.dlz.framework.ssme.base.criteria.BaseCriteria;
 import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
-import com.dlz.apps.notice.db.model.MailCriteria.GeneratedCriteria;
 
 public class MailCriteria extends BaseCriteria<GeneratedCriteria> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     protected GeneratedCriteria createCriteriaInternal1() {
         return new GeneratedCriteria();

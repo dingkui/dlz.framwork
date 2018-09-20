@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class Color {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//颜色名称
 	private String name ;
 	//颜色值

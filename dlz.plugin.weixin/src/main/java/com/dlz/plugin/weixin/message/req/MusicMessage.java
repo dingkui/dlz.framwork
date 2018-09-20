@@ -6,6 +6,7 @@ package com.dlz.plugin.weixin.message.req;
  *
  */
 public class MusicMessage extends BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private Music Music;
 

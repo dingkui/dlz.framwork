@@ -1,5 +1,7 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.net;
 
+import java.lang.reflect.Type;
+
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.App;
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.ChargeRefundCollection;
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.RedEnvelope;
@@ -12,12 +14,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-import java.lang.reflect.Type;
-
 /**
  * Created by sunkai on 15/5/14.
  */
 public class RedEnvelopeDeserializer implements JsonDeserializer<RedEnvelope> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     @Override
     public RedEnvelope deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject transFerJson = json.getAsJsonObject();

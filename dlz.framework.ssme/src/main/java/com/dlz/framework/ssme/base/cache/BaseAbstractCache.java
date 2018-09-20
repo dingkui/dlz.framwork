@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import com.dlz.framework.logger.MyLogger;
-
 import com.google.common.cache.Cache;
 
 public abstract class BaseAbstractCache<K, V> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	protected MyLogger logger = MyLogger.getLogger(getClass());
 	

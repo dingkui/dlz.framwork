@@ -1,6 +1,7 @@
 package org.jeewx.api.third.model;
 
 public class ApiGetAuthorizerRetAuthortionFunc {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private ApiGetAuthorizerRetAuthortionFuncCate funcscope_category;
 
 	public ApiGetAuthorizerRetAuthortionFuncCate getFuncscope_category() {

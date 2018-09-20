@@ -24,6 +24,7 @@ import com.dlz.framework.ssme.util.config.ConfigUtil;
  */
 
 public class AlipayConfig {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	// 合作身份者ID，以2088开头由16位纯数字组成的字符串

@@ -8,6 +8,7 @@ package com.dlz.plugin.weixin.message.req;
  *
  */
 public class VideoMessage extends BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//媒体文件  ID
 	private String MediaId;
 	//缩略图的媒体 ID

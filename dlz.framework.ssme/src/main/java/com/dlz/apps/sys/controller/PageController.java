@@ -22,6 +22,7 @@ import com.dlz.framework.ssme.base.controller.BaseController;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN)
 public class PageController extends BaseController{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(PageController.class);
 	@Autowired
 	private MenuCache menuCahe;

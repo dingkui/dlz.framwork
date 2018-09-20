@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class AttrInfoDetail {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 文字描述
 	private String text;
 	// 图片

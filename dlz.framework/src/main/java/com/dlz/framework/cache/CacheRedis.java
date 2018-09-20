@@ -22,6 +22,7 @@ import net.sf.ehcache.Element;
  */
 @SuppressWarnings("unchecked")
 public abstract class CacheRedis<KEY,T>{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(CacheRedis.class);
 
 	private static Set<String> CacheSet = new HashSet<String>();

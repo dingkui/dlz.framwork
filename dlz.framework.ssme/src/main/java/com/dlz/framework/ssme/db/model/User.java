@@ -1,12 +1,10 @@
 package com.dlz.framework.ssme.db.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.dlz.framework.db.modal.BaseModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class User extends BaseModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore

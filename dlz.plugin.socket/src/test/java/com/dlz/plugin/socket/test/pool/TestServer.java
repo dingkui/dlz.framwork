@@ -11,6 +11,7 @@ import com.dlz.plugin.socket.io.ScoketIOCompress;
  * @author dk
  */
 public class TestServer{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static void main(String[] args) throws IOException {
 //		SocketServerManager.startServer("test", 9999, 1, new DealServiceTest1(), new ScoketIOLine());
 	//	SocketServerManager.startServer("test", 9999, 10, new DealServiceTest1(), new ScoketIOCompress());

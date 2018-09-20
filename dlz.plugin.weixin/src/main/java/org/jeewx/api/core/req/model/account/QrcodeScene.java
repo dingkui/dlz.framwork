@@ -8,6 +8,7 @@ package org.jeewx.api.core.req.model.account;
  * 
  */
 public class QrcodeScene {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	
 	private String scene_str;

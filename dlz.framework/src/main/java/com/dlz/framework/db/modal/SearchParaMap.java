@@ -10,6 +10,7 @@ import com.dlz.framework.db.SqlUtil;
  */
 @SuppressWarnings("rawtypes")
 public class SearchParaMap extends CreateSqlParaMap{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private static final String SQL="key.comm.searchTable";
 	public SearchParaMap(String tableName,Page page){

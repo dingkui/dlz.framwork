@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.order.model;
 
 public class OrderDelivery {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 订单ID
 	private String order_id;
 	// 物流公司ID

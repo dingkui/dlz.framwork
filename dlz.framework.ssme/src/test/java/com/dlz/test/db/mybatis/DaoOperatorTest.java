@@ -7,9 +7,9 @@ import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.ssme.db.dao.UserMapper;
 import com.dlz.framework.ssme.db.model.UserCriteria;
-import com.dlz.framework.ssme.db.model.UserCriteria.GeneratedCriteria;
 
 public class DaoOperatorTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Test
 	public void test1(){

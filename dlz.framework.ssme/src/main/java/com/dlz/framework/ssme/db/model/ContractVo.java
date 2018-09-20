@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.db.model;
 import java.util.List;
 @SuppressWarnings({"rawtypes"})
 public class ContractVo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	//合同编号
 	private String contractNum;

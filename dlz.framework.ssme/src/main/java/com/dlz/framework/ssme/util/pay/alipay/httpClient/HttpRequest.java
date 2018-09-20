@@ -14,6 +14,7 @@ import org.apache.commons.httpclient.NameValuePair;
  */
 
 public class HttpRequest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     /** HTTP GET method */
     public static final String METHOD_GET        = "GET";

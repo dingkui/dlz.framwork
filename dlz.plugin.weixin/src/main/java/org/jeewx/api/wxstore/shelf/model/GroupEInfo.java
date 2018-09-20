@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class GroupEInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 分组ID
 	private Integer group_id;
 	

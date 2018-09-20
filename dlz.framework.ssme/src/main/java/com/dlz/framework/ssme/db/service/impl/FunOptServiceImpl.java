@@ -16,6 +16,7 @@ import com.dlz.framework.ssme.db.service.FunOptService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class FunOptServiceImpl extends BaseServiceImpl<FunOpt, Long> implements FunOptService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	@Autowired
 	private RbacMapper rbacMapper;

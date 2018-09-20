@@ -7,6 +7,7 @@ package com.dlz.plugin.weixin.message.event;
  *
  */
 public class MenuEvent extends BaseEvent {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//事件Key值，与自定义菜单接口中KEY值对应
 	private String EventKey;

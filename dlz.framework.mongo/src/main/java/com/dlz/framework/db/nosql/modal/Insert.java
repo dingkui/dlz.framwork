@@ -6,6 +6,7 @@ import java.util.List;
 import com.dlz.framework.bean.JSONMap;
 
 public class Insert extends NosqlBasePara{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private List<JSONMap> datas=new ArrayList<JSONMap>();
 	public Insert(String key) {

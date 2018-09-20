@@ -10,6 +10,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 
 public class CustService extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     //完整客服账号，格式为：账号前缀@公众号微信号
     private String kfAccount = "";

@@ -6,6 +6,7 @@ import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.util.ValUtil;
 
 public class DictConverter extends ANameConverter<Object,String,String> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	ILogicServer<Object,String> logicServer=null;
 	public DictConverter(String name, String para,String logicServer) {
 		super(name, para);

@@ -10,7 +10,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-public class MyInboundHandler extends SimpleChannelInboundHandler {
+public class MyInboundHandler extends SimpleChannelInboundHandler<Object> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(MyInboundHandler.class);
 	private Client client;
 

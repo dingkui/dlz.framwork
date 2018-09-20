@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.JdbcUtils;
 import com.dlz.framework.db.modal.ResultMap;
 
 public class MySqlColumnMapRowMapper extends ResultMapRowMapper{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Override
 	public ResultMap  mapRow(ResultSet rs, int rowNum) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();

@@ -3,6 +3,7 @@ package org.jeewx.api.third.model;
 import java.util.List;
 
 public class ReturnApiQueryAuthInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String authorization_info;
 	private String authorizer_appid;

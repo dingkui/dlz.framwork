@@ -16,6 +16,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class HelloServer {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public void start(int port,ICoder coder) throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();

@@ -1,6 +1,7 @@
 package org.jeewx.api.wxshop.model;
 
 public class Photo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//照片路径
 	private String photo_url;
 

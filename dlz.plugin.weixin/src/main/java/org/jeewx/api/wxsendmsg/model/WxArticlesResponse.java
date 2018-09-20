@@ -9,6 +9,7 @@ import java.util.Date;
  * 
  */
 public class WxArticlesResponse {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** news，即图文消息 */
 	private String type;

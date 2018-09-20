@@ -1,10 +1,11 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.model;
 
-import com.dlz.framework.ssme.util.pay.pingplusplus.net.APIResource;
-
 import java.util.List;
 
+import com.dlz.framework.ssme.util.pay.pingplusplus.net.APIResource;
+
 public abstract class PingppColllectionAPIResource<T> extends APIResource {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     String object;
     String url;
     Boolean hasMore;

@@ -12,6 +12,7 @@ import com.dlz.web.holder.ThreadHolder;
  */
 @SuppressWarnings("unchecked")
 public class UserHolder {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String SESSION_AUTHUSER = "curr_member";
 
 	private static ISessionDeal holder;

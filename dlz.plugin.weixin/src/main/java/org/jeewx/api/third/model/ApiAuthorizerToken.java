@@ -3,6 +3,7 @@ package org.jeewx.api.third.model;
  * 获取（刷新）授权公众号的令牌 参数
  */
 public class ApiAuthorizerToken {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//第三方平台appid
 	private String component_appid;  
 	//授权方appid

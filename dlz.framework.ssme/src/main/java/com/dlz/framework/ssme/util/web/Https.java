@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 public class Https {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static HttpHeaders headers = new HttpHeaders();
 	private static MediaType mediaType = new MediaType("text", "html", Charsets.UTF_8);

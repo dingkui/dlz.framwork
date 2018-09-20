@@ -31,6 +31,7 @@ import com.dlz.framework.logger.MyLogger;
 import net.sf.json.JSONObject;
 
 public class JwSendMessageAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(JwSendMessageAPI.class);
 	// 消息预览URL
 	private static String message_preview_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN";

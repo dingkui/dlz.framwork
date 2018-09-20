@@ -13,6 +13,7 @@ import com.dlz.plugin.weixin.pojo.WeixinOauth2Token;
  *
  */
 public class AdvancedUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(AdvancedUtil.class);
 
 	public static WeixinOauth2Token getOauth2AccessToken(String appId,

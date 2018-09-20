@@ -5,6 +5,7 @@ package com.dlz.framework.util.encry;
  * @author dk 2017-06-20
  */
 public class EncryptUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * all set GLOBAL_AUTH_KEY
 	 */

@@ -2,10 +2,8 @@ package org.jeewx.api.core.req.model.menu;
 
 import java.util.List;
 
-import org.jeewx.api.core.annotation.ReqType;
-import org.jeewx.api.core.req.model.WeixinReqParam;
-
 public class PersonalizedMenu {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private List<WeixinButton> button;
 	private WeixinMenuMatchrule matchrule;

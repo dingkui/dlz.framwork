@@ -17,12 +17,12 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.logger.MyLogger;
 
 
 public class ConfUtil{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ConfUtil.class);
 	
 	private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");

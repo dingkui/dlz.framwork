@@ -14,6 +14,7 @@ import java.io.OutputStream;
 import net.coobird.thumbnailator.Thumbnails;
 
 public class ImageUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	public static void thumbnail(InputStream in, OutputStream out, int width, int height) throws IOException {
 		Thumbnails.of(in).size(width, height)

@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class MenuUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private final static MyLogger log = MyLogger.getLogger(MenuUtil.class);
 	

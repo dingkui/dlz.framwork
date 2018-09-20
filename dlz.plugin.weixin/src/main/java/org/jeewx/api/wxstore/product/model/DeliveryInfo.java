@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.product.model;
 import java.util.List;
 
 public class DeliveryInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 运费类型
 	private Integer delivery_type;
 	// 邮费模板ID

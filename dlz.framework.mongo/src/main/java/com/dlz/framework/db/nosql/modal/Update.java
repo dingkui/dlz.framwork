@@ -1,12 +1,13 @@
 package com.dlz.framework.db.nosql.modal;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.dlz.framework.bean.JSONMap;
 
 public class Update extends NosqlFilterPara{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private JSONMap data = new JSONMap();
 	public Update addDatas(Map<String, Object> map) {

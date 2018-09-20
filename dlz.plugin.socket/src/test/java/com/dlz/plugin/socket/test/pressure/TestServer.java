@@ -13,6 +13,7 @@ import com.dlz.plugin.socket.server.SocketServerManager;
  * @author dk
  */
 public class TestServer{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Test
 	public void testScoketIOLine() throws Exception {
 		SocketServerManager.startServer("test", 9999, 10, new DealServiceTest1(), new ScoketIOLine());

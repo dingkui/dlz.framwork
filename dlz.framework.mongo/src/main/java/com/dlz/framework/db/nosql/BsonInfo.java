@@ -3,6 +3,7 @@ package com.dlz.framework.db.nosql;
 import com.dlz.framework.util.JacksonUtil;
 
 public class BsonInfo{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 		String bson;
 		String name;
 		String filter;

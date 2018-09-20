@@ -12,6 +12,7 @@ import com.dlz.plugin.socket.io.ScoketIOLine;
  * @author dk
  */
 public class TestClient{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(TestClient.class);
 	public static void main(String[] args) throws IOException {
 //		SocketClient client = new SocketClient("127.0.0.1", 9999, new ScoketIOLine());

@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class GroupDInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 分组照片(图片需调用图片上传接口获得图片Url填写至此，否则添加货架失败，建议分辨率600*208)
 	private String img;
 	// 分组ID

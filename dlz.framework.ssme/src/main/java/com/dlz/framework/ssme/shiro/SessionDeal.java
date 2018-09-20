@@ -10,6 +10,7 @@ import com.dlz.web.holder.ThreadHolder;
 @SuppressWarnings("unchecked")
 @Component
 public class SessionDeal implements ISessionDeal {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Override
 	public <T> T getSessionAttr(String sessionName) {

@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
  * Created by sunkai on 15/5/11.
  */
 public class Webhooks {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     class InnerObject {
         String type;

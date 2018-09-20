@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class Shelf {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 货架信息(数据说明详见《货架控件说明》)特别说明：货架信息使用要参考官方API文档说明
 	// 不同的货架对应的对象不同，分别是EidAInfo代表代表控件1，EidBInfo代表代表控件2...
 	// 1,2,3,4可以相互搭配，5不能和1234搭配使用。shelf_data参数代表是按个控件就转换为对应的对象。

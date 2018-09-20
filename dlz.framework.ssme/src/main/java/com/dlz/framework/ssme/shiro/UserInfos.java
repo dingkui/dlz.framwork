@@ -9,6 +9,7 @@ import com.dlz.framework.ssme.db.model.Dept;
  * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
  */
 public class UserInfos extends UserInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 1L;
   	private Set<String> roleName = new HashSet<String>();
 	private Set<Dept> depts = new HashSet<Dept>();

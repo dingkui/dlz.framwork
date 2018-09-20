@@ -5,6 +5,7 @@ import java.util.List;
 import org.jeewx.api.wxsendmsg.model.WxArticleConfig;
 
 public class WeixinButtonExtend{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 private String type;
 	

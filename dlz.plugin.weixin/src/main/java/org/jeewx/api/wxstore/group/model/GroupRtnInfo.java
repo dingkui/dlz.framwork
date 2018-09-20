@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.group.model;
 
 public class GroupRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码
 	private Integer errcode;
 	// 错误信息

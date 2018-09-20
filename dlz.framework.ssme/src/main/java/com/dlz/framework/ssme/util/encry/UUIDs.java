@@ -2,10 +2,12 @@ package com.dlz.framework.ssme.util.encry;
 
 import java.util.UUID;
 
-import com.dlz.framework.util.StringUtils;
 import org.joda.time.DateTime;
 
+import com.dlz.framework.util.StringUtils;
+
 public class UUIDs {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static String getRandomUUID() {
 		return UUID.randomUUID().toString().replace("-", "");

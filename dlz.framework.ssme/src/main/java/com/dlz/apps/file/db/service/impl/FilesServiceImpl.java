@@ -18,7 +18,6 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +30,7 @@ import com.dlz.apps.file.enums.FileTypeEnum;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.office.ImageUtil;
@@ -41,6 +41,7 @@ import com.swetake.util.Qrcode;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements FilesService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(FilesServiceImpl.class);
 	private static String UPLOAD_PATH = "sys.img.upload.path";
 	private static String NGINX_PATH = "nginxServer";

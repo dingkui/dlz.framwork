@@ -7,6 +7,7 @@ package com.dlz.plugin.weixin.menu;
  *
  */
 public class Button {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//按钮名称，显示表面
 	private String name;

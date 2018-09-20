@@ -21,6 +21,7 @@ import com.dlz.framework.logger.MyLogger;
  * @author Carl He
  */
 public final class ImageUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ImageUtils.class);
 	/**
 	 * 

@@ -1,7 +1,6 @@
 package com.dlz.framework.annotation;
 
 import org.junit.Test;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 

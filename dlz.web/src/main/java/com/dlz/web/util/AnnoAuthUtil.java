@@ -10,6 +10,7 @@ import com.dlz.framework.util.config.ConfUtil;
 import com.dlz.web.holder.ThreadHolder;
 
 public class AnnoAuthUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected static final MyLogger logger = MyLogger.getLogger(AnnoAuthUtil.class);
 	/**
 	 * @param needRole

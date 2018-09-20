@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class Sku {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// sku信息
 	private String sku_id;
 	// 商家商品编码

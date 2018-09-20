@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufOutputStream;
 
 public class CompressCoder implements ICoder{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Override
 	public Object decode(ByteBuf in) throws Exception {

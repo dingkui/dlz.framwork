@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.base.criteria;
 import java.util.List;
 
 public class Criterion {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String condition;
 
 	private Object value;

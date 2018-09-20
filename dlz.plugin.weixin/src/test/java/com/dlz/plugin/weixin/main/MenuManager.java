@@ -16,6 +16,7 @@ import com.dlz.web.util.WxUtil.AccessToken;
  *
  */
 public class MenuManager {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger log = MyLogger.getLogger(MenuManager.class);
 	

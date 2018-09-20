@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class GroupInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 该控件展示商品个数
 	private FilterInfo filter;
 	// 分组ID

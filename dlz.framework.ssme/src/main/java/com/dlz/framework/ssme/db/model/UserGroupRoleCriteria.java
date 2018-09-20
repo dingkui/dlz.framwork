@@ -6,6 +6,7 @@ import java.util.List;
 import com.dlz.framework.db.modal.Page;
 
 public class UserGroupRoleCriteria {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     protected String orderByClause;
 
     protected boolean distinct;

@@ -13,6 +13,7 @@ import com.dlz.web.holder.ThreadHolder;
 
 @AnnoAuth
 public class AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	protected ICommService commService;
 	

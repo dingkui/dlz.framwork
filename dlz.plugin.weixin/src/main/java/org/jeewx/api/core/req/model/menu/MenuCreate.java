@@ -13,6 +13,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("menuCreate")
 public class MenuCreate extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * button 的json信息

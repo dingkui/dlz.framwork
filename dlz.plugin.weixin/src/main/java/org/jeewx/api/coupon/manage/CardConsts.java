@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.manage;
 
 public class CardConsts {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 卡券类型.
 	 */

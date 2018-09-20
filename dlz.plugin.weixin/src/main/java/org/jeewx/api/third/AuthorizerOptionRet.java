@@ -3,6 +3,7 @@ package org.jeewx.api.third;
  * 选项设置信息返回实体
  */
 public class AuthorizerOptionRet {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//授权公众号appid
 	private String authorizer_appid;
 	//选项名

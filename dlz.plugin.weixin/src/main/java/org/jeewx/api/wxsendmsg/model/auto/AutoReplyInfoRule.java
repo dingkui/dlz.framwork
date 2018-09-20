@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class AutoReplyInfoRule {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/** 关注后自动回复是否开启，0代表未开启，1代表开启 */
 	private String is_add_friend_reply_open;
 	/** 消息自动回复是否开启，0代表未开启，1代表开启 */

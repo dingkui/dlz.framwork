@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.db.model;
 import com.dlz.framework.db.modal.BaseModel;
 
 public class DictModel extends BaseModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 7034929917474269421L;
 	private String id;
 	private String text;

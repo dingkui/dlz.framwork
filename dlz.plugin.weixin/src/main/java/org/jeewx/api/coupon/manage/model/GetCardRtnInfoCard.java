@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.manage.model;
 
 public class GetCardRtnInfoCard {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//卡券ID
 	private String card_id;
 	//起始使用时间

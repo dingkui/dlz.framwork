@@ -24,6 +24,7 @@ import com.dlz.web.holder.ThreadHolder;
 import com.dlz.web.inf.IApiAjax;
 
 public class ApiUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected static final MyLogger logger = MyLogger.getLogger(ApiUtil.class);
 	
 	public static JSONResult doApiLogic(JSONMap data, String ui, String aType,Page<?> page,IApiAjax ajaxApi) {

@@ -9,6 +9,7 @@ package com.dlz.plugin.weixin.message.resp;
  *
  */
 public class BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 接收方帐号（收到的OpenID）
 	private String ToUserName;

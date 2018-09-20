@@ -12,6 +12,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 //InboundHandler类型
 public class HelloClientIntHandler extends ChannelInboundHandlerAdapter {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(HelloClientIntHandler.class);
 
 

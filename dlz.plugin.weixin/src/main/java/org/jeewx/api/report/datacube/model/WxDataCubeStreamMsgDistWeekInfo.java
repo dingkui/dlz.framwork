@@ -7,6 +7,7 @@ package org.jeewx.api.report.datacube.model;
  * 2015年1月27日
  */
 public class WxDataCubeStreamMsgDistWeekInfo extends WxDataCubeStreamMsgInfo{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
  
 	private String  count_interval;

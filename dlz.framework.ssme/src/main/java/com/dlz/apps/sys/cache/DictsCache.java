@@ -14,6 +14,7 @@ import com.dlz.framework.ssme.db.service.DictsService;
 
 @Component
 public class DictsCache extends AbstractCache<Long, List<Dicts>> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	DictsService dictsService;
 	@Autowired

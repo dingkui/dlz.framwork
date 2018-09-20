@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwInterfaceSummaryAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//获取接口分析数据 
 	private static String getinterfacesummary_url = "https://api.weixin.qq.com/datacube/getinterfacesummary?access_token=ACCESS_TOKEN";
 	//获取接口分析分时数据

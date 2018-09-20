@@ -9,6 +9,7 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.LoggingEvent;
 
 public class MyLoggerLogback extends MyLogger {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private Logger logger;
 
 	private void Logging(Level level, Object msg, Throwable t, Object[] params) {

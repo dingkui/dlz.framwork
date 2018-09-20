@@ -17,6 +17,7 @@ import com.dlz.framework.ssme.db.service.FunOptService;
  */
 @Component
 public class MenuRolesCache extends AbstractCache<Long, String> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	FunOptService funOptService;
 

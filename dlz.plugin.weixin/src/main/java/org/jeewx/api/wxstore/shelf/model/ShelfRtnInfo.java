@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class ShelfRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码
 	private String errcode;
 	// 错误信息

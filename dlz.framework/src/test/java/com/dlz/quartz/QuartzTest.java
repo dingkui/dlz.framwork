@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;

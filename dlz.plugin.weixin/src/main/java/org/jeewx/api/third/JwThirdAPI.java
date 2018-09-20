@@ -25,6 +25,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwThirdAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(JwThirdAPI.class);
 	//获取预授权码
 	private static String api_create_preauthcode_url = "https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=COMPONENT_ACCESS_TOKEN";

@@ -9,6 +9,7 @@ import com.dlz.framework.db.enums.CharsetNameEnum;
 import com.dlz.framework.logger.MyLogger;
 
 public class ClobConverter  extends AClassConverter<Object,String,CharsetNameEnum> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String COVERCLASS_BLOB="oracle.sql.CLOB";
 	private static MyLogger logger = MyLogger.getLogger(ClobConverter.class);
 	public ClobConverter(CharsetNameEnum para) {

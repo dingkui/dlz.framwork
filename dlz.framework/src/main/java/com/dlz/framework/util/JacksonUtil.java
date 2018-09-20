@@ -49,6 +49,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
  */
 @SuppressWarnings({ "rawtypes" })
 public class JacksonUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(JacksonUtil.class);
 	private static ObjectMapper objectMapper = new ObjectMapper();
 	private final static Class<?> CLASS_OBJECT = Object.class;

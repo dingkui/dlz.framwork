@@ -8,6 +8,7 @@ import com.google.common.base.Objects;
  * 自定义Authentication对象，使得Subject除了携带用户的登录名外还可以携带更多信息.
  */
 public class ShiroUser extends UserInfos implements Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 1L;
 	/**
      * 用户编号

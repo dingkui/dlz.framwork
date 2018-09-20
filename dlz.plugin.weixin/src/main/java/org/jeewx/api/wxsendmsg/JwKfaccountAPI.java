@@ -25,6 +25,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwKfaccountAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 
 	/**

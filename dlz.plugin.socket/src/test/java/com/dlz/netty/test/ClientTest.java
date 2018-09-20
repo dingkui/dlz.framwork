@@ -6,6 +6,7 @@ import com.dlz.plugin.netty.NettyClientUtil;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 public class ClientTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	static int cnt=0;
 	public static void main(String[] args) {
 		NettyClientUtil.init("test", true, 8080, "127.0.0.1", new ISocketListener() {

@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class DeliveryInfoExpress {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 快递ID
 	private Integer id;
 	// 运费

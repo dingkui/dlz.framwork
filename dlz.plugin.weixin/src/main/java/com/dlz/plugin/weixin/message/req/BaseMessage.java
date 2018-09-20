@@ -8,6 +8,7 @@ package com.dlz.plugin.weixin.message.req;
  *
  */
 public class BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 开发者微信号
 	private String ToUserName;
 	

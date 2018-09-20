@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwServiceIpAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 返回的信息名称

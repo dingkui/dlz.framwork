@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class AttrInfoSku {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// sku属性id
 	private String id;
 	// sku值

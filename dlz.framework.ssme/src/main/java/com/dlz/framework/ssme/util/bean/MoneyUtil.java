@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class MoneyUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static DecimalFormat  decimalFormat = new DecimalFormat("###,##0.00");
 	private static BigDecimal base = new BigDecimal("100");
 	public static String getMoneyStr(Long num){

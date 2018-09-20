@@ -5,6 +5,7 @@ import org.jeewx.api.core.annotation.ReqType;
 
 @ReqType("qiniu_cloud")
 public class QiniuCloud {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//基本存储实体
 	private String key;

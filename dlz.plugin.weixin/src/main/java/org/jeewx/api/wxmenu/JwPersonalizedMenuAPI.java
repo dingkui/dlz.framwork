@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwPersonalizedMenuAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 创建菜单
 	private static String create_menu = "https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=ACCESS_TOKEN";
 	// 删除个性化菜单

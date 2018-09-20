@@ -1,7 +1,5 @@
 package com.dlz.netty.reconn;
 
-import com.dlz.framework.logger.MyLogger;
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -12,7 +10,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client  
  {  
-	private static MyLogger logger = MyLogger.getLogger(Client.class);
    private EventLoopGroup loop = new NioEventLoopGroup();  
    public static void main( String[] args )  
    {  

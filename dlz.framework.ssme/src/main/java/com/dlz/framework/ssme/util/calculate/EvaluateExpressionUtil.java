@@ -9,6 +9,7 @@ import java.util.Stack;
  * 
  */
 public class EvaluateExpressionUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static String STR_OPERATE = "+-*/()#^";
 	private static String STR_EXPRESSION = "+-*/()#^01234567890";

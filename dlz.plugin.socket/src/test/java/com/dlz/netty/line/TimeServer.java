@@ -11,6 +11,7 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
 public class TimeServer {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     public void bind(int port) throws Exception{
         //配置服务端的NIO线程组

@@ -15,6 +15,7 @@ import com.dlz.framework.logger.MyLogger;
 
 @Component
 public class DictCache extends AbstractCache<String, Dict>{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected final MyLogger logger = MyLogger.getLogger(getClass());
 	private static String DICTS="dicts";
 	private static String SPLIT_STR="_";

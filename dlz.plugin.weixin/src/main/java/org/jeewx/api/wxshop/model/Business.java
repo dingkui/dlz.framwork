@@ -1,8 +1,7 @@
 package org.jeewx.api.wxshop.model;
 
-import java.util.List;
-
 public class Business {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	// 基本属性
 	private BaseInfo base_info;

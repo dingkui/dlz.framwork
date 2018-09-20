@@ -11,6 +11,7 @@ import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.holder.SpringHolder;
 
 public class SequenceMakerImpl implements ISequenceMaker {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 //	@Autowired
 //	private SequenceFactory sequenceFactory;

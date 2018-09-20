@@ -37,6 +37,7 @@ import com.dlz.framework.util.StringUtils;
 @Lazy(false)
 @SuppressWarnings("unchecked")
 public class NosqlDbInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(NosqlDbInfo.class);
 	private static ResourceBundle dbConfig;
 	private final static String NAME_DB_CONFIG = "mongolist";

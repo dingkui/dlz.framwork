@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class AttrExt {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 是否包邮
 	private Integer isPostFree;
 	// 是否提供发票

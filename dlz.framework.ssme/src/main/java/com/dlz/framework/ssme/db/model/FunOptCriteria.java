@@ -1,12 +1,14 @@
 package com.dlz.framework.ssme.db.model;
 
-import com.dlz.framework.ssme.base.criteria.BaseCriteria;
-import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
-import com.dlz.framework.ssme.db.model.FunOptCriteria.GeneratedCriteria;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dlz.framework.ssme.base.criteria.BaseCriteria;
+import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
+import com.dlz.framework.ssme.db.model.FunOptCriteria.GeneratedCriteria;
+
 public class FunOptCriteria extends BaseCriteria<GeneratedCriteria> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     protected GeneratedCriteria createCriteriaInternal1() {
         return new GeneratedCriteria();

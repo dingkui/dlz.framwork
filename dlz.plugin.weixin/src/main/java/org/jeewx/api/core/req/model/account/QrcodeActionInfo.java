@@ -8,6 +8,7 @@ package org.jeewx.api.core.req.model.account;
  * 
  */
 public class QrcodeActionInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private QrcodeScene scene;
 

@@ -1,11 +1,10 @@
 package org.jeewx.api.coupon.consume;
 
-import net.sf.json.JSONObject;
-
+import org.jeewx.api.core.common.WxstoreUtils;
 import org.jeewx.api.coupon.consume.model.ConsumeRtnInfo;
 import org.jeewx.api.coupon.consume.model.EncryptRtnInfo;
-import org.jeewx.api.core.common.AccessToken;
-import org.jeewx.api.core.common.WxstoreUtils;
+
+import net.sf.json.JSONObject;
 
 /**
  * 微信卡券 - 核销接口
@@ -13,6 +12,7 @@ import org.jeewx.api.core.common.WxstoreUtils;
  * @version v1.0
  */
 public class JwCardConsumeAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 消耗code 即核销一张卡券
 	private static final String consume_code_url = "https://api.weixin.qq.com/card/code/consume?access_token=ACCESS_TOKEN";
 	// 解码code

@@ -5,6 +5,7 @@ import com.gexin.rp.sdk.base.payload.APNPayload;
 import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 public class MyJuniorPushDemo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 		static String appId = "OhHfwNWSzG9OhPV2Gua544";
     static String appKey = "yDdCqDarj76Th04VEEJbo8";
     static String masterSecret = "yg9KSNJUgZ9LRBJgB3coW2";

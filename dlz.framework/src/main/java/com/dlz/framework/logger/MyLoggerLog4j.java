@@ -7,6 +7,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import com.dlz.framework.util.StringUtils;
 
 public class MyLoggerLog4j extends MyLogger {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private Logger logger;
 
 	MyLoggerLog4j(String name) {

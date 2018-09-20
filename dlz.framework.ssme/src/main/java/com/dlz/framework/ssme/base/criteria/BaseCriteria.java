@@ -6,11 +6,12 @@ import com.dlz.framework.db.DbInfo;
 import com.dlz.framework.db.modal.Page;
 
 public abstract class BaseCriteria<T> {
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
     protected String orderByClause;
     protected boolean distinct;
     protected List<T> oredCriteria;
     protected T currentCriteria;
-    protected Page page;
+    protected Page<?> page;
     protected String dbType;
     
     public BaseCriteria(){
@@ -74,11 +75,11 @@ public abstract class BaseCriteria<T> {
         currentCriteria=null;
     }
 
-    public void setPage(Page page) {
+    public void setPage(Page<?> page) {
         this.page=page;
     }
 
-    public Page getPage() {
+    public Page<?> getPage() {
         return page;
     }
 

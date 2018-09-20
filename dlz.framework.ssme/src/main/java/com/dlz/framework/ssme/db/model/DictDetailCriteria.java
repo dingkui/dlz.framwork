@@ -8,6 +8,7 @@ import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
 import com.dlz.framework.ssme.db.model.DictDetailCriteria.GeneratedCriteria;
 
 public class DictDetailCriteria extends BaseCriteria<GeneratedCriteria> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     protected GeneratedCriteria createCriteriaInternal1() {
         return new GeneratedCriteria();

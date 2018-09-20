@@ -14,6 +14,7 @@ import com.dlz.framework.util.StringUtils;
  * @author dk
  */
 public class ApiScaner implements IScaner{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Override
 	public String getResoucePath() {
 		return "classpath*:com/dlz/**/I*Api.class";

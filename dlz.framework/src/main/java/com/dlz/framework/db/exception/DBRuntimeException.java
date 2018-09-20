@@ -6,6 +6,7 @@ package com.dlz.framework.db.exception;
  * @author dk 2010-1-6下午06:16:47
  */
 public class DBRuntimeException extends DbException {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static final long serialVersionUID = -368646349014580765L;
 

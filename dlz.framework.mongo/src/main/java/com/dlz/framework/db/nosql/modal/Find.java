@@ -6,6 +6,7 @@ import com.dlz.framework.util.StringUtils;
 
 @SuppressWarnings("rawtypes")
 public class Find extends NosqlFilterPara{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private Page page;
 	private JSONMap clumns;

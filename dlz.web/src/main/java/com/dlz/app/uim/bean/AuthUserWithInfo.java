@@ -14,6 +14,7 @@ import com.dlz.framework.holder.SpringHolder;
  *
  */
 public class AuthUserWithInfo extends AuthUser {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

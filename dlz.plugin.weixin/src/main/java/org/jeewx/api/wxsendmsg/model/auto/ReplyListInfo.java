@@ -10,6 +10,7 @@ import org.jeewx.api.wxsendmsg.model.WxArticleConfig;
  *
  */
 public class ReplyListInfo extends AutoReplyInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/** 回复信息 */
 	private List<WxArticleConfig> news_info;
 

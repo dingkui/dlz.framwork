@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.dlz.plugin.netty.NettyClientUtil;
 
 public class ClientSynTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static void main(String[] args) {
 		NettyClientUtil.init("test", true, 8080, "127.0.0.1", null);
 		

@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.dlz.framework.util.StringUtils;
 
 public class MyLoggerSlf4j extends MyLogger{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private Logger logger;
 	
 	MyLoggerSlf4j(String name) {

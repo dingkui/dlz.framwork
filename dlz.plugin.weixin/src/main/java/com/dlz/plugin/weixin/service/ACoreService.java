@@ -18,6 +18,7 @@ import com.dlz.plugin.weixin.util.MessageUtil;
  * 核心服务类
  */
 public abstract class ACoreService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger log = MyLogger.getLogger(ACoreService.class);
 
 	// 文本消息

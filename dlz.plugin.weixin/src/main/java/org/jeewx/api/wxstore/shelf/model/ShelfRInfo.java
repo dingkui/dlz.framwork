@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class ShelfRInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 货架信息(数据说明详见《货架控件说明》)特别说明：货架信息使用要参考官方API文档说明
 	private Object shelf_info;
 	// 货架招牌图片Url(图片需调用图片上传接口获得图片Url填写至此，否则添加货架失败，

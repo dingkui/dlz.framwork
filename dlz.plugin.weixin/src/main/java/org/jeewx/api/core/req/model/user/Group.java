@@ -8,6 +8,7 @@ package org.jeewx.api.core.req.model.user;
  * 
  */
 public class Group {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String name;
 	

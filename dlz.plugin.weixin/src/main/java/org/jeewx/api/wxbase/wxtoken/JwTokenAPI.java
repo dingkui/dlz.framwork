@@ -13,6 +13,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwTokenAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static AccessToken atoken = null;
 

@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import com.dlz.framework.logger.MyLogger;
 
 public class HttpRequestProxy {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 连接超时

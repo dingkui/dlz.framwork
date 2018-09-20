@@ -9,6 +9,7 @@ package com.dlz.apps.notice.sms.sdk;
 
 @SuppressWarnings("rawtypes")
 public class SDKServiceBindingStub extends org.apache.axis.client.Stub implements SDKClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 		private java.util.Vector cachedSerClasses = new java.util.Vector();
     private java.util.Vector cachedSerQNames = new java.util.Vector();
     private java.util.Vector cachedSerFactories = new java.util.Vector();

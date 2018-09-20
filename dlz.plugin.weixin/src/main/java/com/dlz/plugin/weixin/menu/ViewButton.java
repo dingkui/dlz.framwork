@@ -7,6 +7,7 @@ package com.dlz.plugin.weixin.menu;
  *
  */
 public class ViewButton extends Button {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//按钮连接，点击按钮后访问的网页连接
 	private String url;

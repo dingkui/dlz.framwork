@@ -9,6 +9,7 @@ package com.dlz.plugin.weixin.message.resp;
  *
  */
 public class TextMessage extends BaseMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 回复的消息内容
 	private String Content;

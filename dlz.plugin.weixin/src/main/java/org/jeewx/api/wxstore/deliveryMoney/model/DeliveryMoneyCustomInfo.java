@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.deliveryMoney.model;
 
 public class DeliveryMoneyCustomInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 起始计费数量
 	private Integer StartStandards;
 	// 起始计费金额(单位: 分）

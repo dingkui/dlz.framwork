@@ -7,6 +7,7 @@ package com.dlz.framework.db.cache.bean;
  *
  */
 public class DictItem implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

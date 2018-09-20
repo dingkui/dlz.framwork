@@ -6,8 +6,8 @@ import java.util.Date;
  * 定时任务封装类
  * @author   xiaohe
  */
-public class ScheduleJobSimple extends ScheduleJob
-{
+public class ScheduleJobSimple extends ScheduleJob{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /** 任务运行时间 */
     private Date startTime;
     

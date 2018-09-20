@@ -14,6 +14,7 @@ import com.dlz.framework.logger.MyLogger;
  *
  */
 public class SignUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SignUtil.class);
 	// 与接口配置信息中的Token要一致
 	private static String token = "weixinCourse";

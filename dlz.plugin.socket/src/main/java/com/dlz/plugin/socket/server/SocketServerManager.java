@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dlz.framework.logger.MyLogger;
+import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
 import com.dlz.plugin.socket.interfaces.IDealService;
-import com.dlz.plugin.socket.interfaces.ASocketIO;
 
 public class SocketServerManager {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static MyLogger logger=MyLogger.getLogger(SocketServerManager.class);
 	private static Map<String,ASocketServer> SOCKETSERVERS=new HashMap<String,ASocketServer>();

@@ -25,6 +25,7 @@ import com.dlz.framework.util.JacksonUtil;
 @Controller
 @RequestMapping(value = "/conf/provinceandCity")
 public class ProvinceAndCityController extends BaseController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	ProvinceAndCityService provinceAndCityService;
 	@Autowired

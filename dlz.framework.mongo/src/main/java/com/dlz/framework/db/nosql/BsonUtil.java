@@ -19,6 +19,7 @@ import com.dlz.framework.util.JacksonUtil;
  * 
  */
 public class BsonUtil{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static Pattern strPattern0 = Pattern.compile("\\^\\$\\{(\\w[\\.\\w]*)\\}");
 	private static Pattern strPattern1 = Pattern.compile("\\$\\{(\\w+[\\.\\w]*)\\}");
 	private static Pattern strPattern2 = Pattern.compile("【([^【】]*)】");

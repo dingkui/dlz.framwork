@@ -8,5 +8,6 @@ package org.jeewx.api.report.datacube.model;
  * 2015年1月27日
  */
 public class WxDataCubeStreamMsgMonthInfo extends WxDataCubeStreamMsgInfo{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
  
 }

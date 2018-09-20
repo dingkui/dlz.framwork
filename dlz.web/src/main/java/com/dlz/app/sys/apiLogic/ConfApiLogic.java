@@ -19,6 +19,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @AnnoAuth("admin")
 @SuppressWarnings("rawtypes")
 public class ConfApiLogic extends AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 取得站点配置信息
 	 * @param data

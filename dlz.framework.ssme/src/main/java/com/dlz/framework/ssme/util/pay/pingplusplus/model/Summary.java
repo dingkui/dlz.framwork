@@ -4,6 +4,7 @@ package com.dlz.framework.ssme.util.pay.pingplusplus.model;
  * Created by sunkai on 15/5/11.
  */
 public class Summary extends PingppObject {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private String acctId;
     private String appId;
 

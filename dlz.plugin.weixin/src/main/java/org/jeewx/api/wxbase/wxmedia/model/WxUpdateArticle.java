@@ -7,6 +7,7 @@ import org.jeewx.api.wxsendmsg.model.WxArticle;
  *
  */
 public class WxUpdateArticle {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String media_id;
 	private int index;
 	//-- update-begin--Author:gengjiajia  Date:2016-11-28 for:TASK #1583 【图文管理】

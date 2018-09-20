@@ -7,5 +7,6 @@ package com.dlz.plugin.weixin.message.event;
  *
  */
 public class SubscribeEvent extends BaseEvent {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 }

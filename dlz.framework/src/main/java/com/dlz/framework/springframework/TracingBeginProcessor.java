@@ -17,6 +17,7 @@ import com.dlz.framework.springframework.scaner.MySpringScaner;
  */
 @Component
 public class TracingBeginProcessor implements BeanDefinitionRegistryPostProcessor{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
     	SpringHolder.init(beanFactory);

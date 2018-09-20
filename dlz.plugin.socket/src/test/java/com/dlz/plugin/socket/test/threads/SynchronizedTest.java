@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SynchronizedTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static Set<String> holderHandlerSet = new HashSet<String>();
 	private static  void test1() throws InterruptedException{

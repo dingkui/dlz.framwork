@@ -9,6 +9,7 @@ import com.dlz.framework.ssme.base.criteria.BaseCriteria;
 import com.dlz.framework.ssme.base.criteria.BaseGeneratedCriteria;
 
 public class SmsCriteria extends BaseCriteria<GeneratedCriteria> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     protected GeneratedCriteria createCriteriaInternal1() {
         return new GeneratedCriteria();

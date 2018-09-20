@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.qrcode.model;
 
 public class Card {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//卡券ID
 	private String card_id ;
 	//指定卡券code 码，只能被领一次

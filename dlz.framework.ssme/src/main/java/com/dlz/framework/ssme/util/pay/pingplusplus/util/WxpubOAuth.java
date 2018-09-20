@@ -1,9 +1,5 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.util;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,12 +13,17 @@ import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 /**
  * 用于微信公众号OAuth2.0鉴权，用户授权后获取授权用户唯一标识openid
  * WxpubOAuth中的方法都是可选的，开发者也可根据实际情况自行开发相关功能，
  * 详细内容可参考http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
  */
 public class WxpubOAuth {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
      * 获取微信公众号授权用户唯一标识
      *

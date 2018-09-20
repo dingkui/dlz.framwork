@@ -9,6 +9,7 @@ package com.dlz.plugin.weixin.message.resp;
  *
  */
 public class Article {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 图文消息名称
 	private String Title;  

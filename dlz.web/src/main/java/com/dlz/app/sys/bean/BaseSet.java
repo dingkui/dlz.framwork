@@ -3,6 +3,7 @@ package com.dlz.app.sys.bean;
 import java.util.Date;
 
 public class BaseSet implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private static final long serialVersionUID = 1L;
 
     /**

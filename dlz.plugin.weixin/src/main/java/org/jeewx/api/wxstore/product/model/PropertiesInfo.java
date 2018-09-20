@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.product.model;
 import java.util.List;
 
 public class PropertiesInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 属性id
 	private String id;
 	// 属性名称

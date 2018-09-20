@@ -6,6 +6,7 @@ package org.jeewx.api.core.req.model;
  *
  */
 public class WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 微信获取信息令牌

@@ -27,6 +27,7 @@ import com.dlz.framework.ssme.shiro.ShiroUser;
 import com.dlz.framework.util.StringUtils;
 
 public class BaseController extends PageDealCommonLogic {
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(BaseController.class);
 	public static String SESSION_MEMEBER = "member";
 	public static String SESSION_MEMBER_HEADINFO = "memberHeadInfo";

@@ -3,6 +3,7 @@ package org.jeewx.api.coupon.location.model;
 import java.util.Date;
 
 public class BoardingPass {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//基本的卡券数据
 	private BaseInfo base_info;
 	//起点

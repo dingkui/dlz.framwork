@@ -16,6 +16,7 @@ import com.dlz.framework.util.StringUtils;
  * @author dk
  */
 public class SpringHolder{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static ConfigurableListableBeanFactory beanFactory;
 	public static void init(){
 		init("*");

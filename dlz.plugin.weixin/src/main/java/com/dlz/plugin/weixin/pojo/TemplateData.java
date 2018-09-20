@@ -1,6 +1,7 @@
 package com.dlz.plugin.weixin.pojo;
 
 public class TemplateData {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private String value;  
   private String color;  
   public String getValue() {  

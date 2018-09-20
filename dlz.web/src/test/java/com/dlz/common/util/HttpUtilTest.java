@@ -7,6 +7,7 @@ import com.dlz.framework.util.ParseUtil.ParserEnum;
 import com.dlz.web.util.HttpUtil.HttpPostUtil;
 
 public class HttpUtilTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Test
 	public void sendHttpGet() throws Exception {
 //		HttpGetUtil.get("http://blog.csdn.net/hll174/article/details/51276594");

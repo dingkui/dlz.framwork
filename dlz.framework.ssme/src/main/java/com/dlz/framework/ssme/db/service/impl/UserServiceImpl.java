@@ -14,6 +14,7 @@ import com.dlz.framework.ssme.db.service.UserService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class UserServiceImpl extends BaseServiceImpl<User, Long> implements UserService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Autowired
 	ICommService commService;

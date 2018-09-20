@@ -9,6 +9,7 @@ import java.util.UUID;
  * @author calvin
  */
 public class Identities {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static SecureRandom random = new SecureRandom();
 

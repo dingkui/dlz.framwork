@@ -57,6 +57,7 @@ import com.dlz.web.util.HttpUtil.HttpPostUtil;
  *
  */
 public class WxUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(WxUtil.class);
 
 	// 凭证获取(GET)

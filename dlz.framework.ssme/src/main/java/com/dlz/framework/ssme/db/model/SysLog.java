@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SysLog implements Serializable{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
 	 * 
 	 */

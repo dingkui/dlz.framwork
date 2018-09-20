@@ -18,6 +18,7 @@ import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
  */
 
 public class HttpResponse {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     /**
      * 返回中的Header信息

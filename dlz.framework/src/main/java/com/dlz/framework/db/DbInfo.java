@@ -35,6 +35,7 @@ import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings("unchecked")
 @Component
 public class DbInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DbInfo.class);
 	private static ResourceBundle dbConfig;
 	private final static String NAME_DB_CONFIG = "sqllist";

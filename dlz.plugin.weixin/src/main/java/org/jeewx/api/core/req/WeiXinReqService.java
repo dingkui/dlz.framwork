@@ -23,6 +23,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class WeiXinReqService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(WeiXinReqService.class);
 	private static WeiXinReqService weiXinReqUtil = null;
 

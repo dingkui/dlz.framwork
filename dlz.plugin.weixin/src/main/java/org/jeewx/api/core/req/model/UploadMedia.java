@@ -10,6 +10,7 @@ import org.jeewx.api.core.annotation.ReqType;
  */
 @ReqType("mediaUpload")
 public class UploadMedia extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 媒体文件类型，分别有图片（image）、语音（voice）、视频（video）和缩略图（thumb）

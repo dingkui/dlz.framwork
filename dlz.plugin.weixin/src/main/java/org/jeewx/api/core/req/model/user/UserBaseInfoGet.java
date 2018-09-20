@@ -26,6 +26,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  */
 @ReqType("getUserBaseInfo")
 public class UserBaseInfoGet extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private String openid;
 

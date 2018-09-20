@@ -5,13 +5,13 @@ import java.util.Date;
 import com.dlz.plugin.socket.conn.normal.SocketClient;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 import com.dlz.plugin.socket.io.ScoketIOLine;
-import com.dlz.plugin.socket.test.threads.TestThread;
 
 /**
  * 服务器测试程序
  * @author dk
  */
 public class TestClient{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static void main(String[] args) throws Exception {
 		SocketClient client = new SocketClient("127.0.0.1", 9999, new ScoketIOLine(),new ISocketListener() {
 			int i=0;

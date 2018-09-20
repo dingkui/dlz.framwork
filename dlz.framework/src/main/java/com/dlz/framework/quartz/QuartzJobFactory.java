@@ -12,6 +12,7 @@ import com.dlz.framework.quartz.bean.ScheduleJob;
 import com.dlz.framework.util.system.Reflections;
 
 public class QuartzJobFactory implements Job {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(JobMethod.class);
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {

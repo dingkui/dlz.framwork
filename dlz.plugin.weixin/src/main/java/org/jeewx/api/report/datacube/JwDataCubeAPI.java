@@ -30,6 +30,7 @@ import net.sf.json.JSONObject;
  * 2015年1月27日
  */
 public class JwDataCubeAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	//获取消息发送概况数据 
 	private static String GETUPSTREAMMSG_URL = "https://api.weixin.qq.com/datacube/getupstreammsg?access_token=ACCESS_TOKEN";

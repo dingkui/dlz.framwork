@@ -16,6 +16,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 
 
 public class SocketServer extends ASocketServer {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SocketServer.class);
 
 	/**

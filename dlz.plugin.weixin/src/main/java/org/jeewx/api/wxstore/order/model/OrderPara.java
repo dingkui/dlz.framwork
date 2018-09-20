@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.order.model;
 
 public class OrderPara {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 订单状态(不带该字段-全部状态, 2-待发货, 3-已发货, 5-已完成, 8-维权中, )
 	private Integer status;
 	// 订单创建时间起始时间(不带该字段则不按照时间做筛选)

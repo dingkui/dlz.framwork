@@ -20,7 +20,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class Server {  
 	private static MyLogger logger = MyLogger.getLogger(Server.class);
-    public static void main(String[] args) throws InterruptedException{  
+    @SuppressWarnings("resource")
+	public static void main(String[] args) throws InterruptedException{  
         Server server = new Server(8080); 
         logger.debug("server start...");
         Scanner input = new Scanner(System.in);  

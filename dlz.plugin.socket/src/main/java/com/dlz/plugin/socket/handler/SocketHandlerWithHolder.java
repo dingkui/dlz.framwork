@@ -14,6 +14,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 
 
 public abstract class SocketHandlerWithHolder extends ASocketHandler {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SocketHandlerWithHolder.class);
 	public SocketHandlerWithHolder(Socket socket, IDealService dealService, ASocketIO sio) {
 		super(socket, dealService, sio);

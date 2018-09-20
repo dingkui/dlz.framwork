@@ -6,6 +6,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.config.XmlConfigUtil;
 public class XMLMessageUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final MyLogger logger = MyLogger.getLogger(XMLMessageUtil.class);
 	
 	private static String mesaageConfigName="message";

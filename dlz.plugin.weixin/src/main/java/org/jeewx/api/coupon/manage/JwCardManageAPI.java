@@ -1,15 +1,14 @@
 package org.jeewx.api.coupon.manage;
 
-import net.sf.json.JSONObject;
-
+import org.jeewx.api.core.common.WxstoreUtils;
 import org.jeewx.api.coupon.manage.model.BatchGetCardRtnInfo;
 import org.jeewx.api.coupon.manage.model.CardUpdate;
 import org.jeewx.api.coupon.manage.model.CommCardRtnInfo;
 import org.jeewx.api.coupon.manage.model.DelRtnInfo;
 import org.jeewx.api.coupon.manage.model.GetCardDetailRtnInfo;
 import org.jeewx.api.coupon.manage.model.GetCardRtnInfo;
-import org.jeewx.api.core.common.AccessToken;
-import org.jeewx.api.core.common.WxstoreUtils;
+
+import net.sf.json.JSONObject;
 
 
 /**
@@ -18,6 +17,7 @@ import org.jeewx.api.core.common.WxstoreUtils;
  * @version v1.0
  */
 public class JwCardManageAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 删除卡券
 	private static final String del_card_url = "https://api.weixin.qq.com/card/delete?access_token=ACCESS_TOKEN";
 	// 查询卡券

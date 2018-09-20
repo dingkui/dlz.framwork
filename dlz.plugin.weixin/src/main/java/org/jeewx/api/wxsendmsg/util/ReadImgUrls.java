@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.jeewx.api.core.util.FileUtils;
 
 public class ReadImgUrls {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static String[] getImgs(String content) {
 		String img = "";

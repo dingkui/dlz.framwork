@@ -19,6 +19,7 @@ import org.jeewx.api.core.util.WeiXinReqUtil;
 import com.dlz.framework.logger.MyLogger;
 
 public class WeixinReqMediaUploadHandler implements WeiXinReqHandler {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger logger = MyLogger.getLogger(WeixinReqMediaUploadHandler.class);
 	

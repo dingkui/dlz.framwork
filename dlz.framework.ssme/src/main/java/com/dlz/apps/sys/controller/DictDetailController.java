@@ -23,6 +23,7 @@ import com.dlz.framework.util.JacksonUtil;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/dictDetail")
 public class DictDetailController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(DictDetailController.class);
 
 	@Autowired

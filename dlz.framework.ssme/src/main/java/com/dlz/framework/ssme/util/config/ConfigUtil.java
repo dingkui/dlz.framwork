@@ -4,6 +4,7 @@ import com.dlz.framework.util.config.ConfUtil;
 
 
 public class ConfigUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/*
 	 * 配置名称
 	 */

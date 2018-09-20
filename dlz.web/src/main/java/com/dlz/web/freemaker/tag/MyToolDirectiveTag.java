@@ -25,6 +25,7 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelListSequence;
 @SuppressWarnings({"unchecked","rawtypes"})
 public class MyToolDirectiveTag implements TemplateDirectiveModel {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * <@mytoll name="aaa" method="toJson"/>
 	 */

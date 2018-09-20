@@ -3,6 +3,7 @@ package com.dlz.framework.ssme.db.model;
 import java.util.Date;
 
 public class ContentTemplate {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private Long templateId;
 
     private String templateName;

@@ -1,5 +1,7 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.model;
 
+import java.util.Map;
+
 /**
  * Created by sunkai on 15/5/11.
  */
@@ -11,13 +13,12 @@ import com.dlz.framework.ssme.util.pay.pingplusplus.exception.ChannelException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.InvalidRequestException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.net.APIResource;
 
-import java.util.Map;
-
 /**
  * 微信企业付款
  */
 @SuppressWarnings("rawtypes")
 public class Transfer extends APIResource {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private String id;
     private String object;
     private String type;

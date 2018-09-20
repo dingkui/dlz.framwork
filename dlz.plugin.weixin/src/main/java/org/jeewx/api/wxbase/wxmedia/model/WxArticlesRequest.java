@@ -10,6 +10,7 @@ import org.jeewx.api.wxsendmsg.model.WxArticle;
  *
  */
 public class WxArticlesRequest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	
 	List<WxArticle> articles = new ArrayList<WxArticle>();

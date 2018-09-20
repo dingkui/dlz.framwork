@@ -9,6 +9,7 @@ import java.util.List;
  *
  */
 public class Menu implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

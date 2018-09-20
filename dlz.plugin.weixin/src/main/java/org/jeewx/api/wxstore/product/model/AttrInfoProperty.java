@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class AttrInfoProperty {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 属性id
 	private String id;
 	// 属性值id

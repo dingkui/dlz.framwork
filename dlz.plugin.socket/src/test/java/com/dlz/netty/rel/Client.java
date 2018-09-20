@@ -14,6 +14,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(Client.class);
 	private EventLoopGroup loop = new NioEventLoopGroup();
 

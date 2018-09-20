@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class PropertiesValue {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 属性值id
 	private String id;
 	// 属性值名称

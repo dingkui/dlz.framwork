@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class GeneralCoupon {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	// 基本的卡券数据，见下表，所有卡券通用。
 	private BaseInfo base_info;

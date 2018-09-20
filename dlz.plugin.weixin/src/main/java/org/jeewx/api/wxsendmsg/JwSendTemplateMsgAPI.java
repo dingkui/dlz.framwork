@@ -6,6 +6,7 @@ import org.jeewx.api.core.req.model.message.TemplateMessageSendResult;
 import org.jeewx.api.core.util.WeiXinConstant;
 
 import com.dlz.framework.logger.MyLogger;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -14,6 +15,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwSendTemplateMsgAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//设置行业信息
 	private static String set_industry = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=ACCESS_TOKEN";

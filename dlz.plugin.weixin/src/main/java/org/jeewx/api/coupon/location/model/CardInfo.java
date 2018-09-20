@@ -5,6 +5,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 
 @ReqType("getCardInfo")
 public class CardInfo extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//卡券类型
 	private String card_type ;
 	//基本的卡券数据，见下表，所有卡券通用,描述

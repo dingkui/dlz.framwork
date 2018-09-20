@@ -10,6 +10,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
 public class EncryUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final String p = "key.txt";
 	private static byte[] k;
 

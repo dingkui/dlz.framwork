@@ -13,6 +13,7 @@ import com.dlz.framework.ssme.db.service.RbacService;
 
 @Service
 public class RbacServiceImpl implements RbacService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Autowired
 	private RbacMapper rbacMapper;

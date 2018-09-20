@@ -14,13 +14,13 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.modal.ResultMap;
 
 /**
  * JdbcUtil
  */
 public class JdbcUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static ResultSet getResultSet(Connection connection,String sql,Object[] paras) throws SQLException {
         PreparedStatement pst=connection.prepareStatement(sql);
         if(paras!=null){

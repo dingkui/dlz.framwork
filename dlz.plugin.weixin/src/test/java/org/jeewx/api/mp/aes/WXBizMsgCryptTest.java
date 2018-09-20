@@ -22,6 +22,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class WXBizMsgCryptTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	String encodingAesKey = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG";
 	String token = "pamtest";
 	String timestamp = "1409304348";

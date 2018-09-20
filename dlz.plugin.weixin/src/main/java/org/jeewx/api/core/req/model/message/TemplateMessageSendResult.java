@@ -2,9 +2,6 @@ package org.jeewx.api.core.req.model.message;
 
 import java.util.Map;
 
-import org.jeewx.api.core.annotation.ReqType;
-import org.jeewx.api.core.req.model.WeixinReqParam;
-
 /**
  * 取多媒体文件
  * 
@@ -12,6 +9,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  * 
  */
 public class TemplateMessageSendResult {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 
 	private String touser;

@@ -2,6 +2,7 @@ package com.dlz.framework.ssme.util.encry;
 
 
 public class Securities {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * Hash算法

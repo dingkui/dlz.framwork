@@ -1,6 +1,7 @@
 package org.jeewx.api.report.interfacesummary.model;
 
 public class InterfaceSummaryHour {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 数据的日期
 	private String ref_date;
 	// 数据的小时

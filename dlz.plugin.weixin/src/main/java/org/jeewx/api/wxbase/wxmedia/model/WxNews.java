@@ -8,6 +8,7 @@ import java.util.List;
  *
  */
 public class WxNews {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** 媒体id */
 	private String total_count;

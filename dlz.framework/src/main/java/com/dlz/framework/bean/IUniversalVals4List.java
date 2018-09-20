@@ -13,6 +13,7 @@ import com.dlz.framework.util.ValUtil;
  */
 @SuppressWarnings({ "rawtypes" })
 public interface IUniversalVals4List {
+	default void doNothingL(){new java.util.ArrayList<>().forEach(a->{});}
 	default BigDecimal getBigDecimal(int index){
 		return  getBigDecimal(index,null);
 	}

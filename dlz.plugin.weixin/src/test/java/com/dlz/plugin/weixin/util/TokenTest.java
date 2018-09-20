@@ -21,6 +21,7 @@ import com.dlz.framework.logger.MyLogger;
  *
  */
 public class TokenTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(TokenTest.class);
 	public static void main(String[] args) {
 		//获取凭证接口地址： appid 及 secret需要获取

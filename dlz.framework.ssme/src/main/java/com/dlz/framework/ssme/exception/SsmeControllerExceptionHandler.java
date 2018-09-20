@@ -14,6 +14,7 @@ import com.dlz.framework.util.JacksonUtil;
 
 @ControllerAdvice
 public class SsmeControllerExceptionHandler {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(SsmeControllerExceptionHandler.class);
 	/** 基于@ExceptionHandler异常处理 */
 	@ExceptionHandler

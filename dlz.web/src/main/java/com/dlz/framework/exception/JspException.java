@@ -11,6 +11,7 @@ import org.springframework.beans.TypeMismatchException;
  *
  */
 public class JspException extends BaseException {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 序列号
 	 */

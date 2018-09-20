@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class PushUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String appId = null;
 	private static String appKey = null;
 	private static String masterSecret = null;

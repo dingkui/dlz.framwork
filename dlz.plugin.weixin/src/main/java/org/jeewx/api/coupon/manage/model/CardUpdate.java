@@ -5,6 +5,7 @@ package org.jeewx.api.coupon.manage.model;
  * @version v1.0
  */
 public class CardUpdate {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//卡券id.
 	private String card_id;
 	//会员卡

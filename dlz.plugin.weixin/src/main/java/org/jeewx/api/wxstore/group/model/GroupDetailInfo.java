@@ -3,6 +3,7 @@ package org.jeewx.api.wxstore.group.model;
 import java.util.List;
 
 public class GroupDetailInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 分组名称
 	private String group_id;
 	// 分组名称

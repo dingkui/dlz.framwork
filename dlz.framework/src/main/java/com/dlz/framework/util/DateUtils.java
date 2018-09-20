@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
  */
 
 public class DateUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected static final Log logger = LogFactory.getLog(DateUtils.class);
 	
 	public static final long ONE_DAY=86400;//一天的秒数

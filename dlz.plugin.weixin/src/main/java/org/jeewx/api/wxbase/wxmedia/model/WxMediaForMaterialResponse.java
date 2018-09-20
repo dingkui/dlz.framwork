@@ -7,6 +7,7 @@ package org.jeewx.api.wxbase.wxmedia.model;
  * 
  */
 public class WxMediaForMaterialResponse {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/** 新增的图片素材的图片URL */
 	private String url;
 	/** 媒体资源ID */

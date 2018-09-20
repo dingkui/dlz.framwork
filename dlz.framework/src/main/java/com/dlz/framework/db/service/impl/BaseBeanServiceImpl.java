@@ -14,6 +14,7 @@ import com.dlz.framework.db.service.IBaseBeanService;
  *
  */
 public abstract class BaseBeanServiceImpl<T> extends BaseServiceImpl implements IBaseBeanService<T> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@SuppressWarnings("unchecked")
 	private Class<T> getBeanClass(){
 		return (Class<T>)this.getClass().getAnnotatedInterfaces()[0].getClass();

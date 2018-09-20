@@ -1,6 +1,7 @@
 package org.jeewx.api.wxshop.model;
 
 public class BusinessReq {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 开始位置
 	private String begin;

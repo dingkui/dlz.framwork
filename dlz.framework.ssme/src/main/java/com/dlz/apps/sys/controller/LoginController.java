@@ -19,6 +19,7 @@ import com.dlz.apps.ControllerConst;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/login")
 public class LoginController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String login() {

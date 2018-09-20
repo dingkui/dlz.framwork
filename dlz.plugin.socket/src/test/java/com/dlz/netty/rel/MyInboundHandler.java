@@ -10,6 +10,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.EventLoop;
 
 public class MyInboundHandler extends ChannelInboundHandlerAdapter {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(MyInboundHandler.class);
 	private Client client;
 

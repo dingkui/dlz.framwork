@@ -1,20 +1,17 @@
 package com.dlz.test;
 
-import org.java_websocket.WebSocket;
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_6455;
-import org.java_websocket.handshake.ServerHandshake;
-
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
+
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.handshake.ServerHandshake;
 
 /**
  * Created by jack on 2017/10/25.
  */
 public class WebsocketClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static WebSocketClient client;
 	
 	public static void main(String[] args) {

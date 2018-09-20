@@ -16,6 +16,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 @Configuration
 public class RedisConfig {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     private MyLogger logger = MyLogger.getLogger(getClass());
     
     @Value("${redis.host}")

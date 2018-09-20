@@ -3,6 +3,7 @@ package org.jeewx.api.wxshop.model;
 import java.util.List;
 
 public class BaseInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 门店名称
 	private String business_name;

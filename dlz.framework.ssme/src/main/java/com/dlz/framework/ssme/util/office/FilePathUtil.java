@@ -11,6 +11,7 @@ import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.encry.base64.Base64;
 
 public class FilePathUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(FilePathUtil.class);
     /**
      * 根据相对路径获取网络路径

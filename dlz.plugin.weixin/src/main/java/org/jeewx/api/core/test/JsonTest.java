@@ -10,6 +10,7 @@ import org.jeewx.api.core.req.model.kfaccount.MsgNews;
 import com.google.gson.Gson;
 
 public class JsonTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static void main(String[] args){
 		

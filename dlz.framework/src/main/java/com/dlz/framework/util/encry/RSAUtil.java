@@ -16,6 +16,7 @@ import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.Cipher;
 
 public class RSAUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public static byte[] decrypt(byte[] encryptedBytes, PrivateKey privateKey, int keyLength, int reserveSize, String cipherAlgorithm) throws Exception {
 		int keyByteSize = keyLength / 8;
@@ -203,7 +204,7 @@ public class RSAUtil {
 
 	// 一下面是base64的编码和解码
 	public static String encodeBase64(byte[] input) throws Exception {
-		Class clazz = Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
+		Class<?> clazz = Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
 		Method mainMethod = clazz.getMethod("encode", byte[].class);
 		mainMethod.setAccessible(true);
 		Object retObj = mainMethod.invoke(null, new Object[] { input });
@@ -214,7 +215,7 @@ public class RSAUtil {
 	 * decode by Base64
 	 */
 	public static byte[] decodeBase64(String input) throws Exception {
-		Class clazz = Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
+		Class<?> clazz = Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
 		Method mainMethod = clazz.getMethod("decode", String.class);
 		mainMethod.setAccessible(true);
 		Object retObj = mainMethod.invoke(null, input);

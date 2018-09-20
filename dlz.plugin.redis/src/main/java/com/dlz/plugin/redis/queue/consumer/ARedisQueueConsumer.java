@@ -20,6 +20,7 @@ import redis.clients.jedis.JedisPool;
  * 消费者需要注解 AnnoRedisQueueConsumer 消费者队列的名称
  */
 public abstract class ARedisQueueConsumer<T> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	

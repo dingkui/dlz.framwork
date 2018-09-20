@@ -9,6 +9,7 @@ import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.util.DateUtil;
 
 public class DateNameConverter extends ANameConverter<Date,String,DateFormatEnum> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public DateNameConverter(String name,DateFormatEnum para) {
 		super(name, para);
 	}

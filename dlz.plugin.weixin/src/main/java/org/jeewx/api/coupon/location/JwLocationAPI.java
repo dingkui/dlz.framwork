@@ -1,10 +1,7 @@
 package org.jeewx.api.coupon.location;
 
-import net.sf.json.JSONObject;
-
 import org.jeewx.api.core.exception.WexinReqException;
 import org.jeewx.api.core.req.WeiXinReqService;
-import org.jeewx.api.core.common.WxstoreUtils;
 import org.jeewx.api.coupon.location.model.Batchadd;
 import org.jeewx.api.coupon.location.model.BatchaddRtn;
 import org.jeewx.api.coupon.location.model.Batchget;
@@ -14,6 +11,8 @@ import org.jeewx.api.coupon.location.model.CardInfoRtn;
 import org.jeewx.api.coupon.location.model.Getcolors;
 import org.jeewx.api.coupon.location.model.GetcolorsRtn;
 
+import net.sf.json.JSONObject;
+
 
 /**
  * 微信卡券 - 创建卡券
@@ -21,6 +20,7 @@ import org.jeewx.api.coupon.location.model.GetcolorsRtn;
  *
  */
 public class JwLocationAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/*// 上传LOGO 大小限制1MB，像素为300*300，支持JPG格式。
 	private static String uploadimg_location_url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN";
 	*/// 批量导入门店信息

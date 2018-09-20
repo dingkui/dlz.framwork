@@ -22,6 +22,7 @@ import com.dlz.framework.util.JacksonUtil;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class SmsServiceImpl extends BaseServiceImpl<Sms, Long> implements SmsService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	@Autowired
 	public void setMapper(SmsMapper mapper) {

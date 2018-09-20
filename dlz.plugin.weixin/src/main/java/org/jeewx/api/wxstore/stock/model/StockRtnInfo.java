@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.stock.model;
 
 public class StockRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码
 	private String errcode;
 	// 错误信息

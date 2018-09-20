@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class LocationList {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//门店名称
 	private String business_name ;
 	//分店名

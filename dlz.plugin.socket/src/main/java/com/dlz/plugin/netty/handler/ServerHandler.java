@@ -8,6 +8,7 @@ import com.dlz.plugin.socket.interfaces.ISocketListener;
 import io.netty.channel.ChannelHandlerContext;
 
 public class ServerHandler extends BaseHandler {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public ServerHandler(ISocketListener lisner) {
 		super(lisner);
 	}

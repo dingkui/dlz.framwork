@@ -21,6 +21,7 @@ import com.dlz.framework.ssme.util.system.Exceptions;
  * @author calvin
  */
 public class Cryptos {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static final String AES = "AES";
 	private static final String AES_CBC = "AES/CBC/PKCS5Padding";

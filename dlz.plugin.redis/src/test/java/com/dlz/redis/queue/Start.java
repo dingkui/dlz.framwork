@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.dlz.framework.holder.SpringHolder;
 
 public class Start {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Before
 	public void setUp() throws Exception {
 		SpringHolder.init();

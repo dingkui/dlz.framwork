@@ -4,8 +4,8 @@ package com.dlz.framework.quartz.bean;
  * 定时任务封装类
  * @author   xiaohe
  */
-public class ScheduleJobCron  extends ScheduleJob
-{
+public class ScheduleJobCron  extends ScheduleJob{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /** 任务运行时间表达式 */
     private String cronExpression;
     

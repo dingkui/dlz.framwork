@@ -12,6 +12,7 @@ import com.dlz.framework.ssme.db.service.LoginDeviceService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class LoginDeviceServiceImpl extends BaseServiceImpl<LoginDevice, Long> implements LoginDeviceService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     @Autowired
     public void setMapper(LoginDeviceMapper mapper) {

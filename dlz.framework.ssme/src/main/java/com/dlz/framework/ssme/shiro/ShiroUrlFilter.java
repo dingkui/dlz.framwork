@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import com.dlz.web.holder.ThreadHolder;
 
 public class ShiroUrlFilter extends AuthorizationFilter {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
     @Override
 	public boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {

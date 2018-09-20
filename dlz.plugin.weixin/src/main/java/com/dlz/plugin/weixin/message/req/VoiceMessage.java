@@ -8,6 +8,7 @@ package com.dlz.plugin.weixin.message.req;
  *
  */
 public class VoiceMessage {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	// 媒体ID   
 	private String MediaId;

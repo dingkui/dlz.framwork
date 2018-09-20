@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "collection")
 public class CollectionWrapper {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@XmlAnyElement
 	public Collection<?> collection;
 

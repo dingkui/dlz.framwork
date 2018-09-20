@@ -28,6 +28,7 @@ import com.dlz.framework.ssme.util.encry.Encodes;
 import com.google.common.collect.Sets;
 
 public class ShiroDbRealm extends AuthorizingRealm {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ShiroDbRealm.class);
 	
 	private static final String HASH_ALGORITHM = "SHA-1";

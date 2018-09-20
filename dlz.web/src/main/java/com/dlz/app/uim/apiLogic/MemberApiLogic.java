@@ -30,6 +30,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @Service
 @AnnoAuth("sys_admin")
 public class MemberApiLogic extends AuthedCommLogic{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private MyLogger logger = MyLogger.getLogger(getClass());
 	@Autowired
 	private IUimMemberService memberService;

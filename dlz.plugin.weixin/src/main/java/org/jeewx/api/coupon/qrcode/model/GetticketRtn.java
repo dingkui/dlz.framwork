@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.qrcode.model;
 
 public class GetticketRtn {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码
 	private String errcode;
 	// 错误信息

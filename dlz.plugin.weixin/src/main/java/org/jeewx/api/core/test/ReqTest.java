@@ -9,6 +9,7 @@ import org.jeewx.api.core.req.model.UploadMedia;
 import org.jeewx.api.core.req.model.kfaccount.KfaccountList;
 
 public class ReqTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 测试获取token

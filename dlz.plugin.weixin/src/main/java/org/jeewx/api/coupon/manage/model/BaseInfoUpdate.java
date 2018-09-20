@@ -7,6 +7,7 @@ import java.util.List;
  * @version v1.0
  */
 public class BaseInfoUpdate {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 卡券的商户logo
 	private String logo_url;
 	// 使用提醒。（一句话描述，展示在首页）

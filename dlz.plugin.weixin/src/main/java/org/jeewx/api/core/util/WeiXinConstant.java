@@ -7,6 +7,7 @@ package org.jeewx.api.core.util;
  *
  */
 public class WeiXinConstant {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * JSON数据格式类型
 	 */

@@ -3,6 +3,7 @@ package com.dlz.framework.db.nosql.modal;
 import java.io.Serializable;
 
 public class NosqlBasePara implements Serializable{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = 8374167270612933157L;
 	private String key;
 	private String name;

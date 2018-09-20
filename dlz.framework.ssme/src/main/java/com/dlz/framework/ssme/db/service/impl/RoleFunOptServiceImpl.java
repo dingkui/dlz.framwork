@@ -2,11 +2,11 @@ package com.dlz.framework.ssme.db.service.impl;
 
  
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.ssme.db.dao.RoleFunOptMapper;
 import com.dlz.framework.ssme.db.model.RoleFunOptKey;
@@ -15,6 +15,7 @@ import com.dlz.framework.ssme.db.service.RoleFunOptService;
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class RoleFunOptServiceImpl extends BaseServiceImpl<RoleFunOptKey, RoleFunOptKey> implements RoleFunOptService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 系统日志
 	 */

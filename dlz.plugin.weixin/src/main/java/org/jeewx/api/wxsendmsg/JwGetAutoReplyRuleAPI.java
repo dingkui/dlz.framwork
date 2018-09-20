@@ -24,6 +24,7 @@ import net.sf.json.util.JSONUtils;
  *
  */
 public class JwGetAutoReplyRuleAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	/**
 	 * 获取自动回复规则

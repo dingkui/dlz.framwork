@@ -7,6 +7,7 @@ import com.dlz.framework.logger.MyLogger;
 
 @Component
 public class PluginStatusCache extends AbstractCache<String, Integer>{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected final MyLogger logger = MyLogger.getLogger(getClass());
 	public PluginStatusCache() {
 		super(PluginStatusCache.class.getSimpleName());

@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.location.model;
 
 public class ScenicTicket {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//基本的卡券数
 	private BaseInfo base_info;
 	//票类型

@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwTemplateMessageAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 设置行业信息

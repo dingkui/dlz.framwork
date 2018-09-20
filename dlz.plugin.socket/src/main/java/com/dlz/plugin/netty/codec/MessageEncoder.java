@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 
 public class MessageEncoder  extends MessageToByteEncoder<RequestDto> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private ICoder coder;
 	public MessageEncoder(ICoder coder){
 		this.coder=coder;

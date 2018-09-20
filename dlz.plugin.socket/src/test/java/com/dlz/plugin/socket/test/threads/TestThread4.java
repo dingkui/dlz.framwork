@@ -7,6 +7,7 @@ import com.dlz.plugin.socket.handler.SocketHandlerWithHolder;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
 
 public class TestThread4 extends Thread {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	static int all = 0;
 	static long allt = new Date().getTime();
 	ASocketClient client = null;

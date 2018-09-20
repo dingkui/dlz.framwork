@@ -9,6 +9,7 @@ import java.io.StringWriter;
  * @author calvin
  */
 public class Exceptions {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 将CheckedException转换为UncheckedException.

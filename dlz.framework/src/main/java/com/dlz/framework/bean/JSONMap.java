@@ -18,6 +18,7 @@ import com.dlz.framework.util.ValUtil;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

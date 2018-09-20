@@ -1,6 +1,7 @@
 package com.dlz.framework.ssme.constants;
 
 public class Constants {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//后台操作员默认密码
 	public static final String USER_DEFAULT_PASSWORD = "123456";

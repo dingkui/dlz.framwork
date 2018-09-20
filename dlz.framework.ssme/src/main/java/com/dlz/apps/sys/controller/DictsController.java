@@ -32,6 +32,7 @@ import com.dlz.framework.util.StringUtils;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/dicts")
 public class DictsController extends BaseController {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	ICommService commService;
 	@Autowired

@@ -22,6 +22,7 @@ import org.dom4j.io.XMLWriter;
 import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings({"unchecked","rawtypes"})
 public class XMLUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final MyLogger logger = MyLogger.getLogger(XMLUtil.class);
 
 	/**

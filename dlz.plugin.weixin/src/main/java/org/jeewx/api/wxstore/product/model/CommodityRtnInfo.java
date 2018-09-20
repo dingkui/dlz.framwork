@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.product.model;
 
 public class CommodityRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 错误码
 	private String errcode;
 	// 错误信息

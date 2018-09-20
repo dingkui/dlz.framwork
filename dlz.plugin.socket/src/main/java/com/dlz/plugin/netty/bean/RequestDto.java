@@ -1,6 +1,7 @@
 package com.dlz.plugin.netty.bean;
 
 public class RequestDto {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     
     public RequestDto(byte type,String info){
     	this.type=type;

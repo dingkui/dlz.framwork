@@ -11,6 +11,7 @@ import com.dlz.framework.holder.SpringHolder;
  * @author dk
  */
 public class BaseTest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public static ICommService cs;
 	
 	@BeforeClass

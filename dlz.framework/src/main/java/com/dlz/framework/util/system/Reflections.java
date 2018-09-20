@@ -26,6 +26,7 @@ import com.dlz.framework.util.StringUtils;
  */
 @SuppressWarnings({"rawtypes"})
 public class Reflections {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final String SETTER_PREFIX = "set";
 
 	private static final String GETTER_PREFIX = "get";

@@ -8,6 +8,7 @@ package com.dlz.plugin.weixin.message.req;
  */
 
 public class Music {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//音乐标题
 	private String Title;

@@ -5,9 +5,11 @@ package com.dlz.framework.ssme.util.encry.base64;
  * @version $Id$ 
  * @since 2004-5-18 
  */
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 
 public class Base64 {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 编码文件对象所指的文件
 	static public char[] encode(File file) {
 		if (!file.exists()) {

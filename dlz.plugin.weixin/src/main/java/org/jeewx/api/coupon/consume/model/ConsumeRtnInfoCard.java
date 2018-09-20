@@ -1,6 +1,7 @@
 package org.jeewx.api.coupon.consume.model;
 
 public class ConsumeRtnInfoCard {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 核销卡券id.
 	private String card_id;
 

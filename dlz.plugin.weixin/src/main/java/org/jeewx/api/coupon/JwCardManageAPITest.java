@@ -23,6 +23,7 @@ import org.jeewx.api.coupon.qrcode.model.GetticketRtn;
  * @version v1.0
  */
 public class JwCardManageAPITest {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static String appid = "wxd2b52b8f4bd5af7f";
 	private static String appscret = "?";

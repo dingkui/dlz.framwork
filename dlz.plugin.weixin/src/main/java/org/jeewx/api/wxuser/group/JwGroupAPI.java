@@ -26,6 +26,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class JwGroupAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//测试使用
 	private static String TOKEN = "GHFs1OHxNiwi9cKT_oUr53enRhSStZ7QpAOjoheRWKvJFR9JtPzEkO5KnepHOT7CnDzWghTjpMyEKsWy4IGiHxv-VS9f2BN7tF6sge-H8lo";
 

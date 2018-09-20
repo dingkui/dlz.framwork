@@ -2,9 +2,10 @@ package com.dlz.framework.ssme.base.cache;
 
 import java.util.List;
 
-import com.dlz.framework.logger.MyLogger;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.dlz.framework.logger.MyLogger;
 
 public class CacheCenter { 
 	

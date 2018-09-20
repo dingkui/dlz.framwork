@@ -9,6 +9,7 @@ import java.util.List;
  * 
  */
 public class MsgNews {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private List<MsgArticles> articles;
 

@@ -21,6 +21,7 @@ import com.dlz.framework.exception.CodeException;
  * @author dingkui 2018-06-27
  */
 public abstract class BaseServiceImpl implements IBaseService {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	protected ICommService commService;
 	protected AnnoTable getAnno(){

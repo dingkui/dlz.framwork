@@ -14,6 +14,7 @@ import freemarker.cache.TemplateLoader;
  *
  */
 public class StringTemplateLoader implements TemplateLoader {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 		private static final String DEFAULT_TEMPLATE_KEY = "_default_template_key";
 		private Map templates = new HashMap();

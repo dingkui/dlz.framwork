@@ -29,6 +29,7 @@ import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
  *
  */
 public class ApiRegistryBean implements BeanDefinitionRegistryPostProcessor{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
     }

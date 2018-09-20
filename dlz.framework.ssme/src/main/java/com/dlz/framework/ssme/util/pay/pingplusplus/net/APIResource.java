@@ -19,9 +19,6 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.dlz.framework.ssme.util.pay.pingplusplus.Pingpp;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIConnectionException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIException;
@@ -33,11 +30,15 @@ import com.dlz.framework.ssme.util.pay.pingplusplus.model.ChargeRefundCollection
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.PingppObject;
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.RedEnvelope;
 import com.dlz.framework.ssme.util.pay.pingplusplus.model.Transfer;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * extends the abstract class when you need requset anything from ping++
  */
 public abstract class APIResource extends PingppObject {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
      * URLEncoder charset
      */

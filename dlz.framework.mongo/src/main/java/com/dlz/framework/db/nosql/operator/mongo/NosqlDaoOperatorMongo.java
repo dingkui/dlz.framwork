@@ -30,6 +30,7 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 @Service
 public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List<ResultMap> getList(Find paraMap) {

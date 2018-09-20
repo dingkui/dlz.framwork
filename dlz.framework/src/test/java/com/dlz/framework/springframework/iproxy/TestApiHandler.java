@@ -4,8 +4,6 @@ import java.lang.reflect.Method;
 
 import org.springframework.stereotype.Component;
 
-import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
-
 @Component
 public class TestApiHandler extends ApiProxyHandler {
 	@Override

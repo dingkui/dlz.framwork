@@ -15,6 +15,7 @@ import com.dlz.framework.util.JacksonUtil;
  *
  */
 public class JSONList extends ArrayList<Object> implements IUniversalVals,IUniversalVals4List{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

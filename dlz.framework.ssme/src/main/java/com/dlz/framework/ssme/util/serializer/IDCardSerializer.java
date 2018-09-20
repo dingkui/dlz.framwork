@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class IDCardSerializer  extends JsonSerializer<String> {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
   
 	public static String formatCardNum(String value) {
 		if(!StringUtils.isEmpty(value)){

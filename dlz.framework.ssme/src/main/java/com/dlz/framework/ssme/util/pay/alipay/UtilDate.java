@@ -1,10 +1,10 @@
 
 package com.dlz.framework.ssme.util.pay.alipay;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-import java.text.SimpleDateFormat;
-import java.text.DateFormat;
 
 /* *
  *类名：UtilDate
@@ -17,6 +17,7 @@ import java.text.DateFormat;
  *该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
  */
 public class UtilDate {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
     /** 年月日时分秒(无下划线) yyyyMMddHHmmss */
     public static final String dtLong                  = "yyyyMMddHHmmss";

@@ -1,6 +1,7 @@
 package com.dlz.apps.notice.sms.sdk;
 
 public class SDKClientProxy implements SDKClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
   private String _endpoint = null;
   private SDKClient sDKClient = null;
   

@@ -8,6 +8,7 @@ import java.util.Map;
  *
  */
 public abstract class AGroupConverter<DB,OBJ,PARA>{
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 转换成显示对象
 	 * @param o

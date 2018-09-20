@@ -5,6 +5,7 @@ package org.jeewx.api.wxsendmsg.model;
  *
  */
 public class WxArticleConfig {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** 图文消息缩略图的media_id */
 	private String thumb_media_id;

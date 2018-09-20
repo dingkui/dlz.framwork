@@ -5,6 +5,7 @@ package org.jeewx.api.wxbase.wxmedia.model;
  *
  */
 public class WxDescription {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** 视频素材的标题*/
 	private String title;

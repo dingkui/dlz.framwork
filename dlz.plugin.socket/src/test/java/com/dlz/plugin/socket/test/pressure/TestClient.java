@@ -13,6 +13,7 @@ import com.dlz.plugin.socket.io.ScoketIOLine;
  * @author dk
  */
 public class TestClient{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Test
 	public void test1() throws Exception {
 		SocketClient client=new SocketClient("127.0.0.1",9999,new ScoketIOLine());

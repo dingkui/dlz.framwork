@@ -1,6 +1,7 @@
 package com.dlz.plugin.weixin.pojo;
 
 public class WeixinOauth2Token {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	//网页授权接口条用凭证
 	private String accessToken;

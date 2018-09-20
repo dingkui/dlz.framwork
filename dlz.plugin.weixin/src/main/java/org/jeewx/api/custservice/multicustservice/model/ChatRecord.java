@@ -7,6 +7,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
  * @author caojm
  */
 public class ChatRecord  extends WeixinReqParam{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     
     //客服帐号
     private String worker = "";

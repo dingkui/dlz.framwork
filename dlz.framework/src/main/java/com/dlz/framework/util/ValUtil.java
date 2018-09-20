@@ -15,6 +15,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ValUtil{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger=MyLogger.getLogger(ValUtil.class);
 	
 	public static BigDecimal getBigDecimal(Object input,BigDecimal defaultV){

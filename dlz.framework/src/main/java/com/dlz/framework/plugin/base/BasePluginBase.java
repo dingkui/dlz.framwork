@@ -6,6 +6,7 @@ import com.dlz.framework.plugin.cache.PluginStatusCache;
 import com.dlz.framework.plugin.inf.IPluginBase;
 
 public abstract class BasePluginBase implements IPluginBase {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	String className=this.getClass().getName();
 	@Autowired
 	PluginStatusCache pluginStatusCache;

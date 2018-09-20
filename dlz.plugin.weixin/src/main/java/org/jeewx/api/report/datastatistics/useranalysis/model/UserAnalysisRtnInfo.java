@@ -7,6 +7,7 @@ package org.jeewx.api.report.datastatistics.useranalysis.model;
 * @date 2015年1月29日 下午10:44:11  
 */
 public class UserAnalysisRtnInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/** 
 	* 数据的日期

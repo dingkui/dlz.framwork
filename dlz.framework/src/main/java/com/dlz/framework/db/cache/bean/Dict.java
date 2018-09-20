@@ -10,6 +10,7 @@ import java.util.Map;
  *
  */
 public class Dict implements java.io.Serializable {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */

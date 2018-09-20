@@ -17,6 +17,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class JwTagAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	private static MyLogger logger = MyLogger.getLogger(JwTagAPI.class);
 	

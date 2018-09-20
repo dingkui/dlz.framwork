@@ -4,13 +4,14 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.dlz.framework.logger.MyLogger;
 import com.dlz.apps.notice.sms.sdk.Mo;
 import com.dlz.apps.notice.sms.sdk.SDKServiceBindingStub;
 import com.dlz.apps.notice.sms.sdk.SDKServiceLocator;
 import com.dlz.apps.notice.sms.sdk.StatusReport;
+import com.dlz.framework.logger.MyLogger;
 
 public class Client {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(Client.class);
 	private String softwareSerialNo;
 	private String key;

@@ -1,6 +1,7 @@
 package org.jeewx.api.wxuser.tag.model;
 
 public class WxTag {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
 	Integer id;
 	String name;

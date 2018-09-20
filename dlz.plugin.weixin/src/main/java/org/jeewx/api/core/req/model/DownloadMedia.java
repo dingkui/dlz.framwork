@@ -10,6 +10,7 @@ import org.jeewx.api.core.annotation.ReqType;
  */
 @ReqType("mediaget")
 public class DownloadMedia extends WeixinReqParam {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 媒体信息id

@@ -25,6 +25,7 @@ import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
  *
  */
 public class MySpringScaner {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(MySpringScaner.class);
 
 	ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();

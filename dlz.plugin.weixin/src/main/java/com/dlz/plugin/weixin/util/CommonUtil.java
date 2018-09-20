@@ -22,6 +22,7 @@ import com.dlz.framework.logger.MyLogger;
  *
  */
 public class CommonUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static MyLogger logger = MyLogger.getLogger(CommonUtil.class);
 	/**

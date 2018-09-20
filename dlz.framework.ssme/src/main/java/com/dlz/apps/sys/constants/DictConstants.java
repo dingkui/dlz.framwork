@@ -1,6 +1,7 @@
 package com.dlz.apps.sys.constants;
 
 public class DictConstants {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/*
 	public static final String DICT_EDUCATION = "COMMON_EDUCATION";  //学历
 	public static final String DICT_INVESTMENT_FORM = "INVESTMENT_FORM";  //出资形式

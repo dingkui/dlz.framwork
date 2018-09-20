@@ -25,6 +25,7 @@ import com.dlz.framework.util.system.Reflections;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class Collections3 {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 提取集合中的对象的两个属性(通过Getter函数), 组合成Map.

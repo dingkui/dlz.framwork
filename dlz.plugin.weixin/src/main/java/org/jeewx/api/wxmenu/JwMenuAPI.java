@@ -27,6 +27,7 @@ import net.sf.json.util.JSONUtils;
  * 
  */
 public class JwMenuAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * 创建菜单

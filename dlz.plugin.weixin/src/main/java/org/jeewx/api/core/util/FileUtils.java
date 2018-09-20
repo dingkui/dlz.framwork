@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
  * @date 2013-1-7
  */
 public class FileUtils {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     /**
      * 将文本文件中的内容读入到buffer中
      * @param buffer buffer

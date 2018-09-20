@@ -3,6 +3,7 @@ package org.jeewx.api.third.model;
  * （刷新）授权公众号的令牌返回数据
  */
 public class ApiAuthorizerTokenRet {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//授权方令牌
 	private String authorizer_access_token;  
 	//有效期，为2小时 7200

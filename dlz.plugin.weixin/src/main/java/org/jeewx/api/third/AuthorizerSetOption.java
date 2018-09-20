@@ -3,6 +3,7 @@ package org.jeewx.api.third;
  * 设置选项信息参数实体
  */	
 public class AuthorizerSetOption {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	//第三方平台appid
 	private String component_appid;
 	//授权公众号appid

@@ -14,6 +14,7 @@ import com.dlz.framework.logger.MyLogger;
  *
  */
 public abstract class ASocketIO {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ASocketIO.class);
 	public static String separatorStr=System.getProperty("line.separator");
 	public static byte[] separatorByte=separatorStr.getBytes();

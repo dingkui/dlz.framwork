@@ -19,6 +19,7 @@ import java.util.List;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 public class VideoUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(VideoUtil.class);
 	public static void main(String[] args) {
 		VideoUtil.convert("E://V50624-143114.mp4", "E://V50624-1431148.flv");

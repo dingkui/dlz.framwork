@@ -1,6 +1,7 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.exception;
 
 public abstract class PingppException extends Exception {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	public PingppException(String message) {
 		super(message, null);

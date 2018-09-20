@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class JwOrderManagerAPI {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 根据订单ID获取订单详情
 	private static String getid_order_url = "https://api.weixin.qq.com/merchant/order/getbyid?access_token=ACCESS_TOKEN";
 	// 根据订单状态/创建时间获取订单详情

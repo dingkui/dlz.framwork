@@ -20,6 +20,7 @@ import java.io.Writer;
 import com.dlz.framework.logger.MyLogger;
 
 public class ByteUtil {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(ByteUtil.class);
 	// 从文本文件对象中读取内容并转换为字符数组
 	public static char[] readChars(File file) {

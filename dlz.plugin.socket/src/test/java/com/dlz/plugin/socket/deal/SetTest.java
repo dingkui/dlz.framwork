@@ -12,6 +12,7 @@ import org.junit.Test;
  * @author dk
  */
 public class SetTest{
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@Test
 	public void testSet(){
 		Set<A> a=new HashSet<A>();

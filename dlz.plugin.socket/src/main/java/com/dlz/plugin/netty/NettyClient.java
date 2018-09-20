@@ -9,7 +9,6 @@ import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
 import com.dlz.plugin.netty.codec.impl.DefaultCoder;
-import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.netty.handler.ClientHandler;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
@@ -29,6 +28,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  *
  */
 public class NettyClient {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static MyLogger logger = MyLogger.getLogger(NettyClient.class);
 	private int port;
 	private String host;

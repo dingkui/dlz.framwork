@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
  * @author calvin
  */
 public class Threads {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	/**
 	 * sleep等待,单位为毫秒,忽略InterruptedException.

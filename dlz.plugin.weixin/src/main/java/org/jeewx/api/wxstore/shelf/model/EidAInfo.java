@@ -1,6 +1,7 @@
 package org.jeewx.api.wxstore.shelf.model;
 
 public class EidAInfo {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	// 分组信息
 	private GroupInfo group_info;
 	// 控件1的ID

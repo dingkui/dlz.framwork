@@ -1,5 +1,8 @@
 package com.dlz.framework.ssme.util.pay.pingplusplus.model;
 
+import java.lang.reflect.Type;
+import java.util.Map;
+
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIConnectionException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.APIException;
 import com.dlz.framework.ssme.util.pay.pingplusplus.exception.AuthenticationException;
@@ -15,10 +18,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.LongSerializationPolicy;
 
-import java.lang.reflect.Type;
-import java.util.Map;
-
 public class RedEnvelope extends APIResource {
+	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
     String id;
     String object;
     Long created;
