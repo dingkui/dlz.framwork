@@ -1,7 +1,6 @@
 package com.dlz.web.logic;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,11 +8,12 @@ import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.db.service.ICommService;
+import com.dlz.framework.exception.LogicException;
 import com.dlz.web.holder.ThreadHolder;
 
 @AnnoAuth
 public class AuthedCommLogic{
-	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
+	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
 	@Autowired
 	protected ICommService commService;
 	
@@ -23,7 +23,11 @@ public class AuthedCommLogic{
 	
 	@SuppressWarnings("unchecked")
 	public <T extends AuthUser> T getMember(){
-		return (T)UserHolder.getAuthInfo();
+		final AuthUser authInfo = UserHolder.getAuthInfo();
+		if(authInfo==null){
+			throw new LogicException("未登录！");
+		}
+		return (T)authInfo;
 	}
 	
 	/**
@@ -36,8 +40,5 @@ public class AuthedCommLogic{
 	
 	public HttpServletRequest getRequest(){
 		return ThreadHolder.getHttpRequest();
-	}
-	public HttpSession getSession(){
-		return ThreadHolder.getSession();
 	}
 }

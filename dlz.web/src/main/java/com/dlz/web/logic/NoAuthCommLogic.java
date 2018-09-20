@@ -27,7 +27,4 @@ public class NoAuthCommLogic{
 	public HttpServletRequest getRequest(){
 		return ThreadHolder.getHttpRequest();
 	}
-	public HttpSession getSession(){
-		return ThreadHolder.getSession();
-	}
 }

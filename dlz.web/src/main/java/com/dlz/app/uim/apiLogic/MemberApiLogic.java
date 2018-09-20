@@ -73,7 +73,7 @@ public class MemberApiLogic extends AuthedCommLogic{
 		}else{
 			r.addErr("用户不存在");
 		}
-		ThreadHolder.getSession().invalidate();
+		ThreadHolder.sessionInvalidate();
 		return r;
 	}
 	/**

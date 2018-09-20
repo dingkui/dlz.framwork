@@ -15,33 +15,21 @@ public class UserHolder {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String SESSION_AUTHUSER = "curr_member";
 
-	private static ISessionDeal holder;
+	private static IUserHolderDeal holder;
 
-	public static ISessionDeal getHolder() {
+	public static IUserHolderDeal getUserHolder() {
 		if (holder == null) {
 			synchronized (UserHolder.class) {
-				holder = SpringHolder.getBean("sessionDeal");
+				holder = SpringHolder.getBean("userHolderDeal");
 				if (holder == null) {
-					holder = new ISessionDeal() {
+					holder = new IUserHolderDeal() {
 						@Override
-						public <T> T getSessionAttr(String sessionName) {
+						public <T extends AuthUser> T getAuthInfo(String sessionName) {
 							return (T) ThreadHolder.getSessionAttr(sessionName);
 						}
 						@Override
-						public void setSessionAttr(String sessionName, Object user) {
-							ThreadHolder.setSessionAttr(sessionName, user);
-						}
-						@Override
-						public void removeSessionAttr(String sessionName) {
-							ThreadHolder.removeSessionAttr(sessionName);
-						}
-						@Override
-						public <T extends AuthUser> T getAuthInfo(String sessionName) {
-							return (T) getSessionAttr(sessionName);
-						}
-						@Override
 						public void setAuthInfo(String sessionName, AuthUser user) {
-							setSessionAttr(sessionName, user);
+							ThreadHolder.setSessionAttr(sessionName, user);
 						}
 					};
 				}
@@ -51,21 +39,16 @@ public class UserHolder {
 	}
 
 	public static <T extends AuthUser> T getAuthInfo() {
-		return getHolder().getAuthInfo(SESSION_AUTHUSER);
+		return getUserHolder().getAuthInfo(SESSION_AUTHUSER);
 	}
 	public static Long getUserId() {
 		return getAuthInfo().getId();
 	}
 
 	public static void setAuthInfo(AuthUser user) {
-		holder.setAuthInfo(SESSION_AUTHUSER, user);
+		getUserHolder().setAuthInfo(SESSION_AUTHUSER, user);
 	}
-
-	public static <T extends AuthUser> T getAuthInfo(String sessionName) {
-		return (T) holder.getAuthInfo(sessionName);
-	}
-
-	public static void setAuthInfo(String sessionName, AuthUser user) {
-		holder.setAuthInfo(sessionName, user);
+	public static void removeUser() {
+		ThreadHolder.removeSessionAttr(SESSION_AUTHUSER);
 	}
 }

@@ -19,7 +19,7 @@ public class AuthUser implements java.io.Serializable {
 	private String l_id;//用户名
 	private String pwd;	//密码
 	private String mobile;//会员手机号
-	private Set<Long> roles=new HashSet<Long>();//会员角色
+	private Set<Long> roles=new HashSet<>();//会员角色
 	
 	public Long getId() {
 		return id;

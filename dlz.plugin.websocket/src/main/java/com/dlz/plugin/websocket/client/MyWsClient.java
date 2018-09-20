@@ -11,8 +11,8 @@ import java.util.TimerTask;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
-import org.springframework.core.codec.CodecException;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 import com.dlz.plugin.websocket.handler.IWsHandler;
 
@@ -35,7 +35,7 @@ public class MyWsClient {
 		try {
 			serverUri = new URI(url);
 		} catch (URISyntaxException e) {
-			throw new CodecException("WsClient 初始化有误 url:"+url, e);
+			throw new CodeException("WsClient 初始化有误 url:"+url, e);
 		}
 		this.handler=handler;
 	}
@@ -120,7 +120,7 @@ public class MyWsClient {
 	 */
 	public void send(byte[] bytes) {
 		if(status!=2){
-			throw new CodecException("发送失败，status="+status);
+			throw new CodeException("发送失败，status="+status);
 		}
 		client.send(bytes);
 	}
@@ -139,7 +139,7 @@ public class MyWsClient {
 	 */
 	public void connect(long retryTime,int connectTimeout) {
 		if(status!=0 && status!=-1){
-			throw new CodecException("连接失败，status="+status);
+			throw new CodeException("连接失败，status="+status);
 		}
 		this.retryTime=retryTime;
 		this.connectTimeout=connectTimeout;
@@ -156,7 +156,7 @@ public class MyWsClient {
 	 */
 	public void reset() {
 		if(status!=2){
-			throw new CodecException("重置失败，status="+status);
+			throw new CodeException("重置失败，status="+status);
 		}
 		client.close();
 	}
@@ -168,7 +168,7 @@ public class MyWsClient {
 	 */
 	public void close() {
 		if(status!=1 && status!=2){
-			throw new CodecException("关闭失败，status="+status);
+			throw new CodeException("关闭失败，status="+status);
 		}
 		status=-1;
 		client.close();

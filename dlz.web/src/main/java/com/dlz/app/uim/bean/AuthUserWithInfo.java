@@ -1,12 +1,16 @@
 package com.dlz.app.uim.bean;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.dlz.app.uim.service.IUimInfoService;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.LogicException;
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.logger.MyLogger;
+import com.dlz.framework.util.JacksonUtil;
 
 /**
  * 登录用户信息
@@ -14,53 +18,88 @@ import com.dlz.framework.holder.SpringHolder;
  *
  */
 public class AuthUserWithInfo extends AuthUser {
+	private static MyLogger logger=MyLogger.getLogger(AuthUserWithInfo.class);
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5070462418563344534L;
 	
-	private Map<Long,UserRoleInfoBase> rolesInfos=new HashMap<>();//会员角色对应的用户信息
-	private Map<String,UserExtInfoBase> extInfos=new HashMap<>();//会员扩展信息
-	private Map<String,JSONMap> extInfos_map=new HashMap<>();//会员扩展信息
+	private Map<String,Object> infos=new HashMap<>();//会员角色信息或扩展信息
+	private Set<String> infosKey=new HashSet<>();//会员角色信息或扩展信息是否被取得过
 	
+	
+	/**
+	 * 删除取得某角色对应的用户信息
+	 * @param role
+	 * @return
+	 */
+	public void delRoleInfo(Long roleId) {
+		String key="R_"+roleId;
+		if(infosKey.remove(key)){
+			infos.remove(key);
+		};
+	}
+	/**
+	 * 删除取得某角色对应的用户信息
+	 * @param role
+	 * @return
+	 */
+	public void delExtInfo(String extId) {
+		String key="E_"+extId;
+		if(infosKey.remove(key)){
+			infos.remove(key);
+		};
+	}
 	/**
 	 * 取得某角色对应的用户信息
 	 * @param role
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public <T extends UserRoleInfoBase> T getRoleInfo(Long roleId,Class<T> clazz) {
-		UserRoleInfoBase info =rolesInfos.get(roleId);
-		if(info==null){
+	public <T> T getRoleInfo(Long roleId,Class<T> clazz) {
+		String key="R_"+roleId;
+		Object obj =infos.get(key);
+		if(obj!=null){
+			return JacksonUtil.coverObj(obj,clazz);
+		}
+		if(!infosKey.contains(key)){
+			infosKey.add(key);
 			IUimInfoService uimInfoService=SpringHolder.getBean(IUimInfoService.class);
-			info=uimInfoService.getRoleInfo(getId(), roleId).as(clazz);
+			T info=uimInfoService.getRoleInfo(getId(), roleId).as(clazz);
 			if(info!=null){
-				rolesInfos.put(roleId, info);
+				infos.put(key, info);
+				return info;
 			}else{
-				throw new LogicException("用户角色【"+roleId+"】对应的信息未找到，信息未保存");
+				logger.warn("用户【"+getId()+"】无角色信息【"+roleId+"】");
+				return null;
 			}
 		}
-		return (T)info;
+		return null;
 	}
 	/**
 	 * 取得用户扩展信息
 	 * @param role
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	public <T extends UserExtInfoBase> T getExtInfo(String extId,Class<T> clazz) {
-		UserExtInfoBase info =extInfos.get(extId);
-		if(info==null){
+	public <T> T getExtInfo(String extId,Class<T> clazz) {
+		String key="E_"+extId;
+		Object obj =infos.get(key);
+		if(obj!=null){
+			return JacksonUtil.coverObj(obj,clazz);
+		}
+		if(!infosKey.contains(key)){
+			infosKey.add(key);
 			IUimInfoService uimInfoService=SpringHolder.getBean(IUimInfoService.class);
-			info=uimInfoService.getExtInfo(getId(), extId).as(clazz);
+			T info=uimInfoService.getExtInfo(getId(), extId).as(clazz);
 			if(info!=null){
-				extInfos.put(extId, info);
+				infos.put(key, info);
+				return info;
 			}else{
-				throw new LogicException("扩展信息【"+extId+"】对应的信息，信息未保存");
+				logger.warn("用户【"+getId()+"】无扩展信息【"+extId+"】");
+				return null;
 			}
 		}
-		return (T)info;
+		return null;
 	}
 	
 	/**
@@ -69,17 +108,14 @@ public class AuthUserWithInfo extends AuthUser {
 	 * @return
 	 */
 	public JSONMap getExtInfo(String extId) {
-		JSONMap info =extInfos_map.get(extId);
-		if(info==null){
-			IUimInfoService uimInfoService=SpringHolder.getBean(IUimInfoService.class);
-			info=uimInfoService.getExtInfo(getId(), extId);
-			if(info!=null){
-				extInfos_map.put(extId, info);
-			}else{
-				throw new LogicException("扩展信息【"+extId+"】对应的信息，信息未保存");
-			}
-		}
-		return info;
+		return getExtInfo(extId, JSONMap.class);
 	}
-	
+	/**
+	 * 取得用户角色信息
+	 * @param role
+	 * @return
+	 */
+	public JSONMap getRoleInfo(Long roleId) {
+		return getRoleInfo(roleId, JSONMap.class);
+	}
 }
