@@ -12,7 +12,7 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 import org.jeewx.api.core.util.WeiXinConstant;
 import org.jeewx.api.core.util.WeiXinReqUtil;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.json.JSONObject;
 
@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
  */
 public class WeiXinReqService {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(WeiXinReqService.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WeiXinReqService.class);
 	private static WeiXinReqService weiXinReqUtil = null;
 
 

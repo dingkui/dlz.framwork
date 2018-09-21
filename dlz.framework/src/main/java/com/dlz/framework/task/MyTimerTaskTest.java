@@ -1,11 +1,11 @@
 package com.dlz.framework.task;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public  class MyTimerTaskTest extends MyTimerTask<Long> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	@SuppressWarnings("unused")
-	private static MyLogger logger = MyLogger.getLogger(MyTimerTaskTest.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MyTimerTaskTest.class);
 
 	@Override
 	public void done(Long t) {

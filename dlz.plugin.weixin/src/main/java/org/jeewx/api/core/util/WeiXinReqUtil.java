@@ -19,7 +19,7 @@ import org.jeewx.api.core.req.WeiXinReqService;
 import org.jeewx.api.core.req.model.WeixinReqConfig;
 import org.jeewx.api.core.req.model.WeixinReqParam;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.google.gson.Gson;
 
 /**
@@ -30,7 +30,7 @@ import com.google.gson.Gson;
 public class WeiXinReqUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	private static MyLogger logger = MyLogger.getLogger(WeiXinReqUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WeiXinReqUtil.class);
 	
 	/**
 	 * 缓存请求配置

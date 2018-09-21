@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jeewx.api.custservice.multicustservice.JwMultiCustomerAPI;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.message.resp.Article;
 import com.dlz.plugin.weixin.message.resp.NewsMessage;
 import com.dlz.plugin.weixin.message.resp.TextMessage;
@@ -19,7 +19,7 @@ import com.dlz.plugin.weixin.util.MessageUtil;
  */
 public abstract class ACoreService {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger log = MyLogger.getLogger(ACoreService.class);
+	private static Logger log = org.slf4j.LoggerFactory.getLogger(ACoreService.class);
 
 	// 文本消息
 	public abstract String dealText(String fromUserName, String toUserName, Map<String, String> requestMap);

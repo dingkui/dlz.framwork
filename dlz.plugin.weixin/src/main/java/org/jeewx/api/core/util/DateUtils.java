@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 
@@ -21,7 +21,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 public class DateUtils extends PropertyEditorSupport {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DateUtils.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DateUtils.class);
 	// 各种时间格式
 	public static final SimpleDateFormat date_sdf = new SimpleDateFormat(
 			"yyyy-MM-dd");

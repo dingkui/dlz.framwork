@@ -11,7 +11,7 @@ import org.jeewx.api.wxuser.tag.model.WxTag;
 import org.jeewx.api.wxuser.tag.model.WxTagUser;
 import org.jeewx.api.wxuser.tag.model.WxTagUserList;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,7 +19,7 @@ import net.sf.json.JSONObject;
 public class JwTagAPI {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	private static MyLogger logger = MyLogger.getLogger(JwTagAPI.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JwTagAPI.class);
 	
 	//创建标签
 	private static String create_tag = "https://api.weixin.qq.com/cgi-bin/tags/create?access_token=ACCESS_TOKEN";

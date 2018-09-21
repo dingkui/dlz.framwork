@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Timer;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.DateUtils;
 
 /**
@@ -17,7 +17,7 @@ import com.dlz.framework.util.DateUtils;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TimerDispacher{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(TimerDispacher.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(TimerDispacher.class);
 	private static Map<String,MyTimerTask> timmerSet = new HashMap<String,MyTimerTask>();
 	private static Timer timer = new Timer();
 	private static long EVREY=1000;

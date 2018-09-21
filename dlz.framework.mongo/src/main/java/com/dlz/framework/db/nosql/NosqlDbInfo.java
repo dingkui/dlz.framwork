@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.nosql.operator.mongo.MongoManager;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.StringUtils;
 
 /**
@@ -38,7 +38,7 @@ import com.dlz.framework.util.StringUtils;
 @SuppressWarnings("unchecked")
 public class NosqlDbInfo {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(NosqlDbInfo.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(NosqlDbInfo.class);
 	private static ResourceBundle dbConfig;
 	private final static String NAME_DB_CONFIG = "mongolist";
 	private final static String STR_BSON_FOLDER = "bsonlist.";

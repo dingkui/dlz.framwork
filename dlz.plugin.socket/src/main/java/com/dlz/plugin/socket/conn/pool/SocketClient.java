@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 
@@ -18,7 +18,7 @@ import com.dlz.plugin.socket.interfaces.ASocketIO;
  *
  */
  class SocketClient extends ASocketClient{
-	 private static MyLogger logger = MyLogger.getLogger(SocketClient.class);
+	 private static Logger logger = org.slf4j.LoggerFactory.getLogger(SocketClient.class);
 	
 	public SocketClient(String server,int port,ASocketIO sio) {
 		super(server, port, sio);

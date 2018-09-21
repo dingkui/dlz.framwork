@@ -26,13 +26,13 @@ import org.jeewx.api.wxsendmsg.model.WxMediaResponse;
 import org.jeewx.api.wxsendmsg.util.ReadImgUrls;
 import org.jeewx.api.wxuser.user.model.Wxuser;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.json.JSONObject;
 
 public class JwSendMessageAPI {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(JwSendMessageAPI.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JwSendMessageAPI.class);
 	// 消息预览URL
 	private static String message_preview_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN";
 	// 上传媒体资源URL

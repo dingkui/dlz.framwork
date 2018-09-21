@@ -18,7 +18,7 @@
 //
 //public class BaiduCloudService {
 //	
-//	private static MyLogger logger = MyLogger.getLogger(BaiduCloudService.class);
+//	private static Logger logger = org.slf4j.LoggerFactory.getLogger(BaiduCloudService.class);
 //	
 //	public static void main(String[] args) throws Exception {
 //		 String host = "bcs.duapp.com";

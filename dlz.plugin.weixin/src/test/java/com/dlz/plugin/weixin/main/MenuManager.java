@@ -1,6 +1,6 @@
 package com.dlz.plugin.weixin.main;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.menu.Button;
 import com.dlz.plugin.weixin.menu.ClickButton;
 import com.dlz.plugin.weixin.menu.ComplexButton;
@@ -18,7 +18,7 @@ import com.dlz.web.util.WxUtil.AccessToken;
 public class MenuManager {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger log = MyLogger.getLogger(MenuManager.class);
+	private static Logger log = org.slf4j.LoggerFactory.getLogger(MenuManager.class);
 	
 	/**
 	 * 定义菜单结构

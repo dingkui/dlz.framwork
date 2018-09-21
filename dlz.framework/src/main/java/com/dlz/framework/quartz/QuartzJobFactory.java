@@ -7,13 +7,13 @@ import org.quartz.JobExecutionException;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.quartz.bean.ScheduleJob;
 import com.dlz.framework.util.system.Reflections;
 
 public class QuartzJobFactory implements Job {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(JobMethod.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JobMethod.class);
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap mergedJobDataMap = context.getMergedJobDataMap();

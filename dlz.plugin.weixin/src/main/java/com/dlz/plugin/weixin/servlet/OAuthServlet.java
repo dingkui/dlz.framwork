@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.pojo.SNSUserInfo;
 import com.dlz.plugin.weixin.pojo.WeixinOauth2Token;
 import com.dlz.plugin.weixin.util.AdvancedUtil;
@@ -22,7 +22,7 @@ import com.dlz.plugin.weixin.util.AdvancedUtil;
 public class OAuthServlet extends HttpServlet{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = -1691855555267177572L;
-	private static MyLogger logger = MyLogger.getLogger(OAuthServlet.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(OAuthServlet.class);
 	public void doGet(HttpServletRequest request,HttpServletResponse response
 			) throws ServletException, IOException{
 		request.setCharacterEncoding("gb2312");

@@ -9,7 +9,7 @@ import com.dlz.app.uim.service.IUimInfoService;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.LogicException;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 
 /**
@@ -18,7 +18,7 @@ import com.dlz.framework.util.JacksonUtil;
  *
  */
 public class AuthUserWithInfo extends AuthUser {
-	private static MyLogger logger=MyLogger.getLogger(AuthUserWithInfo.class);
+	private static Logger logger=org.slf4j.LoggerFactory.getLogger(AuthUserWithInfo.class);
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	/**
 	 * 

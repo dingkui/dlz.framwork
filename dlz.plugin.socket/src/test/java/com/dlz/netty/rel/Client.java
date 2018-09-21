@@ -2,7 +2,7 @@ package com.dlz.netty.rel;
 
 import java.util.Scanner;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -15,7 +15,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class Client {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(Client.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Client.class);
 	private EventLoopGroup loop = new NioEventLoopGroup();
 
 	public static void main(String[] args) {

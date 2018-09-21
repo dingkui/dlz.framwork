@@ -4,12 +4,12 @@ import org.jeewx.api.wxsendmsg.JwSendMessageAPI;
 import org.jeewx.api.wxsendmsg.model.WxMedia;
 import org.jeewx.api.wxuser.user.model.Wxuser;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.custom.CustomMessage;
  
 
 public class SendMsgThread  implements Runnable{ 
-	private static MyLogger logger = MyLogger.getLogger(SendMsgThread.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SendMsgThread.class);
 	
 	
 	private String accesstoken;

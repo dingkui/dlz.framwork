@@ -5,7 +5,7 @@ import org.jeewx.api.core.exception.WexinReqException;
 import org.jeewx.api.core.req.model.message.TemplateMessageSendResult;
 import org.jeewx.api.core.util.WeiXinConstant;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.json.JSONObject;
 
@@ -35,7 +35,7 @@ public class JwSendTemplateMsgAPI {
 	//发送模板消息
 	private static String send_template_msg = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
 	
-	private static MyLogger logger = MyLogger.getLogger(JwSendTemplateMsgAPI.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JwSendTemplateMsgAPI.class);
 	/**
 	 * 设置行业信息
 	 * @param accessToken

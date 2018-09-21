@@ -11,12 +11,12 @@ import com.dlz.framework.db.cache.bean.Dict;
 import com.dlz.framework.db.cache.bean.DictItem;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.ParaMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 @Component
 public class DictCache extends AbstractCache<String, Dict>{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	protected final MyLogger logger = MyLogger.getLogger(getClass());
+	protected final Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 	private static String DICTS="dicts";
 	private static String SPLIT_STR="_";
 	

@@ -15,8 +15,7 @@
 	<properties>
 		<mybatis.version>3.4.0</mybatis.version>
 		<mybatis-spring.version>1.3.0</mybatis-spring.version>
-		<dlz.framework.version>2.2</dlz.framework.version>
-		<spring.version>4.2.4.RELEASE</spring.version>
+		<dlz.framework.version>2.2.1</dlz.framework.version>
 	</properties>
 
 
@@ -133,16 +132,10 @@
 				<version>1.0</version>
 			</dependency>
 			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.17</version>
-			</dependency>
-			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.0.1</version>
 			</dependency>
-
 			<!-- mybatis -->
 			<dependency>
 				<groupId>org.mybatis</groupId>
@@ -159,14 +152,14 @@
 
 	<modules>
 		<!-- <module>../dlz.framework</module> -->
-		<module>../dlz.web</module>
+		 <module>../dlz.web</module>
 		<module>../dlz.framework.db.springjdbc</module>
 		<module>../dlz.framework.ssme</module>
 		<module>../dlz.framework.mongo</module>
 		<module>../dlz.plugin.redis</module>
 		<module>../dlz.plugin.weixin</module>
 		<module>../dlz.plugin.socket</module>
-		<module>../dlz.plugin.websocket</module>
+		<module>../dlz.plugin.websocket</module> 
 
 	</modules>
 	<build>

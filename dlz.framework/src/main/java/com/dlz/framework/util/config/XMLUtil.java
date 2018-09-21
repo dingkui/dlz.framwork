@@ -19,11 +19,11 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 @SuppressWarnings({"unchecked","rawtypes"})
 public class XMLUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static final MyLogger logger = MyLogger.getLogger(XMLUtil.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(XMLUtil.class);
 
 	/**
 	 * 

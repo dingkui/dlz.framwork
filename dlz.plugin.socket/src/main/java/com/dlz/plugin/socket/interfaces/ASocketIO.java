@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * socket读写方式
@@ -15,7 +15,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 public abstract class ASocketIO {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ASocketIO.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ASocketIO.class);
 	public static String separatorStr=System.getProperty("line.separator");
 	public static byte[] separatorByte=separatorStr.getBytes();
 	public static int separatorLen=separatorByte.length;

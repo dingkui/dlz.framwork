@@ -40,7 +40,7 @@ import com.dlz.framework.exception.RemoteException;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.TokenHolder;
 import com.dlz.framework.holder.TokenHolder.TokenInfo;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.PKCS7Encoder;
 import com.dlz.framework.util.StringUtils;
@@ -58,7 +58,7 @@ import com.dlz.web.util.HttpUtil.HttpPostUtil;
  */
 public class WxUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(WxUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WxUtil.class);
 
 	// 凭证获取(GET)
 	public final static String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";

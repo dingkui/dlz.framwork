@@ -10,7 +10,7 @@ import org.jeewx.api.core.req.model.dataCube.WxDataCubeStreamUserCumulateParam;
 import org.jeewx.api.core.req.model.dataCube.WxDataCubeStreamUserSummaryParam;
 import org.jeewx.api.report.datastatistics.useranalysis.model.UserAnalysisRtnInfo;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -23,7 +23,7 @@ import net.sf.json.JSONObject;
 public class JwUserAnalysisAPI {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	private static MyLogger logger = MyLogger.getLogger(JwUserAnalysisAPI.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JwUserAnalysisAPI.class);
 	
 	private static Long getDays(String Date1,String Date2){
 		return Date.valueOf(Date1).getTime() /86400000L - Date.valueOf(Date2).getTime() / 86400000L;

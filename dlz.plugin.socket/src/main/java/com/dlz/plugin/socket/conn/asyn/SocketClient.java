@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
@@ -22,7 +22,7 @@ import com.dlz.plugin.socket.interfaces.ISocketListener;
  */
 public class SocketClient extends ASocketClient{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SocketClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SocketClient.class);
 	
 	public SocketClient(String server,int port,ASocketIO sio) {
 		super(server, port, sio);

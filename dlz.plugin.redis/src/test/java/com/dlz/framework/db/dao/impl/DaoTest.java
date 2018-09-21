@@ -9,13 +9,13 @@ import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.dao.IDaoOperator;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 
 @Service
 public class DaoTest implements IDaoOperator {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DaoTest.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DaoTest.class);
 	@Override
 	public long getSeq(String seqName) {
 		return 1l;

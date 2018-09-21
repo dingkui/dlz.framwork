@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.service.ACoreService;
 import com.dlz.plugin.weixin.util.SignUtil;
 
@@ -28,7 +28,7 @@ public class WxCoreController {
 	@Autowired
 	ACoreService coreService;
 	
-	private static MyLogger log = MyLogger.getLogger(WxCoreController.class);
+	private static Logger log = org.slf4j.LoggerFactory.getLogger(WxCoreController.class);
 
 	/**
 	 * 确认（处理）请求来自微信服务器

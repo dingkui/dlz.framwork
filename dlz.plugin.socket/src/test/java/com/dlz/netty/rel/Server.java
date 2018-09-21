@@ -2,7 +2,7 @@ package com.dlz.netty.rel;
 
 import java.util.Scanner;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.conf.NettyConfig;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -17,7 +17,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class Server {  
-	private static MyLogger logger = MyLogger.getLogger(Server.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Server.class);
 	
     public static void main(String[] args) throws InterruptedException{  
         Server server = new Server(8081); 

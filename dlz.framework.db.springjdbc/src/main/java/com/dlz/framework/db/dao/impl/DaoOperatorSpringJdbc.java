@@ -16,12 +16,12 @@ import com.dlz.framework.db.jdbc.JdbcUtil;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.mySequence.ISequenceMaker;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 @Service
 public class DaoOperatorSpringJdbc implements IDaoOperator {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DaoOperatorSpringJdbc.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DaoOperatorSpringJdbc.class);
 	private JdbcTemplate jdbcTemplate;
 	private ResultSetExtractor<List<ResultMap>> extractor;
 	

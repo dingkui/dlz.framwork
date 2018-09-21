@@ -18,7 +18,7 @@ import com.dlz.framework.db.nosql.modal.Insert;
 import com.dlz.framework.db.nosql.modal.Update;
 import com.dlz.framework.db.nosql.operator.INosqlDaoOperator;
 import com.dlz.framework.db.nosql.service.INosqlService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
 
@@ -27,7 +27,7 @@ import com.dlz.framework.util.ValUtil;
 @DependsOn("nosqlDaoOperatorMongo")
 public class NosqlServiceImpl implements INosqlService {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(NosqlServiceImpl.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(NosqlServiceImpl.class);
 	@Autowired
 	private INosqlDaoOperator daoOperator;
 	

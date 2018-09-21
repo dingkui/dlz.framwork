@@ -16,12 +16,12 @@ import org.jeewx.api.core.req.model.kfaccount.KfaccountUploadheadimg;
 import org.jeewx.api.core.util.HttpRequestProxy;
 import org.jeewx.api.core.util.WeiXinReqUtil;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class WeixinReqMediaUploadHandler implements WeiXinReqHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(WeixinReqMediaUploadHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WeixinReqMediaUploadHandler.class);
 	
 	@SuppressWarnings("rawtypes")
 	public String doRequest(WeixinReqParam weixinReqParam) throws WexinReqException {

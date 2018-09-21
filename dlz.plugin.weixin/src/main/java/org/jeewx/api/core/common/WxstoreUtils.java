@@ -25,7 +25,7 @@ import javax.net.ssl.TrustManager;
 import org.apache.commons.codec.binary.Base64;
 import org.jeewx.api.core.exception.WexinReqException;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.json.JSONObject;
 /**
@@ -36,7 +36,7 @@ import net.sf.json.JSONObject;
  */
 public class WxstoreUtils {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(WxstoreUtils.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WxstoreUtils.class);
 
 	public static JSONObject httpRequest(String requestUrl,
 			String requestMethod, String outputStr) {

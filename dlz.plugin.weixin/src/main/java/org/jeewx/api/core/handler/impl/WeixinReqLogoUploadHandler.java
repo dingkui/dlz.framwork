@@ -15,12 +15,12 @@ import org.jeewx.api.core.util.HttpRequestProxy;
 import org.jeewx.api.core.util.WeiXinReqUtil;
 import org.jeewx.api.coupon.location.model.LocationInfo;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class WeixinReqLogoUploadHandler implements WeiXinReqHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(WeixinReqLogoUploadHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WeixinReqLogoUploadHandler.class);
 	
 	@SuppressWarnings("rawtypes")
 	public String doRequest(WeixinReqParam weixinReqParam) throws WexinReqException {

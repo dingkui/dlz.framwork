@@ -1,14 +1,14 @@
 package com.dlz.test;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 
 public class LogTest {
 	
-//	static MyMyLogger myLogger = MyLogger.getLogger(LogTest.class);
-	static MyLogger logger = MyLogger.getLogger(LogTest.class);
-	static MyLogger log = MyLogger.getLogger(LogTest.class);
-//	static MyMyLogger myLogger2 = MyLogger.getLogger("xccd");
+//	static MyLogger Logger = org.slf4j.LoggerFactory.getLogger(LogTest.class);
+	static Logger logger = org.slf4j.LoggerFactory.getLogger(LogTest.class);
+	static Logger log = org.slf4j.LoggerFactory.getLogger(LogTest.class);
+//	static MyLogger myLogger2 = org.slf4j.LoggerFactory.getLogger("xccd");
 
 	public static void main(String[] args) {
 		logger.debug("123{1},{},{},{}",1,2,3,5555);
