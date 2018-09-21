@@ -8,7 +8,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -23,7 +23,7 @@ import freemarker.template.Template;
  */
 public class FreemarkerUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(FreemarkerUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(FreemarkerUtil.class);
 	private static Configuration _tplConfig = new Configuration();
 
 	public FreemarkerUtil(){

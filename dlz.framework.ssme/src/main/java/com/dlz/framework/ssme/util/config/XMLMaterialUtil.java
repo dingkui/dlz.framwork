@@ -3,11 +3,11 @@ package com.dlz.framework.ssme.util.config;
 import java.text.MessageFormat;
 
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.config.XmlConfigUtil;
 public class XMLMaterialUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static final MyLogger logger = MyLogger.getLogger(XMLMaterialUtil.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(XMLMaterialUtil.class);
 	
 	private static String mesaageConfigName="material";
 	

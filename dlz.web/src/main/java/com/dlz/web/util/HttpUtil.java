@@ -45,7 +45,7 @@ import org.dom4j.io.SAXReader;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.exception.HttpException;
 import com.dlz.framework.exception.LogicException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 
@@ -58,7 +58,7 @@ import com.dlz.framework.util.StringUtils;
 
 public class HttpUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(HttpUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(HttpUtil.class);
 	
 	private final static String CHARSET_UTF8="UTF-8";
 	

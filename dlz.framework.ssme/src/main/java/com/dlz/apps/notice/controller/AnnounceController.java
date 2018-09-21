@@ -14,7 +14,7 @@ import com.dlz.apps.notice.db.model.AnnounceCriteria;
 import com.dlz.apps.notice.db.service.AnnounceService;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.util.criterias.Criterias;
 import com.dlz.framework.util.JacksonUtil;
@@ -27,7 +27,7 @@ import com.dlz.framework.util.JacksonUtil;
 @RequestMapping(value = "/news/announce")
 public class AnnounceController extends BaseController{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(AnnounceController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(AnnounceController.class);
 	@Autowired
 	 private AnnounceService  announceServices;
 	@Autowired

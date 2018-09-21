@@ -1,6 +1,6 @@
 package com.dlz.plugin.netty;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
@@ -28,7 +28,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class NettyServer {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(NettyServer.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(NettyServer.class);
 	private ServerSocketChannel serverSocketChannel;
 
 	ServerHandler serverHandler;

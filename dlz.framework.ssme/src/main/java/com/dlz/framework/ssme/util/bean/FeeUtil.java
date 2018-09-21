@@ -3,7 +3,7 @@ package com.dlz.framework.ssme.util.bean;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class FeeUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
@@ -16,7 +16,7 @@ public class FeeUtil {
 	/**
 	 * 日志
 	 */
-	private static MyLogger logger = MyLogger.getLogger(FeeUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(FeeUtil.class);
 
 	/**
 	 * Properties实例

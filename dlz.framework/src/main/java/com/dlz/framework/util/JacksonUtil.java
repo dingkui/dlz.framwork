@@ -17,7 +17,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.exception.CodeException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,7 +50,7 @@ import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 @SuppressWarnings({ "rawtypes" })
 public class JacksonUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(JacksonUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JacksonUtil.class);
 	private static ObjectMapper objectMapper = new ObjectMapper();
 	private final static Class<?> CLASS_OBJECT = Object.class;
 	static {

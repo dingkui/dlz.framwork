@@ -1,11 +1,11 @@
 package com.dlz.apps.notice.sms.client;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 
 public class SingletonClient {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SingletonClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SingletonClient.class);
 	private static Client client=null;
 	private SingletonClient(){
 	}

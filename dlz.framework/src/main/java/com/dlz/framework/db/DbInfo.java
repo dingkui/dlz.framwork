@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.service.IColumnMapperService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 数据库配置信息
@@ -36,7 +36,7 @@ import com.dlz.framework.logger.MyLogger;
 @Component
 public class DbInfo {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DbInfo.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DbInfo.class);
 	private static ResourceBundle dbConfig;
 	private final static String NAME_DB_CONFIG = "sqllist";
 	private final static String STR_SQL_JAR = "sqllist.sql.jar.";
@@ -109,8 +109,8 @@ public class DbInfo {
 			}
 			m_dbset.put(name, str);
 		}
-		logger.debug("dbsettinhs:" + m_dbset);
-		logger.debug("sqlList:" + m_sqlList);
+		logger.info("dbsettinhs:" + m_dbset);
+		logger.info("sqlList:" + m_sqlList);
 		initIng = false;
 	}
 	
@@ -181,7 +181,7 @@ public class DbInfo {
 				sqlStr = sqlStr.replaceAll("--.*", "");
 				sqlStr = sqlStr.replaceAll("[\\s]+", " ");
 				m_sqlList.put(sql.attributeValue("sqlId"), sqlStr);
-				logger.info(sql.attributeValue("sqlId") + ":" + sqlStr);
+				logger.debug(sql.attributeValue("sqlId") + ":" + sqlStr);
 			}
 		} catch (DocumentException e) {
 			logger.error(" 文件读取异常！", e);
@@ -210,7 +210,7 @@ public class DbInfo {
 		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 		Resource[] rs=resourcePatternResolver.getResources("classpath*:sql/"+path+".sql");
 		for(Resource r:rs){
-			logger.info(r.getURI());
+			logger.info(r.getURI().toString());
 			readSqlXml(r.getInputStream());
 		}
 	}

@@ -1,6 +1,6 @@
 package com.dlz.plugin.netty;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
@@ -23,7 +23,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  *
  */
 class NettySynClient {
-	private static MyLogger logger = MyLogger.getLogger(NettySynClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(NettySynClient.class);
 	private int port;
 	private String host;
 	private ICoder coder;

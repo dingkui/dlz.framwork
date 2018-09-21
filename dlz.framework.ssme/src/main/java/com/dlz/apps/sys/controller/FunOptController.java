@@ -18,7 +18,7 @@ import com.dlz.apps.ControllerConst;
 import com.dlz.apps.sys.cache.MenuCache;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.FunOpt;
 import com.dlz.framework.ssme.db.model.FunOptCriteria;
 import com.dlz.framework.ssme.db.service.FunOptService;
@@ -32,7 +32,7 @@ import com.dlz.framework.ssme.db.service.RbacService;
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/funopt")
 public class FunOptController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(FunOptController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(FunOptController.class);
 
 	@Autowired
 	private FunOptService funOptService;

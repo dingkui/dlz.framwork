@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.codec.CodecException;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -17,7 +17,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 public class RedisConfig {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-    private MyLogger logger = MyLogger.getLogger(getClass());
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
     
     @Value("${redis.host}")
     private String host;

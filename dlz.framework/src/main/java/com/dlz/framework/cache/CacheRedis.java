@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -23,7 +23,7 @@ import net.sf.ehcache.Element;
 @SuppressWarnings("unchecked")
 public abstract class CacheRedis<KEY,T>{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(CacheRedis.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CacheRedis.class);
 
 	private static Set<String> CacheSet = new HashSet<String>();
 	

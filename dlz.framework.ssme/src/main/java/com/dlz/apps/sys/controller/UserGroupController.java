@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.Role;
 import com.dlz.framework.ssme.db.model.User;
 import com.dlz.framework.ssme.db.model.UserGroup;
@@ -44,7 +44,7 @@ import com.google.common.collect.Sets;
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/userGroup")
 public class UserGroupController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(UserGroupController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(UserGroupController.class);
 
 	@Autowired
 	private ICommService commService;

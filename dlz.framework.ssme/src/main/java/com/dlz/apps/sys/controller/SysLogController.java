@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.SysLog;
 import com.dlz.framework.ssme.db.model.SysLogCriteria;
 import com.dlz.framework.ssme.db.service.SysLogService;
@@ -31,7 +31,7 @@ import com.google.common.collect.ImmutableMap;
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/sysLog")
 public class SysLogController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SysLogController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SysLogController.class);
 
 	@Autowired
 	private SysLogService sysLogService;

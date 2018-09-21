@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
@@ -15,7 +15,7 @@ import com.dlz.framework.util.StringUtils;
 public class DistanceUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	private static MyLogger logger = MyLogger.getLogger(DistanceUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DistanceUtil.class);
     private static final double EARTH_RADIUS = 6378.137;
 
     private static double rad(double d) {

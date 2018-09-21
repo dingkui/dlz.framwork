@@ -30,7 +30,7 @@ import com.dlz.apps.file.enums.FileTypeEnum;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.office.ImageUtil;
@@ -42,7 +42,7 @@ import com.swetake.util.Qrcode;
 @Transactional(rollbackFor = Exception.class)
 public class FilesServiceImpl extends BaseServiceImpl<Files, Long> implements FilesService {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(FilesServiceImpl.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(FilesServiceImpl.class);
 	private static String UPLOAD_PATH = "sys.img.upload.path";
 	private static String NGINX_PATH = "nginxServer";
 

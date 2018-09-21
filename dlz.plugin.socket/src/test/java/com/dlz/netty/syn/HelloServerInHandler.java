@@ -1,7 +1,7 @@
 package com.dlz.netty.syn;
 
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 // 该handler是InboundHandler类型
 public class HelloServerInHandler extends ChannelInboundHandlerAdapter {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(HelloServerInHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(HelloServerInHandler.class);
     @Override
     public boolean isSharable() {
         logger.debug("handler-sharable");

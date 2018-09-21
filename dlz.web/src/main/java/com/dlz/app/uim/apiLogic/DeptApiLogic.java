@@ -10,7 +10,7 @@ import com.dlz.app.uim.service.IUimDeptService;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.web.logic.NoAuthCommLogic;
 /**
@@ -23,7 +23,7 @@ import com.dlz.web.logic.NoAuthCommLogic;
 @AnnoAuth("sys_admin")
 public class DeptApiLogic extends NoAuthCommLogic{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private MyLogger logger = MyLogger.getLogger(getClass());
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 	@Autowired
 	IUimDeptService deptService;
 	

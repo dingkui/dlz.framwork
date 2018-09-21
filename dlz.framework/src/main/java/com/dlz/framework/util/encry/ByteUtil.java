@@ -17,11 +17,11 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class ByteUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ByteUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ByteUtil.class);
 	// 从文本文件对象中读取内容并转换为字符数组
 	public static char[] readChars(File file) {
 		CharArrayWriter caw = new CharArrayWriter();

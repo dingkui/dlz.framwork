@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
@@ -21,7 +21,7 @@ import redis.clients.jedis.JedisPool;
 @Component
 public class RedisQueueProviderApiHandler extends ApiProxyHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-    private MyLogger logger = MyLogger.getLogger(getClass());
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 
     @Autowired
     private JedisPool jedisSentinelPool;

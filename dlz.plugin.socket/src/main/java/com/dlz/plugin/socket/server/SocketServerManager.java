@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
 import com.dlz.plugin.socket.interfaces.IDealService;
@@ -12,7 +12,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 public class SocketServerManager {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	private static MyLogger logger=MyLogger.getLogger(SocketServerManager.class);
+	private static Logger logger=org.slf4j.LoggerFactory.getLogger(SocketServerManager.class);
 	private static Map<String,ASocketServer> SOCKETSERVERS=new HashMap<String,ASocketServer>();
 	
 

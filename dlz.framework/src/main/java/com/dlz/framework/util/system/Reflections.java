@@ -14,7 +14,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.util.Assert;
 
 import com.dlz.framework.annotation.NotDbField;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.StringUtils;
 
 /**
@@ -33,7 +33,7 @@ public class Reflections {
 
 	private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
-	private static MyLogger logger = MyLogger.getLogger(Reflections.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Reflections.class);
 
 	/**
 	 * 调用Getter方法.

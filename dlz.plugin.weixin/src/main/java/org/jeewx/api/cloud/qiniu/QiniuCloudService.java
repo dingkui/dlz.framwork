@@ -27,7 +27,7 @@
 //
 //public class QiniuCloudService {
 //	
-//	private static MyLogger logger = MyLogger.getLogger(QiniuCloudService.class);
+//	private static Logger logger = org.slf4j.LoggerFactory.getLogger(QiniuCloudService.class);
 //	
 //	//七牛云 默认域名  根据 bucket 和默认域名改变决定
 //	private static String url = "http://7u2th8.com1.z0.glb.clouddn.com/";

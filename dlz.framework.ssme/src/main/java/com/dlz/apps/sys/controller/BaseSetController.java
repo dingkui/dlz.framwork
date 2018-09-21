@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.BaseSet;
 import com.dlz.framework.ssme.db.model.BaseSetCriteria;
 import com.dlz.framework.ssme.db.service.BaseSetService;
@@ -31,7 +31,7 @@ import com.dlz.framework.util.StringUtils;
 @RequestMapping(value=ControllerConst.ADMIN+"/rbac/baseSet")
 public class BaseSetController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(BaseSetController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(BaseSetController.class);
 
 	@Autowired
 	BaseSetService baseSetService;

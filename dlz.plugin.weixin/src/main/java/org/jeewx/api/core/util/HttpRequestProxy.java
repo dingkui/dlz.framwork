@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class HttpRequestProxy {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
@@ -38,7 +38,7 @@ public class HttpRequestProxy {
 	 */
 	public static String requestEncoding = "UTF-8";
 
-	private static MyLogger logger = MyLogger.getLogger(HttpRequestProxy.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(HttpRequestProxy.class);
 
 	/**
 	 * <pre>

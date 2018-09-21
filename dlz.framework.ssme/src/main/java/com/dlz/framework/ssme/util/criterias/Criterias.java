@@ -15,7 +15,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.web.Servlets;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.system.Reflections;
@@ -23,7 +23,7 @@ import com.google.common.base.CaseFormat;
 
 public class Criterias {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(Criterias.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Criterias.class);
 	private static final int DEFAULT_PAGE_SIZE = 100;
 	
 	public static <T> T buildCriteria(Class<T> criteriaClass, HttpServletRequest request, Map<String, Object> extendParam,List<String> conditionLst) {

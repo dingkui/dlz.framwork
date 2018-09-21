@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 扫描定义
@@ -31,7 +31,7 @@ public interface IScaner {
 	 * 扫描处理器
 	 */
 	public interface IScanerProcessor {
-		static MyLogger logger = MyLogger.getLogger(IScanerProcessor.class);
+		static Logger logger = org.slf4j.LoggerFactory.getLogger(IScanerProcessor.class);
 
 		default Class<?> getBeanClass(AnnotatedBeanDefinition beanDefinition, boolean init) {
 			try {

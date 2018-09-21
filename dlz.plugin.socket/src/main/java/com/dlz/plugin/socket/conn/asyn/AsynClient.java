@@ -6,7 +6,7 @@ import java.net.SocketException;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.conn.asyn.SocketClient.SocketHolder;
 import com.dlz.plugin.socket.conn.asyn.SocketClient.SocketProxy;
 import com.dlz.plugin.socket.interfaces.ASocketClient;
@@ -16,7 +16,7 @@ import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 public class AsynClient extends ASocketClient{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(AsynClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(AsynClient.class);
 	
 	private SenderDeal sender;
 	SocketProxy socket =null;

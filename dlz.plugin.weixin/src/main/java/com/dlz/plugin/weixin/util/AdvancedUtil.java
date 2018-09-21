@@ -1,7 +1,7 @@
 package com.dlz.plugin.weixin.util;
 
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.pojo.SNSUserInfo;
 import com.dlz.plugin.weixin.pojo.WeixinOauth2Token;
 
@@ -14,7 +14,7 @@ import com.dlz.plugin.weixin.pojo.WeixinOauth2Token;
  */
 public class AdvancedUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(AdvancedUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(AdvancedUtil.class);
 
 	public static WeixinOauth2Token getOauth2AccessToken(String appId,
 			String appSecret, String code){

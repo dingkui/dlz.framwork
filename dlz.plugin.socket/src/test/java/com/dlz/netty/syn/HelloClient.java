@@ -1,6 +1,6 @@
 package com.dlz.netty.syn;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
 import com.dlz.plugin.netty.codec.MessageEncoder;
@@ -23,7 +23,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class HelloClient {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(HelloClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(HelloClient.class);
 
 	StringBuffer message = new StringBuffer();
 

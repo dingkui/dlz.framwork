@@ -28,7 +28,7 @@ import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.SearchParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.DeptCriteria;
 import com.dlz.framework.ssme.db.model.DeptUser;
@@ -52,7 +52,7 @@ import com.dlz.framework.util.StringUtils;
 @RequestMapping(ControllerConst.ADMIN+"/rbac/dept")
 public class DeptController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DeptController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DeptController.class);
 	
 	@Autowired
 	UserService userService;

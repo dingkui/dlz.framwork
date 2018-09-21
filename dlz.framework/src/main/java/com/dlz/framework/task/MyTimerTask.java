@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TimerTask;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 定时任务
@@ -16,7 +16,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 public abstract class MyTimerTask<T> extends TimerTask {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(TimerTask.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(TimerTask.class);
 
 	private Set<String> sets = new HashSet<String>();
 	private Stack<T> paraStack = new Stack<T>();

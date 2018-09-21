@@ -3,7 +3,7 @@ package com.dlz.plugin.netty;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.netty.codec.ICoder;
 import com.dlz.plugin.netty.codec.MessageDecoder;
@@ -29,7 +29,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class NettyClient {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(NettyClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(NettyClient.class);
 	private int port;
 	private String host;
 	private SocketChannel socketChannel;

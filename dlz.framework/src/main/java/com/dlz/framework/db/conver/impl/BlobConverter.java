@@ -5,12 +5,12 @@ import java.sql.Blob;
 
 import com.dlz.framework.db.conver.AClassConverter;
 import com.dlz.framework.db.enums.CharsetNameEnum;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class BlobConverter extends AClassConverter<Object,String,CharsetNameEnum> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String COVERCLASS_BLOB="oracle.sql.BLOB";
-	private static MyLogger logger = MyLogger.getLogger(BlobConverter.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(BlobConverter.class);
 	public BlobConverter(CharsetNameEnum para) {
 		super(para);
 	}

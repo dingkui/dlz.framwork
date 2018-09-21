@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
 import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
@@ -27,7 +27,7 @@ import com.dlz.web.util.HttpUtil.HttpGetUtil;
  */
 public class AlipayNotify {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(AlipayNotify.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(AlipayNotify.class);
     /**
      * 支付宝消息验证地址
      */

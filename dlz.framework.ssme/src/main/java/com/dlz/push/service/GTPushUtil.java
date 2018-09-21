@@ -11,7 +11,7 @@ import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.CommServiceImpl;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.util.StringUtils;
 import com.gexin.rp.sdk.base.IPushResult;
@@ -31,7 +31,7 @@ import com.google.gson.JsonObject;
 public class GTPushUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(GTPushUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(GTPushUtil.class);
 
 	private static String appId = ConfigUtil.getConfig("app.push.appId");
 	private static String appKey = ConfigUtil.getConfig("app.push.appKey");

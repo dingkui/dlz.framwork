@@ -1,6 +1,7 @@
 package com.dlz.framework.quartz.bean;
 
 import com.dlz.framework.bean.JSONMap;
+import com.dlz.framework.util.JacksonUtil;
 
 /**
  * 定时任务封装类
@@ -44,7 +45,7 @@ public class ScheduleJob{
 
 	public String getJobName() {
 		return jobName;
-	}
+	} 
 
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
@@ -98,5 +99,7 @@ public class ScheduleJob{
 		this.para = para;
 	}
 	
-	
+	public String toString() {
+		return JacksonUtil.getJson(this);
+	}
 }

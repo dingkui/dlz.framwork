@@ -8,7 +8,7 @@ import java.net.SocketException;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.handler.ASocketHandler;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.ASocketServer;
@@ -17,7 +17,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 
 public class SocketServer extends ASocketServer{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SocketServer.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SocketServer.class);
 	/**
 	 * 构造Socket服务
 	 * @param serverPort 服务端口

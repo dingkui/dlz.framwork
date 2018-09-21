@@ -22,7 +22,7 @@ import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
 
@@ -31,7 +31,7 @@ import com.dlz.framework.util.ValUtil;
 @DependsOn("dbInfo")
 public class CommServiceImpl implements ICommService {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(CommServiceImpl.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CommServiceImpl.class);
 	@Autowired
 	private IDaoOperator daoOperator;
 	@Autowired

@@ -3,7 +3,7 @@ package com.dlz.framework.ssme.util.serializer;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 public class PercentSerializer extends JsonSerializer<Long> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(PercentSerializer.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(PercentSerializer.class);
 
 	public static String toPercent(Long value) {
 		String result=new BigDecimal((double) value / 100).setScale(2, BigDecimal.ROUND_HALF_UP).toString();

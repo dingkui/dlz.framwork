@@ -16,7 +16,7 @@ import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.exception.LogicException;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.ValUtil;
 import com.dlz.framework.util.system.Reflections;
@@ -25,7 +25,7 @@ import com.dlz.web.inf.IApiAjax;
 
 public class ApiUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	protected static final MyLogger logger = MyLogger.getLogger(ApiUtil.class);
+	protected static final Logger logger = org.slf4j.LoggerFactory.getLogger(ApiUtil.class);
 	
 	public static JSONResult doApiLogic(JSONMap data, String ui, String aType,Page<?> page,IApiAjax ajaxApi) {
 		JSONResult m = JSONResult.createResult();

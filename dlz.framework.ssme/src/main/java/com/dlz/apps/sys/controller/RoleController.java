@@ -19,7 +19,7 @@ import com.dlz.apps.sys.cache.MenuRolesCache;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
 import com.dlz.framework.ssme.db.model.FunOpt;
 import com.dlz.framework.ssme.db.model.FunOptCriteria;
@@ -48,7 +48,7 @@ import com.google.common.collect.Sets;
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/role")
 public class RoleController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(RoleController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(RoleController.class);
 
 	@Autowired
 	private RoleService roleService;

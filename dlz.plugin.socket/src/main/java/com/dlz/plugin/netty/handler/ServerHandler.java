@@ -1,6 +1,6 @@
 package com.dlz.plugin.netty.handler;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.netty.conf.NettyConfig;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
@@ -13,7 +13,7 @@ public class ServerHandler extends BaseHandler {
 		super(lisner);
 	}
 
-	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ServerHandler.class);
 //    @Override
 //    public boolean isSharable() {
 //        logger.debug("handler-sharable");

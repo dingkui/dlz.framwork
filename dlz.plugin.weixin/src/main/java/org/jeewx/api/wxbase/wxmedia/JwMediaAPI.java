@@ -29,7 +29,7 @@ import org.jeewx.api.wxsendmsg.JwSendMessageAPI;
 import org.jeewx.api.wxsendmsg.model.WxArticle;
 import org.jeewx.api.wxsendmsg.model.WxArticlesResponse;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.StringUtils;
 
 import net.sf.json.JSONArray;
@@ -43,7 +43,7 @@ import net.sf.json.JSONObject;
  */
 public class JwMediaAPI {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(JwMediaAPI.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JwMediaAPI.class);
 	// 新增永久图文素材
 	private static String material_add_news_url ="https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
 	// 新增其他类型永久素材

@@ -18,7 +18,7 @@ import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.logic.PageDealCommonLogic;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.MenuDataOpt;
@@ -28,7 +28,7 @@ import com.dlz.framework.util.StringUtils;
 
 public class BaseController extends PageDealCommonLogic {
 	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(BaseController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(BaseController.class);
 	public static String SESSION_MEMEBER = "member";
 	public static String SESSION_MEMBER_HEADINFO = "memberHeadInfo";
 	public static String SESSION_USER_LIMIT = "userLimit";

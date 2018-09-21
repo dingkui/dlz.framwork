@@ -16,7 +16,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.encry.Md5Util;
 import com.dlz.web.holder.ThreadHolder;
@@ -31,7 +31,7 @@ import com.dlz.web.logic.AuthedCommLogic;
 @AnnoAuth("sys_admin")
 public class MemberApiLogic extends AuthedCommLogic{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private MyLogger logger = MyLogger.getLogger(getClass());
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 	@Autowired
 	private IUimMemberService memberService;
 	@Autowired

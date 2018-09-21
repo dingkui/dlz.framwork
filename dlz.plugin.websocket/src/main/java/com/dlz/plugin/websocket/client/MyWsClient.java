@@ -13,7 +13,7 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.dlz.framework.exception.CodeException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.websocket.handler.IWsHandler;
 
 /**
@@ -21,7 +21,7 @@ import com.dlz.plugin.websocket.handler.IWsHandler;
  */
 public class MyWsClient {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	static MyLogger logger=MyLogger.getLogger(MyWsClient.class);
+	static Logger logger=org.slf4j.LoggerFactory.getLogger(MyWsClient.class);
 	public static WebSocketClient client;
 	static Timer timer = new Timer();
 	

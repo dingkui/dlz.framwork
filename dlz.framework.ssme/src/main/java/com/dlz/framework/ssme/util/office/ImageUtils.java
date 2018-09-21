@@ -14,7 +14,7 @@ import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 /**
  * 图片工具类， 图片水印，文字水印，缩放，补白等
  * 
@@ -22,7 +22,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 public final class ImageUtils {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ImageUtils.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ImageUtils.class);
 	/**
 	 * 
 	 * @param logoText 水印内容

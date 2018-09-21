@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 /**
  * 获取手机验证码与发送短信
  * @author Administrator
@@ -23,7 +23,7 @@ import com.dlz.framework.logger.MyLogger;
 public class ObtainCertiNumServelet extends HttpServlet {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static final long serialVersionUID = -5794207647541551424L;
-	private static MyLogger logger = MyLogger.getLogger(ObtainCertiNumServelet.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ObtainCertiNumServelet.class);
 	public ObtainCertiNumServelet() {
         super();
     }

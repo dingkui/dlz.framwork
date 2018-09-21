@@ -8,7 +8,7 @@ import com.dlz.framework.db.conver.impl.ClobConverter;
 import com.dlz.framework.db.enums.CharsetNameEnum;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.service.FunOptService;
 
 /**
@@ -43,7 +43,7 @@ public class MenuRolesCache extends AbstractCache<Long, String> {
 	/**
 	 * 日志logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(MenuRolesCache.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MenuRolesCache.class);
 
 	
 }

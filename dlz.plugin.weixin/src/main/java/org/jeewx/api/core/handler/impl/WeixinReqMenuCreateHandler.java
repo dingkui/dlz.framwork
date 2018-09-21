@@ -14,7 +14,7 @@ import org.jeewx.api.core.req.model.menu.WeixinButton;
 import org.jeewx.api.core.util.HttpRequestProxy;
 import org.jeewx.api.core.util.WeiXinReqUtil;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.google.gson.Gson;
 
 /**
@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 public class WeixinReqMenuCreateHandler implements WeiXinReqHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(WeixinReqMenuCreateHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WeixinReqMenuCreateHandler.class);
 	
 	@SuppressWarnings("rawtypes")
 	public String doRequest(WeixinReqParam weixinReqParam) throws WexinReqException{

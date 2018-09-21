@@ -13,7 +13,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 通用工具类
@@ -24,7 +24,7 @@ import com.dlz.framework.logger.MyLogger;
 public class CommonUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(CommonUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CommonUtil.class);
 	/**
 	 * 发送 https 请求
 	 * 

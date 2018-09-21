@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.cache.AbstractCache;
 import com.dlz.framework.db.cache.DictCache;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.Dicts;
 import com.dlz.framework.ssme.db.model.DictsCriteria;
 import com.dlz.framework.ssme.db.service.DictsService;
@@ -49,6 +49,6 @@ public class DictsCache extends AbstractCache<Long, List<Dicts>> {
 	/**
 	 * 日志logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(DictsCache.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DictsCache.class);
 
 }

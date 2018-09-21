@@ -9,11 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class DateUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DateUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DateUtil.class);
 	private static final long ONE_MINUTE = 60000L;
 	private static final long ONE_HOUR = 3600000L;
 	private static final long ONE_DAY = 86400000L;

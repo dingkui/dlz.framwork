@@ -2,7 +2,7 @@ package com.dlz.netty.rel;
 
 import java.util.Iterator;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.conf.NettyConfig;
 
 import io.netty.channel.Channel;
@@ -11,7 +11,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ServerHandler.class);     
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ServerHandler.class);     
     
     /** 
      * 客户端与服务端创建连接的时候调用 
@@ -60,7 +60,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         Iterator<Channel> iterator = NettyConfig.group.iterator();  
         while(iterator.hasNext()){  
             //打印出所有客户端的远程地址  
-            logger.debug((iterator.next()).remoteAddress());  
+            logger.debug((iterator.next()).remoteAddress().toString());  
         }  
 //      //单独回复客户端信息  
 //      channelHandlerContext.writeAndFlush(info);  

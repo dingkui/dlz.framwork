@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 
 /**
@@ -18,7 +18,7 @@ import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings("unchecked")
 public class ThreadHolder  {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	protected static final MyLogger logger = MyLogger.getLogger(ThreadHolder.class);
+	protected static final Logger logger = org.slf4j.LoggerFactory.getLogger(ThreadHolder.class);
 	
 	private static ThreadLocal<HttpServletRequest> HttpRequestThreadLocalHolder = new ThreadLocal<HttpServletRequest>();
 	private static ThreadLocal<HttpServletResponse> HttpResponseThreadLocalHolder = new ThreadLocal<HttpServletResponse>();
