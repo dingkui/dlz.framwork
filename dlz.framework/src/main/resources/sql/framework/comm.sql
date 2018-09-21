@@ -45,4 +45,9 @@
  	]]>
  	</sql>
  	
+ 	<sql sqlId="key.comm.pageSql.postgresql"><![CDATA[
+	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT [#{page.pageSize}] OFFSET #{page.begin} ]
+ 	]]>
+ 	</sql>
+ 	
 </sqlList>
