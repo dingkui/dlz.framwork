@@ -20,7 +20,7 @@ class DictConverterLogicServer implements ILogicServer<Object,String> {
 	public Object conver2Str(Object value, String dictCode) {
 		Dict dict=dictCache.get(dictCode);
 		if(dict==null){
-			throw new DbException("字典转换错误，字典【"+dictCode+"】未定义");
+			throw new DbException("字典转换错误，字典【"+dictCode+"】未定义",1004);
 		}
 		DictItem item=dict.getItemMap().get(String.valueOf(value));
 		if(item==null){

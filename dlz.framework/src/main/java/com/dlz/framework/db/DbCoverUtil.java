@@ -1,6 +1,7 @@
 package com.dlz.framework.db;
 
 import com.dlz.framework.db.conver.Convert;
+import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.util.JacksonUtil;
 
@@ -58,7 +59,15 @@ public class DbCoverUtil {
 		if(m==null){
 			return null;
 		}
-		return getConveredMap(m, c);
+		try{
+			return getConveredMap(m, c);
+		}catch (Exception e) {
+			if(e instanceof DbException) {
+				throw e;
+			}
+			throw new DbException("转换异常："+m.toString(),1004,e);
+		}
+		
 	}
 	
 	/**

@@ -16,8 +16,9 @@ public class BaseException extends RuntimeException {
 	  	E9999("JSP异常"),//JSP异常
 		E1000("数据库连接异常"),//数据库操作异常
 		E1001("数据库操作异常"),//数据库操作异常
-		E1002("数据库操作异常:sql异常"),//数据库操作异常:sql异常
-		E1003("数据库操作异常：参数异常"),//数据库操作异常：参数异常
+		E1002("数据库异常:sql异常"),//数据库操作异常:sql异常
+		E1003("数据库异常:执行异常"),//数据库操作异常：参数异常
+		E1004("数据库异常:结果异常"),//数据库操作异常：参数异常
 		E2001("非法访问异常"),//非法访问异常
 		E3001("业务异常"),//业务异常
 		E3002("代码异常"),//业务异常
@@ -69,6 +70,12 @@ public class BaseException extends RuntimeException {
 	}
 	public String getErrorCode(){
 		return error.toString();
+	}
+	public boolean is(int errorId){
+		return error.toString().equals("E"+errorId);
+	}
+	protected String getSubMsg(String subMsg){
+		return null;
 	}
 	public String getErrorInfo(){
 		return errorInfo;

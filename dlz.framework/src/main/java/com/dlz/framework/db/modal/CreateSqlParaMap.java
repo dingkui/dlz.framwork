@@ -28,8 +28,7 @@ public class CreateSqlParaMap extends BaseParaMap{
 	}
 	public void addCondition(String paraName,String option,Object value){
 		if(value==null||"".equals(value)){
-			logger.error("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option);
-			throw new DbException("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option);
+			throw new DbException("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option,1002);
 		}
 		StringBuilder sbWhere = (StringBuilder)this.getPara().get(STR_WHERE);
 		if(sbWhere==null){

@@ -92,19 +92,19 @@ public class DbInfo {
 				try {
 					SqlUtil.setMapper((IColumnMapperService)Class.forName(str).newInstance());
 				} catch (Exception e) {
-					throw new DbException("字段转换类型设置无效："+name+"="+str+"\n"+e.getMessage(), e);
+					throw new DbException("字段转换类型设置无效："+name+"="+str+"\n"+e.getMessage(),1002, e);
 				}
 				continue;
 			}
 			if("1".equals(str)){
 				if (name.startsWith(STR_SQL_FILE)) {
-					String path="/sql/"+name.substring(STR_SQL_FILE.length()-1).replaceAll("\\.", "/")+".sql";
-					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("").getPath()+path));
+					String path=name.substring(STR_SQL_FILE.length()-1).replaceAll("\\.", "/")+".sql";
+					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("sql/").getPath()+path));
 				}else if (name.startsWith(STR_SQL_JAR)) {
 					loadRsources(name.substring(STR_SQL_JAR.length()).replaceAll("\\.", "/"));
 				}else if (name.startsWith(STR_SQL_FOLDER)) {
-					String path="/sql/"+name.substring(STR_SQL_FOLDER.length()-1).replaceAll("\\.", "/");
-					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("").getPath()+path)); 
+					String path=name.substring(STR_SQL_FOLDER.length()-1).replaceAll("\\.", "/");
+					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("sql/").getPath()+path)); 
 				}
 			}
 			m_dbset.put(name, str);
@@ -123,6 +123,7 @@ public class DbInfo {
 				}
 			}else{
 				if(file.getAbsolutePath().endsWith(".sql")){
+					logger.info(file.getPath());
 					readSqlXml(new FileInputStream(file));
 				}
 			}
@@ -217,7 +218,7 @@ public class DbInfo {
 
 	public static String getSql(String key){
 		if (key == null) {
-			throw new DbException("输入的sql为空！");
+			throw new DbException("输入的sql为空！",1002);
 		}
 		String sql = key;
 		if (key.startsWith("key.")) {
@@ -227,14 +228,14 @@ public class DbInfo {
 			}
 		}
 		if (sql == null) {
-			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key);
+			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key,1002);
 		}
 		return sql;
 	}
 	
 	public static void appendInfoToSql(String key,String appendInfo){
 		if (key == null) {
-			throw new DbException("输入的sql为空！");
+			throw new DbException("输入的sql为空！",1002);
 		}
 		String sql = key;
 		if (key.startsWith("key.")) {
@@ -244,7 +245,7 @@ public class DbInfo {
 			}
 		}
 		if (sql == null) {
-			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key);
+			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key,1002);
 		}
 		if(sql.indexOf(appendInfo)==-1){
 			m_sqlList.put(key+dialect.getEnd(), sql+" "+appendInfo);

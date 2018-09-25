@@ -105,7 +105,7 @@ public class DictCache extends AbstractCache<String, Dict>{
 	public String getVal(String dictCode,String value) {
 		Dict dict=get(dictCode);
 		if(dict==null){
-			throw new DbException("字典转换错误，字典【"+dictCode+"】未定义");
+			throw new DbException("字典转换错误，字典【"+dictCode+"】未定义",1004);
 		}
 		DictItem item=dict.getItemMap().get(String.valueOf(value));
 		if(item==null){

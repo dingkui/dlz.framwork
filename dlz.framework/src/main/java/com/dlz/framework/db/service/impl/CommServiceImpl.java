@@ -50,7 +50,10 @@ public class CommServiceImpl implements ICommService {
 			}
 			return r;
 		} catch (Exception e) {
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(), e);
+			if(e instanceof DbException) {
+				throw e;
+			}
+			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(),1003, e);
 		}
 	}
 	@Override
@@ -85,7 +88,10 @@ public class CommServiceImpl implements ICommService {
 			}
 			return cnt;
 		} catch (Exception e) {
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSql_cnt() + " para:" + paraMap.getPara(), e);
+			if(e instanceof DbException) {
+				throw e;
+			}
+			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSql_cnt() + " para:" + paraMap.getPara(),1003, e);
 		}
 	}
 	
@@ -122,7 +128,10 @@ public class CommServiceImpl implements ICommService {
 			}
 			return list2;
 		} catch (Exception e) {
-			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(), e);
+			if(e instanceof DbException) {
+				throw e;
+			}
+			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(),1003, e);
 		}
 	}
 	
@@ -137,7 +146,7 @@ public class CommServiceImpl implements ICommService {
 		if(list.size()==0){
 			return null;
 		}else if(list.size()>1){
-			throw new DbException("查询结果为多条");
+			throw new DbException("查询结果为多条",1004);
 		}else{
 			return list.get(0);
 		}
@@ -148,7 +157,10 @@ public class CommServiceImpl implements ICommService {
 		try {
 			return JacksonUtil.coverObj(getMap(paraMap), t);
 		} catch (Exception e) {
-			throw new DbException(e.getMessage(),e);
+			if(e instanceof DbException){
+				throw e;
+			}
+			throw new DbException(e.getMessage(),1004,e);
 		}
 	}
 	@Override
@@ -192,7 +204,10 @@ public class CommServiceImpl implements ICommService {
 		try{
 			return getOne(getList(paraMap));
 		}catch (Exception e) {
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(), e);
+			if(e instanceof DbException) {
+				throw e;
+			}
+			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(),1004, e);
 		}
 	}
 	

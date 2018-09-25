@@ -221,7 +221,7 @@ public class SqlUtil{
 	public static String replaceSql(String sql,Map<String,Object> m,int replaceTimes){
 		int length = sql.length();
 		if(length>10000||replaceTimes++>3000){
-			throw new DbException("sql过长或出现引用死循环！");
+			throw new DbException("sql过长或出现引用死循环！",1002);
 		}
 		Matcher mat = PATTERN_REPLACE.matcher(sql);
 		int start=0;
