@@ -3,8 +3,8 @@ package com.dlz.plugin.redis;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.codec.CodecException;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.logger.MyLogger;
 
 import redis.clients.jedis.Jedis;
@@ -35,7 +35,7 @@ public class RedisConfig {
     
     public static Jedis getJedis(){
     	if(jedisPool==null){
-    		throw new CodecException("JedisPool 未初始化！");
+    		throw new CodeException("JedisPool 未初始化！");
     	}
     	return jedisPool.getResource();
     }

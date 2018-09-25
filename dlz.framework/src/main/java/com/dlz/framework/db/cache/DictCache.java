@@ -29,7 +29,7 @@ public class DictCache extends AbstractCache<String, Dict>{
 	
 	public DictCache() {
 		super(DictCache.class.getSimpleName());
-		dbOperator=new DbOperator<String, Dict>() {
+		dbOperator=new DbOperator() {
 			protected Dict getFromDb(String dicdCode) {
 				String[] codes=dicdCode.split(SPLIT_STR);
 				
