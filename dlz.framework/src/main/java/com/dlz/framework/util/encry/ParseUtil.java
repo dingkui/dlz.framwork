@@ -1,4 +1,4 @@
-package com.dlz.framework.util;
+package com.dlz.framework.util.encry;
 
 /**
  * 多进制转换

@@ -7,7 +7,7 @@ import java.util.Timer;
 
 import com.dlz.framework.holder.SpringHolder;
 import org.slf4j.Logger;
-import com.dlz.framework.util.DateUtils;
+import com.dlz.framework.util.DateUtilSecond;
 
 /**
  * 定时调度器
@@ -48,7 +48,7 @@ public class TimerDispacher{
 	public static void main(String[] args) {
 //		String taskclass="com.dlz.framework.task.MyTimerTaskTest";
 		String taskclass="myTimerTaskTest";
-		Long dt1=DateUtils.toDate("2017-10-19 14:17:20", "yyyy-MM-dd HH:mm:ss").getTime();
+		Long dt1=DateUtilSecond.toDate("2017-10-19 14:17:20", "yyyy-MM-dd HH:mm:ss").getTime();
 		for(int i=0;i<36000;i++){
 			addTimmer(taskclass, Long.valueOf(i), new Date(dt1+i*100));
 		}

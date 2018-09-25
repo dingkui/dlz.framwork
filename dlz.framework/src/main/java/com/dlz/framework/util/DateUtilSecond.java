@@ -15,9 +15,9 @@ import org.apache.commons.logging.LogFactory;
  *  
  */
 
-public class ShopDateUtil {
+public class DateUtilSecond {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	protected static final Log logger = LogFactory.getLog(ShopDateUtil.class);
+	protected static final Log logger = LogFactory.getLog(DateUtilSecond.class);
 	
 	public static final long ONE_DAY=86400;//一天的秒数
 	 /**
@@ -180,7 +180,7 @@ public class ShopDateUtil {
 				time = time*1000;
 			}
 			Date date = new Date(time);
-			String str  = toString(date, pattern);
+			String str  = DateUtilSecond.toString(date, pattern);
 			return str;
 		}
 		return "";
@@ -230,8 +230,8 @@ public class ShopDateUtil {
 		   String lastDay = "" + year + "-" + months + "-" + days;
 
 		   Long[] lastMonth = new Long[2];
-		   lastMonth[0] =getDateline(firstDay);
-		   lastMonth[1] = getDateline(lastDay);
+		   lastMonth[0] =DateUtilSecond.getDateline(firstDay);
+		   lastMonth[1] = DateUtilSecond.getDateline(lastDay);
 
 		 //  //logger.debug(lastMonth[0] + "||" + lastMonth[1]);
 		   return lastMonth;
@@ -245,7 +245,7 @@ public class ShopDateUtil {
 	public static Long[] getTargetDateStartAndEndTime(Date date){
 		Long[] arr = new Long[2];
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(toDate(toString(date, "yyyy-MM-dd"), "yyyy-MM-dd"));
+		cal.setTime(DateUtilSecond.toDate(DateUtilSecond.toString(date, "yyyy-MM-dd"), "yyyy-MM-dd"));
 		cal.set(Calendar.DAY_OF_MONTH, 1);//当前月第一天
 		arr[0] = cal.getTimeInMillis()/1000;
 		cal.add(Calendar.MONTH, 1);//下个月
@@ -262,12 +262,12 @@ public class ShopDateUtil {
 	 * @return
 	 */
 	public static String addDayToTargetDate(String dataStr,String format,Integer num){
-		Date date = toDate(dataStr, format);
+		Date date = DateUtilSecond.toDate(dataStr, format);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		calendar.add(Calendar.DAY_OF_MONTH, num);
 		date = calendar.getTime();
-		return toString(date, format);
+		return DateUtilSecond.toString(date, format);
 	}
 	
 	/**
@@ -306,8 +306,8 @@ public class ShopDateUtil {
 		   String firstDay = "" + year + "-" + months + "-01";
 		   String lastDay=	""+year+"-"+nextMonths+"-01";
 		   Long[] currentMonth = new Long[2]; 
-		   currentMonth[0] =getDateline(firstDay);
-		   currentMonth[1] = getDateline(lastDay);
+		   currentMonth[0] =DateUtilSecond.getDateline(firstDay);
+		   currentMonth[1] = DateUtilSecond.getDateline(lastDay);
 
 		 //  //logger.debug(lastMonth[0] + "||" + lastMonth[1]);
 		   return currentMonth;
@@ -326,6 +326,17 @@ public class ShopDateUtil {
 	public static long getDateline(String date,String pattern){
 		return (long)(toDate(date, pattern).getTime()/1000);
 	}
+	
+	public static String getCurrentTimeDistance(Long time){
+		long distanceTime =  (new Date().getTime() - time)/1000;
+		int day = (int) (distanceTime/(24*60*60));
+		int hour = (int) ((distanceTime - day*24*60*60)/(60*60));
+		int minute = (int) ((distanceTime - day*24*60*60 - hour*60*60)/(60));
+		int second = (int) (distanceTime - day*24*60*60 - hour*60*60 - minute * 60);
+		return day + "天" + hour + "时" + minute + "分" + second + "秒";
+	}
+	
+	
 	
 	
 	public static void main(String[] args){
@@ -356,7 +367,7 @@ public class ShopDateUtil {
 //		//logger.debug(d1-f);
 		
 		//logger.debug( new Date(1320205608000l));
-		//logger.debug( toString( new Date(1320205608000l),"yyyy-MM-dd HH:mm:ss"));
+		//logger.debug( DateUtil.toString( new Date(1320205608000l),"yyyy-MM-dd HH:mm:ss"));
 		getTargetDateStartAndEndTime(new Date());
 	}
 }

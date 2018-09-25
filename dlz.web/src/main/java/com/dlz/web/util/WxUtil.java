@@ -32,6 +32,7 @@ import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.entity.StringEntity;
+import org.slf4j.Logger;
 
 import com.dlz.app.uim.holder.ThirdHolder;
 import com.dlz.app.uim.holder.ThirdHolder.ThirdInfo;
@@ -40,14 +41,11 @@ import com.dlz.framework.exception.RemoteException;
 import com.dlz.framework.exception.SystemException;
 import com.dlz.framework.holder.TokenHolder;
 import com.dlz.framework.holder.TokenHolder.TokenInfo;
-import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.PKCS7Encoder;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.encry.Base64;
 import com.dlz.web.holder.ThreadHolder;
-import com.dlz.web.util.HttpUtil.HttpGetUtil;
-import com.dlz.web.util.HttpUtil.HttpPostUtil;
 
 
 /**
@@ -125,7 +123,7 @@ public class WxUtil {
 				}
 				String requestUrl = token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
 				// 发起GET请求获取凭证
-				JSONMap jsonObject = HttpGetUtil.get4JSON(requestUrl);//httpsRequest(requestUrl, "GET", null);
+				JSONMap jsonObject = HttpUtil.HttpUtilEnum.GET.send4JSON(requestUrl);//httpsRequest(requestUrl, "GET", null);
 				if (jsonObject != null) {
 					try {
 						wxToken.setExpiresIn(jsonObject.getInt("expires_in"), jsonObject.getStr("access_token"));
@@ -164,7 +162,7 @@ public class WxUtil {
 				}
 				String requestUrl = token_url.replace("APPID", xcxAppId).replace("APPSECRET", xcxAppSecret);
 				// 发起GET请求获取凭证
-				JSONMap jsonObject = HttpGetUtil.get4JSON(requestUrl);//httpsRequest(requestUrl, "GET", null);
+				JSONMap jsonObject = HttpUtil.HttpUtilEnum.GET.send4JSON(requestUrl);//httpsRequest(requestUrl, "GET", null);
 				if (jsonObject != null) {
 					try {
 						wxToken.setExpiresIn(jsonObject.getInt("expires_in"), jsonObject.getStr("access_token"));
@@ -246,7 +244,7 @@ public class WxUtil {
 					}
 		
 					String requestUrl = ticket_url.replace("TOKEN", accessToken);
-					String ruselt = HttpGetUtil.get(requestUrl);
+					String ruselt = HttpUtil.HttpUtilEnum.GET.send(requestUrl);
 					JSONMap resultMap = JacksonUtil.readValue(ruselt, JSONMap.class);
 					if ("0".equals(resultMap.getStr("errcode"))) {// 成功
 						wxTicket.setExpiresIn(resultMap.getInt("expires_in"), resultMap.getStr("ticket"));
@@ -397,7 +395,7 @@ public class WxUtil {
 				String requestUrl = access_token_url.replace("APPID", appid).replace("APPSEC", secret).replace("CODE", code);
 				String result=null;
 				try {
-					result = HttpGetUtil.get(requestUrl);
+					result = HttpUtil.HttpUtilEnum.GET.send(requestUrl);
 				} catch (Exception e) {
 					throw RemoteException.buildException("取得信息失败："+e.getMessage(), e);
 				}
@@ -468,7 +466,7 @@ public class WxUtil {
 			}
 			try {
 				String requestUrl = useriinfo_url.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
-				String resUserInfo = HttpGetUtil.get(requestUrl);
+				String resUserInfo = HttpUtil.HttpUtilEnum.GET.send(requestUrl);
 				logger.debug("----Get the user basic information:user OpenId:{0},Returns the result：{1}", openid,resUserInfo);
 				// {"subscribe":1,"openid":"ocdGC0d6-3DOutKcuJkdB9_H0f_g","nickname":"锤哥","sex":1,"language":"zh_CN","city":"武汉","province":"湖北","country":"中国",
 				// "headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/rpJnNOZphx5t2x24RKCSr5bUqaicC7SVicibrpJnfzDnBkicOAb8v56esfEPgjdH7Dg2STqySic9GW3fsFVOu373WL39Qb7NK83eL\/0",
@@ -518,7 +516,7 @@ public class WxUtil {
 				}
 				String accessToken = AccessToken.getAccessToken();
 				String requestUrl = info_url.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openid);
-				String resUserInfo = HttpGetUtil.get(requestUrl);
+				String resUserInfo = HttpUtil.HttpUtilEnum.GET.send(requestUrl);
 				logger.debug("----Get the user basic information:user OpenId:{0},Returns the result：{1}", openid,resUserInfo);
 				// {"subscribe":1,"openid":"ocdGC0d6-3DOutKcuJkdB9_H0f_g","nickname":"锤哥","sex":1,"language":"zh_CN","city":"武汉","province":"湖北","country":"中国",
 				// "headimgurl":"http:\/\/wx.qlogo.cn\/mmopen\/rpJnNOZphx5t2x24RKCSr5bUqaicC7SVicibrpJnfzDnBkicOAb8v56esfEPgjdH7Dg2STqySic9GW3fsFVOu373WL39Qb7NK83eL\/0",
@@ -584,7 +582,7 @@ public class WxUtil {
 			String resUserInfo=null;
 			if(!StringUtils.isEmpty(code)){
 				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
-				resUserInfo = HttpGetUtil.get(requestUrl);
+				resUserInfo = HttpUtil.HttpUtilEnum.GET.send(requestUrl);
 			}		
 			return resUserInfo;
 		}
@@ -608,7 +606,7 @@ public class WxUtil {
 			}
 			try {
 				String requestUrl = sessionkey_url.replace("APPID", XcxAppId).replace("SECRET", XcxAppSecret).replace("JSCODE", code);
-				JSONMap sessionData = HttpGetUtil.get4JSON(requestUrl);
+				JSONMap sessionData = HttpUtil.HttpUtilEnum.GET.send4JSON(requestUrl);
 				String sessionKey=sessionData.getStr("session_key");
 				if(sessionKey==null){
 					logger.error("session_key取得失败："+sessionData);
@@ -649,7 +647,7 @@ public class WxUtil {
 		if (accesstoken != null) {
 			String requestUrl = xcx_message_model_url.replace("ACCESS_TOKEN", accesstoken);
 			try {
-				HttpPostUtil.post(requestUrl, new StringEntity(obj.toString()));
+				HttpUtil.HttpUtilEnum.POST.send(requestUrl, new StringEntity(obj.toString()));
 				//System.out.println("微信返回的结果：" + result.toString());
 			} catch (Exception e) {
 				logger.debug("小程序发送模板消息出错：",e.getMessage());
@@ -671,7 +669,7 @@ public class WxUtil {
 		if (accesstoken != null) {
 			String requestUrl = message_model_url.replace("ACCESS_TOKEN", accesstoken);
 			try {
-				HttpPostUtil.post(requestUrl, new StringEntity(obj.toString()));
+				HttpUtil.HttpUtilEnum.POST.send(requestUrl, new StringEntity(obj.toString()));
 				//System.out.println("微信返回的结果：" + result.toString());
 			} catch (Exception e) {
 				logger.debug("公众号发送模板消息出错：",e.getMessage());

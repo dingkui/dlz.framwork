@@ -95,33 +95,27 @@ public class HttpUtil {
 		public String send(String url, Map<String, Object> para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
 			return (String) doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 1, localContext);
 		}
-
 		public String send(String url, Map<String, Object> para,HttpClientContext localContext){
 			return (String) doHttp(getRequest(url), url, para, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1,localContext);
 		}
 		public String send(String url, Map<String, Object> para, Map<String, String> headers){
-			return (String) doHttp(getRequest(url), url, para, null, headers, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+			return (String) doHttp(getRequest(url), url, para, null, headers, CHARSET_UTF8, CHARSET_UTF8, true, 1,null);
 		}
 		public String sendWithEntry(String url, Map<String, Object> para, Map<String, String> headers){
-			return (String) doHttp(getRequest(url), url, null, para==null?null:new StringEntity(JacksonUtil.getJson(para),CHARSET_UTF8), headers, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+			return (String) doHttp(getRequest(url), url, null, para==null?null:new StringEntity(JacksonUtil.getJson(para),CHARSET_UTF8), headers, CHARSET_UTF8, CHARSET_UTF8, true, 1,null);
 		}
-
 		public String send(String url, Map<String, Object> para){
-			return (String) doHttp(getRequest(url), url, para, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+			return (String) doHttp(getRequest(url), url, para, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1,null);
 		}
-
 		public String send(String url){
-			return (String) doHttp(getRequest(url), url, null, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1);
+			return (String) doHttp(getRequest(url), url, null, null, null, CHARSET_UTF8, CHARSET_UTF8, true, 1,null);
 		}
-
-
 		public String send(String url, HttpEntity para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
 			return (String) doHttp(getRequest(url), url, null, para, headers, charsetNameSend, charsetNamere, true, 1, localContext);
 		}
 		public String send(String url, HttpEntity para) {
 			return (String) doHttp(getRequest(url), url, null, para, null, CHARSET_UTF8, CHARSET_UTF8, true, 1, null);
 		}
-		
 		public JSONMap send4JSON(String url, Map<String, Object> para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
 			try {
 				return new JSONMap(doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 1, localContext));
@@ -130,14 +124,15 @@ public class HttpUtil {
 			}
 			return null;
 		}
-
 		public JSONMap send4JSON(String url, Map<String, Object> para) {
 			return send4JSON(url, para, null, CHARSET_UTF8, CHARSET_UTF8, null);
+		}
+		public JSONMap send4JSON(String url, Map<String, Object> para,Map<String, String> headers) {
+			return send4JSON(url, para, headers, CHARSET_UTF8, CHARSET_UTF8, null);
 		}
 		public JSONMap send4JSON(String url) {
 			return send4JSON(url,null);
 		}
-		
 		public Document send4Dom(String url, Map<String, Object> para, Map<String, String> headers, String charsetNameSend, String charsetNamere,HttpClientContext localContext) {
 			try {
 				return (Document)doHttp(getRequest(url), url, para, null, headers, charsetNameSend, charsetNamere, true, 2, localContext);
@@ -155,30 +150,6 @@ public class HttpUtil {
 	}
 
 	/**
-	 * @param request
-	 * @param url
-	 * @param para
-	 * @param entity
-	 * @param headers
-	 * @param charsetNameSend
-	 * @param charsetNamere
-	 * @param showLog
-	 * @param returnType
-	 * @return
-	 * @throws Exception
-	 */
-	public static Object doHttp(HttpRequestBase request,
-			String url, 
-			Map<String, Object> para, 
-			HttpEntity entity, 
-			Map<String, String> headers,
-			String charsetNameSend, 
-			String charsetNamere, 
-			boolean showLog,
-			int returnType){
-		return doHttp(request, url, para, entity, headers, charsetNameSend, charsetNamere, showLog, returnType,null);
-	}
-	/**
 	 * 
 	 * @param request
 	 * @param url
@@ -192,7 +163,7 @@ public class HttpUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static Object doHttp(HttpRequestBase request,
+	private static Object doHttp(HttpRequestBase request,
 			String url, 
 			Map<String, Object> para, 
 			HttpEntity entity, 
@@ -297,132 +268,8 @@ public class HttpUtil {
 		}
 		return null;
 	}
-	/**
-	 * 
-	 * @param request
-	 * @param url
-	 * @param para
-	 * @param headers
-	 * @param charsetNameSend
-	 * @param charsetNamere
-	 * @return
-	 * @throws Exception
-	 */
-	public static String doHttp(HttpRequestBase request,String url, Map<String, Object> para,Map<String, String> headers,  String charsetNameSend,String charsetNamere) {
-		return (String)doHttp(request, url, para,null, headers, charsetNameSend, charsetNamere, true,1);
-	}
 	
-	/**
-	 * 该方法在后面版本将删除，使用{@link HttpUtilEnum }代替
-	 * @author dingkui
-	 */
-	@Deprecated
-	public static class HttpPostUtil{
-		public static String post(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere,HttpClientContext localContext){    	
-			return (String)doHttp(new HttpPost(url), url, querys,null, headers, charsetNameSend, charsetNamere, true,1,localContext);
-		}
-		public static String post(String url, Map<String, Object> para,Map<String, String> headers,  String charsetNameSend,String charsetNamere) throws Exception {
-			return post(url, para, headers, charsetNameSend, charsetNamere,null);
-		}
-		public static String post(String url, Map<String, Object> para,HttpClientContext localContext) throws Exception {
-			return post(url, para, null, CHARSET_UTF8, CHARSET_UTF8,localContext);
-		}
-		public static String post(String url, Map<String, Object> para, String charsetName) throws Exception {
-			return post(url, para, null, charsetName, charsetName);
-		}
-		public static String post(String url, Map<String, Object> para,Map<String, String> headers)
-				throws Exception {    	
-			return post(url, para, headers, CHARSET_UTF8, CHARSET_UTF8);
-		}
-		public static String post(String url, Map<String, Object> para)
-				throws Exception {    	
-			return post(url, para, null, CHARSET_UTF8, CHARSET_UTF8);
-		}
-		public static String post(String url) throws Exception {
-			return post(url, CHARSET_UTF8);
-		}
-		public static String post(String url, String charsetName) throws Exception {
-			return doHttp(new HttpPost(url), url, null, null, charsetName, charsetName);
-		}
-		
-		
-		public static String post(String url, HttpEntity para,Map<String, String> headers,  String charsetNameSend,String charsetNamere) throws Exception {
-			return (String)doHttp(new HttpPost(url), url, null,para, headers, charsetNameSend, charsetNamere,true,1);
-		}
-		public static String post(String url, HttpEntity para, String charsetName) throws Exception {
-			return post(url, para, null, charsetName, charsetName);
-		}
-		public static String post(String url, HttpEntity para,Map<String, String> headers)
-				throws Exception {    	
-			return post(url, para, headers, CHARSET_UTF8, CHARSET_UTF8);
-		}
-		public static String post(String url, HttpEntity para)
-				throws Exception {    	
-			return post(url, para, null, CHARSET_UTF8, CHARSET_UTF8);
-		}
-	}
-	
-	/**
-	 * 该方法在后面版本将删除，使用{@link HttpUtilEnum }代替
-	 * @author dingkui
-	 */
-	@Deprecated
-	public static class HttpGetUtil{
-		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere,HttpClientContext localContext){    	
-			return (String)doHttp(new HttpGet(url), url, querys,null, headers, charsetNameSend, charsetNamere, true,1,localContext);
-		}
-		public static String get(String url, Map<String, Object> querys,Map<String, String> headers,  String charsetNameSend,String charsetNamere){    	
-			return get(url, querys, headers, charsetNameSend, charsetNamere, null);
-		}
-		public static String get(String url, Map<String, Object> querys, String charsetName) {
-			return get(url, querys, null, charsetName, charsetName);
-		}
-		public static String get(String url, Map<String, Object> querys,Map<String, String> headers){    	
-			return get(url, querys, headers, CHARSET_UTF8, CHARSET_UTF8);
-		}
-		public static String get(String url, Map<String, Object> querys){    	
-			return get(url, querys, null, CHARSET_UTF8, CHARSET_UTF8);
-		}
-		public static String get(String url,HttpClientContext localContext)  {
-			return get(url, null,null, CHARSET_UTF8, CHARSET_UTF8,localContext);
-		}
-		public static String get(String url,Map<String, Object> querys,HttpClientContext localContext)  {
-			return get(url, querys,null, CHARSET_UTF8, CHARSET_UTF8,localContext);
-		}
-		public static String get(String url)  {
-			return get(url, null,null, CHARSET_UTF8, CHARSET_UTF8);
-		}
-		public static String get(String url, String charsetName)  {
-			return get(url, null,null, charsetName, charsetName);
-		}
-		
-		public static JSONMap get4JSON(String url, Map<String, Object> querys) {
-			try {
-				return new JSONMap(get(url,querys));
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-			}
-			return null;
-		}
-		public static JSONMap get4JSON(String url) {
-			return get4JSON(url,null);
-		}
-		
-		public static Document get4Dom(String url, Map<String, Object> querys) {
-			try {
-				return (Document)doHttp(new HttpGet(url), url, querys,null, null, CHARSET_UTF8, CHARSET_UTF8,true,2);
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-			}
-			return null;
-		}
-		public static Document get4Dom(String url) {
-			return get4Dom(url,null);
-		}
-	}
-	
-	
-	private static class  HttpConnUtil {
+	public static class  HttpConnUtil {
 		private static final String HTTP = "http";
 		private static final String HTTPS = "https";
 		private static SSLConnectionSocketFactory sslsf = null;
@@ -448,7 +295,7 @@ public class HttpUtil {
 				e.printStackTrace();
 			}
 		}
-		private static HttpClient wrapClient(String host) {
+		public static HttpClient wrapClient(String host) {
 			HttpClientBuilder setConnectionManagerShared = HttpClientBuilder.create().setConnectionManager(cm).setConnectionManagerShared(true);
 			if (host.startsWith("https://")) {
 				return setConnectionManagerShared.setSSLSocketFactory(sslsf).build();
@@ -458,7 +305,7 @@ public class HttpUtil {
 	}
 	
 	
-	private static String buildUrl(String host, String path, Map<String, Object> querys) throws UnsupportedEncodingException {
+	public static String buildUrl(String host, String path, Map<String, Object> querys) throws UnsupportedEncodingException {
     	StringBuilder sbUrl = new StringBuilder();
     	sbUrl.append(host);
     	if (!StringUtils.isEmpty(path)) {

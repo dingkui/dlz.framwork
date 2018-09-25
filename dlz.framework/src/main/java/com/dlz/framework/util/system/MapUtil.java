@@ -1,4 +1,4 @@
-package com.dlz.framework.util;
+package com.dlz.framework.util.system;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
+
+import com.dlz.framework.util.StringUtils;
 
 @SuppressWarnings({"rawtypes"})
 public class MapUtil {

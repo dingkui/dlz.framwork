@@ -13,7 +13,8 @@ import javax.imageio.ImageIO;
 import org.junit.Test;
 
 import org.slf4j.Logger;
-import com.dlz.framework.util.ParseUtil.ParserEnum;
+
+import com.dlz.framework.util.encry.ParseUtil.ParserEnum;
 import com.swetake.util.Qrcode;
 
 public class CreateQrs {
