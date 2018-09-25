@@ -15,6 +15,5 @@ public class DbOprationCache extends AbstractCache<String, Page> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	public DbOprationCache() {
 		super(DbOprationCache.class.getSimpleName());
-		dbOperator = null; 
 	}
 }

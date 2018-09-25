@@ -11,7 +11,7 @@ public class PluginStatusCache extends AbstractCache<String, Integer>{
 	protected final Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 	public PluginStatusCache() {
 		super(PluginStatusCache.class.getSimpleName());
-		dbOperator=new DbOperator<String, Integer>() {
+		dbOperator=new DbOperator() {
 			protected Integer getFromDb(String dicdCode) {
 				//TODO
 				return 2;

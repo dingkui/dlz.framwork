@@ -6,8 +6,8 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.codec.CodecException;
 
+import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.plugin.redis.annotation.AnnoRedisQueueConsumer;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -39,7 +39,7 @@ public abstract class ARedisQueueConsumer<T> {
     private JedisPool jedisPool;
 	public void setJedisPool(JedisPool jedisPool) {
 		if(hasInit){
-			throw new CodecException(this.getClass().getName()+"不能重复初始化");
+			throw new CodeException(this.getClass().getName()+"不能重复初始化");
 		}
 		hasInit=true;
 		this.jedisPool = jedisPool;
@@ -50,7 +50,7 @@ public abstract class ARedisQueueConsumer<T> {
 	private void init() {
 		AnnoRedisQueueConsumer annotation = this.getClass().getAnnotation(AnnoRedisQueueConsumer.class);
 		if(annotation==null){
-			throw new CodecException(this.getClass().getName()+"必须注解 AnnoRedisQueueConsumer");
+			throw new CodeException(this.getClass().getName()+"必须注解 AnnoRedisQueueConsumer");
 		}
 		String queueName=annotation.value();
 		logger.info("The Consumer in Queue [{}] Started.", this.getClass().getName());

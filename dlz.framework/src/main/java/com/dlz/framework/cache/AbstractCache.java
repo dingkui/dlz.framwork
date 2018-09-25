@@ -4,18 +4,18 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
-import org.slf4j.Logger;
-
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
 
 /**
- * Ehcache缓存实现
+ * 缓存实现
  * 
  * @author dk
  *
@@ -23,12 +23,14 @@ import net.sf.ehcache.Element;
 @SuppressWarnings("unchecked")
 public abstract class AbstractCache<KEY,T>{
 	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(AbstractCache.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractCache.class);
 
 	private static Set<String> CacheSet = new HashSet<String>();
 	
 	@Autowired
 	public ICommService commService;
+	@Autowired
+	private ICacheCreator cacheCreator;
 	
 	@SuppressWarnings("rawtypes")
 	public static void clearAll(){
@@ -37,171 +39,80 @@ public abstract class AbstractCache<KEY,T>{
 		}
 	}
 	
-	public CacheDeal cacheDeal=null;
-	public DbOperator<KEY,T> dbOperator=null;
+	public class DbOperator{
+		protected T getFromDb(KEY key){return null;}
+		protected void saveToDb(KEY key,T t){}
+	}
+	public interface ICacheDeal {
+		public Serializable get(Serializable key);
+		public void put(Serializable key, Serializable value, int exp);
+		public void remove(Serializable key);
+		public void removeAll();
+	}
+	private ICacheDeal cache=null;
+	protected DbOperator dbOperator=null;
+	private int timeToLiveSeconds=-1;
+	private String cacheName=null;
 	
-	public class DbOperator<KEY1,T1>{
-		protected T1 getFromDb(KEY1 key){return null;}
-		protected void saveToDb(KEY1 key,T1 t){}
+	public AbstractCache(String cacheName,int timeToLiveSeconds) { 
+		try {
+			cacheName=cacheName.substring(0, 1).toLowerCase()+cacheName.substring(1).toLowerCase();
+			this.cacheName=cacheName;
+			this.timeToLiveSeconds=timeToLiveSeconds;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+	}
+	public AbstractCache(String cacheName) { 
+		this(cacheName,-1);
 	}
 	
-	public class CacheDeal{
-		private net.sf.ehcache.Cache cache;
-		<T1,KEY1> T1 readDb(KEY1 key,DbOperator<KEY1,T1> dbOperator){
-			T1 t= null;
-			try{
-				t=dbOperator.getFromDb(key);
-			}catch(Exception e){
-				logger.error("从数据库加载缓存失败："+cacheDeal.getName()+"."+key,e);
-			}
-			return t;
+	@PostConstruct
+	private void _init(){
+		if(CacheSet.contains(cacheName)){
+			throw new CodeException("缓存已经存在，不能重复定义："+cacheName);
 		}
-		private <T1,KEY1> void save(KEY1 key,T1 t,DbOperator<KEY1,T1> dbOperator){
+		CacheSet.add(cacheName);
+		cache=cacheCreator.createCaheDeal(cacheName);
+	}
+	
+	
+	private T readDb(KEY key){
+		if(dbOperator==null){
+			return null;
+		}
+		T t= null;
+		try{
+			t=dbOperator.getFromDb(key);
+		}catch(Exception e){
+			logger.error("从数据库加载缓存失败："+getCacheName()+"."+key,e);
+		}
+		return t;
+	}
+	/**
+	 * 保存缓存到数据库
+	 * @param key
+	 */
+	public void saveCache2Db(KEY key,T value) {
+		if(dbOperator==null){
+			return;
+		}
+		if(value==null){
+			if(key==null){
+				logger.error("缓存保存失败：key或value必须设置一个！"+getCacheName());
+				return;
+			}
+			value=getFromCache(key);
+		}
+		if(value!=null){
 			try{
-				dbOperator.saveToDb(key,t);
+				dbOperator.saveToDb(key,value);
 			}catch(Exception e){
-				logger.error("保存缓存到数据库失败："+cacheDeal.getName());
+				logger.error("保存缓存到数据库失败："+getCacheName());
 				logger.error(e.getMessage(),e);
 			}
 		}
-		
-		public CacheDeal(String cacheName) { 
-			try {
-				CacheManager manager = CacheManager.getInstance();
-				logger.debug("缓存初始化："+manager.getConfiguration().getDiskStoreConfiguration().getPath()+"/"+cacheName);
-				cache = manager.getCache(cacheName);
-				if (cache == null) {
-					manager.addCache(cacheName);
-					cache = manager.getCache(cacheName);
-				}
-			} catch (net.sf.ehcache.CacheException e) {
-				logger.error(e.getMessage(), e);
-			}
-		}
-		public <T1,KEY1> T1 get(Serializable key,DbOperator<KEY1,T1> dbOperator) {
-			T1 t=null;
-			try {
-				if (key != null) {
-					Element element = cache.get(key.toString());
-					if (element != null) {
-						t=(T1)element.getObjectValue();
-					}
-					if(t==null && dbOperator!=null){
-						t=readDb((KEY1)key,dbOperator);
-						if(t!=null){
-							put(key,(Serializable)t,timeToLiveSeconds);
-						}
-					}
-				}
-			} catch (net.sf.ehcache.CacheException e) {
-				logger.error(e.getMessage(), e);
-			}
-			return t;
-		}
-		public <T1> T1 get(Serializable key) {
-			return get(key,null);
-		}
-		public void put(Serializable key, Serializable value, int exp) {
-			try {
-				Element element = new Element(key.toString(),value);
-				if(exp>-1){
-					element.setTimeToLive(exp);
-				}
-				cache.put(element);
-			} catch (IllegalArgumentException e) {
-				logger.error(e.getMessage(), e);
-			} catch (IllegalStateException e) {
-				logger.error(e.getMessage(), e);
-			}
-		}
-		public void remove(Serializable key) {
-			try {
-				cache.remove(key.toString());
-			} catch (ClassCastException e) {
-				logger.error(e.getMessage(), e);
-			} catch (IllegalStateException e) {
-				logger.error(e.getMessage(), e);
-			}
-		}
-		public void clear() {
-			try {
-	            cache.removeAll();
-	        } catch (IllegalStateException e) {
-	        	logger.error(e.getMessage(), e);
-	        } 
-		}
-		public String getName() {
-	        return cache.getName();
-		}
-		/**
-		 * 保存缓存到数据库
-		 * @param key
-		 */
-		public <T1,KEY1> void saveCache2Db(KEY1 key,T1 value,DbOperator<KEY1,T1> dbOperator) {
-			if(value==null){
-				if(key==null){
-					logger.error("缓存保存失败：key或value必须设置一个！"+cache.getName());
-					return;
-				}
-				value=get((Serializable)key);
-			}
-			if(value!=null && dbOperator!=null){
-				save(key,value,dbOperator);
-			}
-		}
-		/**
-		 * 重新设置缓存数据
-		 * @param key
-		 * @param value
-		 * @return
-		 */
-		public <T1,KEY1> T1 reset(KEY1 key, T1 value,DbOperator<KEY1,T1> dbOperator) {
-			if(value==null){
-				value=readDb(key,dbOperator);
-			}
-			if(value!=null){
-				put((Serializable)key, (Serializable)value,timeToLiveSeconds);
-			}else{
-				remove((Serializable)key);
-			}
-			if(value==null){
-				logger.error("缓存设置失败：cacheName="+cacheDeal.getName()+" key="+key);
-			}
-			return value;
-		}
-		
-		/**
-		 * 从数据库中重新加载
-		 * @param key
-		 * @return
-		 */
-		public <T1,KEY1> T1 reload(KEY1 key,DbOperator<KEY1,T1> dbOperator) {
-			T1 t=readDb(key,dbOperator);
-			if(t==null){
-				logger.error("缓存刷新失败：cacheName="+cacheDeal.getName()+" key="+key);
-			}else{
-				reset(key, t,dbOperator);
-			}
-			return t;
-		}
 	}
-	
-	public AbstractCache(String name) { 
-		name=name.substring(0, 1).toLowerCase()+name.substring(1);
-		if(CacheSet.contains(name)){
-			logger.warn("缓存已经存在，不能重复定义："+name);
-			return;
-		}
-		CacheSet.add(name);
-		cacheDeal=new CacheDeal(name.toLowerCase());
-	}
-	
-	int timeToLiveSeconds=-1;
-	public AbstractCache(String name,int timeToLiveSeconds) { 
-		this(name);
-		this.timeToLiveSeconds=timeToLiveSeconds;
-	}
-
 
 	/**
 	 * 缓存中读取对象，取不到则从数据库中取得
@@ -209,9 +120,19 @@ public abstract class AbstractCache<KEY,T>{
 	 * @return
 	 */
 	public T get(KEY key) {
-		T t=cacheDeal.get((Serializable)key,dbOperator);
-		if(t==null){
-			logger.warn("缓存取得失败：cacheName="+cacheDeal.getName()+" key="+key);
+		T t=null;
+		try {
+			if (key != null) {
+				t = getFromCache(key);
+				if(t==null){
+					t=readDb(key);
+					if(t!=null){
+						put(key,t,timeToLiveSeconds);
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 		}
 		return t;
 	}
@@ -222,7 +143,7 @@ public abstract class AbstractCache<KEY,T>{
 	 * @return
 	 */
 	public T getFromCache(KEY key) {
-		return cacheDeal.get((Serializable)key,null);
+		return (T)cache.get((Serializable)key);
 	}
 	
 	/**
@@ -241,7 +162,11 @@ public abstract class AbstractCache<KEY,T>{
 	 * @param exp 有效期：秒
 	 */
 	public void put(KEY key, T value, int exp) {
-		cacheDeal.put((Serializable)key, (Serializable)value, exp);
+		try {
+			cache.put((Serializable)key, (Serializable)value, exp);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -249,7 +174,11 @@ public abstract class AbstractCache<KEY,T>{
 	 * @param key
 	 */
 	public void remove(KEY key) {
-		cacheDeal.remove((Serializable)key);
+		try {
+			cache.remove((Serializable)key);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 	
 	/**
@@ -258,9 +187,9 @@ public abstract class AbstractCache<KEY,T>{
 	 */
 	public void removeByStr(String key) {
 		if("clearAll".equals(key)){
-			cacheDeal.clear();
+			cache.removeAll();
 		}else{
-			cacheDeal.remove(key);
+			cache.remove(key);
 		}
 	}
 
@@ -268,25 +197,14 @@ public abstract class AbstractCache<KEY,T>{
 	 * 清空缓存
 	 */
 	public void clear() {
-		cacheDeal.clear();
+		cache.removeAll();
 	}
 	
 	/**
-	 * 保存缓存到数据库
-	 * @param key
+	 * 取得当前缓存的名称
 	 */
-	public void saveCache2Db(KEY key,T value) {
-		cacheDeal.saveCache2Db(key,value, dbOperator);
-	}
-	
-	/**
-	 * 重新设置缓存数据
-	 * @param key
-	 * @param value
-	 * @return
-	 */
-	public T reset(KEY key, T value) {
-		return cacheDeal.reset(key, value, dbOperator);
+	public String getCacheName() {
+		return this.cacheName;
 	}
 	
 	/**
@@ -295,6 +213,12 @@ public abstract class AbstractCache<KEY,T>{
 	 * @return
 	 */
 	public T reload(KEY key) {
-		return cacheDeal.reload(key, dbOperator);
+		T t=readDb(key);
+		if(t==null){
+			logger.error("缓存刷新失败：cacheName="+getCacheName()+" key="+key);
+		}else{
+			put(key, t,timeToLiveSeconds);
+		}
+		return t;
 	}
 }

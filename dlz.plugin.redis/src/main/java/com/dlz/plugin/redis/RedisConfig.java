@@ -1,11 +1,12 @@
 package com.dlz.plugin.redis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.codec.CodecException;
 
-import org.slf4j.Logger;
+import com.dlz.framework.exception.CodeException;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -17,7 +18,7 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 public class RedisConfig {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-    private Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
     
     @Value("${redis.host}")
     private String host;
@@ -35,7 +36,7 @@ public class RedisConfig {
     
     public static Jedis getJedis(){
     	if(jedisPool==null){
-    		throw new CodecException("JedisPool 未初始化！");
+    		throw new CodeException("JedisPool 未初始化！");
     	}
     	return jedisPool.getResource();
     }
