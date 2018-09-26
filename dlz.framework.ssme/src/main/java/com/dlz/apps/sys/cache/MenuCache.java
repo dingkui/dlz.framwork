@@ -16,7 +16,7 @@ public class MenuCache extends AbstractCache<Long, FunOpt> {
 
 	public MenuCache() {
 		super(MenuCache.class.getSimpleName());
-		dbOperator = new DbOperator<Long, FunOpt>() {
+		dbOperator = new DbOperator() {
 			protected FunOpt getFromDb(Long id) {
 				try {
 					return funOptService.selectByPrimaryKey(id);

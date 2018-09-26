@@ -22,7 +22,7 @@ public class DictsCache extends AbstractCache<Long, List<Dicts>> {
 
 	public DictsCache() {
 		super(DictsCache.class.getSimpleName());
-		dbOperator = new DbOperator<Long, List<Dicts>>() {
+		dbOperator = new DbOperator() {
 			protected List<Dicts> getFromDb(Long id) {
 				DictsCriteria dcc = new DictsCriteria();
 				dcc.getCurrentCriteria().andPidEqualTo(id);

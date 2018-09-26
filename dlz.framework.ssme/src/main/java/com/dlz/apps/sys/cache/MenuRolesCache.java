@@ -23,7 +23,7 @@ public class MenuRolesCache extends AbstractCache<Long, String> {
 
 	public MenuRolesCache() {
 		super(MenuRolesCache.class.getSimpleName());
-		dbOperator = new DbOperator<Long, String>() {
+		dbOperator = new DbOperator() {
 			protected String getFromDb(Long id) {
 				try {
 					ParaMap pm = new ParaMap("select XMLAGG(XMLELEMENT(E, rf.role_id || ',')).EXTRACT('//text()').getclobval() as roles from T_P_ROLE_FUN_OPT rf where rf.fun_opt_id =#{memuId} ");
