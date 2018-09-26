@@ -16,7 +16,7 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.dlz.framework.util.config.ConfUtil;
-import com.dlz.web.util.HttpUtil.HttpPostUtil;
+import com.dlz.web.util.HttpUtil;
 
 /**
  * Created by jack on 2017/10/25.
@@ -82,7 +82,7 @@ public class WebsocketClient2 {
 		HttpClientContext localContext = new HttpClientContext();
 		localContext.setCookieStore(cookieStore);
 		try {
-			HttpPostUtil.post(ConfUtil.getConfig("cas.url.auth"), ConfUtil.getMap("cas.admin"), localContext);
+			HttpUtil.HttpUtilEnum.POST.send(ConfUtil.getConfig("cas.url.auth"), ConfUtil.getMap("cas.admin"), localContext);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			return;

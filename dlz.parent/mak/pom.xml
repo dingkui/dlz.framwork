@@ -1,0 +1,20 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.dlz</groupId>
+	<artifactId>dlz.parent.modules</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>../</module>
+		<module>../../dlz.framework</module>
+		<module>../../dlz.web</module>
+		<module>../../dlz.framework.db.springjdbc</module>
+		<module>../../dlz.framework.ssme</module>
+		<module>../../dlz.framework.mongo</module>
+		<module>../../dlz.plugin.redis</module>
+		<module>../../dlz.plugin.weixin</module>
+		<module>../../dlz.plugin.socket</module>
+		<module>../../dlz.plugin.websocket</module>
+	</modules>
+</project>

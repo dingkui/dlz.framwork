@@ -22,14 +22,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.dlz</groupId>
-			<artifactId>dlz.framework</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
-
 		<!-- util/qrcode-1.0.jar -->
 		<dependency>
 			<groupId>comlib.util</groupId>
@@ -156,19 +151,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<modules>
-		<!-- <module>../dlz.framework</module> -->
-		<module>../dlz.web</module>
-		<module>../dlz.framework.db.springjdbc</module>
-		<module>../dlz.framework.ssme</module>
-		<module>../dlz.framework.mongo</module>
-		<module>../dlz.plugin.redis</module>
-		<module>../dlz.plugin.weixin</module>
-		<module>../dlz.plugin.socket</module>
-		<module>../dlz.plugin.websocket</module>
-
-	</modules>
 	<build>
 		<plugins>
 			<plugin>
