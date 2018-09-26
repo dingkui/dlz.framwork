@@ -26,8 +26,8 @@ import com.dlz.framework.ssme.db.service.DictsService;
 import com.dlz.framework.ssme.db.service.RbacService;
 import com.dlz.framework.ssme.util.criterias.Criterias;
 import com.dlz.framework.util.JacksonUtil;
-import com.dlz.framework.util.MapUtil;
 import com.dlz.framework.util.StringUtils;
+import com.dlz.framework.util.system.MapUtil;
 @SuppressWarnings("unchecked")
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN+"/dicts")

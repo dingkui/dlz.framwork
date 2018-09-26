@@ -24,7 +24,7 @@ public class MailTemplateCache extends AbstractCache<String, String> {
 	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MailTemplateCache.class);
 	public MailTemplateCache() {
 		super(MailTemplateCache.class.getSimpleName());
-		dbOperator=new DbOperator<String, String>() {
+		dbOperator=new DbOperator() {
 			@Override
 			public String getFromDb(String member_id) {
 				GeneratedCriteria cartList=new MailtempCriteria().createCriteria().andMSignEqualTo(member_id);
@@ -38,7 +38,7 @@ public class MailTemplateCache extends AbstractCache<String, String> {
 				}
 				return null;
 			}
-		};
+		}; 
 	}
 	/**
 	 */

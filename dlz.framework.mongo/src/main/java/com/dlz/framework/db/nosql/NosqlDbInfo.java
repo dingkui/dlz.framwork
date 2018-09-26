@@ -138,7 +138,7 @@ public class NosqlDbInfo {
 	}
 	public static BsonInfo getBsonInfo(String key){
 		if (key == null) {
-			throw new DbException("输入的key为空！");
+			throw new DbException("输入的key为空！",1002);
 		}
 		BsonInfo bson = m_sqlList.get(key);
 		if (bson == null) {
@@ -159,7 +159,7 @@ public class NosqlDbInfo {
 				m_sqlList.put(key, iteminfo);
 				return iteminfo;
 			}
-			throw new DbException("无效的bson Key！key=" + key);
+			throw new DbException("无效的bson Key！key=" + key,1002);
 		}
 		return bson;
 	}

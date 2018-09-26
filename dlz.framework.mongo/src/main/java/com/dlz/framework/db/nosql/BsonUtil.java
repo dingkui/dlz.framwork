@@ -67,7 +67,7 @@ public class BsonUtil{
 	
 	private static String replaceSql(String sql,JSONMap m){
 		if(sql.length()>10000){
-			throw new DbException("解析过长或出现引用死循环！");
+			throw new DbException("解析过长或出现引用死循环！",1002);
 		}
 		Matcher mat = strPattern1.matcher(sql);
 		while(mat.find()){

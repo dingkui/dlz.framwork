@@ -165,7 +165,7 @@ public class NosqlServiceImpl implements INosqlService {
 		if(list.size()==0){
 			return null;
 		}else if(list.size()>1){
-			throw new DbException("查询结果为多条");
+			throw new DbException("查询结果为多条",1004);
 		}else{
 			return list.get(0);
 		}

@@ -16,7 +16,7 @@ public class DbException extends BaseException {
 	void doNothing() {new java.util.ArrayList<>().forEach(a -> {});}
 
 	private static int ERROR_CODE = 1000;
-	private static int DEFUALT_ERROR_CODE = 1001;
+	private static int DEFUALT_ERROR_CODE = 1003;
 
 	public DbException(String message,int errorCode, Throwable cause) {
 		super(errorCode, message, cause);
@@ -24,7 +24,7 @@ public class DbException extends BaseException {
 	public DbException(String message,int errorCode) {
 		super(errorCode, message, null);
 	}
-	public DbException(Throwable cause) {
+	public DbException(String message,Throwable cause) {
 		super(DEFUALT_ERROR_CODE, cause.getMessage(), null);
 	}
 	public static DbException buildDbException(String message, Throwable cause) {

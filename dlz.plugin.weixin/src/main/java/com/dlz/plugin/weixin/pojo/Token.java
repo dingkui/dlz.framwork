@@ -1,6 +1,7 @@
 package com.dlz.plugin.weixin.pojo;
 
 import com.dlz.framework.util.DateUtil;
+import com.dlz.framework.util.DateUtilSecond;
 
 /**
  * 凭证
@@ -33,7 +34,7 @@ public class Token {
 	}
 	public void setExpiresIn(int expiresIn) {
 		this.expiresIn = expiresIn;
-		expiresTime=DateUtil.getDateline()+expiresIn;
+		expiresTime=DateUtilSecond.getDateline()+expiresIn;
 	}
 
 	/**
@@ -41,7 +42,7 @@ public class Token {
 	 * @return
 	 */
 	public boolean isUsefull() {
-		return DateUtil.getDateline() < expiresTime;
+		return DateUtilSecond.getDateline() < expiresTime;
 	}
 	
 }
