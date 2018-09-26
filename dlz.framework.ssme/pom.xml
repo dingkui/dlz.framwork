@@ -9,6 +9,13 @@
 	<artifactId>dlz.framework.ssme</artifactId>
 	<packaging>jar</packaging>
 
+	<repositories>
+		<repository>
+			<id>getui-nexus</id>
+			<url>http://mvn.gt.igexin.com/nexus/content/repositories/releases/</url>
+		</repository>
+	</repositories>
+
 	<properties>
 		<!-- <spring.version>4.2.4.RELEASE</spring.version>
 		<mybatis.version>3.4.0</mybatis.version>

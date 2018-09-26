@@ -49,7 +49,7 @@ public class DbInfo {
 	private static SqlDialect dialect = SqlDialect.ORACLE;
 	private static String dbtype = null;
 	private enum SqlDialect {
-		MYSQL(".mysql"), ORACLE(""), MSSQL(".sqlserver");
+		MYSQL(".mysql"),POSTGRESQL(".postgresql"), ORACLE(""), MSSQL(".sqlserver");
 		private String end;
 		private SqlDialect(String end) {
 			this.end = end;
