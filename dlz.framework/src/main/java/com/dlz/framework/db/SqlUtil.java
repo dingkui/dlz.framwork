@@ -19,7 +19,7 @@ import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.IColumnMapperService;
 import com.dlz.framework.db.service.impl.ColumnMapperToLower;
 import com.dlz.framework.exception.CodeException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.DateUtil;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
@@ -33,7 +33,7 @@ import com.dlz.framework.util.StringUtils;
  */
 public class SqlUtil{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SqlUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SqlUtil.class);
 	private final static String BLOB_CHARSETNAME = "dbset.blob_charsetname";
 	public final static String SU_STR_TABLE_NM = "SU_STR_TABLE_NM";
 	public final static String SU_STR_UPDATE_KEYS = "SU_STR_UPDATE_KEYS";
@@ -221,7 +221,7 @@ public class SqlUtil{
 	public static String replaceSql(String sql,Map<String,Object> m,int replaceTimes){
 		int length = sql.length();
 		if(length>10000||replaceTimes++>3000){
-			throw new DbException("sql过长或出现引用死循环！");
+			throw new DbException("sql过长或出现引用死循环！",1002);
 		}
 		Matcher mat = PATTERN_REPLACE.matcher(sql);
 		int start=0;

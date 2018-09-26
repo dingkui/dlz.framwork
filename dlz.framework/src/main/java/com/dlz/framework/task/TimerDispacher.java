@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Timer;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
-import com.dlz.framework.util.DateUtils;
+import org.slf4j.Logger;
+import com.dlz.framework.util.DateUtilSecond;
 
 /**
  * 定时调度器
@@ -17,7 +17,7 @@ import com.dlz.framework.util.DateUtils;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TimerDispacher{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(TimerDispacher.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(TimerDispacher.class);
 	private static Map<String,MyTimerTask> timmerSet = new HashMap<String,MyTimerTask>();
 	private static Timer timer = new Timer();
 	private static long EVREY=1000;
@@ -48,7 +48,7 @@ public class TimerDispacher{
 	public static void main(String[] args) {
 //		String taskclass="com.dlz.framework.task.MyTimerTaskTest";
 		String taskclass="myTimerTaskTest";
-		Long dt1=DateUtils.toDate("2017-10-19 14:17:20", "yyyy-MM-dd HH:mm:ss").getTime();
+		Long dt1=DateUtilSecond.toDate("2017-10-19 14:17:20", "yyyy-MM-dd HH:mm:ss").getTime();
 		for(int i=0;i<36000;i++){
 			addTimmer(taskclass, Long.valueOf(i), new Date(dt1+i*100));
 		}

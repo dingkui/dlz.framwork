@@ -17,7 +17,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.exception.CodeException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.quartz.bean.ScheduleJob;
 import com.dlz.framework.quartz.bean.ScheduleJobCron;
 import com.dlz.framework.quartz.bean.ScheduleJobSimple;
@@ -30,7 +30,7 @@ import com.dlz.framework.quartz.bean.ScheduleJobSimple;
 @Component
 public class JobMethod {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(JobMethod.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JobMethod.class);
 	Scheduler scheduler;
 	JobMethod(){
 		SchedulerFactory sf = new StdSchedulerFactory();  
@@ -106,7 +106,7 @@ public class JobMethod {
 				scheduler.rescheduleJob(triggerKey, trigger);
 			}
 		} catch (SchedulerException e) {
-			logger.error(job);
+			logger.error(job.toString());
 			logger.error("任务初始化失败", e);
 		}
 	}
@@ -144,7 +144,7 @@ public class JobMethod {
 				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(scheduleBuilder).build());
 			}
 		} catch (SchedulerException e) {
-			logger.error(job);
+			logger.error(job.toString());
 			logger.error("任务初始化失败", e);
 		}
 	}
@@ -198,7 +198,7 @@ public class JobMethod {
 		try {
 			scheduler.resumeJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error(scheduleJob);
+			logger.error(scheduleJob.toString());
 			logger.error("Task resume failed.", e);
 		}
 	}
@@ -213,7 +213,7 @@ public class JobMethod {
 		try {
 			scheduler.deleteJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error(scheduleJob);
+			logger.error(scheduleJob.toString());
 			logger.error("Task delete failed.", e);
 		}
 	}
@@ -228,7 +228,7 @@ public class JobMethod {
 		try {
 			scheduler.triggerJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error(scheduleJob);
+			logger.error(scheduleJob.toString());
 			logger.error("Task run failed.", e);
 		}
 	}

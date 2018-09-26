@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.constance.SocketConstance;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.interfaces.IDealService;
@@ -15,7 +15,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 
 public abstract class SocketHandlerWithHolder extends ASocketHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SocketHandlerWithHolder.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SocketHandlerWithHolder.class);
 	public SocketHandlerWithHolder(Socket socket, IDealService dealService, ASocketIO sio) {
 		super(socket, dealService, sio);
 	}

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.exception.DbException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 构造单表的增删改查操作sql
@@ -13,7 +13,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 public class CreateSqlParaMap extends BaseParaMap{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(CreateSqlParaMap.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CreateSqlParaMap.class);
 	private static final long serialVersionUID = 8374167270612933157L;
 	protected static final String STR_TABLENAME="tableName";
 	protected static final String STR_WHERE="where";
@@ -28,8 +28,7 @@ public class CreateSqlParaMap extends BaseParaMap{
 	}
 	public void addCondition(String paraName,String option,Object value){
 		if(value==null||"".equals(value)){
-			logger.error("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option);
-			throw new DbException("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option);
+			throw new DbException("addCondition 参数不能为空:table="+getPara().get(STR_TABLENAME)+",paraName="+paraName+",option="+option,1002);
 		}
 		StringBuilder sbWhere = (StringBuilder)this.getPara().get(STR_WHERE);
 		if(sbWhere==null){

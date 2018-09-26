@@ -11,12 +11,12 @@ import org.jeewx.api.core.req.model.WeixinReqParam;
 import org.jeewx.api.core.util.HttpRequestProxy;
 import org.jeewx.api.core.util.WeiXinReqUtil;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class WeixinReqMediaDownHandler implements WeiXinReqHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(WeixinReqMediaDownHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WeixinReqMediaDownHandler.class);
 	
 	@SuppressWarnings("rawtypes")
 	public String doRequest(WeixinReqParam weixinReqParam) throws WexinReqException {

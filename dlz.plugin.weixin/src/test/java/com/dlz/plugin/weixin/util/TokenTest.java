@@ -11,7 +11,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 
 /**
@@ -22,7 +22,7 @@ import com.dlz.framework.logger.MyLogger;
  */
 public class TokenTest {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(TokenTest.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(TokenTest.class);
 	public static void main(String[] args) {
 		//获取凭证接口地址： appid 及 secret需要获取
 		String tokenUrl = "https://api.weixin.qq.com/cgi-bin/token?" +

@@ -18,7 +18,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.cache.DictCache;
 import com.dlz.framework.db.cache.bean.DictItem;
 import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.ComboBoxModel;
 import com.dlz.framework.ssme.db.model.Dict;
 import com.dlz.framework.ssme.db.model.DictCriteria;
@@ -32,7 +32,7 @@ import com.dlz.framework.ssme.util.criterias.Criterias;
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/dict")
 public class DictController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DictController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DictController.class);
 
 	@Autowired
 	private DictService dictService;

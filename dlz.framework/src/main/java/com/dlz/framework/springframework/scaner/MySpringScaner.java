@@ -15,7 +15,7 @@ import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
 
 /**
@@ -26,7 +26,7 @@ import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
  */
 public class MySpringScaner {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(MySpringScaner.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MySpringScaner.class);
 
 	ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 	MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(new PathMatchingResourcePatternResolver());

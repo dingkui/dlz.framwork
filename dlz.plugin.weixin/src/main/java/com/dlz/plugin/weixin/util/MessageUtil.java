@@ -12,7 +12,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.message.req.VideoMessage;
 import com.dlz.plugin.weixin.message.resp.Article;
 import com.dlz.plugin.weixin.message.resp.ImageMessage;
@@ -28,7 +28,7 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
 
 public class MessageUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(MessageUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MessageUtil.class);
 	/**
 	 * 响应消息类型：文本
 	 */

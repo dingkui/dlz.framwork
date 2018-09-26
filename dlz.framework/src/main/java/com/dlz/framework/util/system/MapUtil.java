@@ -1,4 +1,4 @@
-package com.dlz.framework.util;
+package com.dlz.framework.util.system;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -16,12 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
+
+import com.dlz.framework.util.StringUtils;
 
 @SuppressWarnings({"rawtypes"})
 public class MapUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(MapUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MapUtil.class);
 	/**
 	 * 隐藏构造器
 	 */

@@ -3,8 +3,8 @@ package com.dlz.common.util;
 import org.junit.Test;
 
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.util.ParseUtil.ParserEnum;
-import com.dlz.web.util.HttpUtil.HttpPostUtil;
+import com.dlz.framework.util.encry.ParseUtil.ParserEnum;
+import com.dlz.web.util.HttpUtil;
 
 public class HttpUtilTest {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
@@ -19,7 +19,7 @@ public class HttpUtilTest {
 		m.put("timestamp", "ccc");
 //		HttpPostUtil.post("http://shop.jkj51.com/finder/finder?action=finder.login");
 		
-		HttpPostUtil.post("http://127.0.0.1:2222/api/test_n",m);
+		HttpUtil.HttpUtilEnum.POST.send("http://127.0.0.1:2222/api/test_n",m);
 		
 	}
 	

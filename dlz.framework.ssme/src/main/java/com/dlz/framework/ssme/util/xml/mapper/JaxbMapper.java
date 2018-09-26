@@ -17,7 +17,7 @@ import javax.xml.namespace.QName;
 
 import org.springframework.util.Assert;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.system.Exceptions;
 import com.dlz.framework.ssme.util.xml.wrapper.CollectionWrapper;
 import com.dlz.framework.util.StringUtils;
@@ -36,7 +36,7 @@ public class JaxbMapper {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
 	private static ConcurrentMap<Class, JAXBContext> jaxbContexts = new ConcurrentHashMap<Class, JAXBContext>();
-	private static MyLogger logger = MyLogger.getLogger(JaxbMapper.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JaxbMapper.class);
 	/**
 	 * Java Object->Xml without encoding.
 	 */

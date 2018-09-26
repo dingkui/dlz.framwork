@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.exception.CodeException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 对象转换工具类
@@ -16,7 +16,7 @@ import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ValUtil{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger=MyLogger.getLogger(ValUtil.class);
+	private static Logger logger=org.slf4j.LoggerFactory.getLogger(ValUtil.class);
 	
 	public static BigDecimal getBigDecimal(Object input,BigDecimal defaultV){
 		Number o=getNumber(input,null);

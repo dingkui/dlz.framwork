@@ -17,13 +17,13 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.controller.BaseController;
 @Controller
 @RequestMapping(value = ControllerConst.ADMIN)
 public class PageController extends BaseController{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(PageController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(PageController.class);
 	@Autowired
 	private MenuCache menuCahe;
 

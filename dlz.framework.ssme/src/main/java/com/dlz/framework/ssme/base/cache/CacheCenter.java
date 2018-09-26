@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class CacheCenter { 
 	
 	/**
 	 * 日志 logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(CacheCenter.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CacheCenter.class);
 
 	/**
 	 * 注入BeanFactory

@@ -21,7 +21,7 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.Dept;
 import com.dlz.framework.ssme.db.model.Role;
 import com.dlz.framework.ssme.db.service.FunOptService;
@@ -40,7 +40,7 @@ import com.google.common.collect.Maps;
 @RequestMapping(ControllerConst.ADMIN+"/menu")
 public class MenuController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(MenuController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MenuController.class);
 	@Autowired
 	private RoleService roleService;
 	@Autowired

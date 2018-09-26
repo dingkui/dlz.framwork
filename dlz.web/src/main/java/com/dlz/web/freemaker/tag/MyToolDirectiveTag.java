@@ -62,7 +62,7 @@ public class MyToolDirectiveTag implements TemplateDirectiveModel {
 	    	String tagName=coverObject(getObject((TemplateModel) params.get("tagName")),String.class);
 	        String tagPara=coverObject(getObject((TemplateModel) params.get("tagPara")),String.class);
 			try{
-				BaseTag tag= SpringHolder.getBean(tagName);
+				BaseFreeMarkerTag tag= SpringHolder.getBean(tagName);
 				if(tag==null){
 					throw new TemplateModelException("标签["+tagName+"]不存在");
 				}
@@ -70,7 +70,7 @@ public class MyToolDirectiveTag implements TemplateDirectiveModel {
 				if(tagPara!=null){
 					para= JacksonUtil.readValue(tagPara, JSONMap.class);
 				}
-				Object o= tag.deal(para);
+				Object o= tag.exec(para);
 				if(o==null){
 					o=new HashMap();
 				}

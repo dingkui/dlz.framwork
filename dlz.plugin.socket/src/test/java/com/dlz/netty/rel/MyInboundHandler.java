@@ -2,7 +2,7 @@ package com.dlz.netty.rel;
 
 import java.util.concurrent.TimeUnit;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,7 +11,7 @@ import io.netty.channel.EventLoop;
 
 public class MyInboundHandler extends ChannelInboundHandlerAdapter {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(MyInboundHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MyInboundHandler.class);
 	private Client client;
 
 	public MyInboundHandler(Client client) {

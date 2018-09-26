@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.exception.BaseException;
 import com.dlz.framework.exception.JspException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 
 @ControllerAdvice
 public class SsmeControllerExceptionHandler {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SsmeControllerExceptionHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SsmeControllerExceptionHandler.class);
 	/** 基于@ExceptionHandler异常处理 */
 	@ExceptionHandler
 	public String exp(HttpServletRequest request, Exception ex) {

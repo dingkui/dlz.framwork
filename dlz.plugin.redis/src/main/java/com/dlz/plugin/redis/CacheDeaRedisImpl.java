@@ -2,11 +2,12 @@ package com.dlz.plugin.redis;
 
 import java.io.Serializable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.cache.AbstractCache.ICacheDeal;
 import com.dlz.framework.cache.ICacheCreator;
-import com.dlz.framework.logger.MyLogger;
 import com.dlz.framework.util.system.SerializeUtil;
 
 import redis.clients.jedis.Client;
@@ -20,7 +21,7 @@ import redis.clients.util.SafeEncoder;
  * @author dk
  */
 public class CacheDeaRedisImpl implements ICacheCreator {
-	private static MyLogger logger = MyLogger.getLogger(CacheDeaRedisImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(CacheDeaRedisImpl.class);
 
 	@Autowired
 	private JedisPool jedisSentinelPool;

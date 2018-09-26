@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.ssme.db.dao.RoleFunOptMapper;
 import com.dlz.framework.ssme.db.model.RoleFunOptKey;
@@ -19,7 +19,7 @@ public class RoleFunOptServiceImpl extends BaseServiceImpl<RoleFunOptKey, RoleFu
 	/**
 	 * 系统日志
 	 */
-	private static MyLogger logger = MyLogger.getLogger(RoleFunOptServiceImpl.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(RoleFunOptServiceImpl.class);
 	
 	@Autowired
 	public void setMapper(RoleFunOptMapper mapper) {

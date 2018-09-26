@@ -15,7 +15,7 @@ import com.aliyuncs.profile.IClientProfile;
 import com.dlz.apps.notice.db.dao.SmsMapper;
 import com.dlz.apps.notice.db.model.Sms;
 import com.dlz.apps.notice.db.service.SmsService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.service.impl.BaseServiceImpl;
 import com.dlz.framework.util.JacksonUtil;
 
@@ -29,7 +29,7 @@ public class SmsServiceImpl extends BaseServiceImpl<Sms, Long> implements SmsSer
 		this.mapper = mapper;
 	}
 
-	private static MyLogger logger = MyLogger.getLogger(SmsServiceImpl.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SmsServiceImpl.class);
 
 	// 产品名称:云通信短信API产品,开发者无需替换
 	private static final String product = "Dysmsapi";

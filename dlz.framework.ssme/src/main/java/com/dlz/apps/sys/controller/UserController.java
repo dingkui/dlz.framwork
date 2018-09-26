@@ -20,7 +20,7 @@ import com.dlz.framework.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.controller.BaseController;
 import com.dlz.framework.ssme.constants.Constants;
 import com.dlz.framework.ssme.db.model.Role;
@@ -54,7 +54,7 @@ import net.sf.json.JSONObject;
 @RequestMapping(ControllerConst.ADMIN+"/rbac/user")
 public class UserController extends BaseController{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(UserController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	private UserService userService;

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.cache.AbstractCache;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.FunOpt;
 import com.dlz.framework.ssme.db.service.FunOptService;
 
@@ -31,6 +31,6 @@ public class MenuCache extends AbstractCache<Long, FunOpt> {
 	/**
 	 * 日志logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(MenuCache.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MenuCache.class);
 
 }

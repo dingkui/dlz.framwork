@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.base.dao.BaseMapper;
 import com.dlz.framework.ssme.base.service.BaseService;
 import com.dlz.framework.util.system.Reflections;
@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 public abstract class BaseServiceImpl<T, PK extends Serializable> implements BaseService<T, PK> {
 	void doNothing1() {new java.util.ArrayList<>().forEach(a -> {});}
 
-	private static MyLogger logger = MyLogger.getLogger(BaseServiceImpl.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(BaseServiceImpl.class);
 	protected BaseMapper<T, PK> mapper;
 	@Autowired
 	protected ICommService commService;

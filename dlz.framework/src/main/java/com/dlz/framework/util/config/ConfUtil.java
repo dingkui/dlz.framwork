@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,17 +14,19 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+
+import com.dlz.framework.bean.IUniversalVals;
+import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
 
 
 public class ConfUtil{
-	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ConfUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ConfUtil.class);
 	
 	private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");
 	/**
@@ -39,6 +42,10 @@ public class ConfUtil{
 	 * 配置信息保持成map
 	 */
 	public static JSONMap maps = new JSONMap();
+	/**
+	 * 配置信息保持成map
+	 */
+	public static JSONMap lists = new JSONMap();
 
 	/**
 	 * 构造方法
@@ -66,7 +73,6 @@ public class ConfUtil{
 		try {
 			String[] configs=CONFIG_FILE.split(",");
 			props.clear();
-			maps.clear();
 			for(String config:configs){
 				URL resource = ConfUtil.class.getClassLoader().getResource(config);
 				if(resource==null){
@@ -96,6 +102,30 @@ public class ConfUtil{
 			}
 		} catch (Exception e) {
 			logger.error("读取配置文件出错", e);
+		}finally{
+			maps.keySet().forEach(key->{
+				final JSONMap obj = maps.getObj(key);
+				obj.clear();
+				
+				JSONMap newMap=props.getObj(key);
+				if(newMap==null){
+					newMap=new JSONMap();
+				}
+				for(Map.Entry<String,Object> entrySet :props.entrySet()){
+					if(entrySet.getKey().startsWith(key+".")){
+						newMap.put(entrySet.getKey().substring(key.length()+1), entrySet.getValue());
+					}
+				}
+				obj.putAll(newMap);
+			});
+			lists.keySet().forEach(key->{
+				final List list = lists.getList(key);
+				list.clear();
+				final List newList = props.getList(key);
+				if(newList!=null){
+					list.addAll(newList);
+				}
+			});
 		}
 	}
 	
@@ -159,17 +189,36 @@ public class ConfUtil{
 	public static JSONMap getMap(String key){
 		JSONMap obj = maps.getObj(key);
 		if(obj==null){
-			obj=new JSONMap();
-			maps.put(key, obj);
+			obj = props.getObj(key);
+			if(obj==null){
+				obj=new JSONMap();
+			}
 			for(Map.Entry<String,Object> entrySet :props.entrySet()){
 				if(entrySet.getKey().startsWith(key+".")){
 					obj.put(entrySet.getKey().substring(key.length()+1), entrySet.getValue());
 				}
 			}
+			maps.put(key, obj);
 		}
-//		if(obj.isEmpty()){
+		if(obj.isEmpty()){
+			logger.warn("无效的map配置,key="+key);
 //			throw new CodeException("无效的maop置,key="+key);
-//		}
+		}
+		return obj;
+	}
+	public static List getList(String key){
+		List obj = maps.getList(key);
+		if(obj==null){
+			obj = props.getList(key);
+			if(obj==null){
+				obj=new ArrayList();
+			}
+			maps.put(key, obj);
+		}
+		if(obj.isEmpty()){
+			logger.warn("无效的List配置,key="+key);
+//			throw new CodeException("无效的maop置,key="+key);
+		}
 		return obj;
 	}
 	public static BigDecimal getBigDecimal(String key,BigDecimal defaultV){
@@ -198,18 +247,6 @@ public class ConfUtil{
 	}
 	public static Long getLong(String key,Long defaultV){
 		return props.getLong(key,defaultV);
-	}
-	public static Object[] getArray(String key){
-		return  getArray(key,null);
-	}
-	public static Object[] getArray(String key,Object[] defaultV){
-		return props.getArray(key,defaultV);
-	}
-	public static List<?> getList(String key){
-		return  getList(key,null);
-	}
-	public static List<?> getList(String key,List<?> defaultV){
-		return props.getList(key,defaultV);
 	}
 	public static String getStr(String key){
 		return getConfig(key,null);

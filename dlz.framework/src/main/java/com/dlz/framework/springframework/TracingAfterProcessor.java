@@ -10,7 +10,7 @@ import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.springframework.scaner.IScaner;
 import com.dlz.framework.springframework.scaner.MySpringScaner;
 /**
@@ -21,7 +21,7 @@ import com.dlz.framework.springframework.scaner.MySpringScaner;
 @Component
 public class TracingAfterProcessor implements ApplicationListener<ContextRefreshedEvent> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger=MyLogger.getLogger(TracingAfterProcessor.class);
+	private static Logger logger=org.slf4j.LoggerFactory.getLogger(TracingAfterProcessor.class);
 	private boolean complete(ApplicationContext applicationContext){
 		try{
 			if(applicationContext instanceof AbstractXmlApplicationContext){

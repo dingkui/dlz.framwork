@@ -6,12 +6,13 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.logger.MyLogger;
 
 /**
  * 缓存实现
@@ -22,7 +23,7 @@ import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings("unchecked")
 public abstract class AbstractCache<KEY,T>{
 	void doNothing1(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(AbstractCache.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractCache.class);
 
 	private static Set<String> CacheSet = new HashSet<String>();
 	

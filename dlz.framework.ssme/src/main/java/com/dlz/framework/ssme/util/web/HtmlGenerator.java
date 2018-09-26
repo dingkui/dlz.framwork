@@ -27,13 +27,13 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 /**
  * 静态页面引擎技术（突乱了乱码问题UTF-8）
  */
 public class HtmlGenerator {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(HtmlGenerator.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(HtmlGenerator.class);
 	HttpClient httpClient = null; // HttpClient实例
 	GetMethod getMethod = null; // GetMethod实例
 	BufferedWriter fw = null;

@@ -1,7 +1,7 @@
 package com.dlz.plugin.weixin.util;
 
 import com.dlz.framework.bean.JSONMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.weixin.menu.Menu;
 
 import net.sf.json.JSONObject;
@@ -15,7 +15,7 @@ import net.sf.json.JSONObject;
 public class MenuUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private final static MyLogger log = MyLogger.getLogger(MenuUtil.class);
+	private final static Logger log = org.slf4j.LoggerFactory.getLogger(MenuUtil.class);
 	
 	//菜单创建(POST)
 	public final static String menu_create_url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";

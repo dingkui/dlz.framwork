@@ -9,7 +9,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.IOUtils;
 import com.dlz.framework.util.StringUtils;
 
@@ -24,7 +24,7 @@ public final class DataSourceSqlSessionFactory {
     private static final Map<DataSourceEnvironment, SqlSessionFactory> SQLSESSIONFACTORYS   
         = new HashMap<DataSourceEnvironment, SqlSessionFactory>();
 
-	private static MyLogger logger=MyLogger.getLogger(DataSourceSqlSessionFactory.class);  
+	private static Logger logger=org.slf4j.LoggerFactory.getLogger(DataSourceSqlSessionFactory.class);  
       
     /** 
      * 根据指定的DataSourceEnvironment获取对应的SqlSessionFactory 

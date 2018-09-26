@@ -13,11 +13,11 @@ import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.mySequence.bean.SequenceBo;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class SequenceDeal{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SequenceDeal.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SequenceDeal.class);
 	
 	_Updater updater = null;
 	_SeqDao seqDao = null;

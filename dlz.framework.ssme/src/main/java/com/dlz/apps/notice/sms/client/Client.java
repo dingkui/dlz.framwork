@@ -8,11 +8,11 @@ import com.dlz.apps.notice.sms.sdk.Mo;
 import com.dlz.apps.notice.sms.sdk.SDKServiceBindingStub;
 import com.dlz.apps.notice.sms.sdk.SDKServiceLocator;
 import com.dlz.apps.notice.sms.sdk.StatusReport;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class Client {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(Client.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Client.class);
 	private String softwareSerialNo;
 	private String key;
 	public Client(String sn,String key){

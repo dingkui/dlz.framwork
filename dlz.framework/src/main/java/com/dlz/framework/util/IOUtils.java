@@ -27,12 +27,12 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public final class IOUtils {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-    private static final MyLogger logger = MyLogger.getLogger( IOUtils.class );
+    private static final Logger logger = org.slf4j.LoggerFactory.getLogger( IOUtils.class );
 
 	private IOUtils() {
 		// no instances of this class

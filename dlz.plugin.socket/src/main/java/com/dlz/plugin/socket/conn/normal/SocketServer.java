@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.constance.SocketConstance;
 import com.dlz.plugin.socket.handler.ASocketHandler;
 import com.dlz.plugin.socket.handler.SocketHandlerWithHolder;
@@ -17,7 +17,7 @@ import com.dlz.plugin.socket.interfaces.IDealService;
 
 public class SocketServer extends ASocketServer {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(SocketServer.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(SocketServer.class);
 
 	/**
 	 * 构造Socket服务

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.JacksonUtil;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.ValUtil;
@@ -24,7 +24,7 @@ import com.dlz.web.holder.ThreadHolder;
 @SuppressWarnings("unchecked")
 public class WebUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(WebUtil.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(WebUtil.class);
 	/**
 	 * Stores an attribute in this request
 	 * 

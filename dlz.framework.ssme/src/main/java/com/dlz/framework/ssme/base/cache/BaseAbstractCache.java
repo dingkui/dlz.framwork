@@ -3,13 +3,13 @@ package com.dlz.framework.ssme.base.cache;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.google.common.cache.Cache;
 
 public abstract class BaseAbstractCache<K, V> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	protected MyLogger logger = MyLogger.getLogger(getClass());
+	protected Logger logger = org.slf4j.LoggerFactory.getLogger(getClass());
 	
 	protected long version = 0L;
 	

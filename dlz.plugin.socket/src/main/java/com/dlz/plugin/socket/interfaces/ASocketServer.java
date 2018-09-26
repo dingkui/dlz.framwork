@@ -7,13 +7,13 @@ import java.text.MessageFormat;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.handler.ASocketHandler;
 
 public abstract class ASocketServer  extends Thread{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 
-	private static MyLogger logger = MyLogger.getLogger(ASocketServer.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ASocketServer.class);
 
 	private ServerSocket serverSocket;
 	private ExecutorService executorService;// 线程池

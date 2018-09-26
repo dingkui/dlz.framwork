@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlz.apps.ControllerConst;
 import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.DictDetail;
 import com.dlz.framework.ssme.db.model.DictDetailCriteria;
 import com.dlz.framework.ssme.db.model.DictDetailKey;
@@ -24,7 +24,7 @@ import com.dlz.framework.util.JacksonUtil;
 @RequestMapping(value = ControllerConst.ADMIN+"/rbac/dictDetail")
 public class DictDetailController {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DictDetailController.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DictDetailController.class);
 
 	@Autowired
 	private DictDetailService dictDetailService;

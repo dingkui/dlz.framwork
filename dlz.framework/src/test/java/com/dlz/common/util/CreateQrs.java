@@ -12,12 +12,13 @@ import javax.imageio.ImageIO;
 
 import org.junit.Test;
 
-import com.dlz.framework.logger.MyLogger;
-import com.dlz.framework.util.ParseUtil.ParserEnum;
+import org.slf4j.Logger;
+
+import com.dlz.framework.util.encry.ParseUtil.ParserEnum;
 import com.swetake.util.Qrcode;
 
 public class CreateQrs {
-	private static MyLogger logger =  MyLogger.getLogger(CreateQrs.class);
+	private static Logger logger =  org.slf4j.LoggerFactory.getLogger(CreateQrs.class);
 	
 	static File centerFile=new File("d:/1/logo.png");
 	static File imgFile=new File("d:/1/2.png");

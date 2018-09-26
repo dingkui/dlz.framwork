@@ -2,7 +2,7 @@ package com.dlz.plugin.netty.handler;
 
 import java.io.IOException;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.NettyClient;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
@@ -18,7 +18,7 @@ public class ClientHandler extends BaseHandler {
 	public ClientHandler(ISocketListener lisner) {
 		super(lisner);
 	}
-	private static MyLogger logger = MyLogger.getLogger(ClientHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ClientHandler.class);
 
       
     @Override  

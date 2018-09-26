@@ -10,7 +10,7 @@ import com.dlz.apps.notice.db.model.MailtempCriteria;
 import com.dlz.apps.notice.db.model.MailtempCriteria.GeneratedCriteria;
 import com.dlz.apps.notice.db.service.MailtempService;
 import com.dlz.framework.cache.AbstractCache;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 /**
  * 用级别信息缓存
  * @author dingkui
@@ -21,7 +21,7 @@ public class MailTemplateCache extends AbstractCache<String, String> {
 	/**
 	 * 日志logger
 	 */
-	private static MyLogger logger = MyLogger.getLogger(MailTemplateCache.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(MailTemplateCache.class);
 	public MailTemplateCache() {
 		super(MailTemplateCache.class.getSimpleName());
 		dbOperator=new DbOperator() {
@@ -38,7 +38,7 @@ public class MailTemplateCache extends AbstractCache<String, String> {
 				}
 				return null;
 			}
-		};
+		}; 
 	}
 	/**
 	 */

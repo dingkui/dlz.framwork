@@ -8,11 +8,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.io.Charsets;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.StringUtils;
 public class Encrypts {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(Encrypts.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Encrypts.class);
 	private static final Charset CHARSET_ENCODING = Charsets.UTF_8;
 
 	private static final byte[] DEFAULT_KEY = "phonefu                 "

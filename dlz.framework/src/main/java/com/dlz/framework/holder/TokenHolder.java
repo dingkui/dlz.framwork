@@ -3,7 +3,7 @@ package com.dlz.framework.holder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dlz.framework.util.DateUtil;
+import com.dlz.framework.util.DateUtilSecond;
 
 /**
  * 凭证保管器
@@ -47,7 +47,7 @@ public class TokenHolder {
 			if(expiresIn==0){
 				expiresTime=0;
 			}else{
-				expiresTime=DateUtil.getDateline()+expiresIn;
+				expiresTime=DateUtilSecond.getDateline()+expiresIn;
 			}
 			this.tokenStr=tokenStr;
 		}
@@ -56,7 +56,7 @@ public class TokenHolder {
 		 * @return
 		 */
 		public boolean isUsefull() {
-			return DateUtil.getDateline() < expiresTime;
+			return DateUtilSecond.getDateline() < expiresTime;
 		}
 	}
 	

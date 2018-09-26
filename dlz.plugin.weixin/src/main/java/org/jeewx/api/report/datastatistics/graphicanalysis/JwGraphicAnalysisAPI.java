@@ -15,7 +15,7 @@ import org.jeewx.api.core.req.model.dataCube.WxDataCubeStreamUserShareHourParam;
 import org.jeewx.api.core.req.model.dataCube.WxDataCubeStreamUserShareParam;
 import org.jeewx.api.report.datastatistics.graphicanalysis.model.GraphicAnalysisRtnInfo;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.google.gson.Gson;
 
 import net.sf.json.JSONArray;
@@ -29,7 +29,7 @@ import net.sf.json.JSONObject;
 public class JwGraphicAnalysisAPI {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	
-	private static MyLogger logger = MyLogger.getLogger(JwGraphicAnalysisAPI.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JwGraphicAnalysisAPI.class);
 	
 	private static Long getDays(String Date1,String Date2){
 		return Date.valueOf(Date1).getTime() /86400000L - Date.valueOf(Date2).getTime() / 86400000L;

@@ -2,7 +2,7 @@ package com.dlz.plugin.socket.test.pool;
 
 import java.io.IOException;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.conn.asyn.AsynClient;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 import com.dlz.plugin.socket.io.ScoketIOLine;
@@ -13,7 +13,7 @@ import com.dlz.plugin.socket.io.ScoketIOLine;
  */
 public class TestClient{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(TestClient.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(TestClient.class);
 	public static void main(String[] args) throws IOException {
 //		SocketClient client = new SocketClient("127.0.0.1", 9999, new ScoketIOLine());
 		AsynClient client = new com.dlz.plugin.socket.conn.asyn.AsynClient("127.0.0.1", 9999, new ScoketIOLine());

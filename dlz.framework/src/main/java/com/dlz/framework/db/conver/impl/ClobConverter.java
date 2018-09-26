@@ -6,12 +6,12 @@ import java.sql.Clob;
 
 import com.dlz.framework.db.conver.AClassConverter;
 import com.dlz.framework.db.enums.CharsetNameEnum;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 public class ClobConverter  extends AClassConverter<Object,String,CharsetNameEnum> {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	private static String COVERCLASS_BLOB="oracle.sql.CLOB";
-	private static MyLogger logger = MyLogger.getLogger(ClobConverter.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ClobConverter.class);
 	public ClobConverter(CharsetNameEnum para) {
 		super(para);
 	}

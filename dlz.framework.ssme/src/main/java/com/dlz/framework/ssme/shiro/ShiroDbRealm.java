@@ -20,7 +20,7 @@ import com.dlz.apps.sys.service.DeptServiceExt;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.db.model.User;
 import com.dlz.framework.ssme.db.service.FunOptService;
 import com.dlz.framework.ssme.db.service.RoleService;
@@ -29,7 +29,7 @@ import com.google.common.collect.Sets;
 
 public class ShiroDbRealm extends AuthorizingRealm {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ShiroDbRealm.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ShiroDbRealm.class);
 	
 	private static final String HASH_ALGORITHM = "SHA-1";
 	

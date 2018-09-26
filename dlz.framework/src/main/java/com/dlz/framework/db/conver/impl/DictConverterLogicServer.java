@@ -8,11 +8,11 @@ import com.dlz.framework.db.cache.bean.Dict;
 import com.dlz.framework.db.cache.bean.DictItem;
 import com.dlz.framework.db.conver.ILogicServer;
 import com.dlz.framework.db.exception.DbException;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 @Component
 class DictConverterLogicServer implements ILogicServer<Object,String> {
-	private static MyLogger logger =MyLogger.getLogger(DictConverterLogicServer.class);
+	private static Logger logger =org.slf4j.LoggerFactory.getLogger(DictConverterLogicServer.class);
 	@Autowired
 	DictCache dictCache;
 
@@ -20,7 +20,7 @@ class DictConverterLogicServer implements ILogicServer<Object,String> {
 	public Object conver2Str(Object value, String dictCode) {
 		Dict dict=dictCache.get(dictCode);
 		if(dict==null){
-			throw new DbException("字典转换错误，字典【"+dictCode+"】未定义");
+			throw new DbException("字典转换错误，字典【"+dictCode+"】未定义",1004);
 		}
 		DictItem item=dict.getItemMap().get(String.valueOf(value));
 		if(item==null){

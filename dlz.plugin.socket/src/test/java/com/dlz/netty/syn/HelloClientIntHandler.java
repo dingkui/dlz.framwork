@@ -1,7 +1,7 @@
 package com.dlz.netty.syn;
 
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,7 +13,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 //InboundHandler类型
 public class HelloClientIntHandler extends ChannelInboundHandlerAdapter {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(HelloClientIntHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(HelloClientIntHandler.class);
 
 
     public StringBuffer message;

@@ -1,13 +1,13 @@
 package com.dlz.plugin.netty.handler;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.netty.bean.RequestDto;
 import com.dlz.plugin.socket.interfaces.ISocketListener;
 
 import io.netty.channel.ChannelHandlerContext;
 
 public class ClientSynHandler extends BaseHandler { 
-	private static MyLogger logger = MyLogger.getLogger(ClientSynHandler.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ClientSynHandler.class);
 	private String msg;
 	public ClientSynHandler(ISocketListener lisner,String msg) {
 		super(lisner);

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.plugin.socket.interfaces.ASocketIO;
 import com.dlz.plugin.socket.util.StringCompress;
 
@@ -15,7 +15,7 @@ import com.dlz.plugin.socket.util.StringCompress;
  */
 public class ScoketIOCompress extends ASocketIO {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(ScoketIOCompress.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ScoketIOCompress.class);
 	private static int headerLength=8;
 	
 	@Override

@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.framework.bean.JSONResult;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.util.config.ConfUtil;
 import com.dlz.web.holder.ThreadHolder;
 
 public class AnnoAuthUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	protected static final MyLogger logger = MyLogger.getLogger(AnnoAuthUtil.class);
+	protected static final Logger logger = org.slf4j.LoggerFactory.getLogger(AnnoAuthUtil.class);
 	/**
 	 * @param needRole
 	 * @return 0 不需要登录权限 -1 未登录 -2 设置权限未通过 1 需要登录且已登录 2 权限通过

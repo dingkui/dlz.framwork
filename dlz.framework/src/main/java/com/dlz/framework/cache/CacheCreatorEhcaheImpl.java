@@ -2,9 +2,11 @@ package com.dlz.framework.cache;
 
 import java.io.Serializable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.dlz.framework.cache.AbstractCache.ICacheDeal;
 import com.dlz.framework.exception.CodeException;
-import com.dlz.framework.logger.MyLogger;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -15,7 +17,7 @@ import net.sf.ehcache.Element;
  * @author dk
  */
 public class CacheCreatorEhcaheImpl implements ICacheCreator {
-	private static MyLogger logger = MyLogger.getLogger(CacheCreatorEhcaheImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(CacheCreatorEhcaheImpl.class);
 
 	@Override
 	public ICacheDeal createCaheDeal(String cacheName) {

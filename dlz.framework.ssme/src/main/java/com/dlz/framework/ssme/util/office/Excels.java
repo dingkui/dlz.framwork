@@ -21,14 +21,14 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 import com.dlz.framework.ssme.util.system.Exceptions;
 import com.dlz.framework.util.StringUtils;
 import com.dlz.framework.util.system.Reflections;
 
 public class Excels {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(Excels.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(Excels.class);
 	public static byte[] exportExcel(String title, Map<String, String> fieldMap, Collection<?> data, String pattem) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {

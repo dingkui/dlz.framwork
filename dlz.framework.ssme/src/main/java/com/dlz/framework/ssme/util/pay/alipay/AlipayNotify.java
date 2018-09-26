@@ -6,11 +6,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
+
 import com.dlz.framework.ssme.util.config.ConfigUtil;
 import com.dlz.framework.ssme.util.pay.alipay.config.AlipayConfig;
 import com.dlz.framework.ssme.util.pay.alipay.sign.MD5;
-import com.dlz.web.util.HttpUtil.HttpGetUtil;
+import com.dlz.web.util.HttpUtil;
 
 /* *
  *类名：AlipayNotify
@@ -27,7 +28,7 @@ import com.dlz.web.util.HttpUtil.HttpGetUtil;
  */
 public class AlipayNotify {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(AlipayNotify.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(AlipayNotify.class);
     /**
      * 支付宝消息验证地址
      */
@@ -104,7 +105,7 @@ public class AlipayNotify {
         String veryfy_url = HTTPS_VERIFY_URL + "partner=" + partner + "&notify_id=" + notify_id;
         //modify by wangsl  https访问报错  用系统工具类访问
         //return checkUrl(veryfy_url);
-        String s = HttpGetUtil.get(veryfy_url);
+        String s = HttpUtil.HttpUtilEnum.GET.send(veryfy_url);
         return s;
     }
 

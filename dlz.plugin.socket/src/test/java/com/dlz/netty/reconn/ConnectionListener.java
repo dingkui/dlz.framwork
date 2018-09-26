@@ -2,7 +2,7 @@ package com.dlz.netty.reconn;
 
 import java.util.concurrent.TimeUnit;
 
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -10,7 +10,7 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.EventLoop;
 
 public class ConnectionListener implements ChannelFutureListener {  
-	private static MyLogger logger = MyLogger.getLogger(ConnectionListener.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(ConnectionListener.class);
   private Client client;  
   public ConnectionListener(Client client) {  
     this.client = client;  

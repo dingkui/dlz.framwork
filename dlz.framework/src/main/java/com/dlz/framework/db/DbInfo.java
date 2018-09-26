@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.service.IColumnMapperService;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 /**
  * 数据库配置信息
@@ -36,7 +36,7 @@ import com.dlz.framework.logger.MyLogger;
 @Component
 public class DbInfo {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static MyLogger logger = MyLogger.getLogger(DbInfo.class);
+	private static Logger logger = org.slf4j.LoggerFactory.getLogger(DbInfo.class);
 	private static ResourceBundle dbConfig;
 	private final static String NAME_DB_CONFIG = "sqllist";
 	private final static String STR_SQL_JAR = "sqllist.sql.jar.";
@@ -92,25 +92,25 @@ public class DbInfo {
 				try {
 					SqlUtil.setMapper((IColumnMapperService)Class.forName(str).newInstance());
 				} catch (Exception e) {
-					throw new DbException("字段转换类型设置无效："+name+"="+str+"\n"+e.getMessage(), e);
+					throw new DbException("字段转换类型设置无效："+name+"="+str+"\n"+e.getMessage(),1002, e);
 				}
 				continue;
 			}
 			if("1".equals(str)){
 				if (name.startsWith(STR_SQL_FILE)) {
-					String path="/sql/"+name.substring(STR_SQL_FILE.length()-1).replaceAll("\\.", "/")+".sql";
-					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("").getPath()+path));
+					String path=name.substring(STR_SQL_FILE.length()-1).replaceAll("\\.", "/")+".sql";
+					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("sql/").getPath()+path));
 				}else if (name.startsWith(STR_SQL_JAR)) {
 					loadRsources(name.substring(STR_SQL_JAR.length()).replaceAll("\\.", "/"));
 				}else if (name.startsWith(STR_SQL_FOLDER)) {
-					String path="/sql/"+name.substring(STR_SQL_FOLDER.length()-1).replaceAll("\\.", "/");
-					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("").getPath()+path)); 
+					String path=name.substring(STR_SQL_FOLDER.length()-1).replaceAll("\\.", "/");
+					readSqlPath(new File(DbInfo.class.getClassLoader().getResource("sql/").getPath()+path)); 
 				}
 			}
 			m_dbset.put(name, str);
 		}
-		logger.debug("dbsettinhs:" + m_dbset);
-		logger.debug("sqlList:" + m_sqlList);
+		logger.info("dbsettinhs:" + m_dbset);
+		logger.info("sqlList:" + m_sqlList);
 		initIng = false;
 	}
 	
@@ -123,6 +123,7 @@ public class DbInfo {
 				}
 			}else{
 				if(file.getAbsolutePath().endsWith(".sql")){
+					logger.info(file.getPath());
 					readSqlXml(new FileInputStream(file));
 				}
 			}
@@ -181,7 +182,7 @@ public class DbInfo {
 				sqlStr = sqlStr.replaceAll("--.*", "");
 				sqlStr = sqlStr.replaceAll("[\\s]+", " ");
 				m_sqlList.put(sql.attributeValue("sqlId"), sqlStr);
-				logger.info(sql.attributeValue("sqlId") + ":" + sqlStr);
+				logger.debug(sql.attributeValue("sqlId") + ":" + sqlStr);
 			}
 		} catch (DocumentException e) {
 			logger.error(" 文件读取异常！", e);
@@ -210,14 +211,14 @@ public class DbInfo {
 		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 		Resource[] rs=resourcePatternResolver.getResources("classpath*:sql/"+path+".sql");
 		for(Resource r:rs){
-			logger.info(r.getURI());
+			logger.info(r.getURI().toString());
 			readSqlXml(r.getInputStream());
 		}
 	}
 
 	public static String getSql(String key){
 		if (key == null) {
-			throw new DbException("输入的sql为空！");
+			throw new DbException("输入的sql为空！",1002);
 		}
 		String sql = key;
 		if (key.startsWith("key.")) {
@@ -227,14 +228,14 @@ public class DbInfo {
 			}
 		}
 		if (sql == null) {
-			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key);
+			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key,1002);
 		}
 		return sql;
 	}
 	
 	public static void appendInfoToSql(String key,String appendInfo){
 		if (key == null) {
-			throw new DbException("输入的sql为空！");
+			throw new DbException("输入的sql为空！",1002);
 		}
 		String sql = key;
 		if (key.startsWith("key.")) {
@@ -244,7 +245,7 @@ public class DbInfo {
 			}
 		}
 		if (sql == null) {
-			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key);
+			throw new DbException("输入的sqlKey找不到相应的sql语句！key=" + key,1002);
 		}
 		if(sql.indexOf(appendInfo)==-1){
 			m_sqlList.put(key+dialect.getEnd(), sql+" "+appendInfo);

@@ -10,7 +10,7 @@ import com.dlz.framework.db.conver.impl.DateNameConverter;
 import com.dlz.framework.db.conver.impl.DictConverter;
 import com.dlz.framework.db.enums.DateFormatEnum;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.logger.MyLogger;
+import org.slf4j.Logger;
 
 
 /**
@@ -21,7 +21,7 @@ import com.dlz.framework.logger.MyLogger;
 @SuppressWarnings("rawtypes")
 public class Convert {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	public static MyLogger logger = MyLogger.getLogger(Convert.class);
+	public static Logger logger = org.slf4j.LoggerFactory.getLogger(Convert.class);
 	Map<String,AClassConverter> classMap = new HashMap<String,AClassConverter>();
 	Map<String,ANameConverter> nameMap = new HashMap<String,ANameConverter>();
 	Map<String,AGroupConverter> groupMap = new HashMap<String,AGroupConverter>();
