@@ -1,6 +1,5 @@
 package com.dlz.plugin.weixin.pojo;
 
-import com.dlz.framework.util.DateUtil;
 import com.dlz.framework.util.DateUtilSecond;
 
 /**

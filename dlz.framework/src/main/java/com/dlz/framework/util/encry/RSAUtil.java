@@ -6,19 +6,56 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+import java.security.Provider;
 import java.security.PublicKey;
+import java.security.Security;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.crypto.Cipher;
 
 public class RSAUtil {
-	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
+	void doNothing() {new java.util.ArrayList<>().forEach(a -> {});}
+	private static String KEY_ALGORITHM_RSA="RSA";
+	/**
+	 * 从流中读取密钥到字符串
+	 * @param inputStream
+	 * @return
+	 */
+	private static String getKeyFromStream(InputStream inputStream){
+		StringBuilder sb = new StringBuilder();
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+			String readLine = null;
+			while ((readLine = br.readLine()) != null) {
+				if (readLine.charAt(0) == '-') {
+					continue;
+				} else {
+					sb.append(readLine);
+					sb.append('\r');
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("READ KEY ERROR:", e);
+		} finally {
+			try {
+				if (inputStream != null) {
+					inputStream.close();
+				}
+			} catch (IOException e) {
+				inputStream = null;
+				throw new RuntimeException("INPUT STREAM CLOSE ERROR:", e);
+			}
+		}
+		return sb.toString();
+	}
 
-	public static byte[] decrypt(byte[] encryptedBytes, PrivateKey privateKey, int keyLength, int reserveSize, String cipherAlgorithm) throws Exception {
+	public static byte[] decrypt(byte[] encryptedBytes, PrivateKey privateKey, int keyLength, int reserveSize,
+			String cipherAlgorithm) throws Exception {
 		int keyByteSize = keyLength / 8;
 		int decryptBlockSize = keyByteSize - reserveSize;
 		int nBlock = encryptedBytes.length / keyByteSize;
@@ -52,7 +89,8 @@ public class RSAUtil {
 		}
 	}
 
-	public static byte[] encrypt(byte[] plainBytes, PublicKey publicKey, int keyLength, int reserveSize, String cipherAlgorithm) throws Exception {
+	public static byte[] encrypt(byte[] plainBytes, PublicKey publicKey, int keyLength, int reserveSize,
+			String cipherAlgorithm) throws Exception {
 		int keyByteSize = keyLength / 8;
 		int encryptBlockSize = keyByteSize - reserveSize;
 		int nBlock = plainBytes.length / encryptBlockSize;
@@ -88,68 +126,18 @@ public class RSAUtil {
 			}
 		}
 	}
-
-	public static PrivateKey getPriKey(String privateKeyPath, String keyAlgorithm) {
-		PrivateKey privateKey = null;
-		InputStream inputStream = null;
+	
+	/**
+	 * 取得公钥
+	 * 
+	 * @param publicKeyStr 私钥字符串
+	 * @param keyAlgorithm  请求密钥算法的名称 如：RSA
+	 * @return
+	 * @throws Exception
+	 */
+	public static PublicKey getPublicKey(String publicKeyStr, String keyAlgorithm) throws Exception {
 		try {
-			if (inputStream == null) {
-				System.out.println("hahhah1!");
-			}
-
-			inputStream = new FileInputStream(privateKeyPath);
-			System.out.println("hahhah2!");
-			privateKey = getPrivateKey(inputStream, keyAlgorithm);
-			System.out.println("hahhah3!");
-		} catch (Exception e) {
-			System.out.println("加载私钥出错!");
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (Exception e) {
-					System.out.println("加载私钥,关闭流时出错!");
-				}
-			}
-		}
-		return privateKey;
-	}
-
-	public static PublicKey getPubKey(String publicKeyPath, String keyAlgorithm) {
-		PublicKey publicKey = null;
-		InputStream inputStream = null;
-		try {
-			inputStream = new FileInputStream(publicKeyPath);
-			publicKey = getPublicKey(inputStream, keyAlgorithm);
-		} catch (Exception e) {
-			e.printStackTrace();// EAD PUBLIC KEY ERROR
-			System.out.println("加载公钥出错!");
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (Exception e) {
-					System.out.println("加载公钥,关闭流时出错!");
-				}
-			}
-		}
-		return publicKey;
-	}
-
-	public static PublicKey getPublicKey(InputStream inputStream, String keyAlgorithm) throws Exception {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder sb = new StringBuilder();
-			String readLine = null;
-			while ((readLine = br.readLine()) != null) {
-				if (readLine.charAt(0) == '-') {
-					continue;
-				} else {
-					sb.append(readLine);
-					sb.append('\r');
-				}
-			}
-			X509EncodedKeySpec pubX509 = new X509EncodedKeySpec(decodeBase64(sb.toString()));
+			X509EncodedKeySpec pubX509 = new X509EncodedKeySpec(Base64.decode(publicKeyStr));
 			KeyFactory keyFactory = KeyFactory.getInstance(keyAlgorithm);
 			// 下行出错 java.security.spec.InvalidKeySpecException:
 			// java.security.InvalidKeyException: IOException:
@@ -157,69 +145,80 @@ public class RSAUtil {
 			PublicKey publicKey = keyFactory.generatePublic(pubX509);
 			return publicKey;
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Exception("READ PUBLIC KEY ERROR:", e);
-		} finally {
-			try {
-				if (inputStream != null) {
-					inputStream.close();
-				}
-			} catch (IOException e) {
-				inputStream = null;
-				throw new Exception("INPUT STREAM CLOSE ERROR:", e);
-			}
+			throw new Exception("get PrivateKey ERROR:", e);
 		}
 	}
-
-	public static PrivateKey getPrivateKey(InputStream inputStream, String keyAlgorithm) throws Exception {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder sb = new StringBuilder();
-			String readLine = null;
-			while ((readLine = br.readLine()) != null) {
-				if (readLine.charAt(0) == '-') {
-					continue;
-				} else {
-					sb.append(readLine);
-					sb.append('\r');
-				}
-			}
-			PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(decodeBase64(sb.toString()));
-			KeyFactory keyFactory = KeyFactory.getInstance(keyAlgorithm);
-			PrivateKey privateKey = keyFactory.generatePrivate(priPKCS8);
-			return privateKey;
-		} catch (Exception e) {
-			throw new Exception("READ PRIVATE KEY ERROR:", e);
-		} finally {
-			try {
-				if (inputStream != null) {
-					inputStream.close();
-				}
-			} catch (IOException e) {
-				inputStream = null;
-				throw new Exception("INPUT STREAM CLOSE ERROR:", e);
-			}
-		}
+	public static PublicKey getPublicKeyByFile(String publicKeyPath, String keyAlgorithm) throws Exception {
+		return getPublicKey(getKeyFromStream(new FileInputStream(publicKeyPath)), keyAlgorithm);
 	}
-
-	// 一下面是base64的编码和解码
-	public static String encodeBase64(byte[] input) throws Exception {
-		Class<?> clazz = Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
-		Method mainMethod = clazz.getMethod("encode", byte[].class);
-		mainMethod.setAccessible(true);
-		Object retObj = mainMethod.invoke(null, new Object[] { input });
-		return (String) retObj;
+	public static PublicKey getPublicKeyByFile(String publicKeyPath) throws Exception {
+		return getPublicKey(getKeyFromStream(new FileInputStream(publicKeyPath)));
 	}
-
-	/***
-	 * decode by Base64
+	public static PublicKey getPublicKey(InputStream inputStream, String keyAlgorithm) throws Exception {
+		return getPublicKey(getKeyFromStream(inputStream), keyAlgorithm);
+	}
+	public static PublicKey getPublicKey(InputStream inputStream) throws Exception {
+		return getPublicKey(getKeyFromStream(inputStream));
+	}
+	public static PublicKey getPublicKey(String publicKeyStr) throws Exception {
+		return getPublicKey(publicKeyStr, KEY_ALGORITHM_RSA);
+	}
+	
+	
+	/**
+	 * 取得私钥
+	 * 
+	 * @param privateKeyStr 私钥字符串
+	 * @param keyAlgorithm  请求密钥算法的名称 如：RSA
+	 * @return
+	 * @throws Exception
 	 */
-	public static byte[] decodeBase64(String input) throws Exception {
-		Class<?> clazz = Class.forName("com.sun.org.apache.xerces.internal.impl.dv.util.Base64");
-		Method mainMethod = clazz.getMethod("decode", String.class);
-		mainMethod.setAccessible(true);
-		Object retObj = mainMethod.invoke(null, input);
-		return (byte[]) retObj;
+	public static PrivateKey getPrivateKey(String privateKeyStr, String keyAlgorithm) throws Exception {
+		try {
+			PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(privateKeyStr));
+			KeyFactory keyFactory = KeyFactory.getInstance(keyAlgorithm);
+			return keyFactory.generatePrivate(priPKCS8);
+		} catch (Exception e) {
+			throw new Exception("get PrivateKey ERROR:", e);
+		}
+	}
+	public static PrivateKey getPrivateKeyByFile(String privateKeyPath, String keyAlgorithm) throws Exception {
+		return getPrivateKey(getKeyFromStream(new FileInputStream(privateKeyPath)), keyAlgorithm);
+	}
+	public static PrivateKey getPrivateKeyByFile(String privateKeyPath) throws Exception {
+		return getPrivateKey(getKeyFromStream(new FileInputStream(privateKeyPath)));
+	}
+	public static PrivateKey getPrivateKey(InputStream inputStream, String keyAlgorithm) throws Exception {
+		return getPrivateKey(getKeyFromStream(inputStream), keyAlgorithm);
+	}
+	public static PrivateKey getPrivateKey(InputStream inputStream) throws Exception {
+		return getPrivateKey(getKeyFromStream(inputStream));
+	}
+	public static PrivateKey getPrivateKey(String privateKeyStr) throws Exception {
+		return getPrivateKey(privateKeyStr, KEY_ALGORITHM_RSA);
 	}
 
+
+	//输出系统所有支持的加密相关算法
+	public static void main(String[] args) {
+		Provider[] arr = Security.getProviders();
+		for (int i = 0; i < arr.length; i++) {
+			Set keys = arr[i].keySet();
+			for (Iterator it = keys.iterator(); it.hasNext();) {
+				String keyss = (String) it.next();
+				//每个keys的属性项可能由一个字符串组成，或是有一个空格分隔的字符串组成，带空格的字符串有两种情况（命名：空格前为属性项，空格后为属性名）
+				//1、相同属性项下的不同属性名（如：“Provider.id name” 和 “Provider.id version”）
+				//2、不同属性项下的相同属性名（如：“TransformService.http://www.w3.org/2001/10/xml-exc-c14n# MechanismType” 和 “TransformService.http://www.w3.org/TR/1999/REC-xpath-19991116 MechanismType”）
+				String key = keyss.split(" ")[0];
+				
+				if (keyss.startsWith("MessageDigest.")) {
+					System.out.println(keyss+"\t\t" + keyss.substring("MessageDigest.".length()));
+				}
+				if (keyss.startsWith("Alg.Alias.MessageDigest.")) {
+					System.out.println(keyss+"\t\t" + keyss.substring("Alg.Alias.MessageDigest.".length()));
+				}
+				//System.out.println(keyss+"\t\t" + key + "\t" + arr[i].get(key)+"\t" + arr[i].get(keyss));
+			}
+		}
+	}
 }
