@@ -163,7 +163,7 @@ public class HttpUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	private static Object doHttp(HttpRequestBase request,
+	public static Object doHttp(HttpRequestBase request,
 			String url, 
 			Map<String, Object> para, 
 			HttpEntity entity, 
