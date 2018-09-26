@@ -1,36 +1,21 @@
 package com.dlz.framework.logger;
 
-import java.net.URL;
-
+/**
+ * 方法马上删除，修改成Slf4j
+ * @author dingkui
+ *
+ */
+@Deprecated
 public abstract class MyLogger {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
 	protected static final String FQCN = MyLogger.class.getName();
-	private static int logType = -1;
 
 	static public MyLogger getLogger(Class<?> clazz) {
 		return getLogger(clazz.getName());
 	}
 
 	static public MyLogger getLogger(String name) {
-		if (logType == -1) {
-			URL resource = MyLogger.class.getClassLoader().getResource("logback.xml");
-			if (resource != null) {
-				logType = 1;
-			} else {
-				URL resource2 = MyLogger.class.getClassLoader().getResource("log4j.properties");
-				if (resource2 != null) {
-					logType = 2;
-				}else{
-					logType = 0;
-				}
-			}
-		}
-		switch (logType) {
-		case 1:
-			return new MyLoggerLogback(name);
-		case 2:
-			return new MyLoggerLog4j(name);
-		}
+		System.out.println("MyLogger 已经不支持，请使用Slf4j");
 		return new MyLoggerSlf4j(name);
 	}
 	public void debug(Object message) {
