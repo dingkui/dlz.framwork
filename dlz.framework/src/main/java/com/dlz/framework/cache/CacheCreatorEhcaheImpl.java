@@ -14,8 +14,8 @@ import net.sf.ehcache.Element;
  * 
  * @author dk
  */
-public class CacheDealEhcaheImpl implements ICacheCreator {
-	private static MyLogger logger = MyLogger.getLogger(CacheDealEhcaheImpl.class);
+public class CacheCreatorEhcaheImpl implements ICacheCreator {
+	private static MyLogger logger = MyLogger.getLogger(CacheCreatorEhcaheImpl.class);
 
 	@Override
 	public ICacheDeal createCaheDeal(String cacheName) {
