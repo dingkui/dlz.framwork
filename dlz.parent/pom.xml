@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.dlz</groupId>
 	<artifactId>dlz.parent</artifactId>
-	<version>${dlz.framework.version}</version>
+	<version>2.2</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
