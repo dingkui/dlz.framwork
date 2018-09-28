@@ -16,8 +16,6 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 
-import com.dlz.framework.bean.IUniversalVals;
-import com.dlz.framework.bean.JSONList;
 import com.dlz.framework.bean.JSONMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
@@ -65,7 +63,6 @@ public class ConfUtil{
 		CONFIG_FILE=config;
 		loadProperty();
 	}
-	
 	/**
 	 * 从配置文件中读取所有的属性
 	 */
@@ -79,9 +76,17 @@ public class ConfUtil{
 					continue;
 				}
 				boolean isProperties=config.endsWith(".properties");
-				InputStream file = new FileInputStream(resource.getFile());
 				final Properties properties = new Properties();
-				properties.load(file);
+				String filePath = resource.getFile();
+				if(filePath.indexOf(".jar!")>-1) {
+					InputStream stream = resource.openStream();
+					properties.load(stream);
+					stream.close();
+				}else {
+					InputStream file = new FileInputStream(filePath);
+					properties.load(file);
+					file.close();
+				}
 				final Set<Entry<Object, Object>> entrySet = properties.entrySet();
 				for(Entry<Object, Object> e:entrySet){
 					props.put((String)e.getKey(),isProperties?e.getValue():new String(e.getValue().toString().getBytes("ISO-8859-1"),"UTF-8"));
