@@ -2,9 +2,9 @@ package com.dlz.framework.db.modal;
 
 import java.util.Map;
 
+import com.dlz.framework.db.DbCoverUtil;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.exception.DbException;
-import org.slf4j.Logger;
 
 /**
  * 构造单表的增删改查操作sql
@@ -13,18 +13,38 @@ import org.slf4j.Logger;
  */
 public class CreateSqlParaMap extends BaseParaMap{
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CreateSqlParaMap.class);
 	private static final long serialVersionUID = 8374167270612933157L;
 	protected static final String STR_TABLENAME="tableName";
 	protected static final String STR_WHERE="where";
 	protected static final String STR_COLUMS="colums";
+	private String tableName;
 	@SuppressWarnings("rawtypes")
 	protected CreateSqlParaMap(String Sql,String tableName,Page page){
 		super(Sql,page);
+		this.tableName=tableName;
 		addPara(STR_TABLENAME, tableName);
 	}
 	public void setWhere(String where){
 		addPara(STR_WHERE, where);
+	}
+	/**
+	 * 添加参数
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public CreateSqlParaMap addClunmnValue(String key,Object value){
+		return addClunmnValue(key, key, value);
+	}
+	/**
+	 * 添加参数
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public CreateSqlParaMap addClunmnValue(String key,String clumnName,Object value){
+		addPara(key, DbCoverUtil.getVal4Db(tableName,clumnName, value));
+		return this;
 	}
 	public void addCondition(String paraName,String option,Object value){
 		if(value==null||"".equals(value)){
@@ -38,8 +58,9 @@ public class CreateSqlParaMap extends BaseParaMap{
 		if(sbWhere.toString().endsWith("2=3")){
 			sbWhere.replace(7, 10, "1=1");
 		}
+		String clumnName = SqlUtil.converStr2ClumnStr(paraName);
 		sbWhere.append(" and ");
-		sbWhere.append(SqlUtil.converStr2ClumnStr(paraName));
+		sbWhere.append(clumnName);
 		sbWhere.append(' ');
 		sbWhere.append(option.equals("eq")?"=":option);
 		sbWhere.append(' ');
@@ -47,21 +68,21 @@ public class CreateSqlParaMap extends BaseParaMap{
 			if(value instanceof Object[]){
 				Object[] os=(Object[])value;
 				sbWhere.append("'"+os[0]+"'||");
-				sbWhere.append("#{").append(paraName).append("}");
+				sbWhere.append("#{").append(clumnName).append("}");
 				sbWhere.append("||'"+os[2]+"'");
-				addPara(paraName, os[1]);
+				addClunmnValue(clumnName, os[1]);
 			}else{
 				sbWhere.append("'%'||");
-				sbWhere.append("#{").append(paraName).append("}");
+				sbWhere.append("#{").append(clumnName).append("}");
 				sbWhere.append("||'%'");
-				addPara(paraName, value);
+				addClunmnValue(clumnName, value);
 			}
 		}else if(option.matches("(?i)between")){
-			sbWhere.append("#{").append(paraName).append("1} and ");
-			sbWhere.append("#{").append(paraName).append("2}");
+			sbWhere.append("#{").append(clumnName).append("1} and ");
+			sbWhere.append("#{").append(clumnName).append("2}");
 			Object[] os=(Object[])value;
-			addPara(paraName+"1", os[0]);
-			addPara(paraName+"2", os[1]);
+			addClunmnValue(clumnName+"1",clumnName, os[0]);
+			addClunmnValue(clumnName+"2",clumnName, os[1]);
 		}else if(option.matches("(?i)in")){
 			sbWhere.append("(");
 			sbWhere.append(SqlUtil.getSqlInStr(value));

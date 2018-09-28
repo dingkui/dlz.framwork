@@ -18,7 +18,7 @@ public class InsertParaMap extends CreateSqlParaMap{
 	public InsertParaMap(String tableName){
 		super(SQL,tableName,null);
 	}
-	public void addValue(String str,Object value){
+	public void addValue(String key,Object value){
 		StringBuilder sbColums = (StringBuilder)this.getPara().get(STR_COLUMS);
 		StringBuilder sbValues = (StringBuilder)this.getPara().get(STR_VALUES);
 		if(sbColums==null){
@@ -31,20 +31,22 @@ public class InsertParaMap extends CreateSqlParaMap{
 			sbColums.append(',');
 			sbValues.append(',');
 		}
-		sbColums.append(SqlUtil.converStr2ClumnStr(str));
+		String clumnName = SqlUtil.converStr2ClumnStr(key);
+		sbColums.append(clumnName);
+		clumnName = clumnName.replaceAll("`", "");
 		if(value instanceof String){
 			String v = ((String) value);
 			if(v.startsWith("sql:")){
 				sbValues.append(SqlUtil.converStr2ClumnStr(v.substring(4)));
 			}else{
-				sbValues.append("#{").append(str.replaceAll("`", "")).append("}");
-				addPara(str.replaceAll("`", ""), value);
+				sbValues.append("#{").append(clumnName).append("}");
+				addClunmnValue(clumnName, value);
 			}
 		}else{
-			sbValues.append("#{").append(str.replaceAll("`", "")).append("}");
+			sbValues.append("#{").append(clumnName).append("}");
 			if(value==null)
 				value="";
-			addPara(str.replaceAll("`", ""), value);
+			addClunmnValue(clumnName, value);
 		}
 	}
 	

@@ -15,6 +15,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.service.IColumnMapperService;
-import org.slf4j.Logger;
+import com.dlz.framework.db.service.IParaCover;
 
 /**
  * 数据库配置信息
@@ -44,6 +45,7 @@ public class DbInfo {
 	private final static String STR_SQL_FOLDER = "sqllist.sql.folder.";
 	private final static String STR_DBTYPE = "dbtype";
 	private final static String STR_COLUMNMAPPER = "columnmapper";
+	private final static String STR_PARACOVER = "paracover";
 	private static Map<String, String> m_dbset = new HashMap<String, String>();
 	private static Map<String, String> m_sqlList = new HashMap<String, String>();
 	private static SqlDialect dialect = SqlDialect.ORACLE;
@@ -93,6 +95,14 @@ public class DbInfo {
 					SqlUtil.setMapper((IColumnMapperService)Class.forName(str).newInstance());
 				} catch (Exception e) {
 					throw new DbException("字段转换类型设置无效："+name+"="+str+"\n"+e.getMessage(),1002, e);
+				}
+				continue;
+			}
+			if(STR_PARACOVER.equals(name)){
+				try {
+					DbCoverUtil.paraCover=(IParaCover)Class.forName(str).newInstance();
+				} catch (Exception e) {
+					throw new DbException("数据库转换类型设置无效："+name+"="+str+"\n"+e.getMessage(),1002, e);
 				}
 				continue;
 			}
@@ -267,6 +277,7 @@ public class DbInfo {
 
 	public static void reload() {
 		dbConfig = null;
+		DbCoverUtil.paraCover.clear();
 		m_sqlList.clear();
 		try {
 			init();

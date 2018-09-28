@@ -29,21 +29,24 @@ public class UpdateParaMap extends CreateSqlParaMap{
 			sbSets=new StringBuilder();
 			addPara(STR_SETS, sbSets);
 		}
-		addPara(paraName.replaceAll("`", ""), value);
 		if(sbSets.length()>0){
 			sbSets.append(",");
 		}
-		sbSets.append(SqlUtil.converStr2ClumnStr(paraName));
+		paraName = SqlUtil.converStr2ClumnStr(paraName);
+		sbSets.append(paraName);
+		paraName = paraName.replaceAll("`", "");
 		sbSets.append('=');
 		if(value instanceof String){
 			String v = ((String) value);
 			if(v.startsWith("sql:")){
 				sbSets.append(SqlUtil.converStr2ClumnStr(v.substring(4)));
 			}else{
-				sbSets.append("#{").append(paraName.replaceAll("`", "")).append("}");
+				sbSets.append("#{").append(paraName).append("}");
+				addClunmnValue(paraName, value);
 			}
 		}else{
-			sbSets.append("#{").append(paraName.replaceAll("`", "")).append("}");
+			sbSets.append("#{").append(paraName).append("}");
+			addClunmnValue(paraName, value);
 		}
 	}
 	/**

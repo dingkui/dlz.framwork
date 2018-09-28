@@ -3,6 +3,7 @@ package com.dlz.framework.db;
 import com.dlz.framework.db.conver.Convert;
 import com.dlz.framework.db.exception.DbException;
 import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.service.IParaCover;
 import com.dlz.framework.util.JacksonUtil;
 
 /**
@@ -13,6 +14,23 @@ import com.dlz.framework.util.JacksonUtil;
  */
 public class DbCoverUtil {
 	void doNothing(){new java.util.ArrayList<>().forEach(a->{});}
+	
+	static IParaCover paraCover=new IParaCover() {
+		@Override
+		public Object converObj4Db(String tableName,String clumnName,Object value) {
+			return value;
+		}
+	};
+	/**
+	 * 把传入的参数转换成数据库识别的参数
+	 * 主要用于postgresql类似的强制类型
+	 * @param m
+	 * @author dk 2018-09-28
+	 * @return
+	 */
+	public static Object getVal4Db(String tableName,String clumnName,Object value) {
+		return paraCover.converObj4Db(tableName, clumnName, value);
+	}
 	/**
 	 * 从Map里取得字符串
 	 * @param m
