@@ -6,3 +6,4 @@ logs
 caches
 *.iml
 .idea
+pom.xml.versionsBackup

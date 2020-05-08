@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dlz</groupId>
     <artifactId>dlz-dependencies</artifactId>
-    <version>1.0.0</version>
+    <version>3.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>dlz.comm</module>
@@ -14,6 +14,13 @@
         <module>dlz.webs</module>
         <module>dlz.plugin</module>
     </modules>
+    <distributionManagement>
+        <repository>
+            <!--此名称要和.m2/settings.xml中设置的ID一致 -->
+            <id>dlz-releases</id>
+            <url>http://maven.d.shunliannet.com/repository/dlz/</url>
+        </repository>
+    </distributionManagement>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>

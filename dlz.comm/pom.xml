@@ -5,7 +5,12 @@
     <version>1.0.0</version>
     <artifactId>dlz.comm</artifactId>
     <packaging>jar</packaging>
-
+    <distributionManagement>
+	    <repository>
+	        <id>dlz-releases</id>
+	        <url>http://maven.d.shunliannet.com/repository/dlz/</url>
+	    </repository>
+    </distributionManagement>
     <dependencies>
 <!--        <dependency>-->
 <!--            <groupId>org.slf4j</groupId>-->
