@@ -151,7 +151,7 @@ public class ApiUtil {
 			Throwable te = e.getTargetException();
 			if (te instanceof LogicException) {
 				logger.warn(te.getMessage());
-				m.addErr(-90, ((LogicException) te).getErrorInfo());
+				m.addErr(-90, ((LogicException) te).getInfo());
 			} else {
 				logger.error("业务异常【" + apiLogic.getClass().getSimpleName() + "." + methodStr + "】");
 				logger.error("datas:" + datas.toString());
@@ -209,9 +209,9 @@ public class ApiUtil {
 			Throwable te = e.getTargetException();
 			if (te instanceof LogicException) {
 				LogicException logicException = (LogicException) te;
-				String errorCode = logicException.getErrorCode();
+				int errorCode = logicException.getCode();
 				logger.warn(err,e);
-				err=WebUtil.renderErr(Integer.parseInt(errorCode.substring(1)),service,methodName, logicException.getErrorInfo());
+				err=WebUtil.renderErr(errorCode,service,methodName, logicException.getInfo());
 			} else {
 				logger.error(err,e);
 				err=WebUtil.renderErr(HttpStatus.SC_INTERNAL_SERVER_ERROR,service,methodName, te.getMessage());
@@ -220,17 +220,19 @@ public class ApiUtil {
 			logger.error(err,e);
 			err=WebUtil.renderErr(HttpStatus.SC_INTERNAL_SERVER_ERROR,service,methodName, e.getMessage());
 		} finally {
-			if (member != null) {
-				if(err!=null){
-					logger.info(getInfo(doType, member.getId(), member.getLoginId(), paras, result));
-				}else{
-					logger.info(getInfo(doType, member.getId(), member.getLoginId(), paras, err));
-				}
-			} else {
-				if(err!=null){
-					logger.info(getInfo(doType, paras, result));
-				}else{
-					logger.info(getInfo(doType, paras, err));
+			if(logger.isInfoEnabled()){
+				if (member != null) {
+					if(err!=null){
+						logger.info(getInfo(doType, member.getId(), member.getLoginId(), paras, result));
+					}else{
+						logger.info(getInfo(doType, member.getId(), member.getLoginId(), paras, err));
+					}
+				} else {
+					if(err!=null){
+						logger.info(getInfo(doType, paras, result));
+					}else{
+						logger.info(getInfo(doType, paras, err));
+					}
 				}
 			}
 		}
