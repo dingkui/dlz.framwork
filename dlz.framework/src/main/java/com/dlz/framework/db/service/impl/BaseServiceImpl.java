@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.db.annotation.AnnoTable;
+import com.dlz.framework.db.anno.AnnoTable;
 import com.dlz.framework.db.modal.DeleteParaMap;
 import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
@@ -14,7 +14,7 @@ import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.IBaseService;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 
 /**
  * 服务基本接口 增删改查（数据类型为JSONMap）

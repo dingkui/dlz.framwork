@@ -1,12 +1,11 @@
 package com.dlz.framework.springframework.scaner;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
-
-import org.slf4j.Logger;
 
 /**
  * 扫描定义
@@ -17,7 +16,7 @@ import org.slf4j.Logger;
 public interface IScaner {
 	List<IScanerProcessor> scaners = new ArrayList<>();
 
-	public String getResoucePath();
+	String getResoucePath();
 
 	default void addScanerProcessors(IScanerProcessor scanerProcessor) {
 		scaners.add(scanerProcessor);
@@ -30,8 +29,8 @@ public interface IScaner {
 	/**
 	 * 扫描处理器
 	 */
-	public interface IScanerProcessor {
-		static Logger logger = org.slf4j.LoggerFactory.getLogger(IScanerProcessor.class);
+	interface IScanerProcessor {
+		Logger logger = org.slf4j.LoggerFactory.getLogger(IScanerProcessor.class);
 
 		default Class<?> getBeanClass(AnnotatedBeanDefinition beanDefinition, boolean init) {
 			try {
@@ -49,17 +48,15 @@ public interface IScaner {
 		 * 是否符合处理器条件
 		 * 
 		 * @param beanDefinition
-		 * @param beanClass
 		 * @return
 		 */
-		public boolean isCandidate(AnnotatedBeanDefinition beanDefinition);
+		boolean isCandidate(AnnotatedBeanDefinition beanDefinition);
 
 		/**
 		 * 处理相关的定义类
 		 * 
 		 * @param definition
-		 * @param beanClass
 		 */
-		public void proces(AnnotatedBeanDefinition definition);
+		void proces(AnnotatedBeanDefinition definition);
 	}
 }

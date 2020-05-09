@@ -42,8 +42,8 @@ import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.exception.HttpException;
-import com.dlz.framework.exception.LogicException;
+import com.dlz.comm.exception.HttpException;
+import com.dlz.comm.exception.LogicException;
 import org.slf4j.Logger;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;

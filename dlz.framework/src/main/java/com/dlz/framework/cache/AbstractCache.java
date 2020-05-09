@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 import com.dlz.framework.holder.SpringHolder;
 
 /**

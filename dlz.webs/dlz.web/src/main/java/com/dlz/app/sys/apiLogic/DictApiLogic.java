@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.dlz.app.sys.service.IDictService;
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 import com.dlz.framework.db.cache.DictCache;
 import com.dlz.framework.db.modal.Page;
 import org.slf4j.Logger;

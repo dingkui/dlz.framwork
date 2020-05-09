@@ -2,7 +2,7 @@ package com.dlz.framework.db.exception;
 
 import java.sql.SQLRecoverableException;
 
-import com.dlz.framework.exception.BaseException;
+import com.dlz.comm.exception.BaseException;
 
 /**
  * 数据库操作异常

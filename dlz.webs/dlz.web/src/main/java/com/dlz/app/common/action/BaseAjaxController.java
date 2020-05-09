@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 import com.dlz.web.inf.IApiAjax;
 import com.dlz.web.util.ApiUtil;
 

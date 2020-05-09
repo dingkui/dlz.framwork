@@ -2,7 +2,7 @@ package com.dlz.web.inf;
 
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 
 public interface IApiAjax {
 	/**

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.framework.db.DbInfo;
-import com.dlz.framework.exception.ValidateException;
+import com.dlz.comm.exception.ValidateException;
 import com.dlz.comm.util.config.ConfUtil;
 import com.dlz.web.logic.AuthedCommLogic;
 /**

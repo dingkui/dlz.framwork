@@ -1,7 +1,7 @@
 package com.dlz.plugin.redis.queue.consumer;
 
 import com.dlz.comm.util.JacksonUtil;
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 import com.dlz.plugin.redis.annotation.AnnoRedisQueueConsumer;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.Logger;

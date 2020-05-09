@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.dlz.framework.cache.ICacheCreator;
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 import com.dlz.comm.util.StringUtils;
 
 import redis.clients.jedis.Jedis;

@@ -12,8 +12,23 @@
 		<module>dlz.plugin.redis</module>
 		<module>dlz.plugin.websocket</module>
 		<module>dlz.plugin.socket</module>
+		<module>dlz.plugin.quartz</module>
+		<module>dlz.plugin.component</module>
+		<module>dlz.plugin.test</module>
 	</modules>
 	<dependencies>
+		<!--        <dependency>-->
+		<!--            <groupId>org.slf4j</groupId>-->
+		<!--            <artifactId>slf4j-api</artifactId>-->
+		<!--            <version>1.7.25</version>-->
+		<!--        </dependency>-->
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.dlz</groupId>
 			<artifactId>dlz.framework</artifactId>
@@ -21,10 +36,16 @@
 
 		<!-- logs -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<!--			<version>1.2.3</version>-->
 			<scope>test</scope>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.slf4j</groupId>-->
+<!--			<artifactId>slf4j-log4j12</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
 		<!-- logs -->
 	</dependencies>
 </project>

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.dlz.framework.cache.AbstractCache.ICacheDeal;
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;

@@ -11,7 +11,7 @@ import com.dlz.app.uim.service.IUimRoleService;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.framework.cache.AbstractCache;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 
 /**
  * 用户信息缓存

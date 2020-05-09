@@ -3,7 +3,7 @@ package com.dlz.framework.db.service.impl;
 import java.util.List;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.db.annotation.AnnoTable;
+import com.dlz.framework.db.anno.AnnoTable;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.SearchParaMap;

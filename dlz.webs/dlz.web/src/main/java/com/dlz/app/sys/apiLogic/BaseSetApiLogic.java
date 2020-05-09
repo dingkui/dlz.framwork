@@ -11,7 +11,7 @@ import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ParaMap;

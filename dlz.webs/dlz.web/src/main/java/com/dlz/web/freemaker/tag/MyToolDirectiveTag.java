@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.web.util.ApiUtil;

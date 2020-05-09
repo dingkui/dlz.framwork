@@ -9,9 +9,9 @@ public class Start {
 	@Before
 	public void setUp() throws Exception {
 		SpringHolder.init();
-		testService=SpringHolder.getBean("iTestApi");
-		test2Service=SpringHolder.getBean("iTest2Api");
-		test3Service=SpringHolder.getBean("iTestApi");
+		testService=(ITestApi)SpringHolder.getBean("iTestApi");
+		test2Service=(ITest2Api)SpringHolder.getBean("iTest2Api");
+		test3Service=(ITestApi)SpringHolder.getBean("iTestApi");
 	}
 	
 	ITest2Api test2Service;

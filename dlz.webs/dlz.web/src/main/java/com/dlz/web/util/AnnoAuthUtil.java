@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 import org.slf4j.Logger;
 import com.dlz.comm.util.config.ConfUtil;
 import com.dlz.web.holder.ThreadHolder;

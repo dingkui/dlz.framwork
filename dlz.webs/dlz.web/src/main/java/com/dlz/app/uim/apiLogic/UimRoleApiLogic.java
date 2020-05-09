@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.service.IUimRoleService;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.bean.JSONResult;
+import com.dlz.web.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.comm.util.DateUtil;
 import com.dlz.comm.util.StringUtils;

@@ -13,7 +13,7 @@ import java.util.Map;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.util.Assert;
 
-import com.dlz.framework.annotation.NotDbField;
+import com.dlz.framework.db.anno.NotDbField;
 import org.slf4j.Logger;
 import com.dlz.comm.util.StringUtils;
 

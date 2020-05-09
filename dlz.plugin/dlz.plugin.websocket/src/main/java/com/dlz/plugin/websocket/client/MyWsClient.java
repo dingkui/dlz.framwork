@@ -12,7 +12,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
-import com.dlz.framework.exception.CodeException;
+import com.dlz.comm.exception.CodeException;
 import org.slf4j.Logger;
 import com.dlz.plugin.websocket.handler.IWsHandler;
 
