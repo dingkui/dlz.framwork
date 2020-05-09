@@ -5,8 +5,7 @@
 	      	<level>debug</level>   
 	    </filter>
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} %blue(%replace(%p){'(\w).*$','$1'})[%t] %m %replace(%caller{1}){'Caller.*at ','|at '}</pattern>
-<!--			<pattern>%d{HH:mm:ss.SSS} %blue(%replace(%p){'(\w).*$','$1'})[%t] %m %replace(%caller{1}){'Caller.*at ',''}</pattern>-->
+			<pattern>%d{HH:mm:ss.SSS} %replace(%p){'(\w).*$','$1'}-%t:%m %replace(%caller{1}){'Caller.*at ',''}</pattern>
 		</encoder>
 	</appender>
 	<appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">

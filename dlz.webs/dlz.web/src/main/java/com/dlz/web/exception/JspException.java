@@ -2,6 +2,7 @@ package com.dlz.web.exception;
 
 import javax.servlet.ServletException;
 
+import com.dlz.comm.exception.BaseException;
 import org.springframework.beans.TypeMismatchException;
 
 
