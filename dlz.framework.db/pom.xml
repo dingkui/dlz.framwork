@@ -11,6 +11,7 @@
     <modules>
         <module>dlz.framework.db.jfinal</module>
         <module>dlz.framework.db.mybatis</module>
+        <module>dlz.framework.db.mybatis-plus</module>
         <module>dlz.framework.db.springjdbc</module>
         <module>dlz.framework.mongo</module>
     </modules>

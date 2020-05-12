@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -32,10 +33,8 @@ import com.dlz.comm.util.ValUtil;
 @SuppressWarnings("unchecked")
 @DependsOn("dbInfo")
 @Lazy
+@Slf4j
 public class CommServiceImpl implements ICommService {
-
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(CommServiceImpl.class);
-	
 	@Autowired
 	private IDaoOperator daoOperator;
 	
@@ -48,13 +47,13 @@ public class CommServiceImpl implements ICommService {
 	@Override
 	public int excuteSql(BaseParaMap paraMap) {
 		paraMap = SqlUtil.dealParm(paraMap);
-		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
-			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && log.isInfoEnabled()){
+			log.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
 		}
 		try {
 			int r=daoOperator.updateSql(paraMap);
-			if(logger.isInfoEnabled()){
-				logger.info("result:"+r);
+			if(log.isInfoEnabled()){
+				log.info("result:"+r);
 			}
 			return r;
 		} catch (Exception e) {
@@ -85,8 +84,8 @@ public class CommServiceImpl implements ICommService {
 		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createCntSql(paraMap);
-		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
-			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && log.isInfoEnabled()){
+			log.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
 		}
 		try {
 			int cnt = daoOperator.getCnt(paraMap);
@@ -104,7 +103,7 @@ public class CommServiceImpl implements ICommService {
 	
 	/**
 	* 从数据库中取得map类型列表如：[{AD_ENDDATE=2015-04-08 13:47:12.0}]
-	* @param sql sql语句，可以带参数如：select AD_ENDDATE from JOB_AD t where ad_id=#{ad_id}
+	* sql语句，可以带参数如：select AD_ENDDATE from JOB_AD t where ad_id=#{ad_id}
 	* @param paraMap ：Map<String,Object> m=new HashMap<String,Object>();m.put("ad_id", "47");
 	* @return
 	* @throws Exception
@@ -121,8 +120,8 @@ public class CommServiceImpl implements ICommService {
 		
 		paraMap = SqlUtil.dealParm(paraMap);
 		SqlUtil.createPageSql(paraMap);
-		if(paraMap.getSqlInput()!=null && logger.isInfoEnabled()){
-			logger.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
+		if(paraMap.getSqlInput()!=null && log.isInfoEnabled()){
+			log.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
 		}
 		try {
 			List<ResultMap> list = daoOperator.getList(paraMap);
@@ -149,10 +148,10 @@ public class CommServiceImpl implements ICommService {
 	 * @return
 	 * @throws Exception
 	 */
-	private <T> T getOne(List<T> list){
+	private <T> T getOne(List<T> list, boolean throwEx){
 		if(list.size()==0){
 			return null;
-		}else if(list.size()>1){
+		}else if(list.size()>1 && throwEx){
 			throw new DbException("查询结果为多条",1004);
 		}else{
 			return list.get(0);
@@ -160,9 +159,9 @@ public class CommServiceImpl implements ICommService {
 	}
 	
 	@Override
-	public <T> T getBean(BaseParaMap paraMap,Class<T> t){
+	public <T> T getBean(BaseParaMap paraMap,Class<T> t, boolean throwEx){
 		try {
-			return JacksonUtil.coverObj(getMap(paraMap), t);
+			return JacksonUtil.coverObj(getMap(paraMap,throwEx), t);
 		} catch (Exception e) {
 			if(e instanceof DbException){
 				throw e;
@@ -178,7 +177,7 @@ public class CommServiceImpl implements ICommService {
 			try{
 				l.add(JacksonUtil.coverObj(r, t));
 			}catch(Exception e){
-				logger.error(e.getMessage());
+				log.error(e.getMessage());
 			}
 		}
 		return l;
@@ -194,7 +193,7 @@ public class CommServiceImpl implements ICommService {
 				seqName=field.get(o).toString();
 			}
 		} catch (Exception e) {
-			logger.error(clazz.toString()+"未设置tableName，取得通用sequence！");
+			log.error(clazz.toString()+"未设置tableName，取得通用sequence！");
 		}
 		if (seqName != null) {
 			seqName = "seq_" + seqName;
@@ -207,9 +206,9 @@ public class CommServiceImpl implements ICommService {
 	}
 	
 	@Override
-	public ResultMap getMap(BaseParaMap paraMap){
+	public ResultMap getMap(BaseParaMap paraMap, boolean throwEx){
 		try{
-			return getOne(getList(paraMap));
+			return getOne(getList(paraMap),throwEx);
 		}catch (Exception e) {
 			if(e instanceof DbException) {
 				throw e;
@@ -225,7 +224,7 @@ public class CommServiceImpl implements ICommService {
 	
 	@Override
 	public Object getColum(BaseParaMap paraMap){
-		return DbCoverUtil.getFistClumn(getOne(getList(paraMap)));
+		return DbCoverUtil.getFistClumn(getOne(getList(paraMap),true));
 	}
 	@Override
 	public String getStr(BaseParaMap paraMap){
@@ -406,8 +405,8 @@ public class CommServiceImpl implements ICommService {
 		return getLongList(SqlUtil.getParmMap(sql, para));
 	}
 	@Override
-	public ResultMap getMap(String sql, Object... para) {
-		return getMap(SqlUtil.getParmMap(sql, para));
+	public ResultMap getMap(String sql, boolean throwEx, Object... para) {
+		return getMap(SqlUtil.getParmMap(sql, para), throwEx);
 	}
 	@Override
 	public List<ResultMap> getMapList(String sql, Object... para) {

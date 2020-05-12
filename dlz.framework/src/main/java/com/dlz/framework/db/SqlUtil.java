@@ -136,7 +136,8 @@ public class SqlUtil{
 	
 	/**
 	 * 转换参数
-	 * @param paraMap
+	 * @param sql
+	 * @param para
 	 * @author dk 2015-04-09
 	 * @return
 	 * @throws Exception
@@ -169,7 +170,8 @@ public class SqlUtil{
 	
 	/**
 	 * 创建执行sql(带替换符)
-	 * @param paraMap
+	 * @param para
+	 * @param sql
 	 * @author dk 2015-04-09
 	 * @return
 	 * @throws Exception
@@ -264,7 +266,6 @@ public class SqlUtil{
 	 * sql 语句中 [] 提交内容进行处理
 	 * @param sql
 	 * @param m
-	 * @param replaceTimes
 	 * @return
 	 */
 	public static String getConditionStr(String sql,Map<String,Object> m){
@@ -337,7 +338,8 @@ public class SqlUtil{
 //	}
 	/**
 	 * 将参数转换成对应的Object
-	 * @param m
+	 * @param value
+	 * @param pte
 	 * @author dk 2015-04-09
 	 * @return
 	 */
@@ -361,7 +363,6 @@ public class SqlUtil{
 	/**
 	 * 创建表插入语句
 	 * @param p
-	 * @param paraList
 	 * @return
 	 * @throws SQLException
 	 */
@@ -389,7 +390,6 @@ public class SqlUtil{
 	 * 创建表更新语句
 	 * @param p
 	 * @param endSql
-	 * @param paraList
 	 * @return
 	 * @throws SQLException
 	 */

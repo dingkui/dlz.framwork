@@ -8,8 +8,7 @@ import com.dlz.framework.db.SqlUtil;
 import com.dlz.comm.util.StringUtils;
 
 public class Page<T>  implements Serializable{
-
-	private static final long serialVersionUID = 2651739814148073895L;
+	private static final long serialVersionUID = 1L;
 
 	public static final int DEFAULT_PAGE_SIZE = 20;
 
