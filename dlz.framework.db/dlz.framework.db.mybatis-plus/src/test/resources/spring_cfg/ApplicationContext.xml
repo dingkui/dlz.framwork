@@ -1,19 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd" default-autowire="byName" default-lazy-init="true">
+        http://www.springframework.org/schema/aop/spring-aop.xsd" default-autowire="byName" default-lazy-init="false">
+<!--	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+<!--		&lt;!&ndash;字符串数组，可配置多个属性文件&ndash;&gt;-->
+<!--		<property name="locations">-->
+<!--			<array>-->
+<!--				<value>classpath:application.properties</value>-->
+<!--			</array>-->
+<!--		</property>-->
+<!--		<property name="ignoreResourceNotFound" value="false"/>-->
+<!--	</bean>-->
+<!--	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+<!--		<property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
+<!--		<property name="url" value="jdbc:mysql://127.0.0.1:3306/greenscms?useUnicode=true&amp;useSSL=false&amp;characterEncoding=utf8"/>-->
+<!--		<property name="username" value="root"/>-->
+<!--		<property name="password" value="root"/>-->
+<!--	</bean>-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.dlz.**.dao" />
+		<!--<property name="basePackage" value="com.xxx.dao,com.yyyy.dao" />-->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	<!-- 创建SqlSessionFactory MyBatis会话工厂对象 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 读取映射文件 ,MyBatis的纯注解不用配置 -->
+		<property name="mapperLocations">
+			<array>
+				<!-- 配置单个映射文件 -->
+				<!-- <value>classpath:cn/zj/ssm/mapper/UserMapper.xml</value> -->
+				<!-- 配置多个映射文件使用 * 通配符 -->
+				<value>classpath*:mapper/**/*.xml</value>
+			</array>
+		</property>
+		<!-- 配置mybatis-confg.xml主配置文件（注配置文件可以保留一些个性化配置，缓存，日志，插件） -->
+		<!--		<property name="configLocation"-->
+		<!--				  value="classpath:mybatis-config.xml" />-->
+		<!-- 配置别名，使用包扫描 -->
+<!--		<property name="typeAliasesPackage" value="cn.sxt.pojo"></property>-->
+	</bean>
+	<!-- SqlSession 不用单独创建，每次做crud操作都需要Mapper接口的代理对象 而代理对象的创建又必须有 SqlSession对象创建
+        Spring在通过MyBatis创建 Mapper接口代理对象的时候，底层自动把SqlSession会话对象创建出来 -->
 
-	<!-- <bean id="springHolder" class="com.dlz.framework.holder.SpringHolder" lazy-init="false" />
-	<bean id="daoTest" class="com.dlz.framework.db.dao.impl.DaoTest" /> -->
-	<context:component-scan base-package="com.dlz" />
+	<!-- 创建UserMapper接口的代理对象,创建单个代理对象 参考桥梁包：org.mybatis.spring.mapper.MapperFactoryBean<T>
+        此类就是创建 Mapper 代理对象的类 -->
+	<!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        注入UserMapper接口 <property name="mapperInterface" value="cn.sxt.mapper.UserMapper"/>
+        注入sqlSessionFactory工厂对象 <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        </bean> -->
+	<!-- 使用包扫描创建代理对象，包下面所有Mapper接口统一创建代理对象 使用桥梁包下面 ： org.mybatis.spring.mapper.MapperScannerConfigurer
+        可以包扫描创建所有映射接口的代理对象 -->
+<!--	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">-->
+<!--		&lt;!&ndash; 配置SqlSessionFactoryBean的名称 &ndash;&gt;-->
+<!--		<property name="basePackage" value="com.dlz"/>-->
+<!--		&lt;!&ndash; 可选，如果不写，Spring启动时候。容器中。自动会按照类型去把SqlSessionFactory对象注入进来 &ndash;&gt;-->
+<!--		&lt;!&ndash; <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/> &ndash;&gt;-->
+<!--		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>-->
+<!--	</bean>-->
+	<!--  1.配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!--	&lt;!&ndash;-->
+	<!--        2.配置事务的细节-->
+	<!--        配置事务通知/增强-->
+	<!--     &ndash;&gt;-->
+	<!--	<tx:advice id="tx" transaction-manager="transactionManager" >-->
+	<!--		&lt;!&ndash; 配置属性 &ndash;&gt;-->
+	<!--		<tx:attributes>-->
+	<!--			&lt;!&ndash; DQL  &ndash;&gt;-->
+	<!--			<tx:method name="select*" read-only="true" isolation="REPEATABLE_READ" propagation="REQUIRED" timeout="5"/>-->
+	<!--			<tx:method name="query*" read-only="true" isolation="REPEATABLE_READ" propagation="REQUIRED" timeout="5"/>-->
+	<!--			<tx:method name="get*" read-only="true" isolation="REPEATABLE_READ" propagation="REQUIRED" timeout="5"/>-->
+	<!--			<tx:method name="find*" read-only="true" isolation="REPEATABLE_READ" propagation="REQUIRED" timeout="5"/>-->
+	<!--			&lt;!&ndash; 其他 &ndash;&gt;-->
+	<!--			<tx:method name="*" read-only="false" isolation="REPEATABLE_READ" propagation="REQUIRED" timeout="5"/>-->
+	<!--		</tx:attributes>-->
+	<!--	</tx:advice>-->
+
+	<!--	&lt;!&ndash;-->
+	<!--            3.使用AOP将事务切到Service层-->
+	<!--        &ndash;&gt;-->
+	<!--	<aop:config>-->
+	<!--		&lt;!&ndash; 配置切入点 &ndash;&gt;-->
+	<!--		<aop:pointcut expression="execution(* cn.zj.ssm.service..*.*(..))" id="pt"/>-->
+	<!--		&lt;!&ndash; 配置切面= 切入点+通知 &ndash;&gt;-->
+	<!--		<aop:advisor advice-ref="tx" pointcut-ref="pt"/>-->
+	<!--	</aop:config>-->
 </beans>

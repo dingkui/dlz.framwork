@@ -34,7 +34,7 @@
 	    <appender-ref ref="errorFile" />
 	    <appender-ref ref="rootFile"/>  
 	</logger> 
-	<root level="error">
+	<root level="WARN">
 		<appender-ref ref="console" />
 		<appender-ref ref="errorFile" />
 	</root>

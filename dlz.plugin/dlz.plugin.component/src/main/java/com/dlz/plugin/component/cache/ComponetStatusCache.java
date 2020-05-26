@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Lazy
-public class ComponetStatusCache extends AbstractCache<String, Integer>{
+public class ComponetStatusCache extends AbstractCache<String, Integer> {
 	public ComponetStatusCache() {
 		super(ComponetStatusCache.class.getSimpleName());
 		dbOperator=new DbOperator() {

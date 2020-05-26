@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.StringUtils;
 import com.dlz.framework.db.page.APageDeal;
 import com.dlz.framework.db.page.Page;
 import com.dlz.framework.db.page.PagePara;
@@ -62,12 +63,12 @@ public class CommPlusServiceImpl implements ICommPlusService {
         };
     }
 
-    private BaseMapper<?> getMapper(Class<?> clazz) {
+    private <T> BaseMapper<T> getMapper(Class<T> clazz) {
         Object[] obj = hashtable.get(clazz);
         if (obj == null) {
             throw new RuntimeException("未找到[" + clazz.getName() + "]对应的Dao");
         }
-        BaseMapper<?> BaseMapper = (BaseMapper) obj[1];
+        BaseMapper<T> BaseMapper = (BaseMapper) obj[1];
         if (BaseMapper == null) {
             BaseMapper = (BaseMapper) SpringHolder.getBean(((Class) obj[0]));
             obj[1] = BaseMapper;
@@ -127,6 +128,18 @@ public class CommPlusServiceImpl implements ICommPlusService {
 
     public <T> List<T> listByIds(Collection<? extends Serializable> idList, Class<T> clazz) {
         return ((BaseMapper<T>) getMapper(clazz)).selectBatchIds(idList);
+    }
+
+    @Override
+    public <T> List<T> listByMap(JSONMap columnMap, Class<T> clazz) {
+        Wrapper<T> queryWrapper =new QueryWrapper<T>();
+        Set<Map.Entry<String, Object>> entries = columnMap.entrySet();
+        for (Map.Entry<String, Object> entrie : entries) {
+            if(StringUtils.isNotEmpty(entrie.getValue())){
+                ((QueryWrapper)queryWrapper).eq(entrie.getKey(),entrie.getValue());
+            }
+        }
+        return getMapper(clazz).selectList(queryWrapper);
     }
 
     public <T> List<T> listByMap(Map<String, Object> columnMap, Class<T> clazz) {

@@ -4,15 +4,14 @@
     <parent>
         <groupId>com.dlz</groupId>
         <artifactId>dlz-dependencies</artifactId>
-        <version>3.0</version>
+        <version>3.1</version>
     </parent>
     <artifactId>dlz.framework.db</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>dlz.framework.db.jfinal</module>
-        <module>dlz.framework.db.mybatis</module>
         <module>dlz.framework.db.mybatis-plus</module>
         <module>dlz.framework.db.springjdbc</module>
+        <module>dlz.framework.db.test</module>
         <module>dlz.framework.mongo</module>
     </modules>
     <dependencies>

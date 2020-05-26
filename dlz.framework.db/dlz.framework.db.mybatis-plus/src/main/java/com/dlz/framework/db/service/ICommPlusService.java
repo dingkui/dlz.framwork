@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public interface ICommPlusService extends ICommService {
+public interface ICommPlusService{
     /**
      * 添加
      * @param entity

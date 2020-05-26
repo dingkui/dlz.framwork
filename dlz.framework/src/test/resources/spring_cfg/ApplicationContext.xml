@@ -16,6 +16,4 @@
 	<!-- <bean id="springHolder" class="com.dlz.framework.holder.SpringHolder" lazy-init="false" />
 	<bean id="daoTest" class="com.dlz.framework.db.dao.impl.DaoTest" /> -->
 	<context:component-scan base-package="com.dlz" />
-	<bean id="cacheCreatorEhcahe" class="com.dlz.framework.cache.CacheCreatorEhcaheImpl"/>
-	<bean id="sequenceMaker" class="com.dlz.framework.db.mySequence.impl.SequenceMakerImpl" lazy-init="true"/>
 </beans>

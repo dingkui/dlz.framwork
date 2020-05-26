@@ -1,21 +1,17 @@
 package com.dlz.framework.db.cache;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.dlz.comm.util.ValUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
-import com.dlz.comm.util.ValUtil;
+import java.sql.ResultSetMetaData;
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Lazy
@@ -29,21 +25,18 @@ public class TableCloumnCache extends ATableCloumnCache {
 	public TableCloumnCache() {
 		super(TableCloumnCache.class.getSimpleName());
 		dbOperator = new DbOperator() {
-			protected Map<String, Integer> getFromDb(String tableName) {
+			protected HashMap<String, Integer> getFromDb(String tableName) {
 				// 查询表结构定义；返回表定义Map
 				String sql = "select * from " + tableName + " limit 0";
-				ResultSetExtractor<Map<String, Integer>> extractor = new ResultSetExtractor<Map<String, Integer>>() {
-					@Override
-					public Map<String, Integer> extractData(ResultSet rs) throws SQLException, DataAccessException {
-						Map<String, Integer> infos = new HashMap<>();
-						ResultSetMetaData rsmd = rs.getMetaData();
-						int columnCount = rsmd.getColumnCount();
-						for (int i = 1; i < columnCount + 1; i++) {
-							String columnLabel = rsmd.getColumnLabel(i).toUpperCase();
-							infos.put(columnLabel, rsmd.getColumnType(i));
-						}
-						return infos;
+				ResultSetExtractor<HashMap<String, Integer>> extractor = rs -> {
+					HashMap<String, Integer> infos = new HashMap<>();
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnCount = rsmd.getColumnCount();
+					for (int i = 1; i < columnCount + 1; i++) {
+						String columnLabel = rsmd.getColumnLabel(i).toUpperCase();
+						infos.put(columnLabel, rsmd.getColumnType(i));
 					}
+					return infos;
 				};
 				return jdbcTemplate.query(sql, extractor);
 			}

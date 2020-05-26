@@ -3,9 +3,21 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz.plugin</artifactId>
-		<version>3.0</version>
+		<version>3.1</version>
 	</parent>
 	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.plugin.test</artifactId>
 	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<!-- logs -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<!--			<version>1.2.3</version>-->
+		</dependency>
+	</dependencies>
 </project>

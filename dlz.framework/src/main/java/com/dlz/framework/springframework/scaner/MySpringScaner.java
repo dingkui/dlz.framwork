@@ -1,9 +1,8 @@
 package com.dlz.framework.springframework.scaner;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.ScannedGenericBeanDefinition;
@@ -14,9 +13,9 @@ import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 
-import com.dlz.framework.holder.SpringHolder;
-import org.slf4j.Logger;
-import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 自定义扫描处理
@@ -48,6 +47,10 @@ public class MySpringScaner {
 	}
 
 	public void doComponents(IScaner scaner) {
+		if (scaner.getClass().toString().indexOf('$')>0) {
+			logger.warn("自定义扫描处理器未装载处理器" + scaner.getClass() );
+			return;
+		}
 		if (scaner.getScanerProcessors().isEmpty()) {
 			logger.warn("自定义扫描处理器未装载处理器" + scaner.getClass() + " ResoucePath:" + scaner.getResoucePath());
 			return;

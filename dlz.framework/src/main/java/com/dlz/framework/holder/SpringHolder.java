@@ -1,7 +1,6 @@
 package com.dlz.framework.holder;
 
-import java.util.Map;
-
+import com.dlz.comm.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -11,7 +10,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.dlz.comm.util.StringUtils;
+import java.util.Map;
 
 /**
  * 以静态变量保存Spring ApplicationContext,可在任意代码中取出ApplicaitonContext.
@@ -47,7 +46,7 @@ public class SpringHolder{
 //		if(beanFactory==null){
 //			beanFactory =((ConfigurableApplicationContext)applicationContext).getBeanFactory();
 //		}
-//	}
+//	}org.apache.ibatis.binding.MapperProxy@6c8a68c1
 	
 	/**
 	 * 从静态变量ApplicationContext中取得Bean, 自动转型为所赋值对象的类型.

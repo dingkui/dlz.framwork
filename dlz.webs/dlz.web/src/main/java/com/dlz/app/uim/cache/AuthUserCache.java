@@ -21,7 +21,7 @@ import com.dlz.comm.exception.CodeException;
  */
 @Component
 @Lazy
-public class AuthUserCache extends AbstractCache<Long, AuthUserWithInfo>{
+public class AuthUserCache extends AbstractCache<Long, AuthUserWithInfo> {
 	@Autowired
 	public IUimMemberService memberService;
 	@Autowired

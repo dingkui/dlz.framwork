@@ -3,12 +3,16 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz.framework.db</artifactId>
-		<version>3.0</version>
+		<version>3.1</version>
 	</parent>
 	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.framework.db.mybatis-plus</artifactId>
 	<packaging>jar</packaging>
-
+	<properties>
+		<swagger.version>2.9.2</swagger.version>
+		<swagger.models.version>1.5.21</swagger.models.version>
+		<swagger.bootstrapui.version>1.9.4</swagger.bootstrapui.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -17,13 +21,56 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.dlz</groupId>
+			<artifactId>dlz.framework.db.springjdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dlz</groupId>
+			<artifactId>dlz.framework.db.test</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>orika-core</artifactId>
 			<version>1.5.2</version>
 		</dependency>
+		<!--引入Swagger2依赖——开始 -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.swagger</groupId>
+					<artifactId>swagger-models</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-models</artifactId>
+			<version>${swagger.models.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>swagger-bootstrap-ui</artifactId>
+			<version>${swagger.bootstrapui.version}</version>
+		</dependency>
+		<!--引入Swagger2依赖——结束 -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.5</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mybatis</groupId>
+					<artifactId>mybatis</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mybatis</groupId>
+					<artifactId>mybatis-spring</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
