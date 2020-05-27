@@ -8,9 +8,6 @@ import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.db.page.APageDeal;
-import com.dlz.framework.db.page.Page;
-import com.dlz.framework.db.page.PagePara;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -125,18 +122,6 @@ public interface ICommPlusService{
     default <T> List<Map<String, Object>> listMaps(T bean){
         Assert.notNull(bean, "error: bean can not be null");
         return listMaps(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
-    }
-
-
-    <T> Page<T> findPage(PagePara<T> page, Class<T> clazz) ;
-    default <T> Page<T> findPage(PagePara<T> page){
-        Assert.notNull(page.getEq(), "error: PagePara.eq can not be null");
-        return findPage(page, (Class<T>)page.getEq().getClass());
-    }
-    <T,O> Page<O> findPage(PagePara<T> page, APageDeal<T, O> pageDeal, Class<T> clazz);
-    default <T,O> Page<O> findPage(PagePara<T> page, APageDeal<T, O> pageDeal){
-        Assert.notNull(page.getEq(), "error: PagePara.eq can not be null");
-        return findPage(page,pageDeal, (Class<T>)page.getEq().getClass());
     }
 
     <T> int count(Wrapper<T> queryWrapper, Class<T> clazz) ;

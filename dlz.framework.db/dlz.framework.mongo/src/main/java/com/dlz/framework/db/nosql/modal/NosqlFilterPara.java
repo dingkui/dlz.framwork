@@ -6,13 +6,12 @@ import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.enums.ParaTypeEnum;
-import com.dlz.framework.db.modal.IPara;
 
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class NosqlFilterPara extends NosqlBasePara implements IPara{
+public class NosqlFilterPara extends NosqlBasePara {
 
 	private static final long serialVersionUID = 8374167270612933157L;
 	private String filterBson;
@@ -26,8 +25,7 @@ public class NosqlFilterPara extends NosqlBasePara implements IPara{
 	public void setFilterBson(String filterBson) {
 		this.filterBson = filterBson;
 	}
-	@Override
-	public IPara addParas(Map<String, Object> map) {
+	public NosqlFilterPara addParas(Map<String, Object> map) {
 		if(map!=null){
 			Set<Entry<String, Object>> entrySet = map.entrySet();
 			for(Entry<String, Object> e:entrySet){
@@ -42,7 +40,7 @@ public class NosqlFilterPara extends NosqlBasePara implements IPara{
 	 * @param value
 	 * @return
 	 */
-	public IPara addPara(String key,Object value){
+	public NosqlFilterPara addPara(String key,Object value){
 		if(key==null){
 			return this;
 		}

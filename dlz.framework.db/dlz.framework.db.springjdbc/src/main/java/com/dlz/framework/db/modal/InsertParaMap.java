@@ -1,6 +1,7 @@
 package com.dlz.framework.db.modal;
 
 import com.dlz.framework.db.SqlUtil;
+import com.dlz.framework.db.convertor.ConvertUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ public class InsertParaMap extends CreateSqlParaMap{
 		super(SQL,tableName,null);
 	}
 	public void addValue(String key,Object value){
-		String paraName = SqlUtil.converStr2ClumnStr(key);
+		String paraName = ConvertUtil.str2Clumn(key);
 		String clumnName = paraName.replaceAll("`", "");
 		boolean isClumnExists = isClumnExists(clumnName);
 		if(!isClumnExists){
@@ -47,7 +48,7 @@ public class InsertParaMap extends CreateSqlParaMap{
 		if(value instanceof String){
 			String v = ((String) value);
 			if(v.startsWith("sql:")){
-				sbValues.append(SqlUtil.converStr2ClumnStr(v.substring(4)));
+				sbValues.append(ConvertUtil.str2Clumn(v.substring(4)));
 			}else{
 				sbValues.append("#{").append(clumnName).append("}");
 				addClunmnValue(clumnName, value);

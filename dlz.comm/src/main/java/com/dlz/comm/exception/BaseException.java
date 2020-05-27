@@ -54,4 +54,5 @@ public class BaseException extends RuntimeException {
     public boolean is(int code){
         return this.code == code;
     }
+
 }

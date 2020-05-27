@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.db.exception.DbException;
+import com.dlz.comm.exception.DbException;
 import com.dlz.framework.db.nosql.modal.Delete;
 import com.dlz.framework.db.nosql.modal.Find;
 import com.dlz.framework.db.nosql.modal.Insert;

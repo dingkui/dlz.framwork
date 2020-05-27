@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.dlz</groupId>
-			<artifactId>dlz.framework</artifactId>
+			<artifactId>dlz.framework.db.springjdbc</artifactId>
 		</dependency>
 		<!-- jdbc/ojdbc14-1.0.jar -->
 		<dependency>

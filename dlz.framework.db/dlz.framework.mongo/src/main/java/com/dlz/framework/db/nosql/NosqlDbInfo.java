@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.db.exception.DbException;
+import com.dlz.comm.exception.DbException;
 import com.dlz.framework.db.nosql.operator.mongo.MongoManager;
 import org.slf4j.Logger;
 import com.dlz.comm.util.StringUtils;

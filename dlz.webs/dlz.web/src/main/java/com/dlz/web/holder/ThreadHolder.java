@@ -69,7 +69,7 @@ public class ThreadHolder  {
 	public static HttpServletRequest getHttpRequest(){
 		final HttpServletRequest httpServletRequest = HttpRequestThreadLocalHolder.get();
 //		if(httpServletRequest==null) {
-//			throw new CodeException(1);
+//			throw new SystemException(1);
 //		}
 		return httpServletRequest;
 	}

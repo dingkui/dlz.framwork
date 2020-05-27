@@ -1,7 +1,7 @@
 package com.dlz.web.cloud.service;
 
 import com.dlz.app.uim.holder.UserHolder;
-import com.dlz.comm.exception.LogicException;
+import com.dlz.comm.exception.BussinessException;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.util.system.Reflections;
 import com.dlz.web.holder.ThreadHolder;
@@ -48,8 +48,8 @@ public class BaseCloudServerController {
 			renderErr(response, HttpStatus.SC_NOT_ACCEPTABLE,Iservice,methodName, "参数作用域有误！");
 		} catch (InvocationTargetException e) {
 			Throwable te = e.getTargetException();
-			if (te instanceof LogicException) {
-				renderErr(response, HttpStatus.SC_BAD_REQUEST,Iservice,methodName, ((LogicException) te).getInfo());
+			if (te instanceof BussinessException) {
+				renderErr(response, HttpStatus.SC_BAD_REQUEST,Iservice,methodName, ((BussinessException) te).getInfo());
 			} else {
 				renderErr(response, HttpStatus.SC_INTERNAL_SERVER_ERROR,Iservice,methodName, te.getMessage());
 			}

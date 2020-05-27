@@ -8,7 +8,7 @@ import com.dlz.app.uim.annotation.AnnoAuth;
 import com.dlz.app.uim.bean.AuthUser;
 import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.framework.db.service.ICommService;
-import com.dlz.comm.exception.LogicException;
+import com.dlz.comm.exception.BussinessException;
 import com.dlz.web.holder.ThreadHolder;
 
 @AnnoAuth
@@ -25,7 +25,7 @@ public class AuthedCommLogic{
 	public <T extends AuthUser> T getMember(){
 		final AuthUser authInfo = UserHolder.getAuthInfo();
 		if(authInfo==null){
-			throw new LogicException("未登录！");
+			throw new BussinessException("未登录！");
 		}
 		return (T)authInfo;
 	}

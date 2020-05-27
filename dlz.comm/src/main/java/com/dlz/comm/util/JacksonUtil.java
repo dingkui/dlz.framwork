@@ -254,7 +254,7 @@ public class JacksonUtil {
         if (key.startsWith(".")) {
             key = key.substring(1);
         }
-        return getObjFromMap(ValUtil.getObj(data, Map.class), key);
+        return getObjFromMap(ValUtil.getObj(data, JSONMap.class), key);
     }
 
     private static Object getObjFromList(List list, String key) {

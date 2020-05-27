@@ -71,7 +71,7 @@ public class DbTest {
 		ump2.addPara("_sql", "_sql${a}");
 		ump2.setPage(new Page<>(1, 2,"id","asc"));
 		cs.getMap(ump2);
-		System.out.println(ump2.getSqlRun());
+		System.out.println(ump2.getSqlItem().getSqlRun());
 	}
 	@Test
 	public void conntest(){

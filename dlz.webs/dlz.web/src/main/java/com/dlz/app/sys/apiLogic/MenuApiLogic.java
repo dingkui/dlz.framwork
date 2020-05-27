@@ -11,7 +11,7 @@ import com.dlz.framework.db.modal.InsertParaMap;
 import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
-import com.dlz.comm.exception.CodeException;
+import com.dlz.comm.exception.SystemException;
 import com.dlz.web.logic.AuthedCommLogic;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +113,7 @@ public class MenuApiLogic extends AuthedCommLogic{
 				}
 				String str2 = ConfUtil.getStr("auth.role."+acce);
 				if(str2==null){
-					throw new CodeException("无效的权限："+acce);
+					throw new SystemException("无效的权限："+acce);
 				}
 				String[] role=str2.split(",");
 				for(String r:role){

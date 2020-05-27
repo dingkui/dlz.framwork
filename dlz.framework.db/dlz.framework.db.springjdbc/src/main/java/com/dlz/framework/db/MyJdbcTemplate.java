@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.dlz.framework.db.enums.DbTypeEnum;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataAccessException;
@@ -23,8 +24,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.dlz.framework.db.rowMapper.MySqlColumnMapRowMapper;
-import com.dlz.framework.db.rowMapper.OracleColumnMapRowMapper;
+import com.dlz.framework.db.convertor.rowMapper.MySqlColumnMapRowMapper;
+import com.dlz.framework.db.convertor.rowMapper.OracleColumnMapRowMapper;
 
 
 /**
@@ -41,9 +42,9 @@ public class MyJdbcTemplate extends JdbcTemplate {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected RowMapper getColumnMapRowMapper() {
-		if("".equalsIgnoreCase(DbInfo.getDbtype())){
+		if(DbInfo.getDbtype()== DbTypeEnum.ORACLE){
 			return new OracleColumnMapRowMapper();
-		}else if("mysql".equalsIgnoreCase(DbInfo.getDbtype()) || "postgresql".equalsIgnoreCase(DbInfo.getDbtype())){
+		}else if(DbInfo.getDbtype()== DbTypeEnum.MYSQL||DbInfo.getDbtype()== DbTypeEnum.POSTGRESQL){
 			return new MySqlColumnMapRowMapper();
 		}else{
 			return new ColumnMapRowMapper();

@@ -1,6 +1,6 @@
 package com.dlz.framework.cache.impl;
 
-import com.dlz.comm.exception.CodeException;
+import com.dlz.comm.exception.SystemException;
 import com.dlz.framework.cache.ICache;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Cache;
@@ -28,7 +28,7 @@ public class CacheEhcahe implements ICache {
             }
         } catch (net.sf.ehcache.CacheException e) {
             log.error("缓存创建失败:" + name, e);
-            throw new CodeException("缓存创建失败:" + name, e);
+            throw new SystemException("缓存创建失败:" + name, e);
         }
     }
 

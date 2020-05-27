@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.dlz.comm.exception.CodeException;
+import com.dlz.comm.exception.SystemException;
 import com.dlz.plugin.quartz.bean.ScheduleJob;
 import com.dlz.plugin.quartz.bean.ScheduleJobCron;
 import com.dlz.plugin.quartz.bean.ScheduleJobSimple;
@@ -51,7 +51,7 @@ public class JobMethod {
 	 */
 	public void addAndResetScheduleJobOld(ScheduleJob job) {
 		if(job==null || job.getJobName()==null){
-			throw new CodeException("任务不能为空");
+			throw new SystemException("任务不能为空");
 		}
 		TriggerKey triggerKey = TriggerKey.triggerKey(job.getJobName(), job.getJobGroup());
 		Trigger trigger;
@@ -75,7 +75,7 @@ public class JobMethod {
 					ScheduleJobCron jobCron=(ScheduleJobCron)job;
 					String cronExpression = jobCron.getCronExpression();
 					if(cronExpression==null){
-						throw new CodeException("任务表达式不能为空！");
+						throw new SystemException("任务表达式不能为空！");
 					}
 					CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
 					trigger = triggerBuilder.withSchedule(scheduleBuilder).build();
@@ -140,7 +140,7 @@ public class JobMethod {
 				ScheduleJobCron jobCron = (ScheduleJobCron) job;
 				String cronExpression = jobCron.getCronExpression();
 				if (cronExpression == null) {
-					throw new CodeException("任务表达式不能为空！");
+					throw new SystemException("任务表达式不能为空！");
 				}
 				CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(cronExpression);
 				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(scheduleBuilder).build());
@@ -153,7 +153,7 @@ public class JobMethod {
 	
 	private JobKey getJobKey(ScheduleJob scheduleJob){
 		if(scheduleJob==null || scheduleJob.getJobName()==null){
-			throw new CodeException("任务不能为空");
+			throw new SystemException("任务不能为空");
 		}
 		return JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
 	}

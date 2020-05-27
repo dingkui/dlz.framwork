@@ -27,37 +27,32 @@
  	</sql>
  	<sql sqlId="key.comm.pageSql">
 	<![CDATA[
-		[select * from (select a1.*,rownum rownum_ from ( ^#{page.end}]
-			[select * from ( ^#{page.orderBy}]
+		[select * from (select a1.*,rownum rownum_ from ( ^#{_end}]
+			[select * from ( ^#{_orderBy}]
 				${_sql}
-			[) order by ${page.orderBy}]
-		[) a1 where rownum <=#{page.end} ) [where rownum_> #{page.begin}]]
-    ]]>
- 	</sql>
- 	<sql sqlId="key.comm.cntSql">
-	<![CDATA[
-	  select count(1) from (${_sql}) t
+			[) order by ${_orderBy}]
+		[) a1 where rownum <=#{_end} ) [where rownum_> #{_begin}]]
     ]]>
  	</sql>
  	
  	<sql sqlId="key.comm.pageSql.mysql"><![CDATA[
-	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT [#{page.begin},]#{page.pageSize} ]
+	 ${_sql} [ ORDER BY ${_orderBy} ] [ LIMIT [#{_begin},]#{_pageSize} ]
  	]]>
  	</sql>
  	
  	<sql sqlId="key.comm.pageSql.sqlserver"><![CDATA[
 		SELECT * FROM (
 		  SELECT row_number() OVER(ORDER BY _tpc) rownum_,a2.* FROM(
-		    SELECT TOP ${page.end} _tpc=null,a1.* FROM (
+		    SELECT TOP ${_end} _tpc=null,a1.* FROM (
 		    	${_sql}
-		    ) a1[ order by ${page.orderBy}]
+		    ) a1[ order by ${_orderBy}]
 		  ) a2
-		)a3 WHERE rownum_ > ${page.begin}
+		)a3 WHERE rownum_ > ${_begin}
  	]]>
  	</sql>
  	
  	<sql sqlId="key.comm.pageSql.postgresql"><![CDATA[
-	 ${_sql} [ ORDER BY ${page.orderBy} ] [ LIMIT [#{page.pageSize}] OFFSET #{page.begin} ]
+	 ${_sql} [ ORDER BY ${_orderBy} ] [ LIMIT [#{page.pageSize}] OFFSET #{_begin} ]
  	]]>
  	</sql>
  	

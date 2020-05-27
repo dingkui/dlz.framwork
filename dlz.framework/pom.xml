@@ -8,7 +8,11 @@
 	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.framework</artifactId>
 	<packaging>jar</packaging>
-
+	<properties>
+		<swagger.version>2.9.2</swagger.version>
+		<swagger.models.version>1.5.21</swagger.models.version>
+		<swagger.bootstrapui.version>1.9.4</swagger.bootstrapui.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.dlz</groupId>
@@ -31,5 +35,10 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
 
+		<!--Swagger注解 -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
 	</dependencies>
 </project>

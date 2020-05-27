@@ -11,7 +11,7 @@ import com.dlz.app.uim.service.IUimRoleService;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.framework.cache.AbstractCache;
 import com.dlz.framework.db.modal.ResultMap;
-import com.dlz.comm.exception.CodeException;
+import com.dlz.comm.exception.SystemException;
 
 /**
  * 用户信息缓存
@@ -34,7 +34,7 @@ public class AuthUserCache extends AbstractCache<Long, AuthUserWithInfo> {
 			protected AuthUserWithInfo getFromDb(Long user_id) {
 				final ResultMap mapByKey = memberService.getMapByKey(user_id);
 				if(mapByKey==null){
-					throw new CodeException("用户取得失败，id="+user_id);
+					throw new SystemException("用户取得失败，id="+user_id);
 				}
 				final AuthUserWithInfo authUser = mapByKey.as(AuthUserWithInfo.class);
 				authUser.setId(user_id);

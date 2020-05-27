@@ -8,7 +8,7 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.db.exception.DbException;
+import com.dlz.comm.exception.DbException;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.nosql.BsonUtil;
@@ -223,13 +223,11 @@ public class NosqlServiceImpl implements INosqlService {
 		//是否需要查询列表（需要统计条数并且条数是0的情况不查询，直接返回空列表）
 		boolean needList=true;
 		
-		if(page.isNeedCount()){
-			page.setCount(getCnt(paraMap));
-			if(page.getCount()==0){
-				needList=false;
-			}
+		page.setCount(getCnt(paraMap));
+		if(page.getCount()==0){
+			needList=false;
 		}
-		
+
 		if(needList){
 			if(t==ResultMap.class){
 				page.setData((List<T>) getMapList(paraMap));

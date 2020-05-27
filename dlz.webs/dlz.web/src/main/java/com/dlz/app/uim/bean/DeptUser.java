@@ -2,18 +2,9 @@ package com.dlz.app.uim.bean;
 
 import java.util.Date;
 
-import com.dlz.framework.db.modal.BaseModel;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-public class DeptUser extends BaseModel {
+public class DeptUser  implements java.io.Serializable{
 
     private static final long serialVersionUID = 1L;
-
-    @JsonIgnore
-    public String tableName = "T_P_DEPT_USER";
-
-    @JsonIgnore
-    public String tableColums = "DU_ID,DU_D_ID,DU_U_ID,DU_DUTY_DES,DU_ADD_TIME,DU_ADD_USER_ID,DU_DUTY";
 
     /**
      * T_P_DEPT_USER.DU_ID

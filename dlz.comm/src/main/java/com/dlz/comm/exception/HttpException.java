@@ -18,4 +18,5 @@ public class HttpException extends BaseException {
     public int getStatus() {
         return status;
     }
+
 }

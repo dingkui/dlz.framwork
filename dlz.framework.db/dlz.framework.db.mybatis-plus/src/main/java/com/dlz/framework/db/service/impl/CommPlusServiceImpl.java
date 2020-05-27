@@ -3,17 +3,11 @@ package com.dlz.framework.db.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.StringUtils;
-import com.dlz.framework.db.page.APageDeal;
-import com.dlz.framework.db.page.Page;
-import com.dlz.framework.db.page.PagePara;
-import com.dlz.framework.db.page.PageUtils;
 import com.dlz.framework.db.service.ICommPlusService;
-import com.dlz.framework.db.util.DbUtil;
 import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.mapper.MapperFactoryBean;
@@ -165,40 +159,5 @@ public class CommPlusServiceImpl implements ICommPlusService {
 
     public <T> List<Map<String, Object>> listMaps(Wrapper<T> queryWrapper, Class<T> clazz) {
         return ((BaseMapper<T>) getMapper(clazz)).selectMaps(queryWrapper);
-    }
-
-    @Override
-    public <T> Page<T> findPage(PagePara<T> page, Class<T> clazz) {
-        Assert.notNull(page.getEq(), "error: page can not be null");
-        PageUtils.startPage(page);
-        BaseMapper<T> mapper = (BaseMapper<T>) getMapper(clazz);
-        QueryWrapper<T> queryWrapper = DbUtil.mkWrapper(null, page.getEq(), page.getOrders());
-        List<T> list = mapper.selectList(queryWrapper);
-        return PageUtils.buildPage(list);
-    }
-
-    @Override
-    public <T, O> Page<O> findPage(PagePara<T> page, APageDeal<T, O> pageDeal, Class<T> clazz) {
-        Assert.notNull(page.getEq(), "error: page can not be null");
-        Assert.notNull(page.getEq(), "error: pageDeal can not be null");
-        PageUtils.startPage(page);
-        QueryWrapper<T> queryWrapper = DbUtil.mkWrapper(null, page.getEq(), page.getOrders());
-        pageDeal.setWrapper(queryWrapper);
-
-        List<O> rows = new LinkedList<>();
-        Page<T> dbPage = PageUtils.buildPage(((BaseMapper<T>) getMapper(clazz)).selectList(queryWrapper));
-        Page<O> tPage = new Page<>();
-        tPage.setPageNum(dbPage.getPageNum());
-        tPage.setHasNextPage(dbPage.isHasNextPage());
-        tPage.setPages(dbPage.getPages());
-        tPage.setPageSize(dbPage.getPageSize());
-        tPage.setTotal(dbPage.getTotal());
-        tPage.setRows(rows);
-
-        List<T> transRows = dbPage.getRows();
-        for (T obj : transRows) {
-            rows.add(pageDeal.getOutBean(obj));
-        }
-        return tPage;
     }
 }

@@ -3,12 +3,15 @@ package com.dlz.framework.db.service.impl;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
-import com.dlz.framework.db.DbCoverUtil;
+import com.dlz.framework.db.convertor.ConvertUtil;
 import com.dlz.framework.db.SqlUtil;
-import com.dlz.framework.db.cache.DbOprationCache;
-import com.dlz.framework.db.exception.DbException;
-import com.dlz.framework.db.modal.*;
-import com.dlz.framework.db.mySequence.ISequenceMaker;
+import com.dlz.comm.exception.DbException;
+import com.dlz.framework.db.modal.BaseParaMap;
+import com.dlz.framework.db.modal.InsertParaMap;
+import com.dlz.framework.db.modal.ResultMap;
+import com.dlz.framework.db.modal.UpdateParaMap;
+import com.dlz.framework.db.modal.Page;
+import com.dlz.framework.db.modal.items.SqlItem;
 import com.dlz.framework.db.service.ICommService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,18 +31,18 @@ import java.util.List;
 public class CommServiceImpl implements ICommService {
 	@Autowired
 	private DaoOperator daoOperator;
-	
-	@Autowired(required = false)
-	private DbOprationCache dbOprationCache;
-	
-	@Autowired(required = false)
-	ISequenceMaker sequenceMaker;
-	
+
+
+
 	@Override
 	public int excuteSql(BaseParaMap paraMap) {
-		paraMap = SqlUtil.dealParm(paraMap);
-		if(paraMap.getSqlInput()!=null && log.isInfoEnabled()){
-			log.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+		SqlItem sqlItem = paraMap.getSqlItem();
+		if (sqlItem.getSqlKey() != null){
+			sqlItem = SqlUtil.dealParm(paraMap);
+			sqlItem.setSqlRun(sqlItem.getSqlDeal());
+			if(log.isInfoEnabled()){
+				log.info("SQL:"+sqlItem.getSqlKey() + "[" + sqlItem.getSqlRun()+ "]para:[" + paraMap.getPara()+"]");
+			}
 		}
 		try {
 			int r=daoOperator.updateSql(paraMap);
@@ -52,44 +54,37 @@ public class CommServiceImpl implements ICommService {
 			if(e instanceof DbException) {
 				throw e;
 			}
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(),1003, e);
+			throw new DbException(sqlItem.getSqlKey() + ":" + sqlItem.getSqlRun() + " para:" + paraMap.getPara(),1003, e);
 		}
 	}
 	@Override
 	public long getSeq(String seqName) {
-		if (sequenceMaker != null && sequenceMaker.isInited()) {
-			return sequenceMaker.nextVal(seqName);
-		}
 		return daoOperator.getSeq(seqName);
 	}
 	
 	@Override
 	public int getCnt(BaseParaMap paraMap) {
-		String key=null;
-		if(dbOprationCache !=null && paraMap.getCacheTime()!=0){
-			key="cnt"+paraMap.key();
-			Page<ResultMap> page=dbOprationCache.getFromCache(key);
-			if(page!=null){
-				return page.getCount();
-			}
+		Page cache = paraMap.getCacheItem().getCache("cnt", paraMap);
+		if(cache!=null){
+			return cache.getCount();
 		}
-		
-		paraMap = SqlUtil.dealParm(paraMap);
-		SqlUtil.createCntSql(paraMap);
-		if(paraMap.getSqlInput()!=null && log.isInfoEnabled()){
-			log.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_cnt()+ "]para:[" + paraMap.getPara()+"]");
+		SqlItem sqlItem = paraMap.getSqlItem();
+		if (sqlItem.getSqlKey() != null){
+			sqlItem = SqlUtil.dealParm(paraMap);
+			SqlUtil.createCntSql(sqlItem);
+			if(log.isInfoEnabled()){
+				log.info("SQL:"+sqlItem.getSqlKey() + "[" + sqlItem.getSqlCnt()+ "]para:[" + paraMap.getPara()+"]");
+			}
 		}
 		try {
 			int cnt = daoOperator.getCnt(paraMap);
-			if(key!=null){
-				dbOprationCache.put(key, new Page<ResultMap>(cnt,null), paraMap.getCacheTime());
-			}
+			paraMap.getCacheItem().saveCache(cnt);
 			return cnt;
 		} catch (Exception e) {
 			if(e instanceof DbException) {
 				throw e;
 			}
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSql_cnt() + " para:" + paraMap.getPara(),1003, e);
+			throw new DbException(sqlItem.getSqlKey() + ":" + sqlItem.getSqlCnt() + " para:" + paraMap.getPara(),1003, e);
 		}
 	}
 	
@@ -101,35 +96,31 @@ public class CommServiceImpl implements ICommService {
 	* @throws Exception
 	*/
 	private List<ResultMap> getList(BaseParaMap paraMap) {
-		String key=null;
-		if(dbOprationCache !=null && paraMap.getCacheTime()!=0){
-			key="list"+paraMap.key();
-			Page<ResultMap> page=dbOprationCache.getFromCache(key);
-			if(page!=null){
-				return page.getData();
-			}
+		Page cache = paraMap.getCacheItem().getCache("list", paraMap);
+		if (cache != null) {
+			return cache.getData();
 		}
-		
-		paraMap = SqlUtil.dealParm(paraMap);
-		SqlUtil.createPageSql(paraMap);
-		if(paraMap.getSqlInput()!=null && log.isInfoEnabled()){
-			log.info("SQL:"+paraMap.getSqlInput() + "[" + paraMap.getSql_page()+ "]para:[" + paraMap.getPara()+"]");
+		SqlItem sqlItem = paraMap.getSqlItem();
+		if (sqlItem.getSqlKey() != null){
+			sqlItem = SqlUtil.dealParm(paraMap);
+			SqlUtil.createPageSql(paraMap);
+			if (log.isInfoEnabled()) {
+				log.info("SQL:" + sqlItem.getSqlKey() + "[" + sqlItem.getSqlRun() + "]para:[" + paraMap.getPara() + "]");
+			}
 		}
 		try {
 			List<ResultMap> list = daoOperator.getList(paraMap);
 			List<ResultMap> list2=new ArrayList<ResultMap>();
 			for(ResultMap r: list){
-				list2.add(DbCoverUtil.converResultMap(r,paraMap.getConvert()));
+				list2.add(ConvertUtil.converResultMap(r,paraMap.getConvert()));
 			}
-			if(key!=null){
-				dbOprationCache.put(key, new Page<ResultMap>(0,list2), paraMap.getCacheTime());
-			}
+			paraMap.getCacheItem().saveCache(list2);
 			return list2;
 		} catch (Exception e) {
 			if(e instanceof DbException) {
 				throw e;
 			}
-			throw new DbException(e.getMessage()+" "+paraMap.getSqlInput() + ":" + paraMap.getSql_page() + " para:" + paraMap.getPara(),1003, e);
+			throw new DbException(e.getMessage()+" "+sqlItem.getSqlKey() + ":" + sqlItem.getSqlPage() + " para:" + paraMap.getPara(),1003, e);
 		}
 	}
 	
@@ -175,23 +166,7 @@ public class CommServiceImpl implements ICommService {
 		return l;
 	}
 	
-	@Override
-	public long getSeq(Class<?> clazz) {
-		String seqName = null;
-		try {
-			Object o = clazz.newInstance();
-			if (o instanceof BaseModel) {
-				Field field = clazz.getField("tableName");
-				seqName=field.get(o).toString();
-			}
-		} catch (Exception e) {
-			log.error(clazz.toString()+"未设置tableName，取得通用sequence！");
-		}
-		if (seqName != null) {
-			seqName = "seq_" + seqName;
-		} 
-		return getSeq(seqName);
-	}
+
 	@Override
 	public Page<ResultMap> getPage(BaseParaMap paraMap){
 		return getPage(paraMap, ResultMap.class);
@@ -199,13 +174,14 @@ public class CommServiceImpl implements ICommService {
 	
 	@Override
 	public ResultMap getMap(BaseParaMap paraMap, boolean throwEx){
+		SqlItem sqlItem = paraMap.getSqlItem();
 		try{
 			return getOne(getList(paraMap),throwEx);
 		}catch (Exception e) {
 			if(e instanceof DbException) {
 				throw e;
 			}
-			throw new DbException(paraMap.getSqlInput() + ":" + paraMap.getSqlRun() + " para:" + paraMap.getPara(),1004, e);
+			throw new DbException(sqlItem.getSqlKey() + ":" + sqlItem.getSqlRun() + " para:" + paraMap.getPara(),1004, e);
 		}
 	}
 	
@@ -216,7 +192,7 @@ public class CommServiceImpl implements ICommService {
 	
 	@Override
 	public Object getColum(BaseParaMap paraMap){
-		return DbCoverUtil.getFistClumn(getOne(getList(paraMap),true));
+		return ConvertUtil.getFistClumn(getOne(getList(paraMap),true));
 	}
 
 	@Override
@@ -224,7 +200,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<Object> l = new ArrayList<Object>();
 		for(ResultMap m : r){
-			l.add(DbCoverUtil.getFistClumn(m));
+			l.add(ConvertUtil.getFistClumn(m));
 		}
 		return l;
 	}
@@ -232,7 +208,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<T> l = new ArrayList<T>();
 		for(ResultMap m : r){
-			l.add(ValUtil.getObj(DbCoverUtil.getFistClumn(m), t));
+			l.add(ValUtil.getObj(ConvertUtil.getFistClumn(m), t));
 		}
 		return l;
 	}
@@ -241,7 +217,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<String> l = new ArrayList<String>();
 		for(ResultMap m : r){
-			l.add(ValUtil.getStr(DbCoverUtil.getFistClumn(m)));
+			l.add(ValUtil.getStr(ConvertUtil.getFistClumn(m)));
 		}
 		return l;
 	}
@@ -250,7 +226,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<BigDecimal> l = new ArrayList<BigDecimal>();
 		for(ResultMap m : r){
-			l.add(ValUtil.getBigDecimal(DbCoverUtil.getFistClumn(m)));
+			l.add(ValUtil.getBigDecimal(ConvertUtil.getFistClumn(m)));
 		}
 		return l;
 	}
@@ -259,7 +235,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<Float> l = new ArrayList<Float>();
 		for(ResultMap m : r){
-			l.add(ValUtil.getFloat(DbCoverUtil.getFistClumn(m)));
+			l.add(ValUtil.getFloat(ConvertUtil.getFistClumn(m)));
 		}
 		return l;
 	}
@@ -268,7 +244,7 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<Integer> l = new ArrayList<Integer>();
 		for(ResultMap m : r){
-			l.add(ValUtil.getInt(DbCoverUtil.getFistClumn(m)));
+			l.add(ValUtil.getInt(ConvertUtil.getFistClumn(m)));
 		}
 		return l;
 	}
@@ -277,38 +253,26 @@ public class CommServiceImpl implements ICommService {
 		List<ResultMap> r = getList(paraMap);
 		List<Long> l = new ArrayList<Long>();
 		for(ResultMap m : r){
-			l.add(ValUtil.getLong(DbCoverUtil.getFistClumn(m)));
+			l.add(ValUtil.getLong(ConvertUtil.getFistClumn(m)));
 		}
 		return l;
 	}
 	@Override
 	public <T> Page<T> getPage(BaseParaMap paraMap, Class<T> t) {
+		Page cache = paraMap.getCacheItem().getCache("page", paraMap);
+		if(cache!=null){
+			return cache;
+		}
+
 		Page<T> page= paraMap.getPage();
-		if(page==null){
-			page=new Page<T>();
-		}
-		paraMap.setPage(page);
-		
-		String key=null;
-		if(dbOprationCache !=null && paraMap.getCacheTime()!=0){
-			key="page"+paraMap.key();
-			Page<T> page2=dbOprationCache.getFromCache(key);
-			if(page2!=null){
-				return page2;
-			}
-		}
-		//pageNow==0的情况，不统计条数
-		boolean needCount=page.getPageNow()>0;
 		//是否需要查询列表（需要统计条数并且条数是0的情况不查询，直接返回空列表）
 		boolean needList=true;
 		
-		if(needCount){
-			page.setCount(getCnt(paraMap));
-			if(page.getCount()==0){
-				needList=false;
-			}
+		page.setCount(getCnt(paraMap));
+		if(page.getCount()==0){
+			needList=false;
 		}
-		
+
 		if(needList){
 			if(t==ResultMap.class){
 				page.setData((List<T>) getMapList(paraMap));
@@ -318,10 +282,8 @@ public class CommServiceImpl implements ICommService {
 		}else{
 			page.setData(new ArrayList<T>());
 		}
+		paraMap.getCacheItem().saveCache(page);
 		
-		if(key!=null){
-			dbOprationCache.put(key, page, paraMap.getCacheTime());
-		}
 		return page;
 	}
 

@@ -14,7 +14,7 @@ import com.dlz.app.uim.holder.UserHolder;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.web.bean.JSONResult;
 import com.dlz.framework.db.modal.Page;
-import com.dlz.comm.exception.LogicException;
+import com.dlz.comm.exception.BussinessException;
 import com.dlz.framework.holder.SpringHolder;
 import org.slf4j.Logger;
 import com.dlz.comm.util.JacksonUtil;
@@ -149,9 +149,9 @@ public class ApiUtil {
 			m.addErr(-7, "陌生的地方：【" + aType + "】");
 		} catch (InvocationTargetException e) {
 			Throwable te = e.getTargetException();
-			if (te instanceof LogicException) {
+			if (te instanceof BussinessException) {
 				logger.warn(te.getMessage());
-				m.addErr(-90, ((LogicException) te).getInfo());
+				m.addErr(-90, ((BussinessException) te).getInfo());
 			} else {
 				logger.error("业务异常【" + apiLogic.getClass().getSimpleName() + "." + methodStr + "】");
 				logger.error("datas:" + datas.toString());
@@ -207,8 +207,8 @@ public class ApiUtil {
 			err=WebUtil.renderErr(HttpStatus.SC_NOT_ACCEPTABLE,service,methodName, "参数作用域有误！");
 		} catch (InvocationTargetException e) {
 			Throwable te = e.getTargetException();
-			if (te instanceof LogicException) {
-				LogicException logicException = (LogicException) te;
+			if (te instanceof BussinessException) {
+				BussinessException logicException = (BussinessException) te;
 				int errorCode = logicException.getCode();
 				logger.warn(err,e);
 				err=WebUtil.renderErr(errorCode,service,methodName, logicException.getInfo());

@@ -23,7 +23,7 @@ public class DaoTest implements IDaoOperator {
 	
 	@Override
 	public List<ResultMap> getList(BaseParaMap paraMap) {
-		SqlUtil.dealParmToJdbc(paraMap, paraMap.getSql_page());
+		SqlUtil.dealParmToJdbc(paraMap, paraMap.getSqlPage());
 		logger.info("test:"+paraMap.getSqlJdbc()+"paras:"+JacksonUtil.getJson(paraMap.getSqlJdbcPara()));
 		List<ResultMap> retList =new ArrayList<ResultMap>();
 		return retList;

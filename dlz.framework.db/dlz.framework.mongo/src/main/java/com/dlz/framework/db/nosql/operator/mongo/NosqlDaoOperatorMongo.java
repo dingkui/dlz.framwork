@@ -47,9 +47,9 @@ public class NosqlDaoOperatorMongo implements INosqlDaoOperator {
 				sort.append(page.getSortField(), "desc".equalsIgnoreCase(page.getSortOrder())?-1:1);
 				find.sort(sort);
 			}
-			if(page.isNeedFy()&&page.getBegin()!=null){
-				find.skip(page.getBegin());
-			}
+//			if(page.isNeedFy()&&page.getBegin()!=null){
+//				find.skip(page.getBegin());
+//			}
 			if(page.getPageSize()>0){
 				find.limit(page.getPageSize());
 			}

@@ -229,7 +229,7 @@ public class ConfUtil{
 		}
 		if(obj.isEmpty()){
 			log.warn("无效的map配置,key="+key);
-//			throw new CodeException("无效的maop置,key="+key);
+//			throw new SystemException("无效的maop置,key="+key);
 		}
 		return obj;
 	}
@@ -244,7 +244,7 @@ public class ConfUtil{
 		}
 		if(obj.isEmpty()){
 			log.warn("无效的List配置,key="+key);
-//			throw new CodeException("无效的maop置,key="+key);
+//			throw new SystemException("无效的maop置,key="+key);
 		}
 		return obj;
 	}

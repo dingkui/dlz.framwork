@@ -9,21 +9,22 @@ public class ParaMap extends BaseParaMap{
 	private static final long serialVersionUID = 8374167270612933157L;
 	
 	@SuppressWarnings("rawtypes")
-	public ParaMap(String sql,Page page){
-		super(sql, page);
-	}
 	public ParaMap(String sql){
 		super(sql);
 	}
-	
+	public ParaMap(String sql,Page page){
+		super(sql,page);
+	}
+
+
 	public ParaMap setLikePara(String paraName) {
-		if(!StringUtils.isEmpty(super.getPara().get(paraName))){
-			super.addPara(paraName, "%"+super.getPara().get(paraName)+"%");
+		if(!StringUtils.isEmpty(getPara().get(paraName))){
+			super.addPara(paraName, "%"+getPara().get(paraName)+"%");
 		}
 		return this;
 	}
 	public ParaMap addDefaultPara(String paraName,String defaultValue) {
-		if(StringUtils.isEmpty(super.getPara().get(paraName))){
+		if(StringUtils.isEmpty(getPara().get(paraName))){
 			super.addPara(paraName, defaultValue);
 		}
 		return this;

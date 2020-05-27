@@ -43,7 +43,7 @@ import org.dom4j.io.SAXReader;
 
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.exception.HttpException;
-import com.dlz.comm.exception.LogicException;
+import com.dlz.comm.exception.BussinessException;
 import org.slf4j.Logger;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
@@ -216,12 +216,12 @@ public class HttpUtil {
 				throw new HttpException("无访问权限:"+request.getURI(),statusCode);
 			default :
 				if(statusCode>3000&&statusCode<3100){
-					throw new LogicException(statusCode, (String)getResult(execute.getEntity().getContent(), 1,charsetNamere), null);
+					throw new BussinessException(statusCode, (String)getResult(execute.getEntity().getContent(), 1,charsetNamere), null);
 				}else{
 					throw new HttpException("访问异常:"+request.getURI()+" 返回码:"+statusCode,statusCode);
 				}
 			}
-		} catch (LogicException e) {
+		} catch (BussinessException e) {
 			throw e;
 		} catch (HttpException e) {
 			throw e;
