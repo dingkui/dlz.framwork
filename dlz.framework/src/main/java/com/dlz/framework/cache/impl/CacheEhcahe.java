@@ -8,6 +8,7 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 /**
  * 使用ehcache实现缓存
@@ -31,7 +32,7 @@ public class CacheEhcahe implements ICache {
     }
 
     @Override
-    public <T extends Serializable> T get(String name, Serializable key,Class<T> tClass) {
+    public <T extends Serializable> T get(String name, Serializable key, Type tClass) {
         Element element = getCache(name).get(key);
         if (element != null) {
             return (T) element.getObjectValue();
