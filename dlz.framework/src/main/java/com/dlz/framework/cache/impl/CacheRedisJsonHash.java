@@ -54,12 +54,12 @@ public class CacheRedisJsonHash implements ICache {
 
     protected StringBuilder getRedisKey(String name) {
         StringBuilder sb = new StringBuilder(appName);
-        return sb.append(keySplit).append(profiles).append(keySplit).append(name);
+        return sb.append(keySplit).append(profiles).append(keySplit).append(name.replaceAll(":",""));
     }
 
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Class<T> tClass) {
-        String str = this.excuteByJedis(j -> j.hget(getRedisKey(name).toString(), String.valueOf(key)));
+        String str = this.excuteByJedis(j -> j.hget(getRedisKey(name).toString(), String.valueOf(key).replaceAll(":","")));
         if (str != null) {
             return ValUtil.getObj(str, tClass);
         }
@@ -69,7 +69,7 @@ public class CacheRedisJsonHash implements ICache {
     @Override
     public void put(String name, Serializable key, Serializable value, long milliseconds) {
         String key1 = getRedisKey(name).toString();
-        this.excuteByJedis(j -> j.hset(key1,String.valueOf(key), ValUtil.getStr(value)));
+        this.excuteByJedis(j -> j.hset(key1,String.valueOf(key).replaceAll(":",""), ValUtil.getStr(value)));
         if (milliseconds > -1) {
             this.excuteByJedis(j -> j.pexpire(key1, milliseconds));
         }
@@ -77,7 +77,7 @@ public class CacheRedisJsonHash implements ICache {
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.hdel(getRedisKey(name).toString(), String.valueOf(key)));
+        this.excuteByJedis(j -> j.hdel(getRedisKey(name).toString(), String.valueOf(key).replaceAll(":","")));
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class CacheRedisSerialKey extends CacheRedisJsonHash {
     protected byte[] getKey(String name,Serializable key) {
-        return SafeEncoder.encode(getRedisKey(name).append(keySplit).append(key).toString());
+        return SafeEncoder.encode(getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":","")).toString());
     }
     private static byte[] nxxx = SafeEncoder.encode("XX");
     private static byte[] expx = SafeEncoder.encode("EX");

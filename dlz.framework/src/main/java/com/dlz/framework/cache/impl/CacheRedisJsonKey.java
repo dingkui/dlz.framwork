@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class CacheRedisJsonKey extends CacheRedisJsonHash {
     private String getRedisKey(String name, Serializable key) {
-        return getRedisKey(name).append(keySplit).append(key).toString();
+        return getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":","")).toString();
     }
 
     @Override

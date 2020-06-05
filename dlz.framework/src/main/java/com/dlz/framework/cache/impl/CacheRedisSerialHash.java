@@ -20,7 +20,7 @@ public class CacheRedisSerialHash extends CacheRedisJsonHash {
     public <T extends Serializable> T get(String name, Serializable key, Class<T> tClass) {
         return this.excuteByJedis(j -> {
             final Client client = j.getClient();
-            j.hget(getKey(name), SafeEncoder.encode(key.toString()));
+            j.hget(getKey(name), SafeEncoder.encode(key.toString().replaceAll(":","")));
             final byte[] result = client.getBinaryBulkReply();
             try {
                 if (null != result) {
@@ -39,7 +39,7 @@ public class CacheRedisSerialHash extends CacheRedisJsonHash {
         this.excuteByJedis(j -> {
             final Client client = j.getClient();
             byte[] key1 = getKey(name);
-            client.hset(key1, SafeEncoder.encode(key.toString()), SerializeUtil.serialize(value));
+            client.hset(key1, SafeEncoder.encode(key.toString().replaceAll(":","")), SerializeUtil.serialize(value));
             if (milliseconds > -1) {
                 j.pexpire(key1, milliseconds);
             }
@@ -56,7 +56,7 @@ public class CacheRedisSerialHash extends CacheRedisJsonHash {
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.hdel(getKey(name), SafeEncoder.encode(key.toString())));
+        this.excuteByJedis(j -> j.hdel(getKey(name), SafeEncoder.encode(key.toString().replaceAll(":",""))));
     }
 
     @Override
