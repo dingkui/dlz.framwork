@@ -22,6 +22,9 @@ import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * AOP 缓存操作
@@ -60,9 +63,7 @@ public class CacheAspect {
         Method method = ((MethodSignature) point.getSignature()).getMethod();
         Class<?> returnType = method.getReturnType();
 //        SystemException.isTrue(!method.getName().startsWith("get"), () -> "缓存必须是get方法：" + method.getName());
-        SystemException.isTrue(!Serializable.class.isAssignableFrom(returnType), () -> "类型：" + returnType + "无法缓存！");
-
-
+//        SystemException.isTrue(!Serializable.class.isAssignableFrom(returnType) && !Collection.class.isAssignableFrom(returnType), () -> "类型：" + returnType + "无法缓存！");
         Parameter[] parameters = method.getParameters();
         Object[] args = point.getArgs();
         JSONMap paraMap = new JSONMap();
@@ -83,7 +84,10 @@ public class CacheAspect {
 
         // 执行方法取得数据
         Object result = point.proceed();
-
+        if(result == null){
+            return result;
+        }
+        SystemException.isTrue(!Serializable.class.isAssignableFrom(result.getClass()) , () -> "类型：" + result.getClass() + "无法缓存！");
         //数据保存进缓存
         iCache.put(cacheName, key, (Serializable) result, ValUtil.getInt(cacheAnno.cacheTime()));
 
