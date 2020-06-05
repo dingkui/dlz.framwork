@@ -1,6 +1,6 @@
 package com.dlz.framework.cache.impl;
 
-import com.dlz.comm.exception.SystemException;
+import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Cache;
@@ -16,47 +16,45 @@ import java.io.Serializable;
  */
 @Slf4j
 public class CacheEhcahe implements ICache {
-    private Cache cache;
-	public void init(String name) {
-        try {
-            CacheManager manager = CacheManager.getInstance();
-            log.debug("缓存初始化：" + manager.getConfiguration().getDiskStoreConfiguration().getPath() + "/" + name);
-            cache = manager.getCache(name);
+    static CacheManager manager = CacheManager.getInstance();
+
+    private Cache getCache(String name) {
+        Cache cache = manager.getCache(name);
+        if (cache == null) {
             if (cache == null) {
+                log.info("缓存初始化：" + manager.getConfiguration().getDiskStoreConfiguration().getPath() + "/" + name);
                 manager.addCache(name);
                 cache = manager.getCache(name);
             }
-        } catch (net.sf.ehcache.CacheException e) {
-            log.error("缓存创建失败:" + name, e);
-            throw new SystemException("缓存创建失败:" + name, e);
         }
+        return cache;
     }
 
     @Override
-    public Serializable get(Serializable key) {
-        Element element = cache.get(key);
+    public <T extends Serializable> T get(String name, Serializable key,Class<T> tClass) {
+        Element element = getCache(name).get(key);
         if (element != null) {
-            return (Serializable) element.getObjectValue();
+            return (T) element.getObjectValue();
         }
         return null;
     }
 
     @Override
-    public void put(Serializable key, Serializable value, int exp) {
+    public void put(String name, Serializable key, Serializable value, long milliseconds) {
         Element element = new Element(key, value);
-        if (exp > -1) {
-            element.setTimeToLive(exp);
+        if (milliseconds > -1) {
+            element.setTimeToLive(ValUtil.getInt(milliseconds/1000));
         }
-        cache.put(element);
+        getCache(name).put(element);
     }
 
     @Override
-    public void remove(Serializable key) {
-        cache.remove(key.toString());
+    public void remove(String name, Serializable key) {
+        getCache(name).remove(key.toString());
     }
 
     @Override
-    public void removeAll() {
-        cache.removeAll();
+    public void removeAll(String name) {
+        getCache(name).removeAll();
     }
 }

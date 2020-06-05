@@ -28,12 +28,12 @@
 <!--		<property name="password" value="root"/>-->
 <!--	</bean>-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.dlz.**.dao" />
+		<property name="basePackage" value="com.dlz.dao" />
 		<!--<property name="basePackage" value="com.xxx.dao,com.yyyy.dao" />-->
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 	</bean>
 	<!-- 创建SqlSessionFactory MyBatis会话工厂对象 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
 		<!-- 注入数据源 -->
 		<property name="dataSource" ref="dataSource" />
 		<!-- 读取映射文件 ,MyBatis的纯注解不用配置 -->

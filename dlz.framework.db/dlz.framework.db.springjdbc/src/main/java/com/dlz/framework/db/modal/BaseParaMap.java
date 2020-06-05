@@ -19,6 +19,7 @@ public class BaseParaMap implements Serializable {
     private static final long serialVersionUID = 8374167270612933157L;
     @JsonIgnore
     private Convert convert = new Convert();
+    @JsonIgnore
     private CacheItem cacheItem = new CacheItem();
     private SqlItem sqlItem = new SqlItem();
     private Page page;
@@ -28,12 +29,12 @@ public class BaseParaMap implements Serializable {
         convert.addClassConvert(new DateConverter(DateFormatEnum.DateTimeStr));
     }
 
-    protected BaseParaMap(String sqlKey) {
+    public BaseParaMap(String sqlKey) {
         sqlItem.setSqlKey(sqlKey);
         this.addDefualtConverter();
     }
 
-    protected BaseParaMap(String sqlKey, Page page) {
+    public BaseParaMap(String sqlKey, Page page) {
         sqlItem.setSqlKey(sqlKey);
         this.page=page;
         this.addDefualtConverter();

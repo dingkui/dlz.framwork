@@ -1,5 +1,6 @@
 package com.dlz.framework.db;
 
+import com.dlz.comm.exception.DbException;
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.JacksonUtil;
@@ -7,9 +8,7 @@ import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.db.convertor.ConvertUtil;
 import com.dlz.framework.db.enums.ParaTypeEnum;
-import com.dlz.comm.exception.DbException;
 import com.dlz.framework.db.modal.BaseParaMap;
-import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.items.SqlItem;
 import org.slf4j.Logger;
@@ -138,7 +137,7 @@ public class SqlUtil {
      */
     public static BaseParaMap getParmMap(String sql, Object... para) {
 //		if("1".equals(DbInfo.getDbset("run.jdbc"))){
-        ParaMap paraMap = new ParaMap(null);
+        BaseParaMap paraMap = new BaseParaMap(null);
         SqlItem sqlItem = paraMap.getSqlItem();
         sqlItem.setSqlJdbc(sql);
         sqlItem.setSqlJdbcPara(para);

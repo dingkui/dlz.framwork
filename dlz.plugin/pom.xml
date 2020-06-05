@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz-dependencies</artifactId>
-		<version>3.1</version>
+		<version>3.1.1</version>
 	</parent>
 	<artifactId>dlz.plugin</artifactId>
 	<packaging>pom</packaging>
@@ -26,7 +26,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.12</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

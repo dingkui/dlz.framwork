@@ -41,10 +41,6 @@ public class RedisConfig {
         return jedisPool.getResource();
     }
 
-    @Bean
-    public ICache CacheCreator() throws Exception {
-        return new CacheDeaRedisImpl();
-    }
 
     @Bean(name = "jedisPool")
     public JedisPool jedisPool() throws Exception {

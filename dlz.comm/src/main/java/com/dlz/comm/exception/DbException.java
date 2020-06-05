@@ -10,9 +10,6 @@ import java.sql.SQLRecoverableException;
  */
 public class DbException extends BaseException {
 	private static final long serialVersionUID = 1L;
-
-
-
 	private static int ERROR_CODE = 1000;
 	private static int DEFUALT_ERROR_CODE = 1003;
 

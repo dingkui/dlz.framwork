@@ -1,0 +1,27 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /ehr/api
+
+spring:
+  datasource:
+    #    url: jdbc:oracle:thin:@10.248.58.101:1521:HAF
+    #    username: haf
+    #    password: passw0rd
+    url: ${jdbc.url}
+    username: ${jdbc.username}
+    password: ${jdbc.password}
+    #    driver-class-name: oracle.jdbc.driver.OracleDriver
+    driver-class-name: ${jdbc.driver}
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+
+  application:
+    name: ehr
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*Mapper.xml,classpath*:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  #  typeAliasesPackage: com.huaxincem.oauth.model
+  global-config:
+    db-config:
+      id-type: auto

@@ -7,11 +7,13 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.StringUtils;
+import com.dlz.framework.db.cache.MyBeanPostProcessor;
 import com.dlz.framework.db.service.ICommPlusService;
 import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,38 +38,11 @@ import java.util.*;
 @Slf4j
 @Transactional(rollbackFor = {Exception.class, RuntimeException.class})
 public class CommPlusServiceImpl implements ICommPlusService {
-    private Map<Class<?>, Object[]> hashtable = new Hashtable<>();
+    @Autowired
+    MyBeanPostProcessor beanPostProcessor;
 
-    @Bean
-    BeanPostProcessor beanPostProcessor() {
-        return new BeanPostProcessor() {
-            @Override
-            public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-                if (bean.getClass() == MapperFactoryBean.class) {
-                    Class mapperInterface = ((MapperFactoryBean) bean).getMapperInterface();
-                    if (!BaseMapper.class.isAssignableFrom(mapperInterface)) {
-                        return bean;
-                    }
-                    ParameterizedType pt = (ParameterizedType) mapperInterface.getGenericInterfaces()[0];
-                    Class<?> aClass = (Class<?>) pt.getActualTypeArguments()[0];
-                    hashtable.put(aClass, new Object[]{mapperInterface, null});
-                }
-                return bean;
-            }
-        };
-    }
-
-    private <T> BaseMapper<T> getMapper(Class<T> clazz) {
-        Object[] obj = hashtable.get(clazz);
-        if (obj == null) {
-            throw new RuntimeException("未找到[" + clazz.getName() + "]对应的Dao");
-        }
-        BaseMapper<T> BaseMapper = (BaseMapper) obj[1];
-        if (BaseMapper == null) {
-            BaseMapper = (BaseMapper) SpringHolder.getBean(((Class) obj[0]));
-            obj[1] = BaseMapper;
-        }
-        return BaseMapper;
+    public <T> BaseMapper<T> getMapper(Class<T> clazz) {
+        return beanPostProcessor.getMapper(clazz);
     }
 
     /**

@@ -3,13 +3,11 @@ package com.dlz.framework.cache;
 import java.io.Serializable;
 
 public interface ICache {
-    void init(String name);
+    <T extends Serializable> T get(String name, Serializable key,Class<T> tClass);
 
-    Serializable get(Serializable key);
+    void put(String name, Serializable key, Serializable value, long milliseconds);
 
-    void put(Serializable key, Serializable value, int exp);
+    void remove(String name, Serializable key);
 
-    void remove(Serializable key);
-
-    void removeAll();
+    void removeAll(String name);
 }

@@ -26,15 +26,12 @@ public class RemoteException extends BaseException {
 		super(DEFUALT_ERROR_CODE, message);
 	}
 	
-	public static RemoteException buildException(String message,Throwable cause){
-		RemoteException e = null;
+	public static void buildException(String message,Throwable cause){
 		if(cause!=null && cause instanceof UnknownHostException || cause instanceof IOException || cause instanceof SocketException) {
-			e = new RemoteException(7000,message, cause);
+			throw new RemoteException(7000,message, cause);
 		}else if(cause!=null && cause instanceof IOException){
-			e = new RemoteException(7002,message, cause);
-		}else{
-			e = new RemoteException(message, cause);
+			throw new RemoteException(7002,message, cause);
 		}
-		return e;
+		throw new RemoteException(message, cause);
 	}
 }

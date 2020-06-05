@@ -1,0 +1,59 @@
+package com.dlz.framework.cache;
+
+import com.dlz.comm.exception.SystemException;
+import com.dlz.framework.cache.impl.CacheEhcahe;
+import com.dlz.framework.holder.SpringHolder;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * 缓存记录
+ *
+ * @author dk
+ */
+@Slf4j
+public class CacheHolder {
+    private static Map<String, ICache> CacheSet = new HashMap<>();
+
+    public static void clearAll() {
+        for (Map.Entry<String, ICache> deal : CacheSet.entrySet()) {
+            deal.getValue().removeAll(deal.getKey());
+        }
+    }
+
+    public static ICache get(String cacheName, Class<? extends ICache> cacheClass) {
+        if (CacheSet.containsKey(cacheName)) {
+            return CacheSet.get(cacheName);
+        }
+        ICache cache = null;
+        if (cacheClass == null) {
+            cache = SpringHolder.registerBean(CacheEhcahe.class);
+        } else {
+            cache = SpringHolder.registerBean(cacheClass);
+        }
+        CacheSet.put(cacheName, cache);
+        return cache;
+    }
+
+    public static ICache get(String cacheName, ICache cache) {
+        if (CacheSet.containsKey(cacheName)) {
+            return CacheSet.get(cacheName);
+        }
+        if (cache == null) {
+            cache = SpringHolder.registerBean(CacheEhcahe.class);
+        }
+        CacheSet.put(cacheName, cache);
+        return cache;
+    }
+
+    public static ICache add(String cacheName, ICache cache) {
+        SystemException.isTrue(CacheSet.containsKey(cacheName), () -> "缓存已经存在，不能重复定义：" + cacheName);
+        if (cache == null) {
+            cache = SpringHolder.registerBean(CacheEhcahe.class);
+        }
+        CacheSet.put(cacheName, cache);
+        return cache;
+    }
+}

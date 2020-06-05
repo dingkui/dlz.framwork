@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * 缓存实现
@@ -26,11 +27,11 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
         public Object getFromDb(Object o) {
             return null;
         }
-        public void saveToDb(Object o, Object o2) {
-        }
+        public void saveToDb(Object o, Object o2) {}
     };
     private int timeToLiveSeconds = -1;
-    private String cacheName = null;
+    private String cacheName;
+    private Class<T> resultClass;
 
     public AbstractCache(String cacheName, int timeToLiveSeconds) {
         this(cacheName);
@@ -39,15 +40,25 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
 
     public AbstractCache(String cacheName) {
         this.cacheName = cacheName.toLowerCase();
+        resultClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+    }
+    public AbstractCache(String cacheName,ICache cache) {
+        this(cacheName);
+        this.cache=cache;
+    }
+    public AbstractCache(ICache cache) {
+        this();
+        this.cache=cache;
     }
 
     public AbstractCache() {
         this.cacheName = this.getClass().getSimpleName().toLowerCase();
+        resultClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
     }
 
     @PostConstruct
     private void _init() {
-        cache = CacheHolder.add(cacheName);
+        cache = CacheHolder.add(cacheName, cache);
     }
 
     public String toString(){
@@ -119,7 +130,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
      * @return
      */
     public T getFromCache(KEY key) {
-        return (T) cache.get(key);
+        return (T) cache.get(cacheName, key, resultClass);
     }
 
     /**
@@ -141,7 +152,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
      */
     public void put(KEY key, T value, int exp) {
         try {
-            cache.put(key, value, exp);
+            cache.put(cacheName, key, value, exp);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -154,7 +165,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
      */
     public void remove(KEY key) {
         try {
-            cache.remove(key);
+            cache.remove(cacheName, key);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -164,7 +175,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
      * 清空缓存
      */
     public void clear() {
-        cache.removeAll();
+        cache.removeAll(cacheName);
     }
 
     /**

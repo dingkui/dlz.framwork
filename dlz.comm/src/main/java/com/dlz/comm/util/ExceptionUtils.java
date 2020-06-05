@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * <p>Provides utilities for manipulating and examining
@@ -23,8 +24,6 @@ public class ExceptionUtils {
      */
     private static final String SUPPRESSED_CAPTION = "Suppressed: ";
 
-    private String showPackage="com.dlz";
-
     Throwable throwable = null;
     final StringWriter sw = new StringWriter();
     final PrintWriter pw = new PrintWriter(sw, true);
@@ -40,11 +39,6 @@ public class ExceptionUtils {
         this.throwable = throwable;
     }
 
-    public static String getStackTrace(final Throwable throwable,final String showPackage) {
-        ExceptionUtils exceptionUtils = new ExceptionUtils(throwable);
-        exceptionUtils.showPackage=showPackage;
-        return exceptionUtils.getStackTrace();
-    }
     public static String getStackTrace(final Throwable throwable) {
         return new ExceptionUtils(throwable).getStackTrace();
     }
@@ -138,9 +132,23 @@ public class ExceptionUtils {
 //        if(traceInfo.contains("java.util.concurrent")){
 //            return;
 //        }
-        if (traceInfo.indexOf(showPackage) == -1) {
+        if (!COMPILE.matcher(traceInfo).find()) {
             return;
         }
         pw.println(prefix + "\tat " + traceInfo);
+    }
+
+    private static Pattern COMPILE = Pattern.compile("^com\\.(dlz)|(mileworks)");
+
+    public static void setCompiles(String compile){
+        COMPILE = Pattern.compile(compile);
+//        COMPILE = Pattern.compile("^"+compile.replaceAll("\\.","\\\\."));
+    }
+
+    public static void main(String[] args) {
+        setCompiles("^com\\.(dlz)|(mileworks)");
+        System.out.println(COMPILE.matcher("com.dlz.xxx").find());
+        System.out.println(COMPILE.matcher("com.mileworks.xxx").find());
+        System.out.println(COMPILE.matcher("com.milewxxorks.xxx").find());
     }
 }

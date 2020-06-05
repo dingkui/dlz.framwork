@@ -16,6 +16,7 @@ public class ExceptionErrors {
         addErrors(1002, "数据库异常");
         addErrors(1003, "数据库异常");
         addErrors(1004, "数据库异常");
+        addErrors(1005, "数据转换异常");
         addErrors(2001, "非法访问异常");
         addErrors(3001, "业务异常");
         addErrors(3002, "代码异常");

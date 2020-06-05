@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz.plugin</artifactId>
-		<version>3.1</version>
+		<version>3.1.1</version>
 	</parent>
 	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.plugin.test</artifactId>
