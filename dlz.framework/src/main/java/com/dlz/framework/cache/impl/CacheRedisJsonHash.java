@@ -1,8 +1,10 @@
 package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.exception.RemoteException;
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import java.util.Set;
  *
  * @author dk
  */
+@Slf4j
 public class CacheRedisJsonHash implements ICache {
     @Value("${spring.application.name}")
     private String appName = "app";
@@ -43,8 +46,9 @@ public class CacheRedisJsonHash implements ICache {
         try (Jedis jedis = jedisPool.getResource()) {
             return j.excute(jedis);
         } catch (Exception e) {
-            throw RemoteException.buildException("redis异常", e);
+            log.error(ExceptionUtils.getStackTrace(RemoteException.buildException("redis异常", e)));
         }
+        return null;
     }
 
 
