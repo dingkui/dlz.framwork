@@ -61,7 +61,7 @@ public class CacheAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         CacheAnno cacheAnno = getApiAnnotation(point);
         Method method = ((MethodSignature) point.getSignature()).getMethod();
-        Class<?> returnType = method.getReturnType();
+//        Class<?> returnType = method.getReturnType();
 //        SystemException.isTrue(!method.getName().startsWith("get"), () -> "缓存必须是get方法：" + method.getName());
 //        SystemException.isTrue(!Serializable.class.isAssignableFrom(returnType) && !Collection.class.isAssignableFrom(returnType), () -> "类型：" + returnType + "无法缓存！");
         Parameter[] parameters = method.getParameters();
@@ -77,7 +77,7 @@ public class CacheAspect {
         String cacheName = empty ? CACHE_NAME+method.getName() : cacheAnno.value();
         ICache iCache = empty ? cache : CacheHolder.get(cacheName, cache);
 
-        Serializable t = iCache.get(cacheName, key, (Class<? extends Serializable>) returnType);
+        Serializable t = iCache.get(cacheName, key, method.getGenericReturnType());
         if (t != null) {
             return t;
         }

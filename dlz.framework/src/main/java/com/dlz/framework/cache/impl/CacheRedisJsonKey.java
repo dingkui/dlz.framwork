@@ -1,8 +1,11 @@
 package com.dlz.framework.cache.impl;
 
+import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
+import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
@@ -16,11 +19,14 @@ public class CacheRedisJsonKey extends CacheRedisJsonHash {
         return getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":","")).toString();
     }
 
+    private static String nxxx = "XX";
+    private static String expx = "EX";
+
     @Override
-    public <T extends Serializable> T get(String name, Serializable key, Class<T> tClass) {
+    public <T extends Serializable> T get(String name, Serializable key, Type type) {
         String str = this.excuteByJedis(j -> j.get(getRedisKey(name, key)));
         if (str != null) {
-            return ValUtil.getObj(str, tClass);
+            return ValUtil.getObj(str, JacksonUtil.getJavaType(type));
         }
         return null;
     }
@@ -28,9 +34,11 @@ public class CacheRedisJsonKey extends CacheRedisJsonHash {
     @Override
     public void put(String name, Serializable key, Serializable value, long milliseconds) {
         String redisKey = getRedisKey(name, key);
-        this.excuteByJedis(j -> j.set(redisKey, ValUtil.getStr(value)));
         if (milliseconds > -1) {
-            this.excuteByJedis(j -> j.pexpire(redisKey, milliseconds));
+            this.excuteByJedis(j -> j.set(redisKey, ValUtil.getStr(value),nxxx,expx,milliseconds ));
+//            this.excuteByJedis(j -> j.pexpire(redisKey, milliseconds));
+        }else{
+            this.excuteByJedis(j -> j.set(redisKey, ValUtil.getStr(value)));
         }
     }
 

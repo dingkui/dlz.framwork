@@ -1,10 +1,10 @@
 package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.util.system.SerializeUtil;
-import redis.clients.jedis.Client;
 import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 
 /**
  * 使用Redis实现缓存
@@ -17,19 +17,14 @@ public class CacheRedisSerialHash extends CacheRedisJsonHash {
     }
 
     @Override
-    public <T extends Serializable> T get(String name, Serializable key, Class<T> tClass) {
+    public <T extends Serializable> T get(String name, Serializable key, Type type) {
         return this.excuteByJedis(j -> {
-            final Client client = j.getClient();
-            j.hget(getKey(name), SafeEncoder.encode(key.toString().replaceAll(":","")));
-            final byte[] result = client.getBinaryBulkReply();
-            try {
-                if (null != result) {
-                    return (T) SerializeUtil.deserialize(result);
-                } else {
-                    return null;
-                }
-            } finally {
-                client.close();
+            j.getClient().hget(getKey(name), SafeEncoder.encode(key.toString().replaceAll(":", "")));
+            final byte[] result = j.getClient().getBinaryBulkReply();
+            if (null != result) {
+                return (T) SerializeUtil.deserialize(result);
+            } else {
+                return null;
             }
         });
     }
@@ -37,26 +32,18 @@ public class CacheRedisSerialHash extends CacheRedisJsonHash {
     @Override
     public void put(String name, Serializable key, Serializable value, long milliseconds) {
         this.excuteByJedis(j -> {
-            final Client client = j.getClient();
             byte[] key1 = getKey(name);
-            client.hset(key1, SafeEncoder.encode(key.toString().replaceAll(":","")), SerializeUtil.serialize(value));
+            j.getClient().hset(key1, SafeEncoder.encode(key.toString().replaceAll(":", "")), SerializeUtil.serialize(value));
             if (milliseconds > -1) {
                 j.pexpire(key1, milliseconds);
             }
-            client.getBinaryBulkReply();
-            client.close();
-            try {
-                client.getBinaryBulkReply();
-            } finally {
-                client.close();
-            }
-            return null;
+            return j.getClient().getStatusCodeReply();
         });
     }
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.hdel(getKey(name), SafeEncoder.encode(key.toString().replaceAll(":",""))));
+        this.excuteByJedis(j -> j.hdel(getKey(name), SafeEncoder.encode(key.toString().replaceAll(":", ""))));
     }
 
     @Override

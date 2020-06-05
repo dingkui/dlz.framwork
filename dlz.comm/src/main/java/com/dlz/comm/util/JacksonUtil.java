@@ -128,12 +128,13 @@ public class JacksonUtil {
             return null;
         }
     }
+
     public static <T> T readValue(String content, TypeReference<T> valueType) {
         try {
             return objectMapper.readValue(content, valueType);
         } catch (Exception e) {
-            log.error("JacksonUtil.readValue error,content:"+content);
-            log.error("JacksonUtil.readValue error,valueType:"+valueType);
+            log.error("JacksonUtil.readValue error,content:" + content);
+            log.error("JacksonUtil.readValue error,valueType:" + valueType);
             log.error(e.getMessage(), e);
             return null;
         }
@@ -153,20 +154,22 @@ public class JacksonUtil {
     public static <T> T coverObj(Object o, Class<T> valueType) {
         return coverObj(o, constructType(valueType));
     }
-	/**
-	 * 类型转换
-	 *
-	 * @param valueType
-	 * @param parameterClasses
-	 * @return
-	 */
-	public static JavaType constructType(Class<?> valueType,Class<?>... parameterClasses) {
-		int len = parameterClasses.length;
-		if(len==0){
-			return objectMapper.getTypeFactory().constructType(valueType);
-		}
-		return objectMapper.getTypeFactory().constructParametricType(valueType, parameterClasses);
-	}
+
+    /**
+     * 类型转换
+     *
+     * @param valueType
+     * @param parameterClasses
+     * @return
+     */
+    public static JavaType constructType(Class<?> valueType, Class<?>... parameterClasses) {
+        int len = parameterClasses.length;
+        if (len == 0) {
+            return objectMapper.getTypeFactory().constructType(valueType);
+        }
+        return objectMapper.getTypeFactory().constructParametricType(valueType, parameterClasses);
+    }
+
     /**
      * 类型转换
      *
@@ -293,19 +296,43 @@ public class JacksonUtil {
     }
 
     public static JavaType getJavaType(Type type) {
-        if(type==null) {
+        if (type == null) {
             return null;
         }
         if (type instanceof ParameterizedType) { // 判断获取的类型是否是参数类型
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type[] typesto = parameterizedType.getActualTypeArguments();// 强制转型为带参数的泛型类型，
-            JavaType[] subclass=new JavaType[typesto.length];
-            for(int j=0;j<typesto.length;j++) {
-                subclass[j]=getJavaType(typesto[j]);
+            JavaType[] subclass = new JavaType[typesto.length];
+            for (int j = 0; j < typesto.length; j++) {
+                subclass[j] = getJavaType(typesto[j]);
             }
-            return objectMapper.getTypeFactory().constructParametricType((Class)parameterizedType.getRawType(),subclass);
-        }else{
-            return objectMapper.getTypeFactory().constructParametricType((Class)type,new JavaType[0]);
+            return objectMapper.getTypeFactory().constructParametricType((Class) parameterizedType.getRawType(), subclass);
+        } else {
+            return objectMapper.getTypeFactory().constructParametricType((Class) type, new JavaType[0]);
+        }
+    }
+
+    public static JavaType getJavaType2(Type type) {
+        if (type == null) {
+            return null;
+        }
+        //判断是否带有泛型
+        if (type instanceof ParameterizedType) {
+            Type[] actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
+            //获取泛型类型
+            Class rowClass = (Class) ((ParameterizedType) type).getRawType();
+
+            JavaType[] javaTypes = new JavaType[actualTypeArguments.length];
+
+            for (int i = 0; i < actualTypeArguments.length; i++) {
+                //泛型也可能带有泛型，递归获取
+                javaTypes[i] = getJavaType2(actualTypeArguments[i]);
+            }
+            return TypeFactory.defaultInstance().constructParametricType(rowClass, javaTypes);
+        } else {
+            //简单类型直接用该类构建JavaType
+            Class cla = (Class) type;
+            return TypeFactory.defaultInstance().constructParametricType(cla, new JavaType[0]);
         }
     }
 }

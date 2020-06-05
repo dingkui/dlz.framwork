@@ -2,8 +2,10 @@ package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.exception.RemoteException;
 import com.dlz.comm.util.ExceptionUtils;
+import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
+import com.fasterxml.jackson.databind.JavaType;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
@@ -58,10 +61,10 @@ public class CacheRedisJsonHash implements ICache {
     }
 
     @Override
-    public <T extends Serializable> T get(String name, Serializable key, Class<T> tClass) {
+    public <T extends Serializable> T get(String name, Serializable key, Type type) {
         String str = this.excuteByJedis(j -> j.hget(getRedisKey(name).toString(), String.valueOf(key).replaceAll(":","")));
         if (str != null) {
-            return ValUtil.getObj(str, tClass);
+            return ValUtil.getObj(str, JacksonUtil.getJavaType(type));
         }
         return null;
     }
