@@ -1,4 +1,4 @@
-package com.dlz.framework.springframework.iproxy;
+package com.dlz.framework.spring.iproxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.FactoryBean;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
+import com.dlz.framework.spring.iproxy.anno.AnnoApi;
 
 /**
  * 接口代理创建工厂

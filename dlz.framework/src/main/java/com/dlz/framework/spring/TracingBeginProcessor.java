@@ -1,4 +1,4 @@
-package com.dlz.framework.springframework;
+package com.dlz.framework.spring;
 
 import com.dlz.framework.holder.SpringHolder;
 import org.springframework.beans.BeansException;

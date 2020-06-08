@@ -1,4 +1,4 @@
-package com.dlz.framework.springframework.iproxy.anno;
+package com.dlz.framework.spring.iproxy.anno;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

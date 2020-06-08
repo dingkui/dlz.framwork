@@ -2,7 +2,7 @@ package com.dlz.plugin.component.springframework;
 
 import com.dlz.comm.util.StringUtils;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.springframework.scaner.IScaner;
+import com.dlz.framework.spring.scaner.IScaner;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.DependsOn;

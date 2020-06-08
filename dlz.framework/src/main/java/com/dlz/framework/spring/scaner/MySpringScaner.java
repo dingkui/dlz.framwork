@@ -1,7 +1,7 @@
-package com.dlz.framework.springframework.scaner;
+package com.dlz.framework.spring.scaner;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.springframework.scaner.IScaner.IScanerProcessor;
+import com.dlz.framework.spring.scaner.IScaner.IScanerProcessor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slf4j.Logger;
-import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
+import com.dlz.framework.spring.iproxy.ApiProxyHandler;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.plugin.redis.annotation.AnnoRedisQueueProvider;

@@ -3,7 +3,7 @@ package com.dlz.web.cloud.handler;
 import com.dlz.comm.exception.RemoteException;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
-import com.dlz.framework.springframework.iproxy.ApiProxyHandler;
+import com.dlz.framework.spring.iproxy.ApiProxyHandler;
 import com.dlz.web.cloud.annotation.AnnoCloud;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;

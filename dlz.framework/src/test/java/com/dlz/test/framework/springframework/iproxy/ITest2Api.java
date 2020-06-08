@@ -1,6 +1,6 @@
 package com.dlz.test.framework.springframework.iproxy;
 
-import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
+import com.dlz.framework.spring.iproxy.anno.AnnoApi;
 
 @AnnoApi(value = "",handler = "test")
 public interface ITest2Api{

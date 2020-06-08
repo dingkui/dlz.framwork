@@ -2,7 +2,7 @@ package com.dlz.redis.queue;
 
 import java.util.List;
 
-import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
+import com.dlz.framework.spring.iproxy.anno.AnnoApi;
 import com.dlz.plugin.redis.annotation.AnnoRedisQueueProvider;
 import com.dlz.plugin.redis.enums.SendStrategyEn;
 

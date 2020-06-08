@@ -1,4 +1,4 @@
-package com.dlz.framework.springframework.scaner;
+package com.dlz.framework.spring.scaner;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;

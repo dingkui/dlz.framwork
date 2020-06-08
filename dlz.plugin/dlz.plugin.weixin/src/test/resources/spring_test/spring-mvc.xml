@@ -14,7 +14,7 @@
     
 	<!-- freemarker的配置 -->  
     <bean id="freemarkerConfigurer"  
-        class="com.dlz.framework.springframework.freeMarker.FreeMarkerConfigurer">
+        class="com.dlz.framework.spring.freeMarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/" />  
         <property name="defaultEncoding" value="UTF-8" />  
         <property name="freemarkerSettings">  
@@ -41,7 +41,7 @@
     <!-- FreeMarker视图解析  -->  
     <bean id="viewResolver"  
         class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
-        <property name="viewClass"  value="com.dlz.framework.springframework.freeMarker.FreeMarkerView" />
+        <property name="viewClass"  value="com.dlz.framework.spring.freeMarker.FreeMarkerView" />
         <property name="suffix" value=".html" />  
         <property name="contentType" value="text/html;charset=UTF-8" />  
         <property name="exposeRequestAttributes" value="true" />  

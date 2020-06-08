@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.dlz.framework.springframework.iproxy.anno.AnnoApi;  
+import com.dlz.framework.spring.iproxy.anno.AnnoApi;
 /** 
  * spring cloud访问接口注解
  * Author: dk 2017-06-16

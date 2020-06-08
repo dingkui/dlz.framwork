@@ -1,11 +1,11 @@
-package com.dlz.framework.springframework.iproxy;
+package com.dlz.framework.spring.iproxy;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.springframework.iproxy.anno.AnnoApi;
-import com.dlz.framework.springframework.scaner.IScaner;
+import com.dlz.framework.spring.iproxy.anno.AnnoApi;
+import com.dlz.framework.spring.scaner.IScaner;
 import com.dlz.comm.util.StringUtils;
 
 /**

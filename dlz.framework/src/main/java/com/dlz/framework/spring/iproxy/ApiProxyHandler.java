@@ -1,4 +1,4 @@
-package com.dlz.framework.springframework.iproxy;
+package com.dlz.framework.spring.iproxy;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
