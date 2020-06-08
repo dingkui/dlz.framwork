@@ -16,8 +16,7 @@ import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.fasterxml.jackson.databind.type.*;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
@@ -183,14 +182,16 @@ public class JacksonUtil {
                 return null;
             }
             Class valueType = javaType.getRawClass();
-            if (valueType.isAssignableFrom(o.getClass())) {
-                return (T) o;
-            }
-            if (valueType.isAssignableFrom(JSONList.class)) {
-                return (T) new JSONList(o);
-            }
-            if (valueType.isAssignableFrom(JSONMap.class)) {
-                return (T) new JSONMap(o);
+            if(javaType.getBindings().size()==0){
+                if (valueType.isAssignableFrom(o.getClass())) {
+                    return (T) o;
+                }
+                if (valueType.isAssignableFrom(JSONList.class)) {
+                    return (T) new JSONList(o);
+                }
+                if (valueType.isAssignableFrom(JSONMap.class)) {
+                    return (T) new JSONMap(o);
+                }
             }
 
             String str = null;
@@ -205,6 +206,25 @@ public class JacksonUtil {
         }
         return null;
     }
+
+//    public List<String> t1(){
+//    return null;
+//    }
+//
+//    private class T<x>{
+//
+//    }
+//
+//    public static void main(String[] args) throws NoSuchMethodException {
+//        Method t1 = JacksonUtil.class.getMethod("t1");
+//
+//        JavaType javaType1 = getJavaType(t1.getGenericReturnType());
+////        JavaType javaType=constructType(javaType1);
+//        Class valueType = javaType1.getRawClass();
+//        javaType1.getRawClass().isAssignableFrom(JSONList.class)
+//
+//        System.out.println(javaType1.getBindings().size());
+//    }
 
     /**
      * 对象取值
@@ -307,8 +327,13 @@ public class JacksonUtil {
                 subclass[j] = getJavaType(typesto[j]);
             }
             return objectMapper.getTypeFactory().constructParametricType((Class) parameterizedType.getRawType(), subclass);
-        } else {
-            return objectMapper.getTypeFactory().constructParametricType((Class) type, new JavaType[0]);
+//        } else if(type instanceof GenericArrayType){
+//        } else if(type instanceof TypeVariable){
+//        } else if(type instanceof WildcardType) {
+        }else{
+//            return objectMapper.getTypeFactory().constructParametricType((Class) type, new JavaType[0]);
+            Class cla = (Class) type;
+            return TypeFactory.defaultInstance().constructParametricType(cla, new JavaType[0]);
         }
     }
 
