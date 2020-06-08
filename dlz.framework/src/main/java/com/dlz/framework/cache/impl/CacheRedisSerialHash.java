@@ -1,6 +1,7 @@
 package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.util.system.SerializeUtil;
+import com.dlz.framework.cache.ICache;
 import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.lang.reflect.Type;
  *
  * @author dk
  */
-public class CacheRedisSerialHash extends CacheRedisJsonHash {
+public class CacheRedisSerialHash extends BaseCacheRedis implements ICache {
     protected byte[] getKey(String name) {
         return SafeEncoder.encode(getRedisKey(name).toString());
     }
@@ -29,15 +30,19 @@ public class CacheRedisSerialHash extends CacheRedisJsonHash {
         });
     }
 
+    public <T extends Serializable> T get(String name, Serializable key) {
+        return get(name, key ,null);
+    }
+
     @Override
     public void put(String name, Serializable key, Serializable value, long milliseconds) {
         this.excuteByJedis(j -> {
             byte[] key1 = getKey(name);
-            j.getClient().hset(key1, SafeEncoder.encode(key.toString().replaceAll(":", "")), SerializeUtil.serialize(value));
+            Long hset = j.hset(key1, SafeEncoder.encode(key.toString().replaceAll(":", "")), SerializeUtil.serialize(value));
             if (milliseconds > -1) {
                 j.pexpire(key1, milliseconds);
             }
-            return j.getClient().getStatusCodeReply();
+            return hset;
         });
     }
 

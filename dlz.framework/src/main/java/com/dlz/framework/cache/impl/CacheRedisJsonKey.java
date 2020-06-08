@@ -2,7 +2,7 @@ package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
-import redis.clients.util.SafeEncoder;
+import com.dlz.framework.cache.ICache;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -14,13 +14,10 @@ import java.util.Set;
  *
  * @author dk
  */
-public class CacheRedisJsonKey extends CacheRedisJsonHash {
+public class CacheRedisJsonKey extends BaseCacheRedis implements ICache {
     private String getRedisKey(String name, Serializable key) {
-        return getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":","")).toString();
+        return getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":", "")).toString();
     }
-
-    private static String nxxx = "XX";
-    private static String expx = "EX";
 
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
@@ -33,13 +30,14 @@ public class CacheRedisJsonKey extends CacheRedisJsonHash {
 
     @Override
     public void put(String name, Serializable key, Serializable value, long milliseconds) {
-        String redisKey = getRedisKey(name, key);
-        if (milliseconds > -1) {
-            this.excuteByJedis(j -> j.set(redisKey, ValUtil.getStr(value),nxxx,expx,milliseconds ));
-//            this.excuteByJedis(j -> j.pexpire(redisKey, milliseconds));
-        }else{
-            this.excuteByJedis(j -> j.set(redisKey, ValUtil.getStr(value)));
-        }
+        this.excuteByJedis(j -> {
+            String redisKey = getRedisKey(name, key);
+            String set = j.set(redisKey, ValUtil.getStr(value));
+            if (milliseconds > -1) {
+                j.pexpire(redisKey, milliseconds);
+            }
+            return set;
+        });
     }
 
     @Override
@@ -50,6 +48,6 @@ public class CacheRedisJsonKey extends CacheRedisJsonHash {
     @Override
     public void removeAll(String name) {
         Set<String> strings = this.excuteByJedis(j -> j.keys(getRedisKey(name).append("*").toString()));
-        this.excuteByJedis(j -> j.del((String[])strings.toArray()));
+        this.excuteByJedis(j -> j.del(strings.toArray(new String[strings.size()])));
     }
 }

@@ -23,11 +23,15 @@ public class CacheHolder {
         }
     }
 
+    public static void clear(String cacheName) {
+        CacheSet.get(cacheName).removeAll(cacheName);
+    }
+
     public static ICache get(String cacheName, Class<? extends ICache> cacheClass) {
         if (CacheSet.containsKey(cacheName)) {
             return CacheSet.get(cacheName);
         }
-        ICache cache = null;
+        ICache cache;
         if (cacheClass == null) {
             cache = SpringHolder.registerBean(CacheEhcahe.class);
         } else {

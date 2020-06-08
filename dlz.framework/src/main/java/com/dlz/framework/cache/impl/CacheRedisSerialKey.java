@@ -1,7 +1,7 @@
 package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.util.system.SerializeUtil;
-import redis.clients.jedis.Client;
+import com.dlz.framework.cache.ICache;
 import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
@@ -13,19 +13,15 @@ import java.util.Set;
  *
  * @author dk
  */
-public class CacheRedisSerialKey extends CacheRedisJsonHash {
+public class CacheRedisSerialKey extends BaseCacheRedis implements ICache {
     protected byte[] getKey(String name, Serializable key) {
         return SafeEncoder.encode(getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":", "")).toString());
     }
 
-    private static byte[] nxxx = SafeEncoder.encode("XX");
-    private static byte[] expx = SafeEncoder.encode("EX");
-
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
         return this.excuteByJedis(j -> {
-            j.getClient().get(getKey(name, key));
-            final byte[] result = j.getClient().getBinaryBulkReply();
+            final byte[] result = j.get(getKey(name, key));
             if (null != result) {
                 return (T) SerializeUtil.deserialize(result);
             } else {
@@ -34,15 +30,20 @@ public class CacheRedisSerialKey extends CacheRedisJsonHash {
         });
     }
 
+
+    public <T extends Serializable> T get(String name, Serializable key) {
+        return get(name, key ,null);
+    }
+
     @Override
     public void put(String name, Serializable key, Serializable value, long exp) {
         this.excuteByJedis(j -> {
-            if (exp > 0) {
-                j.getClient().set(getKey(name, key), SerializeUtil.serialize(value), nxxx, expx, exp);
-            } else {
-                j.getClient().set(getKey(name, key), SerializeUtil.serialize(value));
+            byte[] key1 = getKey(name, key);
+            String set = j.set(key1, SerializeUtil.serialize(value));
+            if (exp > -1) {
+                j.pexpire(key1, exp);
             }
-            return j.getClient().getStatusCodeReply();
+            return set;
         });
     }
 
@@ -54,6 +55,6 @@ public class CacheRedisSerialKey extends CacheRedisJsonHash {
     @Override
     public void removeAll(String name) {
         Set<String> strings = this.excuteByJedis(j -> j.keys(getRedisKey(name).append("*").toString()));
-        this.excuteByJedis(j -> j.del((String[]) strings.toArray()));
+        this.excuteByJedis(j -> j.del(strings.toArray(new String[strings.size()])));
     }
 }

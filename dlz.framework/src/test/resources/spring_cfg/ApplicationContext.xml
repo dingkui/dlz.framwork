@@ -13,7 +13,5 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd" default-autowire="byName" default-lazy-init="true">
 
-	<!-- <bean id="springHolder" class="com.dlz.framework.holder.SpringHolder" lazy-init="false" />
-	<bean id="daoTest" class="com.dlz.framework.db.dao.impl.DaoTest" /> -->
 	<context:component-scan base-package="com.dlz" />
 </beans>
