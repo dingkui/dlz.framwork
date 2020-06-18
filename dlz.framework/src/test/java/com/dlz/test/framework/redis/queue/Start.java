@@ -1,12 +1,11 @@
-package com.dlz.redis.queue;
+package com.dlz.test.framework.redis.queue;
 
-import java.util.Arrays;
-
+import com.dlz.framework.holder.SpringHolder;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.dlz.framework.holder.SpringHolder;
+import java.util.Arrays;
 
 public class Start {
 

@@ -15,10 +15,6 @@ import java.util.Set;
  * @author dk
  */
 public class CacheRedisJsonKey extends BaseCacheRedis implements ICache {
-    private String getRedisKey(String name, Serializable key) {
-        return getRedisKey(name).append(keySplit).append(key.toString().replaceAll(":", "")).toString();
-    }
-
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
         String str = this.excuteByJedis(j -> j.get(getRedisKey(name, key)));
@@ -47,7 +43,7 @@ public class CacheRedisJsonKey extends BaseCacheRedis implements ICache {
 
     @Override
     public void removeAll(String name) {
-        Set<String> strings = this.excuteByJedis(j -> j.keys(getRedisKey(name).append("*").toString()));
+        Set<String> strings = this.excuteByJedis(j -> j.keys(getRedisKey(name,"*")));
         this.excuteByJedis(j -> j.del(strings.toArray(new String[strings.size()])));
     }
 }

@@ -19,7 +19,7 @@ public class CacheRedisJsonHash extends BaseCacheRedis implements ICache {
 
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        String str = this.excuteByJedis(j -> j.hget(getRedisKey(name).toString(), String.valueOf(key).replaceAll(":","")));
+        String str = this.excuteByJedis(j -> j.hget(getRedisKey(name), getKeyName(key)));
         if (str != null) {
             return ValUtil.getObj(str, JacksonUtil.getJavaType(type));
         }
@@ -28,8 +28,8 @@ public class CacheRedisJsonHash extends BaseCacheRedis implements ICache {
 
     @Override
     public void put(String name, Serializable key, Serializable value, long milliseconds) {
-        String key1 = getRedisKey(name).toString();
-        this.excuteByJedis(j -> j.hset(key1,String.valueOf(key).replaceAll(":",""), ValUtil.getStr(value)));
+        String key1 = getRedisKey(name);
+        this.excuteByJedis(j -> j.hset(key1, getKeyName(key), ValUtil.getStr(value)));
         if (milliseconds > -1) {
             this.excuteByJedis(j -> j.pexpire(key1, milliseconds));
         }
@@ -37,11 +37,15 @@ public class CacheRedisJsonHash extends BaseCacheRedis implements ICache {
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.hdel(getRedisKey(name).toString(), String.valueOf(key).replaceAll(":","")));
+        this.excuteByJedis(j -> j.hdel(getRedisKey(name), getKeyName(key)));
     }
 
     @Override
     public void removeAll(String name) {
-        this.excuteByJedis(j -> j.del(getRedisKey(name).toString()));
+        this.excuteByJedis(j -> j.del(getRedisKey(name)));
+    }
+
+    private String getKeyName(Serializable key) {
+        return String.valueOf(key).replaceAll(":", "");
     }
 }

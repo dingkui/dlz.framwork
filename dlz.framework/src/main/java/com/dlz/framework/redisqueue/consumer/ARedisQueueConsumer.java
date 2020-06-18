@@ -1,11 +1,11 @@
-package com.dlz.plugin.redis.queue.consumer;
+package com.dlz.framework.redisqueue.consumer;
 
-import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.exception.SystemException;
-import com.dlz.plugin.redis.annotation.AnnoRedisQueueConsumer;
+import com.dlz.comm.util.JacksonUtil;
+import com.dlz.framework.cache.RedisKeyMaker;
+import com.dlz.framework.redisqueue.annotation.AnnoRedisQueueConsumer;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -17,11 +17,9 @@ import java.util.concurrent.Executors;
  * redis队列消费者基类
  * 消费者需要注解 AnnoRedisQueueConsumer 消费者队列的名称
  */
+@Slf4j
 public abstract class ARedisQueueConsumer<T> {
 
-
-	private Logger logger = LoggerFactory.getLogger(getClass());
-	
 	/**
 	 * 消费者处理逻辑
 	 * @param message
@@ -32,6 +30,9 @@ public abstract class ARedisQueueConsumer<T> {
 	 * 是否已经初始化
 	 */
 	private boolean hasInit=false;
+
+	@Autowired
+	RedisKeyMaker keyMaker;
 	
 	@Autowired
     private JedisPool jedisPool;
@@ -51,20 +52,26 @@ public abstract class ARedisQueueConsumer<T> {
 			throw new SystemException(this.getClass().getName()+"必须注解 AnnoRedisQueueConsumer");
 		}
 		String queueName=annotation.value();
-		logger.info("The Consumer in Queue [{}] Started.", this.getClass().getName());
+		SystemException.notEmpty(queueName,()->"消费者未配置队列名字:"+this.getClass());
+		String redisQueueName = keyMaker.getKey(queueName);
+		log.info("The Consumer in Queue [{}] Started. in class:{}",redisQueueName, this.getClass().getName());
 		TypeReference<T> paratype=new TypeReference<T>(){};
 		Executors.newSingleThreadExecutor().submit(() -> {
 			try {
 				try (Jedis jedis = jedisPool.getResource()) {
 					while (true) {
-						List<String> message = jedis.blpop(0, queueName);
-						if (message != null && message.size() > 1) {
-							this.doConsume(JacksonUtil.readValue(message.get(1), paratype));
+						try {
+							List<String> message = jedis.blpop(0, redisQueueName);
+							if (message != null && message.size() > 1) {
+								this.doConsume(JacksonUtil.readValue(message.get(1), paratype));
+							}
+						}catch (Exception e) {
+							log.error("The Consumer in Queue [" + redisQueueName + "] Error.", e);
 						}
 					}
 				}
 			} catch (Exception e) {
-				logger.error("The Consumer in Queue [" + queueName + "] Error.", e);
+				log.error("The Consumer in Queue [" + redisQueueName + "] Error.", e);
 			}
 		});
 

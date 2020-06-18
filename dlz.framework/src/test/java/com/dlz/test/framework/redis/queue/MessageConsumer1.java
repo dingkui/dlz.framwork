@@ -1,9 +1,8 @@
-package com.dlz.redis.queue;
+package com.dlz.test.framework.redis.queue;
 
+import com.dlz.framework.redisqueue.annotation.AnnoRedisQueueConsumer;
+import com.dlz.framework.redisqueue.consumer.ARedisQueueConsumer;
 import org.springframework.stereotype.Component;
-
-import com.dlz.plugin.redis.annotation.AnnoRedisQueueConsumer;
-import com.dlz.plugin.redis.queue.consumer.ARedisQueueConsumer;
 
 @Component
 @AnnoRedisQueueConsumer("queue1")

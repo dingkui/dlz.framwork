@@ -1,7 +1,6 @@
-package com.dlz.redis;
+package com.dlz.test.framework.redis;
 
 import org.junit.Test;
-
 import redis.clients.jedis.Jedis;
 
 @SuppressWarnings({"resource","unused"})

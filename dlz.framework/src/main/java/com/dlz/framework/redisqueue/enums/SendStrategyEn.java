@@ -1,4 +1,4 @@
-package com.dlz.plugin.redis.enums;
+package com.dlz.framework.redisqueue.enums;
 
 /**
  * 消息发送策略

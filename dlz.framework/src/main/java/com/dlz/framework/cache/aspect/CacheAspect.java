@@ -70,8 +70,13 @@ public class CacheAspect {
         for (int i = 0; i < parameters.length; i++) {
             paraMap.put(parameters[i].getName(),args[i]);
         }
-        Serializable key = paraMap.getStr(cacheAnno.key());
-        SystemException.isTrue(key==null, () -> "未取得有效的key！");
+        Serializable key = null;
+        if(!paraMap.isEmpty()){
+            key = paraMap.getStr(cacheAnno.key());
+            SystemException.isTrue(key==null, () -> "未取得有效的key！");
+        }else{
+            key = cacheAnno.key();
+        }
 
         boolean empty = StringUtils.isEmpty(cacheAnno.value());
         String cacheName = empty ? CACHE_NAME+method.getName() : cacheAnno.value();

@@ -1,8 +1,7 @@
-package com.dlz.plugin.redis;
+package com.dlz.test.framework.redis;
 
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.StringUtils;
-import com.dlz.framework.cache.ICache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

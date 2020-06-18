@@ -1,6 +1,8 @@
 package com.dlz.framework.spring;
 
 import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.spring.iproxy.ApiScaner;
+import com.dlz.framework.spring.scaner.MySpringScaner;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -18,7 +20,7 @@ public class TracingBeginProcessor implements BeanDefinitionRegistryPostProcesso
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
     	SpringHolder.init(beanFactory);
-//    	new MySpringScaner().doComponents(new ApiScaner());
+    	new MySpringScaner().doComponents(new ApiScaner());
     }
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry beanDefinitionRegistry) throws BeansException {

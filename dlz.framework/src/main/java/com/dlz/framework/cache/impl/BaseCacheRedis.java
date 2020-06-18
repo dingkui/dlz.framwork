@@ -2,18 +2,11 @@ package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.exception.RemoteException;
 import com.dlz.comm.util.ExceptionUtils;
-import com.dlz.comm.util.JacksonUtil;
-import com.dlz.comm.util.ValUtil;
-import com.dlz.framework.cache.ICache;
+import com.dlz.framework.cache.RedisKeyMaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.Nullable;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
-import java.io.Serializable;
-import java.lang.reflect.Type;
 
 /**
  * 使用Redis实现缓存
@@ -22,15 +15,10 @@ import java.lang.reflect.Type;
  */
 @Slf4j
 public class BaseCacheRedis {
-    @Value("${spring.application.name:app}")
-    @Nullable
-    private String appName = "app";
-    @Value("${spring.profiles.active:dev}")
-    @Nullable
-    private String profiles = "dev";
+    @Autowired
+    RedisKeyMaker keyMaker;
     @Autowired
     private JedisPool jedisPool;
-    protected static final String keySplit = ":";
     @FunctionalInterface
     protected interface JedisExecutor<T, R> {
         R excute(T t) throws RemoteException;
@@ -50,11 +38,7 @@ public class BaseCacheRedis {
         }
         return null;
     }
-
-
-    protected StringBuilder getRedisKey(String name) {
-        StringBuilder sb = new StringBuilder(appName);
-        return sb.append(keySplit).append(profiles).append(keySplit).append(name.replaceAll(":",""));
+    protected String getRedisKey(String key,Object ... keys) {
+        return keyMaker.getKey(key,keys);
     }
-
 }

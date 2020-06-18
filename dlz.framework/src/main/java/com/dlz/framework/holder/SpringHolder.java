@@ -103,8 +103,8 @@ public class SpringHolder{
      */
     @SuppressWarnings("unchecked")
 	private static <T> T registerBean(String beanId,Class<T> clazz) {
-    	if(beanFactory.getBeansOfType(clazz).isEmpty()){
-    		return (T)beanFactory.getBean(clazz);
+    	if(!beanFactory.getBeansOfType(clazz).isEmpty()){
+    		return beanFactory.getBean(clazz);
     	}
 //    	ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) application;
 //		BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) configurableContext.getBeanFactory();
@@ -131,8 +131,7 @@ public class SpringHolder{
     }
     /**
      * 注册bean
-     * @param beanId 所注册bean的id
-     * @param className bean的className，
+     * @param clazz clazz
      *                     三种获取方式：1、直接书写，如：com.mvc.entity.User
      *                                   2、User.class.getName
      *                                   3.user.getClass().getName()
