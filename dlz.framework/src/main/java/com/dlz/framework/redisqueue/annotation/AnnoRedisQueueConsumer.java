@@ -1,5 +1,7 @@
 package com.dlz.framework.redisqueue.annotation;
 
+import com.dlz.framework.config.condition.RedisQueueCondition;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
@@ -32,6 +34,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Component
+@Conditional(RedisQueueCondition.class)
 public @interface AnnoRedisQueueConsumer {
 
     /**
@@ -39,4 +42,6 @@ public @interface AnnoRedisQueueConsumer {
      * @return
      */
     String value() default "";
+
+    int num() default 1;
 }
