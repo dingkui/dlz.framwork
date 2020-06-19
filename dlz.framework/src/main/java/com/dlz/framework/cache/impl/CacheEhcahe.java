@@ -2,10 +2,12 @@ package com.dlz.framework.cache.impl;
 
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
+import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -17,15 +19,28 @@ import java.lang.reflect.Type;
  */
 @Slf4j
 public class CacheEhcahe implements ICache {
-    static CacheManager manager = CacheManager.getInstance();
+    private CacheManager manager;
+    private CacheManager getManager(){
+        if(manager ==null){
+            synchronized (this.getClass()){
+                if(manager ==null) {
+                    manager = SpringHolder.getBean(CacheManager.class);
+                    if (manager == null) {
+                        manager = CacheManager.getInstance();
+                    }
+                }
+            }
+        }
+        return manager;
+    }
 
     private Cache getCache(String name) {
-        Cache cache = manager.getCache(name);
+        Cache cache = getManager().getCache(name);
         if (cache == null) {
             if (cache == null) {
-                log.info("缓存初始化：" + manager.getConfiguration().getDiskStoreConfiguration().getPath() + "/" + name);
-                manager.addCache(name);
-                cache = manager.getCache(name);
+                log.info("缓存初始化：" + getManager().getConfiguration().getDiskStoreConfiguration().getPath() + "/" + name);
+                getManager().addCache(name);
+                cache = getManager().getCache(name);
             }
         }
         return cache;

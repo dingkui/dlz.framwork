@@ -23,6 +23,7 @@ public class TraceUtil {
 			shortBuffer.append(chars[x % 0x3E]);
 		}
 		return shortBuffer.toString();
+
 	}
 	public static void setTraceId(){
 		if(MDC.get("traceId")==null){
