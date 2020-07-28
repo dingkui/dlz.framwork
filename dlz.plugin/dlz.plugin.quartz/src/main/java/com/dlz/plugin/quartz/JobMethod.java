@@ -1,5 +1,6 @@
 package com.dlz.plugin.quartz;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
@@ -30,9 +31,9 @@ import com.dlz.plugin.quartz.bean.ScheduleJobSimple;
  */
 @Component
 @Lazy
+@Slf4j
 public class JobMethod {
 
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JobMethod.class);
 	Scheduler scheduler;
 	JobMethod(){
 		SchedulerFactory sf = new StdSchedulerFactory();  
@@ -40,7 +41,7 @@ public class JobMethod {
             scheduler = sf.getScheduler();  
             scheduler.start();
         } catch (SchedulerException e) {  
-        	logger.error(e.getMessage(), e); 
+        	log.error(e.getMessage(), e);
         }  
 	}
 	/**
@@ -59,7 +60,7 @@ public class JobMethod {
 			trigger = scheduler.getTrigger(triggerKey);
 			if (null == trigger) {
 				JobDetail jobDetail = JobBuilder.newJob(com.dlz.plugin.quartz.QuartzJobFactory.class).withIdentity(getJobKey(job)).build();
-				jobDetail.getJobDataMap().put("scheduleJob", job);
+				jobDetail.getJobDataMap().put(QuartzJobFactory.JOB_KEY, job);
 				TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(triggerKey);
 				if(job instanceof ScheduleJobSimple){
 					ScheduleJobSimple jobSimple=(ScheduleJobSimple)job;
@@ -83,7 +84,7 @@ public class JobMethod {
 				scheduler.scheduleJob(jobDetail, trigger);
 			} else {
 				JobDetail jobDetail = scheduler.getJobDetail(getJobKey(job));
-				ScheduleJob jobOld = (ScheduleJob)jobDetail.getJobDataMap().get("scheduleJob");
+				ScheduleJob jobOld = (ScheduleJob)jobDetail.getJobDataMap().get(QuartzJobFactory.JOB_KEY);
 				jobOld.setPara(job.getPara());
 				/* Trigger已存在，那么更新相应的定时设置 */
 				if(job instanceof ScheduleJobSimple){
@@ -108,8 +109,8 @@ public class JobMethod {
 				scheduler.rescheduleJob(triggerKey, trigger);
 			}
 		} catch (SchedulerException e) {
-			logger.error(job.toString());
-			logger.error("任务初始化失败", e);
+			log.error(job.toString());
+			log.error("任务初始化失败", e);
 		}
 	}
 	/**
@@ -124,18 +125,19 @@ public class JobMethod {
 			scheduler.deleteJob(jobKey);
 
 			JobDetail jobDetail = JobBuilder.newJob(QuartzJobFactory.class).withIdentity(jobKey).build();
-			jobDetail.getJobDataMap().put("scheduleJob", job);
+			jobDetail.getJobDataMap().put(QuartzJobFactory.JOB_KEY, job);
 			TriggerBuilder<Trigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(job.getJobName(), job.getJobGroup());
 			if (job instanceof ScheduleJobSimple) {
 				ScheduleJobSimple jobSimple = (ScheduleJobSimple) job;
-				SimpleScheduleBuilder sinpleSchedual = SimpleScheduleBuilder.simpleSchedule().withRepeatCount(jobSimple.getRepeatTimes());
 				if (jobSimple.getIntervalseconds() != null) {
+					SimpleScheduleBuilder sinpleSchedual = SimpleScheduleBuilder.simpleSchedule().withRepeatCount(jobSimple.getRepeatTimes());
 					sinpleSchedual.withIntervalInSeconds(jobSimple.getIntervalseconds());
+					triggerBuilder.withSchedule(sinpleSchedual);
 				}
 				if (jobSimple.getStartTime() != null) {
 					triggerBuilder.startAt(jobSimple.getStartTime());
 				}
-				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(sinpleSchedual).build());
+				scheduler.scheduleJob(jobDetail, triggerBuilder.build());
 			} else if (job instanceof ScheduleJobCron) {
 				ScheduleJobCron jobCron = (ScheduleJobCron) job;
 				String cronExpression = jobCron.getCronExpression();
@@ -146,8 +148,8 @@ public class JobMethod {
 				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(scheduleBuilder).build());
 			}
 		} catch (SchedulerException e) {
-			logger.error(job.toString());
-			logger.error("任务初始化失败", e);
+			log.error(job.toString());
+			log.error("任务初始化失败", e);
 		}
 	}
 	
@@ -170,9 +172,9 @@ public class JobMethod {
 			if(jobDetail==null){
 				return null;
 			}
-			return (ScheduleJob)jobDetail.getJobDataMap().get("scheduleJob");
+			return (ScheduleJob)jobDetail.getJobDataMap().get(QuartzJobFactory.JOB_KEY);
 		} catch (SchedulerException e) {
-			logger.error("Task pause failed.", e);
+			log.error("Task pause failed.", e);
 		}
 		return null;
 	}
@@ -186,7 +188,7 @@ public class JobMethod {
 		try {
 			scheduler.pauseJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error("Task pause failed.", e);
+			log.error("Task pause failed.", e);
 		}
 	}
 
@@ -200,8 +202,8 @@ public class JobMethod {
 		try {
 			scheduler.resumeJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error(scheduleJob.toString());
-			logger.error("Task resume failed.", e);
+			log.error(scheduleJob.toString());
+			log.error("Task resume failed.", e);
 		}
 	}
 
@@ -215,8 +217,8 @@ public class JobMethod {
 		try {
 			scheduler.deleteJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error(scheduleJob.toString());
-			logger.error("Task delete failed.", e);
+			log.error(scheduleJob.toString());
+			log.error("Task delete failed.", e);
 		}
 	}
 
@@ -230,8 +232,8 @@ public class JobMethod {
 		try {
 			scheduler.triggerJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			logger.error(scheduleJob.toString());
-			logger.error("Task run failed.", e);
+			log.error(scheduleJob.toString());
+			log.error("Task run failed.", e);
 		}
 	}
 	
@@ -242,7 +244,7 @@ public class JobMethod {
 		try {
 			CronScheduleBuilder.cronSchedule(cron);
 		} catch (Exception e) {
-			logger.equals(e.getMessage());
+			log.equals(e.getMessage());
 			return (false);
 		}
 		return (true);

@@ -1,23 +1,23 @@
 package com.dlz.plugin.quartz;
 
+import com.dlz.comm.json.JSONMap;
+import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.util.system.Reflections;
 import com.dlz.plugin.quartz.bean.ScheduleJob;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.dlz.comm.json.JSONMap;
-import com.dlz.framework.holder.SpringHolder;
-import org.slf4j.Logger;
-import com.dlz.framework.util.system.Reflections;
-
+@Slf4j
 public class QuartzJobFactory implements Job {
+	public static final String JOB_KEY = "JOB_KEY";
 
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(JobMethod.class);
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap mergedJobDataMap = context.getMergedJobDataMap();
-		com.dlz.plugin.quartz.bean.ScheduleJob scheduleJob = (ScheduleJob) mergedJobDataMap.get("scheduleJob");
+		ScheduleJob scheduleJob = (ScheduleJob) mergedJobDataMap.get(JOB_KEY);
 		Object obj = null;
 		try {
 			if (scheduleJob.getBeanClass() != null) {
@@ -32,7 +32,7 @@ public class QuartzJobFactory implements Job {
 				Reflections.getMethod(obj, scheduleJob.getExecuteMethod(),JSONMap.class).invoke(obj, para);
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 	}
 }

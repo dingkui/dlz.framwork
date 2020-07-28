@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 
 import com.dlz.framework.holder.SpringHolder;
@@ -15,8 +16,8 @@ import com.dlz.framework.holder.SpringHolder;
  *
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
+@Slf4j
 public class TimerDispacher{
-	private static Logger logger = org.slf4j.LoggerFactory.getLogger(TimerDispacher.class);
 	private static Map<String,MyTimerTask> timmerSet = new HashMap<String,MyTimerTask>();
 	private static Timer timer = new Timer();
 	private static long EVREY=1000;
@@ -35,7 +36,7 @@ public class TimerDispacher{
 				long delay=times*EVREY-new Date().getTime();
 				timer.schedule(task,delay<0?0:delay);
 			} catch (Exception e) {
-				logger.error(e.getMessage(),e);;
+				log.error(e.getMessage(),e);;
 			}
 		}
 	}

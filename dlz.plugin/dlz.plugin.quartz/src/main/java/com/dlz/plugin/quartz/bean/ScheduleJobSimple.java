@@ -1,11 +1,16 @@
 package com.dlz.plugin.quartz.bean;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 /**
  * 定时任务封装类
  * @author   xiaohe
  */
+@Getter
+@Setter
 public class ScheduleJobSimple extends ScheduleJob{
 
     /** 任务运行时间 */
@@ -16,28 +21,4 @@ public class ScheduleJobSimple extends ScheduleJob{
     
     /** 间隔秒数 */
     private Integer intervalseconds;
-
-	public Date getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-
-	public int getRepeatTimes() {
-		return repeatTimes;
-	}
-
-	public void setRepeatTimes(int repeatTimes) {
-		this.repeatTimes = repeatTimes;
-	}
-
-	public Integer getIntervalseconds() {
-		return intervalseconds;
-	}
-
-	public void setIntervalseconds(Integer intervalseconds) {
-		this.intervalseconds = intervalseconds;
-	}
 }
