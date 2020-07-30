@@ -58,4 +58,12 @@ public class TraceUtil {
 		MDC.put(KEY_TRACEID, traceId);
 		return traceId;
 	}
+	public static void clearTraceId(){
+		String traceId = getTraceid();
+		if(traceId ==null){
+			log.warn("traceId:{} is null!",KEY_TRACEID);
+		}else{
+			MDC.remove(KEY_TRACEID);
+		}
+	}
 }
