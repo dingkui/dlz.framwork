@@ -2,6 +2,7 @@ package com.dlz.framework.redisqueue.consumer;
 
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.JacksonUtil;
+import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.RedisKeyMaker;
 import com.dlz.framework.redisqueue.annotation.AnnoRedisQueueConsumer;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,6 +12,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -56,7 +59,13 @@ public abstract class ARedisQueueConsumer<T> {
 		SystemException.notEmpty(queueName,()->"消费者未配置队列名字:"+this.getClass());
 		String redisQueueName = keyMaker.getKey(queueName);
 
-		TypeReference<T> paratype=new TypeReference<T>(){};
+		Type superClass = getClass().getGenericSuperclass();
+		Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
+		Class<T> classType =  (Class<T>) type;;
+		if (type instanceof ParameterizedType) {
+			classType = (Class<T>) ((ParameterizedType) type).getRawType();
+		}
+		Class<T> finalClassType = classType;
 		for (int i = 0; i < annotation.num(); i++) {
 			int finalI = i;
 			Executors.newSingleThreadExecutor().submit(() -> {
@@ -68,7 +77,7 @@ public abstract class ARedisQueueConsumer<T> {
 								List<String> message = jedis.blpop(0, redisQueueName);
 								if (message != null && message.size() > 1) {
 									log.info("{}接收消息:{}", this.getClass().getSimpleName(), message.get(1));
-									this.doConsume(JacksonUtil.readValue(message.get(1), paratype));
+									this.doConsume(ValUtil.getObj(message.get(1), finalClassType));
 								}
 							}catch (Exception e) {
 								log.error("The Consumer in Queue [" + redisQueueName + "] Error.", e);

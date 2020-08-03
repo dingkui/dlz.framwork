@@ -2,6 +2,7 @@ package com.dlz.framework.redisqueue.provider;
 
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.JacksonUtil;
+import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.RedisKeyMaker;
 import com.dlz.framework.config.condition.RedisQueueCondition;
 import com.dlz.framework.redisqueue.annotation.AnnoRedisQueueProvider;
@@ -42,7 +43,7 @@ public class RedisQueueProviderApiHandler extends ApiProxyHandler {
             try (Jedis jedis = jedisPool.getResource()) {
                 switch (redisQueueProvider.strategy()) {
                     case SYNC:
-                        String json = JacksonUtil.getJson(args[0]);
+                        String json = ValUtil.getStr(args[0]);
                         try {
                             rId = jedis.rpush(redisQueueName, json);
                             log.debug("同步发消息成功!{} -> {}", redisQueueName, json);
@@ -53,7 +54,7 @@ public class RedisQueueProviderApiHandler extends ApiProxyHandler {
                         return rId;
                     case ASYNC:
                         Executors.newSingleThreadExecutor().submit(() -> {
-                            String json2 = JacksonUtil.getJson(args[0]);
+                            String json2 = ValUtil.getStr(args[0]);
                             try {
                                 jedis.rpush(redisQueueName, json2);
                                 log.debug("异步发消息成功!{} -> {}", redisQueueName, json2);
