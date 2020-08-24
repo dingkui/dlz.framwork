@@ -18,7 +18,7 @@ public class DictUtil {
 	 * @param data 要转换的数据 (要转换的数据中需要有DictAnno注解)
 	 * @return 转换后的数据, 原属性不动,字典属性名为在原属性名后加"xxx_text"
 	 */
-	public static <T> List<T> dictConvertBean(List<T> data) {
+	public static <T> List<T> autoFillDict(List<T> data) {
 		if (data == null || data.isEmpty()) {
 			return data;
 		}
