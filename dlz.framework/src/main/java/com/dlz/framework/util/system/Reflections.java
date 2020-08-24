@@ -58,7 +58,19 @@ public class Reflections {
 		}
 		return result;
 	}
-
+	/**
+	 * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
+	 */
+	public static Object getFieldValue(final Object obj, final Field field) {
+		makeAccessible(field);
+		Object result = null;
+		try {
+			result = field.get(obj);
+		} catch (IllegalAccessException e) {
+			logger.error("不可能抛出的异常{}", e.getMessage());
+		}
+		return result;
+	}
 	/**
 	 * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
 	 */
