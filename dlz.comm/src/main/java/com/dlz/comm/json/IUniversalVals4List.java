@@ -82,5 +82,5 @@ interface IUniversalVals4List {
 	default <T> T getObj(int index,Class<T> classs){
 		return ValUtil.getObj(getIndexObject(index),classs);
 	}
-	public Object getIndexObject(int index);
+	Object getIndexObject(int index);
 }
