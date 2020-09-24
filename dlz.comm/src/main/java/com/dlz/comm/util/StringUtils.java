@@ -3,11 +3,49 @@ package com.dlz.comm.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
 public class StringUtils {
+    private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");
+    /**
+     * 根据属性名称获得对应值
+     *
+     * \
+     * @param name
+     *            属性名称
+     * @return 属性对应的值
+     */
+    public static Object getReplaceStr(String name, Function<String,Object> c) {
+        Object ret=c.apply(name);
+        if(ret == null){
+            return "{"+name+"}";
+        }
+        if(ret instanceof CharSequence){
+            String retStr = ret.toString().trim();
+            Matcher mat = paraPattern.matcher(retStr);
+            StringBuilder sb=null;
+            int end=0;
+            while(mat.find()){
+                String group = mat.group(1);
+                if(sb==null){
+                    sb=new StringBuilder();
+                }
+                sb.append(retStr, 0, mat.start());
+                sb.append(getReplaceStr(group,c));
+                end=mat.end();
+            }
+            if(end==0){
+                return retStr;
+            }
+            sb.append(retStr.substring(end));
+            return sb.toString();
+        }
+        return ret;
+    }
+
     public static String join(CharSequence separator, Iterable<?> strings) {
         Iterator<?> i = strings.iterator();
         if (!i.hasNext()) {

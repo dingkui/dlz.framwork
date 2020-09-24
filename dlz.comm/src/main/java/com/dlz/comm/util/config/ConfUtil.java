@@ -2,6 +2,8 @@ package com.dlz.comm.util.config;
 
 import com.dlz.comm.json.JSONList;
 import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.StringUtils;
+import com.dlz.comm.util.ValUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
@@ -12,71 +14,31 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
 public class ConfUtil{
-	private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");
 	/**
 	 * 配置文件
 	 */
-	public static String CONFIG_FILE = "sqllist.properties,config.txt";
+	private final static String CONFIG_FILE = "sqllist.properties,config.txt";
 
 	/**
 	 * 配置信息保持(配置文件中配置会覆盖数据库中配置)
 	 */
-	public static JSONMap props = new JSONMap();
+	private static JSONMap props = new JSONMap();
 	/**
 	 * 配置信息保持成map
 	 */
-	public static JSONMap maps = new JSONMap();
+	private static JSONMap maps = new JSONMap();
 	/**
 	 * 配置信息保持成map
 	 */
-	public static JSONMap lists = new JSONMap();
+	private static JSONMap lists = new JSONMap();
 	static {
-		loadProperty();
-	}
-
-	/**
-	 * 从配置文件中读取所有的属性
-	 */
-	public static void loadProperty(String config,JSONList sets) {
-		CONFIG_FILE=config;
-		loadProperty(sets);
-	}
-
-//	protected static Set<Resource> doFindAllClassPathResources(String path) throws IOException {
-//		Set<Resource> result = new LinkedHashSet<>(16);
-//		ClassLoader cl = ClassLoader.getSystemClassLoader();
-////		Enumeration<URL> resourceUrls = (cl != null ? cl.getResources(path) : ClassLoader.getSystemResources(path));
-//		Enumeration<URL> resourceUrls =ClassLoader.getSystemResources(path);
-//		while (resourceUrls.hasMoreElements()) {
-//			URL url = resourceUrls.nextElement();
-//			result.add(new UrlResource(url));
-//		}
-//		return result;
-//	}
-
-	public static void main(String[] args) throws IOException {
-//		Set<Resource> x = doFindAllClassPathResources("sqllist.properties");
-//		for (Resource r:x) {
-//			final Properties properties = new Properties();
-//			InputStream stream = r.getInputStream();
-//			properties.load(stream);
-//			stream.close();
-//			final Set<Entry<Object, Object>> entrySet = properties.entrySet();
-//			for(Entry<Object, Object> e:entrySet){
-//				//System.out.println(e.getKey()+" "+e.getValue());
-//			}
-//			System.out.println(r.getURL());
-//		}
-//		System.out.println(x);
-		loadProperty();
-
-	}
-	public static void loadProperty() {
 		loadProperty(null);
 	}
 
@@ -87,6 +49,8 @@ public class ConfUtil{
 		try {
 			String[] configs=CONFIG_FILE.split(",");
 			props.clear();
+			maps.clear();
+			lists.clear();
 			for(String config:configs){
 				Enumeration<URL> rs =ClassLoader.getSystemResources(config);
 				boolean isProperties=config.endsWith(".properties");
@@ -129,81 +93,29 @@ public class ConfUtil{
 			}
 		} catch (Exception e) {
 			log.error("读取配置文件出错", e);
-		}finally{
-			maps.keySet().forEach(key->{
-				final JSONMap obj = maps.getMap(key);
-				obj.clear();
-				
-				JSONMap newMap=props.getMap(key);
-				if(newMap==null){
-					newMap=new JSONMap();
-				}
-				for(Entry<String,Object> entrySet :props.entrySet()){
-					if(entrySet.getKey().startsWith(key+".")){
-						newMap.put(entrySet.getKey().substring(key.length()+1), entrySet.getValue());
-					}
-				}
-				obj.putAll(newMap);
-			});
-			lists.keySet().forEach(key->{
-				final List list = lists.getList(key);
-				list.clear();
-				final List newList = props.getList(key);
-				if(newList!=null){
-					list.addAll(newList);
-				}
-			});
 		}
 	}
 
+
+	private static Function<String,Object> getStrFn=(name) ->props.getKeyVal(name);
+
 	/**
 	 * 根据属性名获得对应值，如果得不到值返回defaultValue
-	 *
-	 * @param name
-	 *            属性名称
-	 * @param defaultValue
-	 *            默认值
 	 * @return 属性对应的值
 	 */
 	public static String getConfig(String name, String defaultValue) {
 		if(name==null){
 			return defaultValue;
 		}
-		String ret=props.getStr(name, defaultValue);
-		if(ret == null && name.indexOf("${")>-1){
-			ret=name;
-		}
-		if (ret == null) {
+		Object str = StringUtils.getReplaceStr(name, getStrFn);
+		if(str==null){
 			return defaultValue;
 		}
-		ret=ret.trim();
-		Matcher mat = paraPattern.matcher(ret);
-		StringBuilder sb=null;
-		int end=0;
-	  	while(mat.find()){
-	  		String group = mat.group(1);
-	  		if(sb==null){
-	  			sb=new StringBuilder(mat.start());
-	  		}else{
-	  			sb.append(mat.start());
-	  		}
-			sb.append(getConfig(group,""));
-			end=mat.end();
-	  	}
-	  	if(end==0){
-	  		return ret;
-	  	}
-	  	sb.append(ret.substring(end));
-	  	ret=sb.toString();
-	  	props.put(name, ret);
-		return ret;
+		return (String)str;
 	}
 
 	/**
 	 * 根据属性名称获得对应值
-	 *
-	 * @param name
-	 *            属性名称
 	 * @return 属性对应的值
 	 */
 	public static String getConfig(String name) {

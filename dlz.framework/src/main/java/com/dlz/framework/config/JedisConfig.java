@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisPoolConfig;
 public class JedisConfig {
     @Value("${spring.redis.host:}")
     private String host;
-    @Value("${spring.redis.port:}")
+    @Value("${spring.redis.port:6379}")
     private int port;
     @Value("${spring.redis.jedis.pool.max-active:200}")
     private int maxTotal;
