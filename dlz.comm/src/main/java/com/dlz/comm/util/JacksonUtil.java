@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 2013 2013-9-13 下午4:54:15
@@ -28,21 +29,20 @@ import java.util.Map;
 @SuppressWarnings({"rawtypes", "unchecked"})
 @Slf4j
 public class JacksonUtil {
-    private static ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper;
     private final static Class<?> CLASS_OBJECT = Object.class;
 
     static {
         //添加自定义解析器，将默认的linckedHashMap 和List对应修改为 JSONMap和JSONList
         Deserializers deserializers = new Deserializers() {
             @Override
-            public JsonDeserializer<?> findTreeNodeDeserializer(Class<? extends JsonNode> nodeType, DeserializationConfig config, BeanDescription beanDesc)
-                    throws JsonMappingException {
+            public JsonDeserializer<?> findTreeNodeDeserializer(Class<? extends JsonNode> nodeType, DeserializationConfig config, BeanDescription beanDesc) {
                 return null;
             }
 
             @Override
             public JsonDeserializer<?> findReferenceDeserializer(ReferenceType refType, DeserializationConfig config, BeanDescription beanDesc,
-                                                                 TypeDeserializer contentTypeDeserializer, JsonDeserializer<?> contentDeserializer) throws JsonMappingException {
+                                                                 TypeDeserializer contentTypeDeserializer, JsonDeserializer<?> contentDeserializer) {
                 return null;
             }
 
@@ -54,29 +54,29 @@ public class JacksonUtil {
 
             @Override
             public JsonDeserializer<?> findMapDeserializer(MapType type, DeserializationConfig config, BeanDescription beanDesc, KeyDeserializer keyDeserializer,
-                                                           TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+                                                           TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) {
                 return null;
             }
 
             @Override
-            public JsonDeserializer<?> findEnumDeserializer(Class<?> type, DeserializationConfig config, BeanDescription beanDesc) throws JsonMappingException {
+            public JsonDeserializer<?> findEnumDeserializer(Class<?> type, DeserializationConfig config, BeanDescription beanDesc) {
                 return null;
             }
 
             @Override
             public JsonDeserializer<?> findCollectionLikeDeserializer(CollectionLikeType type, DeserializationConfig config, BeanDescription beanDesc,
-                                                                      TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+                                                                      TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) {
                 return null;
             }
 
             @Override
             public JsonDeserializer<?> findCollectionDeserializer(CollectionType type, DeserializationConfig config, BeanDescription beanDesc,
-                                                                  TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) throws JsonMappingException {
+                                                                  TypeDeserializer elementTypeDeserializer, JsonDeserializer<?> elementDeserializer) {
                 return null;
             }
 
             @Override
-            public JsonDeserializer<?> findBeanDeserializer(JavaType type, DeserializationConfig config, BeanDescription beanDesc) throws JsonMappingException {
+            public JsonDeserializer<?> findBeanDeserializer(JavaType type, DeserializationConfig config, BeanDescription beanDesc) {
                 Class<?> rawType = type.getRawClass();
                 if (rawType == CLASS_OBJECT) {
                     //添加自定义解析器，将默认的linckedHashMap 和List对应修改为 JSONMap和JSONList
@@ -360,4 +360,24 @@ public class JacksonUtil {
             return TypeFactory.defaultInstance().constructParametricType(cla, new JavaType[0]);
         }
     }
+
+    private static Pattern JsonObjPattern = Pattern.compile("^\\s*\\{\\s*\"[^\"]+\"\\s*:.+\\}[\\s]*$");
+    private static Pattern JsonArrayPattern = Pattern.compile("^\\s*\\[\\s*.+\\][\\s]*$");
+    public static boolean isJsonObj(String str) {
+        return JsonObjPattern.matcher(str).matches();
+    }
+    public static boolean isJsonArray(String str) {
+        return JsonArrayPattern.matcher(str).find();
+    }
+//    public static void main(String[] args) {
+//        System.out.println(isJsonObj("{xx}"));
+//        System.out.println(isJsonObj("{ \"xx\" : 123 } "));
+//        System.out.println(isJsonObj("{ \"xx\"}"));
+//        System.out.println(isJsonObj(" { \"xx\"}"));
+//        System.out.println(isJsonArray("[]"));
+//        System.out.println(isJsonArray(" [ ]"));
+//        System.out.println(isJsonArray(" [ xxx ]"));
+//        System.out.println(isJsonArray(" [ xxx ] "));
+//        System.out.println(isJsonArray(" [ xxx "));
+//    }
 }

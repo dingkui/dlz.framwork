@@ -10,18 +10,19 @@ import java.util.regex.Pattern;
 @Slf4j
 public class StringUtils {
     private static Pattern paraPattern = Pattern.compile("\\$\\{([\\w\\.]+)\\}");
+
     /**
      * 根据属性名称获得对应值
      *
      * \
-     * @param name
-     *            属性名称
+     * @param name 属性名称
+     * @param nullType 数据为null时类型  0返回null,1返回name,其他返回 {name}
      * @return 属性对应的值
      */
-    public static Object getReplaceStr(String name, Function<String,Object> c) {
+    public static Object getReplaceStr(String name, Function<String,Object> c,int nullType) {
         Object ret=c.apply(name);
         if(ret == null){
-            return "{"+name+"}";
+            return nullType==0?null:nullType==1?name:"{"+name+"}";
         }
         if(ret instanceof CharSequence){
             String retStr = ret.toString().trim();
@@ -34,7 +35,7 @@ public class StringUtils {
                     sb=new StringBuilder();
                 }
                 sb.append(retStr, 0, mat.start());
-                sb.append(getReplaceStr(group,c));
+                sb.append(getReplaceStr(group, c, 2));
                 end=mat.end();
             }
             if(end==0){

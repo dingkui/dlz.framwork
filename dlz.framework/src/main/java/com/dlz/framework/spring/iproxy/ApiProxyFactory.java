@@ -31,7 +31,7 @@ public class ApiProxyFactory<T> implements FactoryBean<T> {
 
     @Override
     public T getObject() throws Exception {
-        return (T) new InterfaceProxy().bind(clas);
+        return new InterfaceProxy().bind(clas);
     }
 
     @Override

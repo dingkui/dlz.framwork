@@ -107,7 +107,7 @@ public class ConfUtil{
 		if(name==null){
 			return defaultValue;
 		}
-		Object str = StringUtils.getReplaceStr(name, getStrFn);
+		Object str = StringUtils.getReplaceStr(name, getStrFn, 0);
 		if(str==null){
 			return defaultValue;
 		}

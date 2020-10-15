@@ -1,13 +1,10 @@
 package com.dlz.test.framework.cache;
 
-import com.dlz.comm.util.JacksonUtil;
 import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.cache.ICache;
 import com.dlz.framework.holder.SpringHolder;
-import org.aspectj.apache.bcel.generic.Type;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +25,8 @@ public class TestCache {
 		bean.put("aaa","xxx1111222","xxx",360000);
 		bean.put("aaa","xxx22333","xddxx3333",360000);
 		bean.put("aaa","xxx33444","xxddxxxxx",360000);
-	}	@Test
+	}
+	@Test
 	public void t12(){
 		ArrayList<String> s=new ArrayList<>();
 		s.add("xx");

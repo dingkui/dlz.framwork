@@ -1,52 +1,25 @@
 package com.dlz.test.framework.redis.queue;
 
-import com.dlz.framework.holder.SpringHolder;
-import org.junit.Before;
+import com.dlz.test.framework.BaseTest;
+import org.aspectj.weaver.World;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 
-public class Start {
-
-	@Before
-	public void setUp() throws Exception {
-		SpringHolder.init();
-		testQueueDeal=SpringHolder.getBean(ITestQueueProviderApi.class);
-	}
-	
+public class Start extends BaseTest {
 	@Autowired
 	private ITestQueueProviderApi testQueueDeal;
 
 	@Test
 	public void queue1Task() {
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage1("Msg:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		testQueueDeal.sendMessage2(Arrays.asList("Hello ", "World."));
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage3("Msg3:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage1("Msg:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		testQueueDeal.sendMessage2(Arrays.asList("Hello ", "World."));
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage3("Msg3:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage1("Msg:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		testQueueDeal.sendMessage2(Arrays.asList("Hello ", "World."));
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage3("Msg3:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage1("Msg:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		testQueueDeal.sendMessage2(Arrays.asList("Hello ", "World."));
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage3("Msg3:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage1("Msg:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
-		testQueueDeal.sendMessage2(Arrays.asList("Hello ", "World."));
-		// 定义好消息队列的接口可直接调用，不需要管实现，实现由代理完成
-		testQueueDeal.sendMessage3("Msg3:[" + (int) (Math.random() * Integer.MAX_VALUE) + "]");
+		for (int i = 0; i < 100; i++) {
+			testQueueDeal.sendMessage1("Msg:[" + i+ "]");
+			testQueueDeal.sendMessage2(Arrays.asList("Hello ", "World.", String.valueOf(i)));
+			testQueueDeal.sendMessage3("Msg3:[" + i + "]");
+		}
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(100000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

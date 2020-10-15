@@ -8,10 +8,10 @@ import java.util.List;
 
 //继承AbstractRedisQueueConsumer并通过RedisQueueConsumer注解标明队列名称即可
 @Component
-@AnnoRedisQueueConsumer("queue2")
-public class MessageConsumer2 extends ARedisQueueConsumer<List<String>> {
+@AnnoRedisQueueConsumer("queue3")
+public class MessageConsumer3 extends ARedisQueueConsumer<String> {
 	@Override
-	public void doConsume(List<String> msgList) {
+	public void doConsume(String msgList) {
 		System.out.println(msgList);
 	}
 }

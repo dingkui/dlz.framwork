@@ -38,7 +38,7 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 			if(string==null){
 				return;
 			}
-			if(string.startsWith("{") && string.endsWith("}")){
+			if(JacksonUtil.isJsonObj(string)){
 				putAll(JacksonUtil.readValue(string, JSONMap.class));
 			}else{
 				throw new RuntimeException("参数不能转换成JSONMap:"+string);

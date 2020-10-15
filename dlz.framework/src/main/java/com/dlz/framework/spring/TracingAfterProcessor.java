@@ -1,6 +1,8 @@
 //package com.dlz.framework.springframework;
 //
 //import com.dlz.framework.holder.SpringHolder;
+//import com.dlz.framework.spring.scaner.DlzSpringScaner;
+//import com.dlz.framework.spring.scaner.IScaner;
 //import com.dlz.framework.springframework.scaner.IScaner;
 //import com.dlz.framework.springframework.scaner.MySpringScaner;
 //import org.slf4j.Logger;
@@ -39,7 +41,7 @@
 //			logger.debug("Spring 初始化完成。。。"+applicationContext);
 //
 //			Map<String, IScaner> beans = SpringHolder.getBeans(IScaner.class);
-//			MySpringScaner mySpringScaner = new MySpringScaner();
+//			DlzSpringScaner mySpringScaner = new DlzSpringScaner();
 //			if (!beans.isEmpty()) {
 //				for (Entry<String, IScaner> entry : beans.entrySet()) {
 //					mySpringScaner.doComponents(entry.getValue());

@@ -1,0 +1,9 @@
+${AnsiColor.BRIGHT_GREEN}     __ __ ___  / /  ___   ___
+    / // /(_-< / _ \/ _ \ / _ \
+    \_, //___//_//_/\___// .__/
+    /___/                /_/
+${AnsiColor.BRIGHT_RED}Spring Boot: ${spring-boot.version}
+${AnsiColor.BRIGHT_BLACK}APP  : ${spring.application.name}(${spring.profiles.active})  http://127.0.0.1:${server.port}${server.servlet.context-path:/}
+DB   : ${spring.datasource.druid.username}/${spring.datasource.druid.password}@${spring.datasource.druid.url}
+REDIS: ${spring.redis.password}@${spring.redis.host}:${spring.redis.port}
+${AnsiColor.BLACK}

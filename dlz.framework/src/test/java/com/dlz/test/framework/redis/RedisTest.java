@@ -5,8 +5,7 @@ import redis.clients.jedis.Jedis;
 
 @SuppressWarnings({"resource","unused"})
 public class RedisTest {
-
-	@Test 
+	@Test
 	public void test1Normal() { 
 	    long start = System.currentTimeMillis(); 
 	    for (int i = 0; i < 100; i++) { 
@@ -16,8 +15,7 @@ public class RedisTest {
 	    } 
 	    long end = System.currentTimeMillis(); 
 	    System.out.println("Simple SET: " + ((end - start)/1000.0) + " seconds"); 
-	    
-	} 
+	}
 	@Test 
 	public void test3Normal() { 
 	    long start = System.currentTimeMillis(); 
@@ -28,8 +26,7 @@ public class RedisTest {
 	    } 
 	    long end = System.currentTimeMillis(); 
 	    System.out.println("Simple SET: " + ((end - start)/1000.0) + " seconds"); 
-	    
-	} 
+	}
 	
 	@Test 
 	public void test2Normal() { 
@@ -42,7 +39,6 @@ public class RedisTest {
 	    } 
 	    long end = System.currentTimeMillis(); 
 	    System.out.println("Simple SET: " + ((end - start)/1000.0) + " seconds"); 
-	    
 	}
 }
 

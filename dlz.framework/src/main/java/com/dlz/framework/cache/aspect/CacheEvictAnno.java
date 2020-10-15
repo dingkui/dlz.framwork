@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface CacheAnno {
+public @interface CacheEvictAnno {
     /**
      * 表名
      *
@@ -28,7 +28,7 @@ public @interface CacheAnno {
 	 *
 	 * @return
 	 */
-	String key() default "id";
+	String key();
 
 //	/**
 //	 * 缓存实现
@@ -36,12 +36,12 @@ public @interface CacheAnno {
 //	 * @return
 //	 */
 //	Class<? extends ICache> cacheClass() default CacheEhcahe.class;
-
-    /**
-     * 缓存时间 毫秒
-     *
-     * @return
-     */
-    long cacheTime() default 3600000L;
+//
+//    /**
+//     * 缓存时间 毫秒
+//     *
+//     * @return
+//     */
+//    long cacheTime() default 3600000L;
 
 }

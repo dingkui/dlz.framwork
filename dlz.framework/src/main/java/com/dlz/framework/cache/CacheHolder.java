@@ -1,7 +1,7 @@
 package com.dlz.framework.cache;
 
 import com.dlz.comm.exception.SystemException;
-import com.dlz.framework.cache.impl.CacheEhcahe;
+import com.dlz.framework.cache.service.impl.CacheEhcahe;
 import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,9 +45,7 @@ public class CacheHolder {
         if (CacheSet.containsKey(cacheName)) {
             return CacheSet.get(cacheName);
         }
-        if (cache == null) {
-            cache = SpringHolder.registerBean(CacheEhcahe.class);
-        }
+        SystemException.notNull(cache, () -> "缓存已经存在，不能重复定义：" + cacheName);
         CacheSet.put(cacheName, cache);
         return cache;
     }

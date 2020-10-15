@@ -68,7 +68,7 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 			if(string==null){
 				return;
 			}
-			if(string.startsWith("[") && string.endsWith("]")){
+			if(JacksonUtil.isJsonArray(string)){
 				if(objectClass!=null){
 					addAll(JacksonUtil.readListValue(string, objectClass));
 				}else{

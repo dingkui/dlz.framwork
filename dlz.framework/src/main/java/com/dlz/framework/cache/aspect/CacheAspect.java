@@ -2,29 +2,21 @@ package com.dlz.framework.cache.aspect;
 
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.json.JSONMap;
-import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
-import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.cache.ICache;
-import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * AOP 缓存操作
@@ -33,37 +25,28 @@ import java.util.Map;
  */
 @Slf4j
 @Aspect
-@Component
 public class CacheAspect {
-    private final static String CACHE_NAME = "methodCaches";
-    @Autowired
-    @Nullable
     ICache cache;
 
-    @PostConstruct
-    private void _init() {
-        cache = CacheHolder.add(CACHE_NAME, cache);
-    }
-
-
-    private CacheAnno getApiAnnotation(JoinPoint joinPoint) {
-        MethodSignature ms = (MethodSignature) joinPoint.getSignature();
-        Method method = ms.getMethod();
-        return method.getAnnotation(CacheAnno.class);
+    public CacheAspect(ICache cache){
+        this.cache = cache;
     }
 
     @Pointcut("@annotation(com.dlz.framework.cache.aspect.CacheAnno)")
-    public void pointcut() {
-        // do nothing
+    public void pointcutCache() {
     }
 
-    @Around("pointcut()")
-    public Object around(ProceedingJoinPoint point) throws Throwable {
-        CacheAnno cacheAnno = getApiAnnotation(point);
+    @Pointcut("@annotation(com.dlz.framework.cache.aspect.CacheEvictAnno)")
+    public void pointcutCacheEvict() {
+    }
+
+    private <T extends Annotation> T getApiAnnotation(JoinPoint joinPoint, Class<T> anno) {
+        MethodSignature ms = (MethodSignature) joinPoint.getSignature();
+        Method method = ms.getMethod();
+        return method.getAnnotation(anno);
+    }
+    private Serializable getKey(JoinPoint point,String key1){
         Method method = ((MethodSignature) point.getSignature()).getMethod();
-//        Class<?> returnType = method.getReturnType();
-//        SystemException.isTrue(!method.getName().startsWith("get"), () -> "缓存必须是get方法：" + method.getName());
-//        SystemException.isTrue(!Serializable.class.isAssignableFrom(returnType) && !Collection.class.isAssignableFrom(returnType), () -> "类型：" + returnType + "无法缓存！");
         Parameter[] parameters = method.getParameters();
         Object[] args = point.getArgs();
         JSONMap paraMap = new JSONMap();
@@ -72,17 +55,29 @@ public class CacheAspect {
         }
         Serializable key = null;
         if(!paraMap.isEmpty()){
-            key = paraMap.getStr(cacheAnno.key());
-            SystemException.isTrue(key==null, () -> "未取得有效的key！");
+            key = paraMap.getStr(key1);
+        }
+        SystemException.notNull(key , () -> "key取得失败：" + method.getName());
+        return key;
+    }
+
+    @Around("pointcutCache()")
+    public Object around(ProceedingJoinPoint point) throws Throwable {
+        CacheAnno cacheAnno = getApiAnnotation(point, CacheAnno.class);
+
+        String cacheName = cacheAnno.value();
+        String keySet = cacheAnno.key();
+        Method method = ((MethodSignature) point.getSignature()).getMethod();
+        SystemException.notNull(cacheName, () -> "cacheName 不能为空：" + method.getName() + "无法缓存！");
+
+        Serializable key;
+        if(keySet == null){
+            key = "no_para_entry";
         }else{
-            key = cacheAnno.key();
+            key = getKey(point, keySet);
         }
 
-        boolean empty = StringUtils.isEmpty(cacheAnno.value());
-        String cacheName = empty ? CACHE_NAME+method.getName() : cacheAnno.value();
-        ICache iCache = empty ? cache : CacheHolder.get(cacheName, cache);
-
-        Serializable t = iCache.get(cacheName, key, method.getGenericReturnType());
+        Serializable t = cache.get(cacheName, keySet, method.getGenericReturnType());
         if (t != null) {
             return t;
         }
@@ -94,8 +89,22 @@ public class CacheAspect {
         }
         SystemException.isTrue(!Serializable.class.isAssignableFrom(result.getClass()) , () -> "类型：" + result.getClass() + "无法缓存！");
         //数据保存进缓存
-        iCache.put(cacheName, key, (Serializable) result, ValUtil.getInt(cacheAnno.cacheTime()));
-
+        cache.put(cacheName, key, (Serializable) result, ValUtil.getInt(cacheAnno.cacheTime()));
         return result;
+    }
+
+    /**
+     * 缓存失效处理
+     * @param point
+     */
+    @After("pointcutCacheEvict()")
+    public void aroundEvict(JoinPoint point){
+        CacheEvictAnno cacheAnno = getApiAnnotation(point, CacheEvictAnno.class);
+        String keySet = cacheAnno.key();
+        if(keySet == null){
+            cache.removeAll(cacheAnno.value());
+        }else{
+            cache.remove(cacheAnno.value(), getKey(point, keySet));
+        }
     }
 }
