@@ -1,8 +1,9 @@
 package com.dlz.framework.redis.service.impl;
 
-import com.dlz.comm.util.JacksonUtil;
-import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
+import com.dlz.framework.redis.JedisExecutor;
+import com.dlz.framework.redis.RedisKeyMaker;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -14,36 +15,32 @@ import java.util.Set;
  *
  * @author dk
  */
-public class CacheRedisJsonKey extends BaseCacheRedis implements ICache {
+public class CacheRedisJsonKey implements ICache {
+    @Autowired
+    RedisKeyMaker keyMaker;
+    @Autowired
+    JedisExecutor jedisExecutor;
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        String str = this.excuteByJedis(j -> j.get(getRedisKey(name, key)));
-        if (str != null) {
-            return ValUtil.getObj(str, JacksonUtil.getJavaType(type));
-        }
-        return null;
+        return jedisExecutor.getObj(name + RedisKeyMaker.keySplit + key, type);
     }
 
     @Override
-    public void put(String name, Serializable key, Serializable value, long milliseconds) {
-        this.excuteByJedis(j -> {
-            String redisKey = getRedisKey(name, key);
-            String set = j.set(redisKey, ValUtil.getStr(value));
-            if (milliseconds > -1) {
-                j.pexpire(redisKey, milliseconds);
-            }
-            return set;
-        });
+    public void put(String name, Serializable key, Serializable value, int seconds) {
+        jedisExecutor.setObj(name + RedisKeyMaker.keySplit + key, value, seconds);
     }
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.del(getRedisKey(name, key)));
+        jedisExecutor.del(name + RedisKeyMaker.keySplit + key);
     }
 
     @Override
     public void removeAll(String name) {
-        Set<String> strings = this.excuteByJedis(j -> j.keys(getRedisKey(name,"*")));
-        this.excuteByJedis(j -> j.del(strings.toArray(new String[strings.size()])));
+        jedisExecutor.excuteByJedis(j -> {
+            Set<String> keys = j.keys(keyMaker.getKey(name +"*"));
+            j.del(keys.toArray(new String[keys.size()]));
+            return true;
+        });
     }
 }

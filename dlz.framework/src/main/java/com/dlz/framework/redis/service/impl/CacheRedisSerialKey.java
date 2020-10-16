@@ -2,6 +2,9 @@ package com.dlz.framework.redis.service.impl;
 
 import com.dlz.comm.util.system.SerializeUtil;
 import com.dlz.framework.cache.ICache;
+import com.dlz.framework.redis.JedisExecutor;
+import com.dlz.framework.redis.RedisKeyMaker;
+import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
@@ -13,14 +16,19 @@ import java.util.Set;
  *
  * @author dk
  */
-public class CacheRedisSerialKey extends BaseCacheRedis implements ICache {
+public class CacheRedisSerialKey implements ICache {
+    @Autowired
+    RedisKeyMaker keyMaker;
+    @Autowired
+    JedisExecutor jedisExecutor;
+
     protected byte[] getRedisByteKey(String name, Serializable key) {
-        return SafeEncoder.encode(getRedisKey(name,key));
+        return SafeEncoder.encode(keyMaker.getKey(name + RedisKeyMaker.keySplit + key));
     }
 
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        return this.excuteByJedis(j -> {
+        return jedisExecutor.excuteByJedis(j -> {
             final byte[] result = j.get(getRedisByteKey(name, key));
             if (null != result) {
                 return (T) SerializeUtil.deserialize(result);
@@ -32,16 +40,16 @@ public class CacheRedisSerialKey extends BaseCacheRedis implements ICache {
 
 
     public <T extends Serializable> T get(String name, Serializable key) {
-        return get(name, key ,null);
+        return get(name, key, null);
     }
 
     @Override
-    public void put(String name, Serializable key, Serializable value, long exp) {
-        this.excuteByJedis(j -> {
+    public void put(String name, Serializable key, Serializable value, int seconds) {
+        jedisExecutor.excuteByJedis(j -> {
             byte[] key1 = getRedisByteKey(name, key);
             String set = j.set(key1, SerializeUtil.serialize(value));
-            if (exp > -1) {
-                j.pexpire(key1, exp);
+            if (seconds > -1) {
+                j.expire(key1, seconds);
             }
             return set;
         });
@@ -49,12 +57,15 @@ public class CacheRedisSerialKey extends BaseCacheRedis implements ICache {
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.del(getRedisByteKey(name, key)));
+        jedisExecutor.excuteByJedis(j -> j.del(getRedisByteKey(name, key)));
     }
 
     @Override
     public void removeAll(String name) {
-        Set<String> strings = this.excuteByJedis(j -> j.keys(getRedisKey(name,"*")));
-        this.excuteByJedis(j -> j.del(strings.toArray(new String[strings.size()])));
+        jedisExecutor.excuteByJedis(j -> {
+            Set<String> keys = j.keys(keyMaker.getKey(name+"*"));
+            j.del(keys.toArray(new String[keys.size()]));
+            return true;
+        });
     }
 }

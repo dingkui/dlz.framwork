@@ -62,11 +62,13 @@ public class HttpUtil {
             HttpEntity entity = null;
             if (request instanceof HttpEntityEnclosingRequestBase) {
                 if (!param.getPara().isEmpty()) {
-                    List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+                    List<NameValuePair> nameValuePairList = new ArrayList<>(param.getPara().size());
                     param.getPara().entrySet().forEach(e -> nameValuePairList.add(new BasicNameValuePair(e.getKey(), JacksonUtil.getJson(e.getValue()))));
                     entity = new UrlEncodedFormEntity(nameValuePairList, param.getCharsetNameRequest());
                 } else if (param.getPayload() != null) {
-                    entity = new StringEntity((param.getPayload()), param.getCharsetNameRequest());
+                    entity = new StringEntity(param.getPayload(), param.getCharsetNameRequest());
+                } else{
+                    entity = new StringEntity("", param.getCharsetNameRequest());
                 }
                 ((StringEntity) entity).setContentType(param.getContentType());
                 ((HttpEntityEnclosingRequestBase) request).setEntity(entity);

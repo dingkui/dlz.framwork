@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 public interface ICache {
     <T extends Serializable> T get(String name, Serializable key, Type tClass);
 
-    void put(String name, Serializable key, Serializable value, long milliseconds);
+    void put(String name, Serializable key, Serializable value, int seconds);
 
     void remove(String name, Serializable key);
 

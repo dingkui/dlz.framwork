@@ -1,8 +1,17 @@
 package com.dlz.framework.redis;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Redis key构建器
@@ -11,35 +20,44 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 public class RedisKeyMaker {
-    @Value("${dlz.redis.prefix:auto}")
-    private String prefix;
-    @Value("${spring.application.name:app}")
-    private String appName;
-    @Value("${spring.profiles.active:dev}")
-    private String profiles;
-    protected static final String keySplit = ":";
-    protected static final String prefix_auto = "auto";
+    private String prefix = prefix_auto;
+    public static final String keySplit = ":";
+    public static final String prefix_auto = "auto";
 
-    public String getKey(String key, Object... keys) {
-        if (prefix.length()==prefix_auto.length() && prefix_auto.equals(prefix)) {
-            prefix = appName;
+    @Autowired
+    public void setEnvironment(Environment environment) {
+        this.prefix = environment.getProperty("dlz.redis.prefix", prefix_auto);
+        if (prefix.equals(prefix_auto)) {
+            prefix = environment.getProperty("spring.application.name", prefix_auto) + keySplit +
+                    environment.getProperty("spring.profiles.active", "dev");
         }
+    }
+
+    public String getKey(String key) {
         StringBuilder sb = new StringBuilder(prefix);
-        sb.append(keySplit).append(profiles);
         sb.append(keySplit).append(key);
-        for (Object s : keys) {
-            sb.append(keySplit).append(s);
-        }
         return sb.toString().replaceAll("[:]+", ":").replaceAll(":$", "");
+    }
+
+    public String[] getKeys(String... keys) {
+        return (String[])Arrays.stream(keys).map(o->getKey(o)).toArray();
+    }
+
+    public String getClientKey(String key) {
+        return key.substring(prefix.length() + 1);
+    }
+    public Stream<String> getClientKey(Stream<String> key) {
+        return key.map(o -> getClientKey(o));
     }
 
 //    public static void main(String[] args) {
 //        RedisKeyMaker keyMaker = new RedisKeyMaker();
-////        System.out.println(keyMaker.getKey(":xxx:xxx::"));
-////        System.out.println(keyMaker.getKey(":xxx::xxx::"));
-////        System.out.println(keyMaker.getKey(":xxx::xxx::","aa"));
-////        System.out.println(keyMaker.getKey(":xxx::xxx::",":aa:"));
-////        System.out.println(keyMaker.getKey(":xxx::xxx::","aa:"));
-//        System.out.println(keyMaker.getKey(":xxx::xxx::","*:"));
+//        System.out.println(keyMaker.getKey(":xxx:xxx::"));
+//        System.out.println(keyMaker.getKey(":xxx::xxx::"));
+//        System.out.println(keyMaker.getKey(":xxx::xxx::","aa"));
+//        System.out.println(keyMaker.getKey(":xxx::xxx::",":aa:"));
+//        System.out.println(keyMaker.getKey(":xxx::xxx::","aa:"));
+//        System.out.println(keyMaker.getKey(":xxx::xxx::", "*:"));
+//        System.out.println(keyMaker.getClientKey("auto::xxx:xxx::"));
 //    }
 }

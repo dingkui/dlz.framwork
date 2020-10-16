@@ -55,10 +55,10 @@ public class CacheEhcahe implements ICache {
     }
 
     @Override
-    public void put(String name, Serializable key, Serializable value, long milliseconds) {
+    public void put(String name, Serializable key, Serializable value, int seconds) {
         Element element = new Element(key, value);
-        if (milliseconds > -1) {
-            element.setTimeToLive(ValUtil.getInt(milliseconds/1000));
+        if (seconds > -1) {
+            element.setTimeToLive(ValUtil.getInt(seconds));
         }
         getCache(name).put(element);
     }

@@ -1,9 +1,11 @@
 package com.dlz.framework.redis.service.impl;
 
-import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
+import com.dlz.framework.redis.JedisExecutor;
+import com.dlz.framework.redis.RedisKeyMaker;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -15,37 +17,28 @@ import java.lang.reflect.Type;
  * @author dk
  */
 @Slf4j
-public class CacheRedisJsonHash extends BaseCacheRedis implements ICache {
-
+public class CacheRedisJsonHash implements ICache {
+    @Autowired
+    RedisKeyMaker keyMaker;
+    @Autowired
+    JedisExecutor jedisExecutor;
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        String str = this.excuteByJedis(j -> j.hget(getRedisKey(name), getKeyName(key)));
-        if (str != null) {
-            return ValUtil.getObj(str, JacksonUtil.getJavaType(type));
-        }
-        return null;
+        return jedisExecutor.hgetObj(name,key,type);
     }
 
     @Override
-    public void put(String name, Serializable key, Serializable value, long milliseconds) {
-        String key1 = getRedisKey(name);
-        this.excuteByJedis(j -> j.hset(key1, getKeyName(key), ValUtil.getStr(value)));
-        if (milliseconds > -1) {
-            this.excuteByJedis(j -> j.pexpire(key1, milliseconds));
-        }
+    public void put(String name, Serializable key, Serializable value, int seconds) {
+        jedisExecutor.hsetObj(name, key, value,seconds);
     }
 
     @Override
     public void remove(String name, Serializable key) {
-        this.excuteByJedis(j -> j.hdel(getRedisKey(name), getKeyName(key)));
+        jedisExecutor.hdel(name, ValUtil.getStr(key));
     }
 
     @Override
     public void removeAll(String name) {
-        this.excuteByJedis(j -> j.del(getRedisKey(name)));
-    }
-
-    private String getKeyName(Serializable key) {
-        return String.valueOf(key).replaceAll(":", "");
+        jedisExecutor.del(name);
     }
 }

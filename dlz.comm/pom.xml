@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.dlz</groupId>
         <artifactId>dlz-dependencies</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
     </parent>
     <artifactId>dlz.comm</artifactId>
     <packaging>jar</packaging>

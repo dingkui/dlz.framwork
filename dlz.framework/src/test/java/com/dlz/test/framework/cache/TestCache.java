@@ -31,8 +31,8 @@ public class TestCache {
 		ArrayList<String> s=new ArrayList<>();
 		s.add("xx");
 		ICache iCache = CacheHolder.get("t1", bean);
-		iCache.put("t1","x1","1",-1l);
-		iCache.put("t1","x2",s,3600000l);
+		iCache.put("t1","x1","1",-1);
+		iCache.put("t1","x2",s,3600);
 	}
 
 	@Test
