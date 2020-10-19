@@ -69,7 +69,7 @@ public class JedisExecutor {
     public List<String> keys(String pattern) {
         return keyMaker.getClientKey(excuteByJedis(j -> {
 //                ScanResult<String> scan = j.scan(pattern);
-            return j.keys(pattern);
+            return j.keys(keyMaker.getKey(pattern));
         }).stream()).collect(Collectors.toList());
     }
 

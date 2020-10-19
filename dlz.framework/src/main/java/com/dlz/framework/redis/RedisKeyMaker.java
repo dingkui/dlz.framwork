@@ -33,6 +33,12 @@ public class RedisKeyMaker {
         }
     }
 
+    @Deprecated
+    public String getKey(String key,Object ... obj) {
+        StringBuilder sb = new StringBuilder(prefix);
+        sb.append(keySplit).append(key);
+        return sb.toString().replaceAll("[:]+", ":").replaceAll(":$", "");
+    }
     public String getKey(String key) {
         StringBuilder sb = new StringBuilder(prefix);
         sb.append(keySplit).append(key);
