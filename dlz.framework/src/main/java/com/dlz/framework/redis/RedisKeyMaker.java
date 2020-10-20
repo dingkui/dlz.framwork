@@ -11,6 +11,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -46,7 +47,11 @@ public class RedisKeyMaker {
     }
 
     public String[] getKeys(String... keys) {
-        return (String[])Arrays.stream(keys).map(o->getKey(o)).toArray();
+        String[] newkeys=new String[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            newkeys[i] = getKey(keys[i]);
+        }
+        return newkeys;
     }
 
     public String getClientKey(String key) {
@@ -56,14 +61,15 @@ public class RedisKeyMaker {
         return key.map(o -> getClientKey(o));
     }
 
-//    public static void main(String[] args) {
-//        RedisKeyMaker keyMaker = new RedisKeyMaker();
-//        System.out.println(keyMaker.getKey(":xxx:xxx::"));
-//        System.out.println(keyMaker.getKey(":xxx::xxx::"));
-//        System.out.println(keyMaker.getKey(":xxx::xxx::","aa"));
-//        System.out.println(keyMaker.getKey(":xxx::xxx::",":aa:"));
-//        System.out.println(keyMaker.getKey(":xxx::xxx::","aa:"));
-//        System.out.println(keyMaker.getKey(":xxx::xxx::", "*:"));
-//        System.out.println(keyMaker.getClientKey("auto::xxx:xxx::"));
-//    }
+    public static void main(String[] args) {
+        RedisKeyMaker keyMaker = new RedisKeyMaker();
+        System.out.println(keyMaker.getKey(":xxx:xxx::"));
+        System.out.println(keyMaker.getKey(":xxx::xxx::"));
+        System.out.println(keyMaker.getKey(":xxx::xxx::","aa"));
+        System.out.println(keyMaker.getKey(":xxx::xxx::",":aa:"));
+        System.out.println(keyMaker.getKey(":xxx::xxx::","aa:"));
+        System.out.println(keyMaker.getKey(":xxx::xxx::", "*:"));
+        System.out.println(keyMaker.getClientKey("auto::xxx:xxx::"));
+        System.out.println(keyMaker.getKeys("auto::xxx:xxx::"));
+    }
 }

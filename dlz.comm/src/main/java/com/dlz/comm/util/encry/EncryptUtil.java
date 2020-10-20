@@ -58,11 +58,14 @@ public class EncryptUtil {
 	
 	private static void test(String in){
 		String en1=simpleEncry(in);
-		System.out.println(en1+" "+simpleDecry(en1));
+		System.out.println(in.length());
+		System.out.println(en1.length()+" "+en1+" "+simpleDecry(en1));
+		String en2=encode(in);
+		System.out.println(en2.length()+" "+en2+" "+decode(en2));
 	}
 	
 	public static void main(String[] args){
-		test("12345,123");
+		test("12345,123,12343,1313,1242143563是打发的，手动阀啥啥啥的发生vcxbdqewrqw撒发生的发生阿斯顿发斯蒂芬无情二七日气温v");
 	}
 	public static String decode(String $string) {
 		return decode($string, null);
