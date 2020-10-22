@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dlz</groupId>
     <artifactId>dlz-dependencies</artifactId>
-    <version>4.0.2</version>
+    <version>5.0.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>dlz.comm</module>
@@ -14,28 +14,14 @@
 <!--        <module>dlz.webs</module>-->
         <module>dlz.plugin</module>
     </modules>
-    <distributionManagement>
-	  <repository>
-	    <id>dlz-releases</id>
-	    <url>http://maven.d.shunliannet.com/repository/dlz/</url>
-	  </repository>
-	  <snapshotRepository>
-	    <id>dlz-napshots</id>
-	    <url>http://maven.d.shunliannet.com/repository/dlz-snapshots/</url>
-	  </snapshotRepository>
-     </distributionManagement>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.0.0.RELEASE</version>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.0.RELEASE</version>
     </parent>
     <properties>
         <lombok.version>1.18.12</lombok.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 
         <swagger.version>2.9.2</swagger.version>
         <swagger.models.version>1.5.21</swagger.models.version>
@@ -43,7 +29,8 @@
 
         <mybatis.version>3.4.0</mybatis.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
-        <dlz.framework.version>4.0.2</dlz.framework.version>
+        <dlz.framework.version>${dlz.fw.version}-SNAPSHOT</dlz.framework.version>
+        <dlz.fw.version>5.0.0</dlz.fw.version>
     </properties>
     <dependencies>
         <dependency>
@@ -69,7 +56,7 @@
             <dependency>
                 <groupId>com.dlz</groupId>
                 <artifactId>dlz.comm</artifactId>
-                <version>${dlz.framework.version}</version>
+                <version>${dlz.fw.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.dlz</groupId>
@@ -79,29 +66,29 @@
             <dependency>
                 <groupId>com.dlz</groupId>
                 <artifactId>dlz.web</artifactId>
-                <version>${dlz.framework.version}</version>
+                <version>${dlz.fw.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.dlz</groupId>
                 <artifactId>dlz.plugin.test</artifactId>
-                <version>${dlz.framework.version}</version>
+                <version>${dlz.fw.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.dlz</groupId>
                 <artifactId>dlz.plugin.weixin</artifactId>
-                <version>${dlz.framework.version}</version>
+                <version>${dlz.fw.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.dlz</groupId>
                 <artifactId>dlz.framework.db.test</artifactId>
-                <version>${dlz.framework.version}</version>
+                <version>${dlz.fw.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.dlz</groupId>
                 <artifactId>dlz.framework.db.springjdbc</artifactId>
-                <version>${dlz.framework.version}</version>
+                <version>${dlz.fw.version}</version>
             </dependency>
             <dependency>
                 <groupId>c3p0</groupId>
@@ -125,85 +112,54 @@
                 <artifactId>qrcode</artifactId>
                 <version>1.0</version>
             </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.0.1</version>
-            </dependency>
-            <!-- mybatis -->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${swagger.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.swagger</groupId>
-                        <artifactId>swagger-models</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger.models.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>${swagger.bootstrapui.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.models.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF8</encoding>
-                    <!-- 打包时跳过测试 -->
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+            <!-- 打包时跳过测试 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>${basedir}/src/main/java</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
+    <distributionManagement>
+        <repository>
+            <id>dlz-releases</id>
+            <url>http://maven.d.shunliannet.com/repository/dlz/</url>
+        </repository>
+        <snapshotRepository>
+            <id>dlz-napshots</id>
+            <url>http://maven.d.shunliannet.com/repository/dlz-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <!--阿里云仓库-->
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun-maven</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>sl</id>
+            <url>http://maven.d.shunliannet.com/repository/sl/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>public</id>
+            <name>aliyun nexus</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

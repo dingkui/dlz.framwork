@@ -5,7 +5,6 @@
 		<artifactId>dlz.plugin</artifactId>
 		<version>3.1.1</version>
 	</parent>
-	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.plugin.component</artifactId>
 	<packaging>jar</packaging>
 
@@ -13,7 +12,6 @@
 		<dependency>
 			<groupId>com.dlz</groupId>
 			<artifactId>dlz.plugin.test</artifactId>
-			<version>${dlz.framework.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

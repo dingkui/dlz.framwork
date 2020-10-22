@@ -5,7 +5,6 @@
 		<artifactId>dlz.plugin</artifactId>
 		<version>3.1</version>
 	</parent>
-	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.plugin.weixin</artifactId>
 	<packaging>jar</packaging>
 

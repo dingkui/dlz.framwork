@@ -30,8 +30,6 @@ public class JedisExecutor {
     @Autowired
     private JedisPool jedisPool;
 
-
-
     /**
      * 处理 jedis请求
      *
@@ -42,7 +40,7 @@ public class JedisExecutor {
         try (Jedis jedis = jedisPool.getResource()) {
             return j.excute(jedis);
         } catch (Exception e) {
-            log.error(ExceptionUtils.getStackTrace(RemoteException.buildException("redis操作异常", e)));
+            log.error(ExceptionUtils.getStackTrace(RemoteException.buildException("redis异常:"+e.getMessage(), e)));
         }
         return null;
     }
@@ -60,6 +58,14 @@ public class JedisExecutor {
         return true;
     }
 
+    /**
+     * 缓存类型
+     *
+     * @param key  键
+     */
+    public String type(String key) {
+          return excuteByJedis(j -> j.type(keyMaker.getKey(key)));
+    }
     /**
      * 查找匹配key
      *
@@ -203,7 +209,7 @@ public class JedisExecutor {
     public Map<String, String> hmget(String key) {
         Map<String, String> result = excuteByJedis(j -> j.hgetAll(keyMaker.getKey(key)));
         Map<String, String> map = new HashMap<>(result.size());
-        result.forEach((k, v) -> map.put(keyMaker.getClientKey(k),v));
+        result.forEach((k, v) -> map.put(k,v));
         return map;
     }
 
