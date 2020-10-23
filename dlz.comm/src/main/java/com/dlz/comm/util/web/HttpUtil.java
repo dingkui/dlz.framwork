@@ -59,18 +59,22 @@ public class HttpUtil {
 
         Object result = null;
         try {
-            HttpEntity entity = null;
             if (request instanceof HttpEntityEnclosingRequestBase) {
-                if (!param.getPara().isEmpty()) {
+                StringEntity entity = null;
+                if(HttpConstans.CONTENTTYPE_UTF8 == param.getContentType() || param.getContentType().indexOf("application/x-www-form-urlencoded")>-1){
                     List<NameValuePair> nameValuePairList = new ArrayList<>(param.getPara().size());
                     param.getPara().entrySet().forEach(e -> nameValuePairList.add(new BasicNameValuePair(e.getKey(), JacksonUtil.getJson(e.getValue()))));
                     entity = new UrlEncodedFormEntity(nameValuePairList, param.getCharsetNameRequest());
-                } else if (param.getPayload() != null) {
-                    entity = new StringEntity(param.getPayload(), param.getCharsetNameRequest());
-                } else{
-                    entity = new StringEntity("", param.getCharsetNameRequest());
+                } else {
+                    if (param.getPayload() != null) {
+                        entity = new StringEntity(param.getPayload(), param.getCharsetNameRequest());
+                    } else if (!param.getPara().isEmpty()) {
+                        entity = new StringEntity(JacksonUtil.getJson(param.getPara()), param.getCharsetNameRequest());
+                    } else {
+                        entity = new StringEntity("", param.getCharsetNameRequest());
+                    }
+                    entity.setContentType(param.getContentType());
                 }
-                ((StringEntity) entity).setContentType(param.getContentType());
                 ((HttpEntityEnclosingRequestBase) request).setEntity(entity);
             } else if (!param.getPara().isEmpty()) {
                 request.setURI(new URI(buildUrl(param.getUrl(), null, param.getPara(), param.getCharsetNameRequest())));
