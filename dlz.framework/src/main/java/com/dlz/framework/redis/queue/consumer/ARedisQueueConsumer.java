@@ -78,13 +78,15 @@ public abstract class ARedisQueueConsumer<T> {
                     log.info("队列[{}]消费者启动成功:{}[{}]", redisQueueName, this.getClass().getName(), threadIndex);
                     waitmillis = 0;
                     while (true) {
-                        List<String> message = jedis.blpop(0, redisQueueName);
-                        if (message != null && message.size() > 1) {
+                        List<String> messages = jedis.blpop(0, redisQueueName);
+                        if (messages != null && messages.size() > 1) {
+                            String message = messages.get(1);
                             try{
-                                log.info("{}接收消息:{}", this.getClass().getSimpleName(), message.get(1));
-                                this.doConsume(ValUtil.getObj(message.get(1), finalClassType));
+                                log.info("{}接收消息:{}", this.getClass().getSimpleName(), message);
+                                this.doConsume(ValUtil.getObj(message, finalClassType));
                             }catch (Exception e){
-                                log.error("doConsume error:mgs={}",e.getMessage());
+                                log.error("doConsume error:redisQueueName={}, message={}",redisQueueName, message);
+                                log.error("doConsume error:{}", e.getMessage());
                                 log.error(ExceptionUtils.getStackTrace(e));
                             }
                         }
