@@ -5,6 +5,7 @@ import com.dlz.comm.exception.HttpException;
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
+import com.dlz.comm.util.ValUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -50,31 +51,28 @@ public class HttpUtil {
      * @param request
      * @param param
      * @return
-     * @throws Exception
      */
     public static Object doHttp(HttpRequestBase request,
                                 HttpRequestParam param) {
         HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl());
-        param.getHeaders().entrySet().forEach(e -> request.addHeader(e.getKey(), e.getValue()));
+        param.getHeaders().forEach(request::addHeader);
 
         Object result = null;
         try {
             if (request instanceof HttpEntityEnclosingRequestBase) {
-                StringEntity entity = null;
-                if(HttpConstans.CONTENTTYPE_UTF8 == param.getContentType() || param.getContentType().indexOf("application/x-www-form-urlencoded")>-1){
-                    List<NameValuePair> nameValuePairList = new ArrayList<>(param.getPara().size());
-                    param.getPara().entrySet().forEach(e -> nameValuePairList.add(new BasicNameValuePair(e.getKey(), JacksonUtil.getJson(e.getValue()))));
-                    entity = new UrlEncodedFormEntity(nameValuePairList, param.getCharsetNameRequest());
-                } else {
-                    if (param.getPayload() != null) {
-                        entity = new StringEntity(param.getPayload(), param.getCharsetNameRequest());
-                    } else if (!param.getPara().isEmpty()) {
-                        entity = new StringEntity(JacksonUtil.getJson(param.getPara()), param.getCharsetNameRequest());
+                String payLoad=param.getPayload();
+                if (payLoad == null && !param.getPara().isEmpty()) {
+                    if (HttpConstans.CONTENTTYPE_UTF8 == param.getContentType() || param.getContentType().contains("application/x-www-form-urlencoded")) {
+                        payLoad = buildUrl(param.getPara(), param.getCharsetNameRequest());
                     } else {
-                        entity = new StringEntity("", param.getCharsetNameRequest());
+                        payLoad = JacksonUtil.getJson(param.getPara());
                     }
-                    entity.setContentType(param.getContentType());
                 }
+                if (payLoad == null) {
+                    payLoad = "";
+                }
+                StringEntity entity = new StringEntity(payLoad);
+                entity.setContentType(param.getContentType());
                 ((HttpEntityEnclosingRequestBase) request).setEntity(entity);
             } else if (!param.getPara().isEmpty()) {
                 request.setURI(new URI(buildUrl(param.getUrl(), null, param.getPara(), param.getCharsetNameRequest())));
@@ -105,9 +103,7 @@ public class HttpUtil {
                         throw new HttpException((String)result, statusCode);
                     }
             }
-        } catch (BussinessException e) {
-            throw e;
-        } catch (HttpException e) {
+        } catch (BussinessException | HttpException e) {
             throw e;
         } catch (Exception e) {
             String info = "doHttp " + request.getMethod() + " Exception:" + e.getMessage() + " url:" + request.getURI();
@@ -126,7 +122,7 @@ public class HttpUtil {
 
     private static Object getResult(InputStream inputStream, int returnType, String charsetNamere) throws Exception {
         if (returnType == 1) {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             byte[] buffer = new byte[4096];
             int read = 0;
             while (read != -1) {
@@ -189,13 +185,21 @@ public class HttpUtil {
         }
     }
 
-
     public static String buildUrl(String host, String path, Map<String, Object> querys, String enc) throws UnsupportedEncodingException {
         StringBuilder sbUrl = new StringBuilder();
         sbUrl.append(host);
         if (!StringUtils.isEmpty(path)) {
             sbUrl.append(path);
         }
+        if (null != querys) {
+            String s = buildUrl(querys, enc);
+            if (0 < s.length()) {
+                sbUrl.append(sbUrl.indexOf("?") > -1 ? "&" : "?").append(s);
+            }
+        }
+        return sbUrl.toString();
+    }
+    public static String buildUrl(Map<String, Object> querys, String enc) throws UnsupportedEncodingException {
         if (null != querys) {
             StringBuilder sbQuery = new StringBuilder();
             for (Map.Entry<String, Object> query : querys.entrySet()) {
@@ -209,14 +213,12 @@ public class HttpUtil {
                     sbQuery.append(query.getKey());
                     if (!StringUtils.isEmpty(query.getValue())) {
                         sbQuery.append("=");
-                        sbQuery.append(URLEncoder.encode(JacksonUtil.getJson(query.getValue()), enc));
+                        sbQuery.append(URLEncoder.encode(ValUtil.getStr(query.getValue()), enc));
                     }
                 }
             }
-            if (0 < sbQuery.length()) {
-                sbUrl.append(sbUrl.indexOf("?") > -1 ? "&" : "?").append(sbQuery);
-            }
+            return sbQuery.toString();
         }
-        return sbUrl.toString();
+        return "";
     }
 }
