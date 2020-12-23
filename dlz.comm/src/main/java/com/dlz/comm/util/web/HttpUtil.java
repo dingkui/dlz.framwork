@@ -22,6 +22,7 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -62,7 +63,7 @@ public class HttpUtil {
             if (request instanceof HttpEntityEnclosingRequestBase) {
                 String payLoad=param.getPayload();
                 if (payLoad == null && !param.getPara().isEmpty()) {
-                    if (HttpConstans.CONTENTTYPE_UTF8 == param.getContentType() || param.getContentType().contains("application/x-www-form-urlencoded")) {
+                    if (param.getMimeType().equals(HttpConstans.MIMETYPE_FORM)) {
                         payLoad = buildUrl(param.getPara(), param.getCharsetNameRequest());
                     } else {
                         payLoad = JacksonUtil.getJson(param.getPara());
@@ -71,8 +72,8 @@ public class HttpUtil {
                 if (payLoad == null) {
                     payLoad = "";
                 }
-                StringEntity entity = new StringEntity(payLoad, param.getCharsetNameRequest());
-                entity.setContentType(param.getContentType());
+                ContentType contentType = ContentType.create(param.getMimeType(), param.getCharsetNameRequest());
+                StringEntity entity = new StringEntity(payLoad, contentType);
                 ((HttpEntityEnclosingRequestBase) request).setEntity(entity);
             } else if (!param.getPara().isEmpty()) {
                 request.setURI(new URI(buildUrl(param.getUrl(), null, param.getPara(), param.getCharsetNameRequest())));

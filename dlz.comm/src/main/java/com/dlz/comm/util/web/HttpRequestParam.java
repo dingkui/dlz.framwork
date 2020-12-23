@@ -1,5 +1,8 @@
 package com.dlz.comm.util.web;
 
+import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.ValUtil;
+import lombok.Generated;
 import lombok.Getter;
 import org.apache.http.client.protocol.HttpClientContext;
 
@@ -11,13 +14,13 @@ import java.util.Map;
  *
  * @author dk
  */
-@Getter
 public class HttpRequestParam {
     private String url;
+
     /**
      * 参数
      */
-    private Map<String, Object> para = new HashMap<>();
+    private JSONMap para = new JSONMap();
     /**
      * 使用payload
      */
@@ -27,7 +30,8 @@ public class HttpRequestParam {
      * 请求参数
      */
     private String charsetNameRequest = HttpConstans.CHARSET_UTF8;
-    private String contentType = HttpConstans.CONTENTTYPE_UTF8;
+
+    private String mimeType = HttpConstans.MIMETYPE_FORM;
     /**
      * 返回参数
      */
@@ -39,45 +43,47 @@ public class HttpRequestParam {
     private int returnType = 1;
     private HttpClientContext localContext = new HttpClientContext();
 
-    public HttpRequestParam(String url) {
-        this.url = url;
-    }
-
-    public HttpRequestParam(String url, String payload) {
-        this.url = url;
-        this.payload = payload;
-    }
-
-    public HttpRequestParam(String url, String payload, Map<String, String> headers) {
-        this.url = url;
-        this.payload = payload;
-        if (headers != null) {
-            this.headers.putAll(headers);
-        }
-    }
-
-
-    public HttpRequestParam(String url, Map<String, Object> para) {
-        this.url = url;
+    public static HttpRequestParam createJsonReq(String url, Object para) {
+        HttpRequestParam httpRequestParam = new HttpRequestParam(url);
+        httpRequestParam.mimeType = HttpConstans.MIMETYPE_JSON;
         if (para != null) {
-            this.para.putAll(para);
+            httpRequestParam.payload = ValUtil.getStr(para);
         }
+        return httpRequestParam;
+    }
+
+    public static HttpRequestParam createTextReq(String url, Object para) {
+        HttpRequestParam httpRequestParam = new HttpRequestParam(url);
+        httpRequestParam.mimeType = HttpConstans.MIMETYPE_TEXT;
+        if (para != null) {
+            httpRequestParam.payload = ValUtil.getStr(para);
+        }
+        return httpRequestParam;
+    }
+
+    public static HttpRequestParam createFormReq(String url, Object para) {
+        HttpRequestParam httpRequestParam = new HttpRequestParam(url);
+        httpRequestParam.mimeType = HttpConstans.MIMETYPE_FORM;
+        if (para != null) {
+            httpRequestParam.para = new JSONMap(para);
+        }
+        return httpRequestParam;
+    }
+
+    private HttpRequestParam(String url) {
+        this.url = url;
     }
 
     public void addHeader(String key, String value) {
         headers.put(key, value);
     }
 
-    public void addPara(String key, Object value) {
-        para.put(key, value);
-    }
-
     public void setCharsetNameRequest(String charsetNameRequest) {
         this.charsetNameRequest = charsetNameRequest;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
     }
 
     public void setCharsetNameResponse(String charsetNameResponse) {
@@ -94,5 +100,45 @@ public class HttpRequestParam {
 
     public void setLocalContext(HttpClientContext localContext) {
         this.localContext = localContext;
+    }
+
+    protected JSONMap getPara() {
+        return para;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getPayload() {
+        return payload;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public String getCharsetNameRequest() {
+        return charsetNameRequest;
+    }
+
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public String getCharsetNameResponse() {
+        return charsetNameResponse;
+    }
+
+    public boolean isShowLog() {
+        return showLog;
+    }
+
+    public int getReturnType() {
+        return returnType;
+    }
+
+    public HttpClientContext getLocalContext() {
+        return localContext;
     }
 }
