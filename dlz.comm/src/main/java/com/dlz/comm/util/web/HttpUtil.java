@@ -71,7 +71,7 @@ public class HttpUtil {
                 if (payLoad == null) {
                     payLoad = "";
                 }
-                StringEntity entity = new StringEntity(payLoad);
+                StringEntity entity = new StringEntity(payLoad, param.getCharsetNameRequest());
                 entity.setContentType(param.getContentType());
                 ((HttpEntityEnclosingRequestBase) request).setEntity(entity);
             } else if (!param.getPara().isEmpty()) {
