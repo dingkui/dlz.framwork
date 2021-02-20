@@ -53,12 +53,10 @@ public class HttpUtil {
      * @param param
      * @return
      */
-    public static Object doHttp(HttpRequestBase request,
+    public static HttpResponse executeHttp(HttpRequestBase request,
                                 HttpRequestParam param) {
         HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl());
         param.getHeaders().forEach(request::addHeader);
-
-        Object result = null;
         try {
             if (request instanceof HttpEntityEnclosingRequestBase) {
                 String payLoad=param.getPayload();
@@ -79,7 +77,24 @@ public class HttpUtil {
                 request.setURI(new URI(buildUrl(param.getUrl(), null, param.getPara(), param.getCharsetNameRequest())));
             }
 
-            HttpResponse execute = httpClient.execute(request, param.getLocalContext());
+            return httpClient.execute(request, param.getLocalContext());
+        } catch (Exception e) {
+            request.releaseConnection();
+            String info = "doHttp " + request.getMethod() + " Exception:" + e.getMessage() + " url:" + request.getURI();
+            throw new SystemException(info,e);
+        }
+    }
+
+    /**
+     * @param request
+     * @param param
+     * @return
+     */
+    public static Object doHttp(HttpRequestBase request,
+                                HttpRequestParam param) {
+        Object result = null;
+        try {
+            HttpResponse execute = executeHttp(request, param);
             int statusCode = execute.getStatusLine().getStatusCode();
             switch (statusCode) {
                 case HttpStatus.SC_OK:
@@ -105,6 +120,8 @@ public class HttpUtil {
                     }
             }
         } catch (BussinessException | HttpException e) {
+            throw e;
+        } catch (SystemException e) {
             throw e;
         } catch (Exception e) {
             String info = "doHttp " + request.getMethod() + " Exception:" + e.getMessage() + " url:" + request.getURI();

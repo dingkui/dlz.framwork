@@ -2,6 +2,7 @@ package com.dlz.comm.util.web;
 
 import com.dlz.comm.exception.SystemException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.*;
 import org.dom4j.Document;
 
@@ -10,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import static com.dlz.comm.util.web.HttpUtil.doHttp;
+import static com.dlz.comm.util.web.HttpUtil.executeHttp;
 
 /**
  * http操作
@@ -45,6 +47,9 @@ public enum HttpEnum {
             e.printStackTrace();
         }
         throw new SystemException("不支持的http类型："+this.toString());
+    }
+    public HttpResponse execute(HttpRequestParam param) {
+        return executeHttp(getRequest(param.getUrl()), param);
     }
     public String send(HttpRequestParam param) {
         param.setReturnType(1);
