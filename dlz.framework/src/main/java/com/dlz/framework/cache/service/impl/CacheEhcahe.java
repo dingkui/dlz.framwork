@@ -34,12 +34,16 @@ public class CacheEhcahe implements ICache {
     }
 
     private Cache getCache(String name) {
-        Cache cache = getManager().getCache(name);
+        CacheManager manager = getManager();
+        Cache cache = manager.getCache(name);
         if (cache == null) {
-            if (cache == null) {
-                log.info("缓存初始化：" + getManager().getConfiguration().getDiskStoreConfiguration().getPath() + "/" + name);
-                getManager().addCache(name);
-                cache = getManager().getCache(name);
+            synchronized(this.getClass()) {
+                cache = manager.getCache(name);
+                if (cache == null) {
+                    log.info("缓存初始化：" + manager.getConfiguration().getDiskStoreConfiguration().getPath() + "/" + name);
+                    manager.addCache(name);
+                    cache = manager.getCache(name);
+                }
             }
         }
         return cache;
