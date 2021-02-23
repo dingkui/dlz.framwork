@@ -49,34 +49,22 @@ public enum HttpEnum {
         throw new SystemException("不支持的http类型："+this.toString());
     }
     public HttpResponse execute(HttpRequestParam param) {
-        return executeHttp(getRequest(param.getUrl()), param);
-    }
-    public String send(HttpRequestParam param) {
-        param.setReturnType(1);
-        return (String) doHttp(getRequest(param.getUrl()), param);
-    }
-    public String send(String url, Map<String, Object> para) {
-        return send(HttpRequestParam.createFormReq(url,para));
-    }
-    public String send(String url) {
-        return send(HttpRequestParam.createFormReq(url,null));
-    }
-
-    public Document send4Dom(HttpRequestParam param) {
-        param.setReturnType(2);
+        HttpRequestBase request = getRequest(param.getUrl());
         try {
-            return (Document) doHttp(getRequest(param.getUrl()), param);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            return executeHttp(request, param);
+        }finally {
+            request.releaseConnection();
         }
-        return null;
+    }
+    public <T> T send(HttpRequestParam<T> param) {
+        return (T)doHttp(getRequest(param.getUrl()), param);
+    }
+    public <T> T send(String url, Map<String, Object> para) {
+        return (T)send(HttpRequestParam.createFormReq(url,para));
+    }
+    public <T> T send(String url) {
+        return (T)send(HttpRequestParam.createFormReq(url,null));
     }
 
-    public Document send4Dom(String url, Map<String, Object> para) {
-        return send4Dom(HttpRequestParam.createFormReq(url,para));
-    }
 
-    public Document send4Dom(String url) {
-        return send4Dom(HttpRequestParam.createFormReq(url,null));
-    }
 }

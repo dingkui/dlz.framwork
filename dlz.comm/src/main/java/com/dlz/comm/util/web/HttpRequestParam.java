@@ -2,6 +2,7 @@ package com.dlz.comm.util.web;
 
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.ValUtil;
+import com.dlz.comm.util.web.handler.ResponseHandler;
 import lombok.Generated;
 import lombok.Getter;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -14,9 +15,24 @@ import java.util.Map;
  *
  * @author dk
  */
-public class HttpRequestParam {
+public class HttpRequestParam<T> {
     private String url;
 
+    public ResponseHandler getResponseHandler() {
+        return responseHandler;
+    }
+
+    public void setResponseHandler(ResponseHandler responseHandler) {
+        this.responseHandler = responseHandler;
+    }
+
+    private ResponseHandler responseHandler;
+
+    public Class<T> gettClass() {
+        return tClass;
+    }
+
+    private Class<T> tClass;
     /**
      * 参数
      */
@@ -43,8 +59,20 @@ public class HttpRequestParam {
     private int returnType = 1;
     private HttpClientContext localContext = new HttpClientContext();
 
-    public static HttpRequestParam createJsonReq(String url, Object para) {
-        HttpRequestParam httpRequestParam = new HttpRequestParam(url);
+    public static HttpRequestParam<String> createJsonReq(String url, Object para) {
+        return createJsonReq(url, para, String.class);
+    }
+
+    public static HttpRequestParam<String> createTextReq(String url, Object para) {
+        return createTextReq(url, para, String.class);
+    }
+
+    public static HttpRequestParam<String> createFormReq(String url, Object para) {
+        return createFormReq(url, para, String.class);
+    }
+
+    public static <T> HttpRequestParam<T> createJsonReq(String url, Object para, Class<T> tClass) {
+        HttpRequestParam httpRequestParam = new HttpRequestParam(url,tClass);
         httpRequestParam.mimeType = HttpConstans.MIMETYPE_JSON;
         if (para != null) {
             httpRequestParam.payload = ValUtil.getStr(para);
@@ -52,8 +80,8 @@ public class HttpRequestParam {
         return httpRequestParam;
     }
 
-    public static HttpRequestParam createTextReq(String url, Object para) {
-        HttpRequestParam httpRequestParam = new HttpRequestParam(url);
+    public static <T> HttpRequestParam<T> createTextReq(String url, Object para, Class<T> tClass) {
+        HttpRequestParam httpRequestParam = new HttpRequestParam(url,tClass);
         httpRequestParam.mimeType = HttpConstans.MIMETYPE_TEXT;
         if (para != null) {
             httpRequestParam.payload = ValUtil.getStr(para);
@@ -61,8 +89,8 @@ public class HttpRequestParam {
         return httpRequestParam;
     }
 
-    public static HttpRequestParam createFormReq(String url, Object para) {
-        HttpRequestParam httpRequestParam = new HttpRequestParam(url);
+    public static <T> HttpRequestParam<T> createFormReq(String url, Object para, Class<T> tClass) {
+        HttpRequestParam httpRequestParam = new HttpRequestParam(url,tClass);
         httpRequestParam.mimeType = HttpConstans.MIMETYPE_FORM;
         if (para != null) {
             httpRequestParam.para = new JSONMap(para);
@@ -70,8 +98,9 @@ public class HttpRequestParam {
         return httpRequestParam;
     }
 
-    private HttpRequestParam(String url) {
+    private HttpRequestParam(String url, Class<T> tClass) {
         this.url = url;
+        this.tClass = tClass;
     }
 
     public void addHeader(String key, String value) {

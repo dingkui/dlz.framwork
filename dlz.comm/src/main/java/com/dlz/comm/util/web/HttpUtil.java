@@ -6,6 +6,7 @@ import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
+import com.dlz.comm.util.web.handler.ResponseHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -35,6 +36,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -48,18 +50,21 @@ import java.util.Map;
  */
 @Slf4j
 public class HttpUtil {
+    private static final ResponseHandler DEFAULT_RESPONSE_HANDLER = new ResponseHandler();
+
     /**
      * @param request
      * @param param
      * @return
      */
     public static HttpResponse executeHttp(HttpRequestBase request,
-                                HttpRequestParam param) {
+                                           HttpRequestParam param) {
         HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl());
-        param.getHeaders().forEach(request::addHeader);
+        Map<String, String> headers = param.getHeaders();
+        headers.forEach(request::addHeader);
         try {
             if (request instanceof HttpEntityEnclosingRequestBase) {
-                String payLoad=param.getPayload();
+                String payLoad = param.getPayload();
                 if (payLoad == null && !param.getPara().isEmpty()) {
                     if (param.getMimeType().equals(HttpConstans.MIMETYPE_FORM)) {
                         payLoad = buildUrl(param.getPara(), param.getCharsetNameRequest());
@@ -80,8 +85,16 @@ public class HttpUtil {
             return httpClient.execute(request, param.getLocalContext());
         } catch (Exception e) {
             request.releaseConnection();
-            String info = "doHttp " + request.getMethod() + " Exception:" + e.getMessage() + " url:" + request.getURI();
-            throw new SystemException(info,e);
+            String message = e.getMessage();
+            String info = e.getClass().getName();
+            if (StringUtils.isEmpty(message) && e.getCause() != null) {
+                message = e.getCause().getMessage();
+            }
+            if (!StringUtils.isEmpty(message)) {
+                info += ":" + message;
+            }
+            info += " -> executeUrl=" + request.getURI() + ",method=" + request.getMethod();
+            throw new SystemException(info);
         }
     }
 
@@ -92,40 +105,22 @@ public class HttpUtil {
      */
     public static Object doHttp(HttpRequestBase request,
                                 HttpRequestParam param) {
+        ResponseHandler responseHandler = param.getResponseHandler();
+        if (responseHandler == null) {
+            responseHandler = DEFAULT_RESPONSE_HANDLER;
+        }
         Object result = null;
         try {
             HttpResponse execute = executeHttp(request, param);
             int statusCode = execute.getStatusLine().getStatusCode();
-            switch (statusCode) {
-                case HttpStatus.SC_OK:
-                case HttpStatus.SC_CREATED:
-                case HttpStatus.SC_ACCEPTED:
-                    result = getResult(execute.getEntity().getContent(), param.getReturnType(), param.getCharsetNameResponse());
-                    return result;
-                case HttpStatus.SC_NOT_FOUND:
-                    throw new HttpException("地址无效:" + request.getURI(), statusCode);
-                case HttpStatus.SC_UNAUTHORIZED:
-                case HttpStatus.SC_FORBIDDEN:
-                    throw new HttpException("无访问权限:" + request.getURI(), statusCode);
-                case HttpStatus.SC_MOVED_TEMPORARILY:
-                    result= getResult(execute.getEntity().getContent(), 1, param.getCharsetNameResponse());
-                    throw new BussinessException("访问错误:" + result);
-                default:
-                    result= getResult(execute.getEntity().getContent(), 1, param.getCharsetNameResponse());
-                    if (statusCode > 3000 && statusCode < 3100) {
-                        throw new BussinessException(statusCode, (String)result, null);
-                    } else {
-                        log.error("访问异常:" + request.getURI() + " 返回码:" + statusCode+" msg:"+result);
-                        throw new HttpException((String)result, statusCode);
-                    }
-            }
+            result = responseHandler.handle(param, statusCode, execute);
         } catch (BussinessException | HttpException e) {
             throw e;
         } catch (SystemException e) {
             throw e;
         } catch (Exception e) {
             String info = "doHttp " + request.getMethod() + " Exception:" + e.getMessage() + " url:" + request.getURI();
-            throw new SystemException(info,e);
+            throw new SystemException(info, e);
         } finally {
             if (param.isShowLog() && log.isDebugEnabled()) {
                 if (result instanceof Document) {
@@ -136,34 +131,7 @@ public class HttpUtil {
             }
             request.releaseConnection();
         }
-    }
-
-    private static Object getResult(InputStream inputStream, int returnType, String charsetNamere) throws Exception {
-        if (returnType == 1) {
-            StringBuilder sb = new StringBuilder();
-            byte[] buffer = new byte[4096];
-            int read = 0;
-            while (read != -1) {
-                read = inputStream.read(buffer);
-                if (read > 0) {
-                    sb.append(new String(buffer, 0, read, charsetNamere));
-                }
-            }
-
-//			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-//			String temp = new String(in.readLine().getBytes(charsetNamere));
-//			StringBuffer sb=new StringBuffer();
-//			/* 连接成一个字符串 */
-//			while (temp != null) {
-//				sb.append(temp);
-//				temp = in.readLine();
-//			}
-            return sb.toString();
-        } else if (returnType == 2) {
-            //获取输入流
-            return new SAXReader().read(inputStream);
-        }
-        return null;
+        return result;
     }
 
     public static class HttpConnUtil {
@@ -196,7 +164,7 @@ public class HttpUtil {
 
         public static HttpClient wrapClient(String host) {
             HttpClientBuilder setConnectionManagerShared = HttpClientBuilder.create().setConnectionManager(cm).setConnectionManagerShared(true);
-            if (host.startsWith("https://")) {
+            if (host.startsWith(HTTPS)) {
                 return setConnectionManagerShared.setSSLSocketFactory(sslsf).build();
             }
             return setConnectionManagerShared.build();
@@ -217,6 +185,7 @@ public class HttpUtil {
         }
         return sbUrl.toString();
     }
+
     public static String buildUrl(Map<String, Object> querys, String enc) throws UnsupportedEncodingException {
         if (null != querys) {
             StringBuilder sbQuery = new StringBuilder();
