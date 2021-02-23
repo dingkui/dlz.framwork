@@ -32,7 +32,7 @@ public class ResponseHandler {
     }
 
     protected <T> T getOkResult(InputStream content,HttpRequestParam<T> param){
-        Class<T> tClass = param.gettClass();
+        Class<T> tClass = param.getTClass();
         IResponseReader iResponseReader = CLASS_READERS.get(tClass);
         if(iResponseReader==null){
             iResponseReader = DEFAULT_READER;

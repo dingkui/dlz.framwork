@@ -1,6 +1,7 @@
 package com.dlz.test.framework;
 
 import com.dlz.comm.util.web.HttpEnum;
+import com.dlz.comm.util.web.HttpRequestParam;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
