@@ -1,9 +1,11 @@
 server:
-  port: 8002
+  port: 80021
 
 appname: dlz-framwork
 
 spring:
+  profiles:
+    active: test
   application:
     name: ${appname}-test
   redis:

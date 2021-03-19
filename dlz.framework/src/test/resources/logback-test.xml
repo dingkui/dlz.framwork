@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="60 seconds" debug="false">
+
+    <property name="APP_Name" value="myAppName" />
+    <contextName>${APP_Name}</contextName>
+    <!-- 控制台日志 -->
+    <appender name="StdoutAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%X{traceId:-trace-Id}-%thread] %-5level %logger{80} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <logger name="com.dlz" level="debug" addtivity="false"/>
+    <!--    <logger name="p6spy" level="debug" addtivity="false"/>-->
+    <!--    <logger name="jdbc" level="OFF" addtivity="false"/>-->
+    <logger name="jdbc.sqlonly" level="INFO" addtivity="false"/>
+    <logger name="jdbc.resultset" level="ERROR" addtivity="false"/>
+    <logger name="com.dlz" level="debug" addtivity="false"/>
+    <logger name="org.springframework" level="warn" addtivity="false"/>
+    <root level="warn">
+        <appender-ref ref="StdoutAppender"/>
+    </root>
+</configuration>

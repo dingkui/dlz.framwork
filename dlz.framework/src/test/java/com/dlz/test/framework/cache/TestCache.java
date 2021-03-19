@@ -2,22 +2,16 @@ package com.dlz.test.framework.cache;
 
 import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.cache.ICache;
-import com.dlz.framework.holder.SpringHolder;
-import org.junit.Before;
+import com.dlz.test.framework.BaseTest;
 import org.junit.Test;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class TestCache {
+public class TestCache extends BaseTest {
+	@Autowired
 	ICache bean;
-	@Before
-	public void init(){
-		SpringHolder.init();
-		bean = SpringHolder.getBean(ICache.class);
-	}
 	@Test
 	public void t1(){
 		List<String> s=new ArrayList<>();

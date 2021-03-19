@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class Starter {
 
     public static void main(String[] args) {
-//        SpringApplication.run(Starter.class, args);
-        System.out.println((String)HttpEnum.POST.send("http://dk.d.shunliannet.com"));
+        SpringApplication.run(Starter.class, args);
+//        System.out.println((String)HttpEnum.POST.send("http://dk.d.shunliannet.com"));
     }
 }
