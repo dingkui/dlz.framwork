@@ -24,7 +24,8 @@ public class ExceptionUtils {
      */
     private static final String SUPPRESSED_CAPTION = "Suppressed: ";
 
-    Throwable throwable = null;
+    Throwable throwable;
+    boolean onlyShowAppLog;
     final StringWriter sw = new StringWriter();
     final PrintWriter pw = new PrintWriter(sw, true);
     private Set<Throwable> dejaVu = Collections.newSetFromMap(new IdentityHashMap<Throwable, Boolean>());
@@ -35,12 +36,28 @@ public class ExceptionUtils {
         dejaVu.clear();
     }
 
-    private ExceptionUtils(final Throwable throwable) {
+    private ExceptionUtils(final Throwable throwable, boolean onlyShowAppLog) {
         this.throwable = throwable;
+        this.onlyShowAppLog = onlyShowAppLog;
     }
 
+    /**
+     * 只显示app相关的堆栈
+     * @param throwable
+     * @return
+     */
     public static String getStackTrace(final Throwable throwable) {
-        return new ExceptionUtils(throwable).getStackTrace();
+        return new ExceptionUtils(throwable, true).getStackTrace();
+    }
+
+    /**
+     * 打印堆栈信息
+     * @param throwable
+     * @param onlyShowAppLog 是否只显示app相关的堆栈
+     * @return
+     */
+    public static String getStackTrace(final Throwable throwable, boolean onlyShowAppLog) {
+        return new ExceptionUtils(throwable, onlyShowAppLog).getStackTrace();
     }
 
     private String getStackTrace() {
@@ -132,7 +149,7 @@ public class ExceptionUtils {
 //        if(traceInfo.contains("java.util.concurrent")){
 //            return;
 //        }
-        if (!COMPILE.matcher(traceInfo).find()) {
+        if (onlyShowAppLog && !COMPILE.matcher(traceInfo).find()) {
             return;
         }
         pw.println(prefix + "\tat " + traceInfo);
@@ -140,7 +157,7 @@ public class ExceptionUtils {
 
     private static Pattern COMPILE = Pattern.compile("^com\\.(dlz)|(mileworks)");
 
-    public static void setCompiles(String compile){
+    public static void setCompiles(String compile) {
         COMPILE = Pattern.compile(compile);
 //        COMPILE = Pattern.compile("^"+compile.replaceAll("\\.","\\\\."));
     }
