@@ -172,6 +172,21 @@ public class JacksonUtil {
     /**
      * 类型转换
      *
+     * @param valueType
+     * @param parameterTypes
+     * @return
+     */
+    public static JavaType constructTypeByTypes(Class<?> valueType, JavaType... parameterTypes) {
+        int len = parameterTypes.length;
+        if (len == 0) {
+            return objectMapper.getTypeFactory().constructType(valueType);
+        }
+        return objectMapper.getTypeFactory().constructParametricType(valueType, parameterTypes);
+    }
+
+    /**
+     * 类型转换
+     *
      * @param o
      * @param javaType
      * @return
