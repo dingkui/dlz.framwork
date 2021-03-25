@@ -45,7 +45,10 @@ public interface IUniversalVals {
 		return ValUtil.getLong(getKeyVal(key),defaultV);
 	}
 	default Object[] getArray(String key){
-		return  getArray(key,null);
+		return  getArray(key, (Object[]) null);
+	}
+	default <T> T[] getArray(String key, Class<T> clazz){
+		return ValUtil.getArray(getKeyVal(key), clazz);
 	}
 	default Object[] getArray(String key, Object[] defaultV){
 		return ValUtil.getArray(getKeyVal(key),defaultV);
@@ -98,8 +101,8 @@ public interface IUniversalVals {
 	default <T> T as(Class<T> classs){
 		return JacksonUtil.coverObj(getInfoObject(),classs);
 	}
-	Object getInfoObject();
 	default Object getKeyVal(String key){
 		return JacksonUtil.at(getInfoObject(),key);
 	}
+	Object getInfoObject();
 }
