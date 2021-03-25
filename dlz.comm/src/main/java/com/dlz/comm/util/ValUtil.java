@@ -240,13 +240,8 @@ public class ValUtil {
             }
         }
         try {
-            String string = null;
-            if (input instanceof CharSequence) {
-                string = input.toString().trim();
-            } else {
-                string = JacksonUtil.getJson(input);
-            }
-            if (string.startsWith("[") && string.endsWith("]")) {
+            String string = getStr(input);
+            if (JacksonUtil.isJsonArray(string)) {
                 final List<T> readListValue = JacksonUtil.readListValue(string, clazz);
                 return Arrays.copyOf(readListValue.toArray(), readListValue.size(), clazzs);
             } else {
@@ -258,33 +253,30 @@ public class ValUtil {
         return null;
     }
 
-    private static <T> T[] copyOfArray(Object[] input, Class<T> clazz){
-        Class<T[]> clazzs = (Class<T[]>)Array.newInstance(clazz, 0).getClass();
-        return Arrays.copyOf(input, input.length, clazzs);
+    private static <T> T[] arraycopy(Object[] input, Class<T> clazz){
+        T[] copy = (T[])Array.newInstance(clazz, input.length);
+        System.arraycopy(input, 0, copy, 0, input.length);
+        return copy;
     }
 
     public static <T> T[] getArray(Object input, Class<T> clazz) {
         if (input == null) {
             return null;
         }
-
         if (input instanceof Collection) {
-            return copyOfArray(getListObj(input, clazz).toArray(),clazz);
+            return arraycopy(getListObj(input, clazz).toArray(),clazz);
         }
-
         if (input instanceof Object[]) {
             Object[] g = (Object[]) input;
             boolean anyMatch = Arrays.stream(g).anyMatch(o -> !clazz.isAssignableFrom(o.getClass()));
             if (!anyMatch) {
-                return copyOfArray(g,clazz);
+                return arraycopy(g,clazz);
             }
         }
         try {
             String string = getStr(input);
-            if (string.startsWith("[") && string.endsWith("]")) {
-//                Class<T[]> clazzs = (Class<T[]>)Array.newInstance(clazz, 0).getClass();
-//                return JacksonUtil.readValue(string, clazzs);
-                return copyOfArray(JacksonUtil.readListValue(string, clazz).toArray(),  clazz);
+            if (JacksonUtil.isJsonArray(string)) {
+                return arraycopy(JacksonUtil.readListValue(string, clazz).toArray(),  clazz);
             } else {
                 throw new RuntimeException("参数不能转换成List:" + string);
             }
