@@ -157,10 +157,23 @@ public class JSONMapTest {
 	public void test9(){
 		String a="[\"a\",1]";
 		String[] c=ValUtil.getArrayObj(a, String.class,String[].class);
+		System.out.println(c);
+
+
+		String[] c3=ValUtil.getArray(a, String.class);
 		List<String> c2=ValUtil.getListObj(a, String.class);
 		System.out.println(c2.get(0));
 		System.out.println(c[1]);
 	}
-	
+
+	@Test
+	public void test10(){
+		String a="[\"a\",1]";
+		String[] c=ValUtil.getArray(a, String.class);
+		System.out.println(c);
+		List<String> c2=ValUtil.getListObj(a, String.class);
+		System.out.println(c2.get(0));
+		System.out.println(c[1]);
+	}
 }
 
