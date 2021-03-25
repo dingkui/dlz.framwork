@@ -33,7 +33,7 @@ public class CacheEhcahe implements ICache {
         return manager;
     }
 
-    private Cache getCache(String name) {
+    protected Cache getCache(String name) {
         CacheManager manager = getManager();
         Cache cache = manager.getCache(name);
         if (cache == null) {
