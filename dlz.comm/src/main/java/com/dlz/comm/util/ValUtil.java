@@ -4,6 +4,7 @@ import com.dlz.comm.json.JSONList;
 import com.fasterxml.jackson.databind.JavaType;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -87,7 +88,7 @@ public class ValUtil {
 
 
     public static Object[] getArray(Object input) {
-        return getArray(input, null);
+        return getArray(input, (Object[]) null);
     }
 
     public static JSONList getList(Object input) {
@@ -248,6 +249,42 @@ public class ValUtil {
             if (string.startsWith("[") && string.endsWith("]")) {
                 final List<T> readListValue = JacksonUtil.readListValue(string, clazz);
                 return Arrays.copyOf(readListValue.toArray(), readListValue.size(), clazzs);
+            } else {
+                throw new RuntimeException("参数不能转换成List:" + string);
+            }
+        } catch (RuntimeException e) {
+            log.warn(e.getMessage());
+        }
+        return null;
+    }
+
+    private static <T> T[] copyOfArray(Object[] input, Class<T> clazz){
+        Class<T[]> clazzs = (Class<T[]>)Array.newInstance(clazz, 0).getClass();
+        return Arrays.copyOf(input, input.length, clazzs);
+    }
+
+    public static <T> T[] getArray(Object input, Class<T> clazz) {
+        if (input == null) {
+            return null;
+        }
+
+        if (input instanceof Collection) {
+            return copyOfArray(getListObj(input, clazz).toArray(),clazz);
+        }
+
+        if (input instanceof Object[]) {
+            Object[] g = (Object[]) input;
+            boolean anyMatch = Arrays.stream(g).anyMatch(o -> !clazz.isAssignableFrom(o.getClass()));
+            if (!anyMatch) {
+                return copyOfArray(g,clazz);
+            }
+        }
+        try {
+            String string = getStr(input);
+            if (string.startsWith("[") && string.endsWith("]")) {
+//                Class<T[]> clazzs = (Class<T[]>)Array.newInstance(clazz, 0).getClass();
+//                return JacksonUtil.readValue(string, clazzs);
+                return copyOfArray(JacksonUtil.readListValue(string, clazz).toArray(),  clazz);
             } else {
                 throw new RuntimeException("参数不能转换成List:" + string);
             }
