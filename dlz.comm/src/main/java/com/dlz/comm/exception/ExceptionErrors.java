@@ -13,7 +13,7 @@ public class ExceptionErrors {
         addErrors(9999, "JSP异常");
         addErrors(1000, "数据库连接异常");
         addErrors(1001, "数据库操作异常");
-        addErrors(1002, "数据库异常");
+        addErrors(1002, "数据库处理异常");
         addErrors(1003, "数据库异常");
         addErrors(1004, "数据库异常");
         addErrors(1005, "数据转换异常");

@@ -11,7 +11,7 @@ import com.dlz.framework.db.enums.ParaTypeEnum;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.items.SqlItem;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -25,9 +25,8 @@ import java.util.regex.Pattern;
  *
  * @author ding_kui 2010-12-14
  */
+@Slf4j
 public class SqlUtil {
-
-    private static Logger logger = org.slf4j.LoggerFactory.getLogger(SqlUtil.class);
     private final static String BLOB_CHARSETNAME = "dbset.blob_charsetname";
     public final static String SU_STR_TABLE_NM = "SU_STR_TABLE_NM";
     public final static String SU_STR_UPDATE_KEYS = "SU_STR_UPDATE_KEYS";
@@ -64,14 +63,13 @@ public class SqlUtil {
 //        columnMapper = mapper;
 //    }
 
+
     public static String getBlobCharsetname() {
         return DbInfo.getDbset(BLOB_CHARSETNAME);
     }
 
-
-
     /**
-     * 转换参数
+     * 转换mybatisSQl为jdbcSql
      *
      * @param paraMap
      * @return
@@ -80,26 +78,101 @@ public class SqlUtil {
      */
     public static BaseParaMap dealParmToJdbc(BaseParaMap paraMap) {
         SqlItem sqlItem = paraMap.getSqlItem();
-        String sql = sqlItem.getSqlRun();
-        List<Object> paraList = new ArrayList<Object>();
-        if (sql != null) {
-            StringBuffer sb = new StringBuffer();
-            int beginIndex = 0;
-            Matcher mat = PATTERN_PREPARE.matcher(sql);
-            JSONMap para = new JSONMap(paraMap.getPara());
-            para.putAll(sqlItem.getSystemPara());
-            while (mat.find()) {
-                sb.append(sql.substring(beginIndex, mat.start()));
-                sb.append("?");
-                String group = mat.group(1);
-                paraList.add(JacksonUtil.at(para, group));
-                beginIndex = mat.end();
-            }
-            sb.append(sql.substring(beginIndex));
-            sqlItem.setSqlJdbc(sb.toString());
-            sqlItem.setSqlJdbcPara(paraList.toArray());
+        String sqlRun = sqlItem.getSqlRun();
+        if(sqlRun == null){
+            return paraMap;
+//            throw new DbException("SqlRun不应该为空", 1002);
         }
+        List<Object> paraList = new ArrayList<Object>();
+        StringBuffer sb = new StringBuffer();
+        int beginIndex = 0;
+        Matcher mat = PATTERN_PREPARE.matcher(sqlRun);
+        JSONMap para = new JSONMap(paraMap.getPara());
+        para.putAll(sqlItem.getSystemPara());
+        while (mat.find()) {
+            String _startStr = sqlRun.substring(beginIndex, mat.start());
+            String group = mat.group(1);
+            Object jdbcParaItem = JacksonUtil.at(para, group);
+            beginIndex = mat.end();
+
+            sb.append(_startStr);
+            sb.append("?");
+            paraList.add(jdbcParaItem);
+        }
+        sb.append(sqlRun.substring(beginIndex));
+        sqlItem.setSqlJdbc(sb.toString());
+        sqlItem.setSqlJdbcPara(paraList.toArray());
         return paraMap;
+    }
+
+
+    /**
+     * 转换mybatisSQl为jdbcSql
+     *
+     * @param paraMap
+     * @return
+     * @throws Exception
+     * @author dk 2015-04-09
+     */
+    public static String getRunSqlByParaMap(BaseParaMap paraMap) {
+        SqlItem sqlItem = paraMap.getSqlItem();
+        String sqlRun = sqlItem.getSqlRun();
+        if(sqlRun == null){
+            throw new DbException("SqlRun不应该为空", 1002);
+        }
+        StringBuffer sb = new StringBuffer();
+        int beginIndex = 0;
+        Matcher mat = PATTERN_PREPARE.matcher(sqlRun);
+        JSONMap para = new JSONMap(paraMap.getPara());
+        para.putAll(sqlItem.getSystemPara());
+        while (mat.find()) {
+            String _startStr = sqlRun.substring(beginIndex, mat.start());
+            String group = mat.group(1);
+            Object jdbcParaItem = JacksonUtil.at(para, group);
+            beginIndex = mat.end();
+
+            sb.append(_startStr);
+            if(jdbcParaItem instanceof Number){
+                sb.append(jdbcParaItem);
+            }else{
+                sb.append("'"+jdbcParaItem+"'");
+            }
+        }
+        sb.append(sqlRun.substring(beginIndex));
+        return sb.toString();
+    }
+
+
+    /**
+     * 取得可以直接运行的sql
+     *
+     * @param jdbcSql
+     * @param paraList
+     * @return
+     * @throws Exception
+     * @author dk 2015-04-09
+     */
+    public static String getRunSqlByJdbc(String jdbcSql,Object[] paraList) {
+        if(jdbcSql == null){
+            throw new DbException("jdbcSql不应该为空", 1002);
+        }
+        StringBuffer sbRunSql = new StringBuffer();
+        int beginIndex = 0;
+        Matcher mat = PATTERN_PARA.matcher(jdbcSql);
+        int index=0;
+        while (mat.find()) {
+            String _startStr = jdbcSql.substring(beginIndex, mat.start());
+            Object jdbcParaItem = paraList[index];
+            beginIndex = mat.end();
+            sbRunSql.append(_startStr);
+            if(jdbcParaItem instanceof Number){
+                sbRunSql.append(jdbcParaItem);
+            }else{
+                sbRunSql.append("'"+ValUtil.getStr(jdbcParaItem)+"'");
+            }
+        }
+        sbRunSql.append(jdbcSql.substring(beginIndex));
+        return sbRunSql.toString();
     }
 
     /**
@@ -116,12 +189,7 @@ public class SqlUtil {
         String sqlInput = sqlItem.getSqlKey();
         if (sql == null && sqlInput != null) {
             sql = createSqlDeal(paraMap.getPara(), sqlInput);
-//			sql=PATTERN_PREPARE.matcher(sql).replaceAll("#{para.$1}");
-            sqlItem.setSqlRun(sql);
-
-//			if(sql.matches("[\\s]*(?i)select.*") && !sql.matches("[\\s]*(?i)select count(\\*).*") ){
-//				paraMap.creatPage();
-//			}
+            sqlItem.setSqlDeal(sql);
         }
         return sqlItem;
     }
@@ -136,30 +204,11 @@ public class SqlUtil {
      * @author dk 2015-04-09
      */
     public static BaseParaMap getParmMap(String sql, Object... para) {
-//		if("1".equals(DbInfo.getDbset("run.jdbc"))){
         BaseParaMap paraMap = new BaseParaMap(null);
         SqlItem sqlItem = paraMap.getSqlItem();
         sqlItem.setSqlJdbc(sql);
         sqlItem.setSqlJdbcPara(para);
         return paraMap;
-//		}
-//		ParaMap paraMap = new ParaMap(sql);
-//		if(para.length<1){
-//			return paraMap;
-//		}
-//		Matcher mat = PATTERN_PARA.matcher(sql);
-//		StringBuffer sb = new StringBuffer();
-//		int i=1;
-//		while(mat.find()){
-//			if(para.length<i){
-//				throw new SystemException("sql中参数数量与传入参数不符");
-//			}
-//			paraMap.addPara("p"+i, para[i-1]);
-//			mat.appendReplacement(sb, "#\\{p"+i+"\\}");
-//			i++;
-//		}
-//		paraMap.setSqlInput(sb.toString());
-//		return paraMap;
     }
 
     /**
@@ -185,10 +234,12 @@ public class SqlUtil {
      * @return
      * @throws Exception
      */
-    public static String createPageSql(BaseParaMap paraMap) {
+    public static String getPageSql(BaseParaMap paraMap) {
 		SqlItem sqlItem = paraMap.getSqlItem();
 		String sqlDeal = sqlItem.getSqlDeal();
-		SystemException.notNull(sqlDeal, "sqlDeal不应该为空");
+        if(sqlDeal == null){
+            throw new DbException("sqlDeal不应该为空", 1002);
+        }
 		Page page = paraMap.getPage();
 		if (page == null) {
 			sqlItem.setSqlRun(sqlDeal);
@@ -217,7 +268,6 @@ public class SqlUtil {
 			sqlPage = createSqlDeal(p, "key.comm.pageSql");
             sqlItem.getSystemPara().putAll(p);
 		}
-		sqlItem.setSqlRun(sqlPage);
 		return sqlPage;
     }
 
@@ -227,21 +277,16 @@ public class SqlUtil {
      * @return
      * @throws Exception
      */
-    public static String createCntSql(SqlItem sqlItem) {
+    public static String getCntSql(SqlItem sqlItem) {
         String sqlCnt = sqlItem.getSqlCnt();
-//		if(sql==null){
-//			Map<String,Object> p=new HashMap<String,Object>();
-//			p.put("_sql", sqlItem.getSqlRun());
-//			sql=createSqlRun(p, "key.comm.cntSql");
-//			sqlItem.setSql_cnt(sql);
-//		}
         if (sqlCnt == null) {
 			String sqlDeal = sqlItem.getSqlDeal();
             int from = sqlDeal.toLowerCase().indexOf(" from ");
-            SystemException.isTrue(from == -1, "sql语句无from：" + sqlDeal);
+            if(from == -1){
+                throw new DbException("sql语句无from：" + sqlDeal, 1002);
+            }
 			sqlCnt = "select count(1) from" + sqlDeal.substring(from + 5);
         }
-		sqlItem.setSqlRun(sqlCnt);
         return sqlCnt;
     }
 
@@ -339,31 +384,6 @@ public class SqlUtil {
     }
 
     /**
-     * 将数据库查询对象转换成String
-     * @param m
-     * @author dk 2015-04-09
-     * @return
-     */
-//	public static Object coverObject2String(Object o){
-//		if(o==null){
-//			return null;
-//		}
-////		if(o instanceof BLOB){
-////			try {
-////				BLOB blob = (BLOB)o;
-////				return  new String(blob.getBytes((long)1, (int)blob.length()),getBlobCharsetname());
-////			} catch (SQLException e) {
-////				logger.error(e.getMessage(),e);
-////				return null;
-////			} catch (UnsupportedEncodingException e) {
-////				logger.error(e.getMessage(),e);
-////				return null;
-////			}
-////		} 
-//		return o;
-//	}
-
-    /**
      * 将参数转换成对应的Object
      *
      * @param value
@@ -375,14 +395,14 @@ public class SqlUtil {
         try {
             switch (pte) {
                 case Blob:
-                    return value.getBytes(SqlUtil.getBlobCharsetname());
+                    return value.getBytes(getBlobCharsetname());
                 case Date:
                     return ValUtil.getDate(value);
                 default:
                     return value;
             }
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
         return value;
     }

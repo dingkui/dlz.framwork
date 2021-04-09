@@ -25,6 +25,11 @@
 	  delete from ${tableName} ${where} ${otherwhere}
     ]]>
  	</sql>
+ 	<sql sqlId="key.comm.cntSql">
+	<![CDATA[
+	  select count(1) from (${_sql}) t
+    ]]>
+ 	</sql>
  	<sql sqlId="key.comm.pageSql">
 	<![CDATA[
 		[select * from (select a1.*,rownum rownum_ from ( ^#{_end}]

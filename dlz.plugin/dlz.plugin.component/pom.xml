@@ -9,10 +9,5 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.dlz</groupId>
-			<artifactId>dlz.plugin.test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 </project>

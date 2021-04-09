@@ -1,16 +1,14 @@
 package com.dlz.framework.db.convertor.rowMapper;
 
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-
-import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.convertor.ConvertUtil;
+import com.dlz.framework.db.modal.ResultMap;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.JdbcUtils;
 
-import com.dlz.framework.db.modal.ResultMap;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
 /**
  * 本类覆写了spring 的RowMapper
@@ -39,7 +37,6 @@ public class ResultMapRowMapper implements RowMapper<ResultMap> {
 	 * @see java.sql.ResultSetMetaData#getColumnName
 	 */
 	protected String getColumnKey(String columnName) {
-//		return columnName;
 		return ConvertUtil.clumn2Str(columnName);
 	}
 

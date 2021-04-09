@@ -1,20 +1,16 @@
 package com.dlz.framework.db;
 
-import com.dlz.framework.cache.CacheHolder;
-import com.dlz.framework.db.cache.TableInfoCache;
-import com.dlz.framework.db.convertor.ConvertUtil;
-import com.dlz.framework.db.enums.DbTypeEnum;
 import com.dlz.comm.exception.DbException;
-import com.dlz.framework.db.convertor.clumnname.AColumnNameConvertor;
+import com.dlz.framework.cache.CacheHolder;
+import com.dlz.framework.db.enums.DbTypeEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.slf4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.*;
@@ -26,19 +22,16 @@ import java.util.*;
  * history dingkui 2012-05-07 v1.1
  * 修改sql文件路径取得方式，以便执行init时可以刷新内存
  */
-@SuppressWarnings("unchecked")
-@Component
+@Slf4j
 public class DbInfo {
-
-    private static Logger logger = org.slf4j.LoggerFactory.getLogger(DbInfo.class);
     private static ResourceBundle dbConfig;
     private final static String NAME_DB_CONFIG = "db";
     private final static String STR_SQL_JAR = "sqllist.sql.jar.";
     private final static String STR_SQL_FILE = "sqllist.sql.file.";
     private final static String STR_SQL_FOLDER = "sqllist.sql.folder.";
     private final static String STR_DBTYPE = "dbtype";
-    private static Map<String, String> m_dbset = new HashMap<String, String>();
-    private static Map<String, String> m_sqlList = new HashMap<String, String>();
+    private static final Map<String, String> m_dbset = new HashMap<String, String>();
+    private static final Map<String, String> m_sqlList = new HashMap<String, String>();
     private static DbTypeEnum dbtype = DbTypeEnum.ORACLE;
     public static DbTypeEnum getDbtype() {
         return dbtype;
@@ -50,8 +43,7 @@ public class DbInfo {
         try {
             init();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            ;
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -74,7 +66,7 @@ public class DbInfo {
             if ("1".equals(str)) {
                 if (name.startsWith(STR_SQL_FILE)) {
                     String path = name.substring(STR_SQL_FILE.length() - 1).replaceAll("\\.", "/") + ".sql";
-                    readSqlPath(new File(DbInfo.class.getClassLoader().getResource("sql/").getPath() + path));
+                    readSqlPath(new File(Objects.requireNonNull(DbInfo.class.getClassLoader().getResource("sql/")).getPath() + path));
                 } else if (name.startsWith(STR_SQL_JAR)) {
                     loadRsources(name.substring(STR_SQL_JAR.length()).replaceAll("\\.", "/"));
                 } else if (name.startsWith(STR_SQL_FOLDER)) {
@@ -84,8 +76,10 @@ public class DbInfo {
             }
             m_dbset.put(name, str);
         }
-        logger.info("dbsettinhs:" + m_dbset);
-        logger.info("sqlList:" + m_sqlList);
+        if (log.isDebugEnabled()){
+            log.debug("dbsettinhs:" + m_dbset);
+            log.debug("sqlList:" + m_sqlList);
+        }
         initIng = false;
     }
 
@@ -98,87 +92,47 @@ public class DbInfo {
                 }
             } else {
                 if (file.getAbsolutePath().endsWith(".sql")) {
-                    logger.info(file.getPath());
+                    log.info(file.getPath());
                     readSqlXml(new FileInputStream(file));
                 }
             }
         } catch (FileNotFoundException e) {
-            logger.error(file.getAbsolutePath() + " 文件找不到！", e);
+            log.error(file.getAbsolutePath() + " 文件找不到！", e);
         } catch (Exception e) {
-            logger.error(file.getAbsolutePath() + " 加载异常！", e);
+            log.error(file.getAbsolutePath() + " 加载异常！", e);
         }
     }
 
-//	private static void readSqlXml(String filePath){
-//		try {
-//			readSqlXml(ClassLoader.getSystemResourceAsStream(filePath));
-////			readSqlXml(DbInfo.class.getResourceAsStream(filePath));
-//		} catch (Exception e) {
-//			logger.error(filePath+" 加载异常！", e);
-//		}
-//	}
-
-    //	private static void readSqlXml(InputStream is){
-//		try {
-//			Document doc=DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-//			Element documentElement = doc.getDocumentElement();
-//			NodeList childNodes = documentElement.getElementsByTagName("sql");
-//			for (int i=0;i<childNodes.getLength();i++) {
-//				Node sql = childNodes.item(i);
-//				String sqlStr = sql.getTextContent();
-//				String sqlid= sql.getAttributes().getNamedItem("sqlId").getTextContent();
-//				sqlStr = sqlStr.replaceAll("--.*", "");
-//				sqlStr = sqlStr.replaceAll("[\\s]+", " ");
-//				m_sqlList.put(sqlid,sqlStr);
-//				logger.info(sqlid + ":" + sqlStr);
-//			}
-//		} catch (SAXException e) {
-//			logger.error(" 文件读取异常！", e);
-//		} catch (IOException e) {
-//			logger.error(" 文件读取异常！", e);
-//		} catch (ParserConfigurationException e) {
-//			logger.error(" 文件读取异常！", e);
-//		} finally{
-//			if(is !=null){
-//				try {
-//					is.close();
-//				} catch (IOException e) {
-//					logger.error(" 文件关闭异常！", e);
-//				}
-//			}
-//		}
-//	}
     private static void readSqlXml(InputStream is) {
         try {
             SAXReader reader = new SAXReader();
             Document doc = reader.read(is);
             for (Element sql : (List<Element>) doc.getRootElement().elements()) {
-                String sqlStr = sql.getData().toString();
-                sqlStr = sqlStr.replaceAll("--.*", "");
-                sqlStr = sqlStr.replaceAll("[\\s]+", " ");
-                m_sqlList.put(sql.attributeValue("sqlId"), sqlStr);
-                logger.debug(sql.attributeValue("sqlId") + ":" + sqlStr);
+                addSqlSetting(sql.attributeValue("sqlId"),sql.getData().toString());
             }
         } catch (DocumentException e) {
-            logger.error(" 文件读取异常！", e);
+            log.error(" 文件读取异常！", e);
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    logger.error(" 文件关闭异常！", e);
+                    log.error(" 文件关闭异常！", e);
                 }
             }
         }
     }
 
-    public static void main(String[] args) throws IOException {
-//		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
-//		Resource[] rs=resourcePatternResolver.getResources("classpath:sql/common/*.sql");
-//		for(Resource r:rs){
-//			System.out.println(r.getFile().getAbsolutePath());
-//			readSqlXml(r.getInputStream());
-//		}
+    public static void addSqlSetting(String sqlId,String sqlStr){
+        sqlStr = sqlStr.replaceAll("--.*", "");
+        sqlStr = sqlStr.replaceAll("[\\s]+", " ");
+        m_sqlList.put(sqlId, sqlStr);
+        if (log.isDebugEnabled()){
+            log.debug(sqlId + ":" + sqlStr);
+        }
+    }
+
+    public void main(String[] args) throws IOException {
         loadRsources("common/*");
     }
 
@@ -186,7 +140,9 @@ public class DbInfo {
         ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
         Resource[] rs = resourcePatternResolver.getResources("classpath*:sql/" + path + ".sql");
         for (Resource r : rs) {
-            logger.info(r.getURI().toString());
+            if (log.isDebugEnabled()){
+                log.debug(r.getURI().toString());
+            }
             readSqlXml(r.getInputStream());
         }
     }
@@ -194,6 +150,9 @@ public class DbInfo {
     public static String getSql(String key) {
         if (key == null) {
             throw new DbException("输入的sql为空！", 1002);
+        }
+        if(key.matches("[\\s]*(?i)select.*") ){
+            return key;
         }
         if (!key.startsWith("key.")) {
             throw new DbException("sqlKey格式无效:" + key, 1002);
@@ -247,7 +206,7 @@ public class DbInfo {
         try {
             init();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 }

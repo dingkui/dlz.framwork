@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz-dependencies</artifactId>
-		<version>5.1.0</version>
+		<version>5.2.0</version>
 	</parent>
 	<artifactId>dlz.plugin</artifactId>
 	<packaging>pom</packaging>
@@ -14,7 +14,6 @@
 <!--		<module>dlz.plugin.socket</module>-->
 		<module>dlz.plugin.quartz</module>
 <!--		<module>dlz.plugin.component</module>-->
-<!--		<module>dlz.plugin.test</module>-->
 	</modules>
 	<dependencies>
 		<!--        <dependency>-->
@@ -31,6 +30,7 @@
 		<dependency>
 			<groupId>com.dlz</groupId>
 			<artifactId>dlz.framework</artifactId>
+			<version>${dlz.framework.version}</version>
 		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.slf4j</groupId>-->

@@ -3,15 +3,10 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz.framework.db</artifactId>
-		<version>5.0.0</version>
+		<version>5.2.0</version>
 	</parent>
 	<artifactId>dlz.framework.db.mybatis-plus</artifactId>
 	<packaging>jar</packaging>
-	<properties>
-		<swagger.version>2.9.2</swagger.version>
-		<swagger.models.version>1.5.21</swagger.models.version>
-		<swagger.bootstrapui.version>1.9.4</swagger.bootstrapui.version>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -22,12 +17,8 @@
 		<dependency>
 			<groupId>com.dlz</groupId>
 			<artifactId>dlz.framework.db.springjdbc</artifactId>
+			<version>${dlz.framework.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.dlz</groupId>
-			<artifactId>dlz.framework.db.test</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>orika-core</artifactId>

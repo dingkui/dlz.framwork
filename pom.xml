@@ -5,32 +5,34 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dlz</groupId>
     <artifactId>dlz-dependencies</artifactId>
-    <version>5.1.0</version>
+    <version>5.2.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>dlz.comm</module>
         <module>dlz.framework</module>
-<!--        <module>dlz.framework.db</module>-->
+        <module>dlz.framework.db</module>
 <!--        <module>dlz.webs</module>-->
-        <module>dlz.plugin</module>
+<!--        <module>dlz.plugin</module>-->
     </modules>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.0.RELEASE</version>
-    </parent>
     <properties>
         <lombok.version>1.18.12</lombok.version>
+
+        <java.version>1.8</java.version>
+        <maven.plugin.version>3.8.1</maven.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <swagger.version>2.9.2</swagger.version>
         <swagger.models.version>1.5.21</swagger.models.version>
         <swagger.bootstrapui.version>1.9.4</swagger.bootstrapui.version>
 
+        <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
+
         <mybatis.version>3.4.0</mybatis.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
         <dlz.framework.version>${dlz.fw.version}-SNAPSHOT</dlz.framework.version>
-        <dlz.fw.version>5.1.0</dlz.fw.version>
+        <dlz.fw.version>5.2.0</dlz.fw.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,41 +56,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.comm</artifactId>
-                <version>${dlz.fw.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.framework</artifactId>
-                <version>${dlz.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.web</artifactId>
-                <version>${dlz.fw.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.plugin.test</artifactId>
-                <version>${dlz.fw.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.plugin.weixin</artifactId>
-                <version>${dlz.fw.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.framework.db.test</artifactId>
-                <version>${dlz.fw.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.dlz</groupId>
-                <artifactId>dlz.framework.db.springjdbc</artifactId>
-                <version>${dlz.fw.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>c3p0</groupId>
@@ -107,11 +79,11 @@
                 <version>1.0.29</version>
             </dependency>
             <!-- util/qrcode-1.0.jar -->
-            <dependency>
-                <groupId>comlib.util</groupId>
-                <artifactId>qrcode</artifactId>
-                <version>1.0</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>comlib.util</groupId>-->
+<!--                <artifactId>qrcode</artifactId>-->
+<!--                <version>1.0</version>-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
@@ -123,6 +95,17 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

@@ -7,11 +7,8 @@ import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.config.ConfUtil;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.lang.Nullable;
 
 import java.util.function.Function;
 
