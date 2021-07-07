@@ -2,6 +2,7 @@ package com.dlz.framework.cache.aspect;
 
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,8 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * AOP 缓存操作
@@ -45,7 +48,10 @@ public class CacheAspect {
         Method method = ms.getMethod();
         return method.getAnnotation(anno);
     }
-    private Serializable getKey(JoinPoint point,String key1){
+    private Serializable getKey(JoinPoint point,String keySet){
+        if(StringUtils.isEmpty(keySet)){
+            keySet="$method";
+        }
         Method method = ((MethodSignature) point.getSignature()).getMethod();
         Parameter[] parameters = method.getParameters();
         Object[] args = point.getArgs();
@@ -53,31 +59,45 @@ public class CacheAspect {
         for (int i = 0; i < parameters.length; i++) {
             paraMap.put(parameters[i].getName(),args[i]);
         }
-        Serializable key = null;
-        if(!paraMap.isEmpty()){
-            key = paraMap.getStr(key1);
-        }
-        SystemException.notNull(key , () -> "key取得失败：" + method.getName());
-        return key;
+        return Arrays.stream(keySet.split("\\+")).map(o -> getSimpleKey(o.trim(), method, paraMap)).collect(Collectors.joining(""));
     }
+
+    private String getSimpleKey(String key,Method method,JSONMap paraMap){
+        if(key.equals("$method")){
+            return method.getDeclaringClass().getName()+"."+method.getName();
+        }else if(key.startsWith("$if:")){
+            Class<ICacheKeyIf> aClass = null;
+            try {
+                aClass = (Class<ICacheKeyIf>) Class.forName(key.substring(4));
+                ICacheKeyIf iCacheKeyIf = aClass.newInstance();
+                return iCacheKeyIf.getKey(method, paraMap);
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                throw new SystemException("key取得失败：" + method.getName(),e);
+            }
+        }else{
+            return paraMap.getStr(key,"null");
+        }
+    }
+
 
     @Around("pointcutCache()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         CacheAnno cacheAnno = getApiAnnotation(point, CacheAnno.class);
+        Method method = ((MethodSignature) point.getSignature()).getMethod();
 
         String cacheName = cacheAnno.value();
-        String keySet = cacheAnno.key();
-        Method method = ((MethodSignature) point.getSignature()).getMethod();
-        SystemException.notNull(cacheName, () -> "cacheName 不能为空：" + method.getName() + "无法缓存！");
-
-        Serializable key;
-        if(keySet == null){
-            key = "no_para_entry";
-        }else{
-            key = getKey(point, keySet);
+        if(StringUtils.isEmpty(cacheName)){
+            cacheName= method.getDeclaringClass().getName();
         }
+        String keySet = cacheAnno.key();
+        Serializable key = getKey(point,keySet);
 
-        Serializable t = cache.get(cacheName, keySet, method.getGenericReturnType());
+        System.out.println("------------------");
+        System.out.println(cacheName);
+        System.out.println(key);
+        System.out.println("------------------");
+
+        Serializable t = cache.get(cacheName, key, method.getGenericReturnType());
         if (t != null) {
             return t;
         }
