@@ -92,10 +92,10 @@ public class CacheAspect {
         String keySet = cacheAnno.key();
         Serializable key = getKey(point,keySet);
 
-        System.out.println("------------------");
-        System.out.println(cacheName);
-        System.out.println(key);
-        System.out.println("------------------");
+//        System.out.println("------------------");
+//        System.out.println(cacheName);
+//        System.out.println(key);
+//        System.out.println("------------------");
 
         Serializable t = cache.get(cacheName, key, method.getGenericReturnType());
         if (t != null) {

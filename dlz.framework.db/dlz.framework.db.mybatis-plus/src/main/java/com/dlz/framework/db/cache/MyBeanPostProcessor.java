@@ -25,7 +25,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
             Class<?> aClass = (Class<?>) pt.getActualTypeArguments()[0];
             hashtable.put(aClass, new Object[]{mapperInterface, null});
         }
-        System.out.println(bean.getClass());
+//        System.out.println(bean.getClass());
         return bean;
     }
 
