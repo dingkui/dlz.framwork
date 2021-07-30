@@ -68,14 +68,14 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 			if(string==null){
 				return;
 			}
-			if(JacksonUtil.isJsonArray(string)){
-				if(objectClass!=null){
-					addAll(JacksonUtil.readListValue(string, objectClass));
-				}else{
-					addAll(JacksonUtil.readValue(string,JSONList.class));
-				}
-			}else{
-				throw new RuntimeException("参数不能转换成JSONList:"+string);
+			if (!JacksonUtil.isJsonArray(string)) {
+				throw new RuntimeException("参数不能转换成JSONList:" + string);
+			}
+
+			if (objectClass != null) {
+				this.addAll(JacksonUtil.readListValue(string, objectClass));
+			} else {
+				this.addAll((Collection)JacksonUtil.readValue(string, JSONList.class));
 			}
 		}
 	}
