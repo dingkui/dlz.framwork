@@ -3,6 +3,7 @@ package com.dlz.comm.util.web.reader;
 import com.dlz.comm.util.ExceptionUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -14,25 +15,39 @@ import java.io.InputStream;
 @Slf4j
 public class ResponseStringReader implements IResponseReader<String> {
     private static ResponseStringReader instance;
-    public static ResponseStringReader getInstance(){
-        if(instance==null){
+
+    public static ResponseStringReader getInstance() {
+        if (instance == null) {
             instance = new ResponseStringReader();
         }
         return instance;
     }
-    public String read(InputStream inputStream, String charsetNamere) {
-        StringBuilder sb = new StringBuilder();
-        byte[] buffer = new byte[4096];
 
+    public String read(InputStream inputStream, String charsetNamere) {
+//        StringBuilder sb = new StringBuilder();
+//        byte[] buffer = new byte[4096];
+//
+//        try {
+//            int read = 0;
+//            while (read != -1) {
+//                read = inputStream.read(buffer);
+//                if (read > 0) {
+//                    sb.append(new String(buffer, 0, read, charsetNamere));
+//                }
+//            }
+//            return sb.toString();
+//        } catch (IOException e) {
+//            log.error(ExceptionUtils.getStackTrace(e));
+//            return null;
+//        }
         try {
-            int read = 0;
-            while (read != -1) {
-                read = inputStream.read(buffer);
-                if (read > 0) {
-                    sb.append(new String(buffer, 0, read, charsetNamere));
-                }
+            ByteArrayOutputStream result = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) != -1) {
+                result.write(buffer, 0, length);
             }
-            return sb.toString();
+            return result.toString(charsetNamere);
         } catch (IOException e) {
             log.error(ExceptionUtils.getStackTrace(e));
             return null;
