@@ -376,16 +376,16 @@ public class JacksonUtil {
         }
     }
 
-    private static Pattern JsonObjPattern = Pattern.compile("^\\s*\\{\\s*\"[^\"]+\"\\s*:.+\\}[\\s]*$");
-    private static Pattern JsonArrayPattern = Pattern.compile("^\\s*\\[\\s*[^\\[^\\]]*\\]\\s*$");
+    private static Pattern JsonObjPattern = Pattern.compile("^\\{((\"[^\"]+\":.+)||)\\}$");
+    private static Pattern JsonArrayPattern = Pattern.compile("^\\[[^\\[^\\]]*\\]$");
     public static boolean isJsonObj(String str) {
-        return JsonObjPattern.matcher(str).matches();
+        return JsonObjPattern.matcher(str.replaceAll("\\s","")).matches();
     }
     public static boolean isJsonArray(String str) {
-        return JsonArrayPattern.matcher(str).find();
+        return JsonArrayPattern.matcher(str.replaceAll("\\s","")).find();
     }
-//    public static void main(String[] args) {
-//        System.out.println(isJsonObj("{xx}"));
+    public static void main(String[] args) {
+        System.out.println(isJsonObj(" { } "));
 //        System.out.println(isJsonObj("{ \"xx\" : 123 } "));
 //        System.out.println(isJsonObj("{ \"xx\"}"));
 //        System.out.println(isJsonObj(" { \"xx\"}"));
@@ -395,5 +395,5 @@ public class JacksonUtil {
 //        System.out.println(isJsonArray(" [ xxx ] "));
 //        System.out.println(isJsonArray(" [ xxx "));
 //        System.out.println(new JSONList("[]"));
-//    }
+    }
 }
