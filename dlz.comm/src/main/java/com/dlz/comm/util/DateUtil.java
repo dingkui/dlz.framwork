@@ -72,10 +72,10 @@ public class DateUtil {
 	private final static Map<String,Pattern> date_trans = new LinkedHashMap<>();
 	static {
 		date_trans.put("yyyy-MM-dd HH:mm:ss",Pattern.compile("^\\d{4}-[0,1]?\\d-[0-3]?\\d \\d{2}:\\d{2}:\\d{2}.*"));
-		date_trans.put("yyyy年MM月dd日 HH时mm分ss秒",Pattern.compile("^\\d{4}年[0,1]?\\d月[0-3]?\\d日 \\d{2}时\\d{2}分\\d{2}秒"));
 		date_trans.put("yyyy-MM-dd",Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}$"));
 		date_trans.put("yyyy-MM",Pattern.compile("^\\d{4}-\\d{1,2}$"));
 		date_trans.put("yyyy-MM-dd HH:mm",Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2} \\d{1,2}:\\d{1,2}$"));
+		date_trans.put("yyyy年MM月dd日 HH时mm分ss秒",Pattern.compile("^\\d{4}年[0,1]?\\d月[0-3]?\\d日 \\d{2}时\\d{2}分\\d{2}秒"));
 	}
 
 	public static Date getDate(String input,String format){
@@ -88,7 +88,7 @@ public class DateUtil {
 		String input2 = input.replaceAll("/", "-").replaceAll("\"", "");
 		for(Map.Entry<String,Pattern> entry: date_trans.entrySet()){
 			if(entry.getValue().matcher(input2).matches()){
-				return transDate(input,entry.getKey());
+				return transDate(input2,entry.getKey());
 			}
 		}
 		if (input2.matches("^\\d{1,2}:\\d{1,2}$")) {

@@ -1,8 +1,5 @@
 package com.dlz.framework.cache.aspect;
 
-import com.dlz.framework.cache.ICache;
-import com.dlz.framework.cache.service.impl.CacheEhcahe;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

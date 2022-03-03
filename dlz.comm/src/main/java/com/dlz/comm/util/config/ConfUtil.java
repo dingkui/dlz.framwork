@@ -3,21 +3,16 @@ package com.dlz.comm.util.config;
 import com.dlz.comm.json.JSONList;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.StringUtils;
-import com.dlz.comm.util.ValUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Slf4j
 public class ConfUtil{
