@@ -1,22 +1,25 @@
 package com.dlz.framework.cache.service;
 
+import com.dlz.comm.util.StringUtils;
 import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.cache.ICache;
+import com.dlz.framework.cache.service.impl.CacheEhcahe;
+import com.dlz.framework.holder.SpringHolder;
+import com.dlz.framework.util.system.Reflections;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.DependsOn;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
 
 /**
  * 缓存实现
  *
  * @author dk
  */
-@SuppressWarnings("unchecked")
 @Slf4j
+@DependsOn("dlzCache")
 public abstract class AbstractCache<KEY extends Serializable, T extends Serializable> {
-    private ICache cache = null;
+
     public class DbOperator {
         protected T getFromDb(KEY key) {
             return null;
@@ -25,48 +28,90 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
         protected void saveToDb(KEY key, T t) {
         }
     }
+
+    /**
+     * 取值操作器
+     */
     protected DbOperator dbOperator = new DbOperator() {
         public Object getFromDb(Object o) {
             return null;
         }
-        public void saveToDb(Object o, Object o2) {}
-    };
-    private int timeToLiveSeconds = -1;
-    private String cacheName;
-    private Class<T> resultClass;
 
-    public AbstractCache(String cacheName, int timeToLiveSeconds) {
-        this(cacheName);
-        this.timeToLiveSeconds = timeToLiveSeconds;
+        public void saveToDb(Object o, Object o2) {
+        }
+    };
+    /**
+     * 缓存时间
+     */
+    protected int timeToLiveSeconds = -1;
+    /**
+     * 缓存名称
+     */
+    private String cacheName;
+    /**
+     * 缓存处理器
+     */
+    private ICache cache;
+    /**
+     * 缓存对象
+     */
+    private Class<T> resultClass = (Class<T>) Reflections.getActualType(getClass(), 1);
+//            (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+
+    /**
+     * 构造函数
+     *
+     * @param cache             缓存实现
+     * @param cacheName         缓存名称
+     * @param timeToLiveSeconds 缓存时间：秒
+     */
+    public AbstractCache(ICache cache, String cacheName, int timeToLiveSeconds) {
+        if (StringUtils.isEmpty(cacheName)) {
+            cacheName = this.getClass().getSimpleName();
+        }
+        this.cacheName = cacheName.toLowerCase();
+
+        if (cache == null) {
+            cache = SpringHolder.registerBean(CacheEhcahe.class);
+        }
+        this.cache = cache;
+
+        if (timeToLiveSeconds > 0) {
+            this.timeToLiveSeconds = timeToLiveSeconds;
+        }
+        if (dbOperator == null) {
+            this.dbOperator = new DbOperator() {
+                public Object getFromDb(Object o) {
+                    return null;
+                }
+
+                public void saveToDb(Object o, Object o2) {
+                }
+            };
+        }
+
+        CacheHolder.add(this.cacheName, this.cache);
+    }
+
+    public AbstractCache(String cacheName, ICache cache) {
+        this(cache, cacheName, 0);
     }
 
     public AbstractCache(String cacheName) {
-        this.cacheName = cacheName.toLowerCase();
-        resultClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        this(null, cacheName, 0);
     }
-    public AbstractCache(String cacheName,ICache cache) {
-        this(cacheName);
-        this.cache=cache;
-    }
+
     public AbstractCache(ICache cache) {
-        this();
-        this.cache=cache;
+        this(cache, null, 0);
     }
 
     public AbstractCache() {
-        this.cacheName = this.getClass().getSimpleName().toLowerCase();
-        resultClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        this(null, null, 0);
     }
 
-    @PostConstruct
-    private void _init() {
-        cache = CacheHolder.add(cacheName, cache);
+    public String toString() {
+        return this.cacheName + "：" + (cache == null ? "未初始化" : cache.toString());
     }
-
-    public String toString(){
-        return this.cacheName+"："+(cache==null?"未初始化":cache.toString());
-    }
-
 
     private T readDb(KEY key) {
         T t = null;
@@ -80,8 +125,6 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
 
     /**
      * 保存缓存到数据库
-     *
-     * @param key
      */
     public void saveCache2Db(KEY key, T value) {
         if (value == null) {
@@ -103,9 +146,6 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
 
     /**
      * 缓存中读取对象，取不到则从数据库中取得
-     *
-     * @param key
-     * @return
      */
     public T get(KEY key) {
         T t = null;
@@ -127,19 +167,13 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
 
     /**
      * 缓存中读取对象，取不到则返回空
-     *
-     * @param key
-     * @return
      */
     public T getFromCache(KEY key) {
-        return (T) cache.get(cacheName, key, resultClass);
+        return cache.get(cacheName, key, resultClass);
     }
 
     /**
      * 设置缓存
-     *
-     * @param key
-     * @param value
      */
     public void put(KEY key, T value) {
         put(key, value, timeToLiveSeconds);
@@ -148,9 +182,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
     /**
      * 设置缓存
      *
-     * @param key
-     * @param value
-     * @param exp   有效期：秒
+     * @param exp 有效期：秒
      */
     public void put(KEY key, T value, int exp) {
         try {
@@ -162,8 +194,6 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
 
     /**
      * 删除缓存
-     *
-     * @param key
      */
     public void remove(KEY key) {
         try {
@@ -189,8 +219,6 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
 
     /**
      * 从数据库中重新加载
-     * @param key
-     * @return
      */
     public T reload(KEY key) {
         T t = readDb(key);

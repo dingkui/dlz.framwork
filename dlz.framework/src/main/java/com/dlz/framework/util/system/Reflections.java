@@ -1,11 +1,16 @@
 package com.dlz.framework.util.system;
 
+import com.dlz.comm.exception.BussinessException;
+import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.StringUtils;
 import org.slf4j.Logger;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 反射工具类.
@@ -179,7 +184,7 @@ public class Reflections {
 		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
-				if (method.getName()==methodName) {
+				if (method.getName().equals(methodName)) {
 					makeAccessible(method);
 					return method;
 				}
@@ -200,7 +205,7 @@ public class Reflections {
 		for (Class<?> searchType =AopUtils.getTargetClass(obj); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
-				if (method.getName()==methodName && arrayContentsEq(parameterTypes, method.getParameterTypes())) {
+				if (method.getName().equals(methodName) && arrayContentsEq(parameterTypes, method.getParameterTypes())) {
 					makeAccessible(method);
 					return method;
 				}
@@ -219,7 +224,7 @@ public class Reflections {
 		for (Class<?> searchType = obj.getClass(); searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
-				if (method.getName()==methodName) {
+				if (method.getName().equals(methodName)) {
 					makeAccessible(method);
 					return method;
 				}
@@ -238,7 +243,7 @@ public class Reflections {
 		for (; searchType != Object.class; searchType = searchType.getSuperclass()) {
 			Method[] methods = searchType.getDeclaredMethods();
 			for (Method method : methods) {
-				if (method.getName()==methodName) {
+				if (method.getName().equals(methodName)) {
 					makeAccessible(method);
 					return method;
 				}
@@ -382,4 +387,54 @@ public class Reflections {
 		methodName = methodName.substring(0, 1).toLowerCase() + methodName.substring(1);
 		return methodName;
 	}
+
+	/**
+	 * 取得泛型参数类型
+	 * Map<String, HashMap<Integer,Double>> test = new HashMap<String, HashMap<Integer,Double>>(){};
+	 * getActualType(test.getClass(),0);  ->class java.lang.String
+	 * getActualType(test.getClass(),1);	->java.util.HashMap<java.lang.Integer, java.lang.Double>
+	 * getActualType(test.getClass(),1,0);	->class java.lang.Integer
+	 * getActualType(test.getClass(),1,1);	->class java.lang.Double
+	 * @param type 需要判断的class
+	 * @param indexs 泛型序号，有多级时，传递多个参数
+	 */
+	public static Type getActualType(Type type,int ... indexs){
+		int length = indexs.length;
+
+		//无序号，默认取得第一个泛型参数或者本身
+		if(length == 0){
+			if(type instanceof Class){
+				return type;
+			}else if(type instanceof ParameterizedType){
+				return ((ParameterizedType)type).getActualTypeArguments()[0];
+			}
+		}
+
+		//取得泛型参数
+		ParameterizedType genericSuperclass;
+		if(type instanceof Class){
+			Type genericSuper = ((Class) type).getGenericSuperclass();
+			if(genericSuper instanceof ParameterizedType){
+				genericSuperclass = (ParameterizedType) genericSuper;
+			}else{
+				throw new SystemException(type+"无泛型参数");
+			}
+		}else if(type instanceof ParameterizedType){
+			genericSuperclass = (ParameterizedType)type;
+		}else{
+			throw new SystemException(type+"未识别泛型参数");
+		}
+
+		Type actualType = genericSuperclass.getActualTypeArguments()[indexs[0]];
+		if(length <= 1){
+			return actualType;
+		}
+		int[] subIndex=new int[length-1];
+		System.arraycopy(indexs,1,subIndex,0,length-1);
+//		for(int i=0;i<length-1;i++){
+//			subIndex[i]=indexs[i+1];
+//		}
+		return getActualType(actualType,subIndex);
+	}
+
 }

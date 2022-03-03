@@ -50,12 +50,9 @@ public class CacheHolder {
         return cache;
     }
 
-    public static ICache add(String cacheName, ICache cache) {
+    public static void add(String cacheName, ICache cache) {
         SystemException.isTrue(CacheSet.containsKey(cacheName), () -> "缓存已经存在，不能重复定义：" + cacheName);
-        if (cache == null) {
-            cache = SpringHolder.registerBean(CacheEhcahe.class);
-        }
+        SystemException.isTrue(cache == null, () -> "ICache 未定义！");
         CacheSet.put(cacheName, cache);
-        return cache;
     }
 }
