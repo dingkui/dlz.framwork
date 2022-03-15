@@ -155,6 +155,33 @@ public class StringUtils {
         }
     }
 
+    public static boolean startsWithAny(final CharSequence sequence, final CharSequence... searchStrings) {
+        if (isEmpty(sequence) || searchStrings.length==0) {
+            return false;
+        }
+        for (final CharSequence searchString : searchStrings) {
+            if (startsWith(sequence, searchString)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean startsWith(final CharSequence sequence, CharSequence searchString) {
+        int length = searchString.length();
+        if(isEmpty(sequence) || sequence.length()< length){
+            return false;
+        }
+        for (int i = 0; i < length; i++) {
+            if(sequence.charAt(i) != searchString.charAt(i)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
     public static boolean isNumber(CharSequence o) {
         return o.length() > 0 && o.toString().replaceAll("[\\d.+-]", "").length() > 0;
     }
@@ -266,6 +293,8 @@ public class StringUtils {
          log.debug("{}",isLongOrInt("1111"));
          log.debug("{}",isLongOrInt("+111.11"));
          log.debug("{}",ValUtil.getFloat("-111.11"));
+
+         System.out.println(startsWith(new StringBuilder("123"),new StringBuilder("12")));
      }
 
     /**
