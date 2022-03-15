@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>dlz.framework.db.springjdbc</module>
-<!--        <module>dlz.framework.db.mybatis-plus</module>-->
+        <module>dlz.framework.db.mybatis-plus</module>
 <!--        <module>dlz.framework.mongo</module>-->
     </modules>
     <dependencies>

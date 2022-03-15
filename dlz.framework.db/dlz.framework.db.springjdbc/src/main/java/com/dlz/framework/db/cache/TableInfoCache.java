@@ -15,7 +15,7 @@ public class TableInfoCache extends AbstractCache<String, HashMap<String, Intege
     IDlzDao dao;
 
     public TableInfoCache() {
-        super(TableInfoCache.class.getSimpleName());
+        super();
         dbOperator = new DbOperator() {
             protected HashMap<String, Integer> getFromDb(String tableName) {
                 return dao.getTableColumsInfo(tableName);
