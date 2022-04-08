@@ -155,6 +155,46 @@ public class StringUtils {
         }
     }
 
+    public static boolean isAnyEmpty(Object... cs) {
+        for (final Object c : cs) {
+            if (isEmpty(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isBlank(CharSequence cs) {
+        int strLen;
+        if (cs == null || (strLen = cs.length()) == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isAnyBlank(CharSequence... cs) {
+        for (final CharSequence c : cs) {
+            if (isBlank(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isAllBlank(CharSequence... cs) {
+        for (final CharSequence c : cs) {
+            if (!isBlank(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean startsWithAny(final CharSequence sequence, final CharSequence... searchStrings) {
         if (isEmpty(sequence) || searchStrings.length==0) {
             return false;
