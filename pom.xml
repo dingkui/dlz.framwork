@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dlz</groupId>
     <artifactId>dlz-dependencies</artifactId>
-    <version>5.2.1</version>
+    <version>5.2.2</version>
     <packaging>pom</packaging>
     <modules>
         <module>dlz.comm</module>
@@ -23,16 +23,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <swagger.version>2.9.2</swagger.version>
-        <swagger.models.version>1.5.21</swagger.models.version>
-        <swagger.bootstrapui.version>1.9.4</swagger.bootstrapui.version>
+        <spring.boot.version>2.3.12.RELEASE</spring.boot.version>
+        <spring.platform.version>Cairo-SR8</spring.platform.version>
 
-        <spring.boot.version>2.1.0.RELEASE</spring.boot.version>
+        <swagger.models.version>1.5.21</swagger.models.version>
 
         <mybatis.version>3.4.0</mybatis.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
         <dlz.framework.version>${dlz.fw.version}</dlz.framework.version>
-        <dlz.fw.version>5.2.1</dlz.fw.version>
+        <dlz.fw.version>5.2.2</dlz.fw.version>
     </properties>
     <dependencies>
         <dependency>
@@ -52,13 +51,19 @@
             <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${spring.platform.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -113,11 +118,11 @@
     <distributionManagement>
         <repository>
             <id>dlz-releases</id>
-            <url>http://maven.d.shunliannet.com/repository/dlz/</url>
+            <url>http://219.138.246.50:28805/repository/dlz/</url>
         </repository>
         <snapshotRepository>
             <id>dlz-napshots</id>
-            <url>http://maven.d.shunliannet.com/repository/dlz-snapshots/</url>
+            <url>http://219.138.246.50:28805/repository/dlz-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
     <repositories>
@@ -129,7 +134,7 @@
         </repository>
         <repository>
             <id>sl</id>
-            <url>http://maven.d.shunliannet.com/repository/sl/</url>
+            <url>http://219.138.246.50:28805/repository/sl/</url>
         </repository>
     </repositories>
     <pluginRepositories>

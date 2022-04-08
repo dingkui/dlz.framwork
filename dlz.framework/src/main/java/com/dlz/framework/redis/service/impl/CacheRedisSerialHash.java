@@ -5,7 +5,8 @@ import com.dlz.framework.cache.ICache;
 import com.dlz.framework.redis.JedisExecutor;
 import com.dlz.framework.redis.RedisKeyMaker;
 import org.springframework.beans.factory.annotation.Autowired;
-import redis.clients.util.SafeEncoder;
+import redis.clients.jedis.util.SafeEncoder;
+
 
 import java.io.Serializable;
 import java.lang.reflect.Type;

@@ -3,12 +3,22 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz.framework.db</artifactId>
-		<version>5.2.1</version>
+		<version>5.2.2</version>
 	</parent>
 	<artifactId>dlz.framework.db.springjdbc</artifactId>
 	<packaging>jar</packaging>
 	<version>${dlz.framework.version}</version>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<!--Swagger注解 -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger.models.version}</version>
+		</dependency>
 	</dependencies>
 </project>

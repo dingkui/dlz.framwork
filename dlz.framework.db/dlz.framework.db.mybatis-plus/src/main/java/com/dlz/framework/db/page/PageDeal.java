@@ -2,7 +2,7 @@ package com.dlz.framework.db.page;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.dlz.framework.db.util.OrikaUtils;
+import com.dlz.comm.util.ValUtil;
 
 /**
  * @author dk
@@ -46,8 +46,7 @@ public abstract class PageDeal<T, O> {
             if(bean.getClass() == oClass){
                 out = (O) bean;
             }else{
-                out= oClass.newInstance();
-                OrikaUtils.copy(bean, out);
+                out = ValUtil.getObj(bean,oClass);
             }
             transBean(out);
             return out;

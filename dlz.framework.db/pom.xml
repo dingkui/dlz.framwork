@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.dlz</groupId>
         <artifactId>dlz-dependencies</artifactId>
-        <version>5.2.1</version>
+        <version>5.2.2</version>
     </parent>
     <artifactId>dlz.framework.db</artifactId>
     <packaging>pom</packaging>
@@ -18,10 +18,6 @@
             <groupId>com.dlz</groupId>
             <artifactId>dlz.framework</artifactId>
             <version>${dlz.framework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>comlib.jdbc</groupId>

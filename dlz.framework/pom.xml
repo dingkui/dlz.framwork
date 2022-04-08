@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz-dependencies</artifactId>
-		<version>5.2.1</version>
+		<version>5.2.2</version>
 	</parent>
 	<version>${dlz.framework.version}</version>
 	<artifactId>dlz.framework</artifactId>
@@ -44,19 +44,8 @@
 			<artifactId>spring-aspects</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>dom4j</groupId>
-			<artifactId>dom4j</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
-		</dependency>
-
-		<!--Swagger注解 -->
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger.models.version}</version>
 		</dependency>
 	</dependencies>
 </project>
