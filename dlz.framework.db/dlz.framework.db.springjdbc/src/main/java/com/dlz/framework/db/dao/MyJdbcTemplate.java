@@ -1,33 +1,22 @@
 package com.dlz.framework.db.dao;
 
+import com.dlz.framework.db.DbInfo;
+import com.dlz.framework.db.convertor.rowMapper.MySqlColumnMapRowMapper;
+import com.dlz.framework.db.convertor.rowMapper.OracleColumnMapRowMapper;
+import com.dlz.framework.db.enums.DbTypeEnum;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.dlz.framework.db.DbInfo;
-import com.dlz.framework.db.enums.DbTypeEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ColumnMapRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ParameterDisposer;
-import org.springframework.jdbc.core.PreparedStatementCallback;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementSetter;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlProvider;
-import org.springframework.jdbc.datasource.DataSourceUtils;
-import org.springframework.jdbc.support.JdbcUtils;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-
-import com.dlz.framework.db.convertor.rowMapper.MySqlColumnMapRowMapper;
-import com.dlz.framework.db.convertor.rowMapper.OracleColumnMapRowMapper;
 
 
 /**
@@ -37,10 +26,12 @@ import com.dlz.framework.db.convertor.rowMapper.OracleColumnMapRowMapper;
  * 
  * 2018-10-17 dk 覆盖query和execute，去掉过多的sql debug日志,添加异常时的sql日志
  */
-@Component
-@Lazy
 @Slf4j
 public class MyJdbcTemplate extends JdbcTemplate {
+	public MyJdbcTemplate(DataSource dataSource) {
+		super(dataSource);
+	}
+
 	@Override
 	protected RowMapper getColumnMapRowMapper() {
 		if(DbInfo.getDbtype()== DbTypeEnum.ORACLE){

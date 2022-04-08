@@ -18,6 +18,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
+
 /**
  * @author: dk
  * @date: 2020-10-15
@@ -26,23 +28,25 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Getter
 @Setter
 public class DlzDbConfig {
-
-
     @Bean
     @Lazy
     public DbOprationCache dbOprationCache() {
+        log.debug("default DbOprationCache init ...");
         return new DbOprationCache();
     }
 
     @Bean
     @Lazy
     public TableInfoCache tableInfoCache() {
+        log.debug("default TableInfoCache init ...");
         return new TableInfoCache();
     }
 
     @Bean(name = "dbInfo")
     @Lazy
+    @ConditionalOnMissingBean(name = "dbInfo")
     public DbInfo dbInfo() {
+        log.debug("default dbInfo init ...");
         return new DbInfo();
     }
 
@@ -50,21 +54,24 @@ public class DlzDbConfig {
     @Lazy
     @ConditionalOnMissingBean(name = "dlzDao")
     public IDlzDao dlzDao() {
+        log.debug("default dlzDao init ...");
         return new DaoOperator();
     }
 
-    @Bean
+    @Bean(name = "commService")
     @Lazy
     @DependsOn({"dbInfo"})
+    @ConditionalOnMissingBean(name = "commService")
     public ICommService commService() {
+        log.debug("default commService init ...");
         return new CommServiceImpl();
     }
 
     @Bean(name = "JdbcTemplate")
     @Lazy
     @ConditionalOnMissingBean(name = "JdbcTemplate")
-    public JdbcTemplate JdbcTemplate() {
-        return new MyJdbcTemplate();
+    public JdbcTemplate JdbcTemplate(DataSource dataSource) {
+        log.debug("default JdbcTemplate init ...");
+        return new MyJdbcTemplate(dataSource);
     }
-
 }

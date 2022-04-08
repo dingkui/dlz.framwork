@@ -9,20 +9,17 @@ import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.framework.db.cache.MyBeanPostProcessor;
 import com.dlz.framework.db.service.ICommPlusService;
-import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.mapper.MapperFactoryBean;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * db操作通用service

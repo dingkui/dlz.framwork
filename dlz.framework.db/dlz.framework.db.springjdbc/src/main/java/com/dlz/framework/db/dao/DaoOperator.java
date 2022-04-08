@@ -1,7 +1,5 @@
 package com.dlz.framework.db.dao;
 
-import com.dlz.comm.util.JacksonUtil;
-import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.convertor.JdbcUtil;
 import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ResultMap;

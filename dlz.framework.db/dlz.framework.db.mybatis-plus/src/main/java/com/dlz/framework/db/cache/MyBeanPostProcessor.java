@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -22,8 +23,11 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
                 return bean;
             }
             ParameterizedType pt = (ParameterizedType) mapperInterface.getGenericInterfaces()[0];
-            Class<?> aClass = (Class<?>) pt.getActualTypeArguments()[0];
-            hashtable.put(aClass, new Object[]{mapperInterface, null});
+            Type actualTypeArgument = pt.getActualTypeArguments()[0];
+            if(actualTypeArgument instanceof Class){
+                Class<?> aClass = (Class<?>) actualTypeArgument;
+                hashtable.put(aClass, new Object[]{mapperInterface, null});
+            }
         }
 //        System.out.println(bean.getClass());
         return bean;
