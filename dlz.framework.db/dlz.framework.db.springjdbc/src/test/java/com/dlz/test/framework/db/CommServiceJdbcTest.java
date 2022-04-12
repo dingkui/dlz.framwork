@@ -16,7 +16,7 @@ public class CommServiceJdbcTest extends BaseTest {
     ICommService commService;
 
     @Test
-    public void PageTest2() {
-        commService.getStr("select 1 from xx where x=?", "666");
+    public void getInt() {
+        commService.getIntList("select 1 from xx where x=?", "666");
     }
 }
