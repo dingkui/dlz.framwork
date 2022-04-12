@@ -3,25 +3,43 @@
 <dependency>
     <groupId>com.dlz</groupId>
     <artifactId>dlz.comm</artifactId>
-    <version>5.2.1</version>
+    <version>5.2.2</version>
 </dependency>
 <dependency>
     <groupId>com.dlz</groupId>
     <artifactId>dlz.framework</artifactId>
-    <version>5.2.1</version>
+    <version>5.2.2</version>
 </dependency>
 <dependency>
     <groupId>com.dlz</groupId>
     <artifactId>dlz.framework.db.springjdbc</artifactId>
-    <version>5.2.1</version>
+    <version>5.2.2</version>
     </dependency>
 <dependency>
 <dependency>
+    <groupId>com.dlz</groupId>
+    <artifactId>dlz.framework.db.mybatis-plus</artifactId>
+    <version>5.2.2</version>
+</dependency>
+<dependency>
   <groupId>com.dlz</groupId>
   <artifactId>dlz.plugin.netty</artifactId>
-  <version>5.2.1</version>
+  <version>5.2.2</version>
 </dependency>
 ```
+>  5.2.2
+
+* `[增加功能模块]`  dlz.framework.db.mybatis-plus
+* `[依赖包升级]`  spring.boot 2.1.0 → 2.3.12
+* `[依赖包升级]`  依赖包优化
+```xml
+<dependency>
+<groupId>com.dlz</groupId>
+<artifactId>dlz.framework.db.mybatis-plus</artifactId>
+<version>5.2.2</version>
+</dependency>
+```
+
 >  5.2.1
 
 * `[版本]` 去掉 SNAPSHOT
