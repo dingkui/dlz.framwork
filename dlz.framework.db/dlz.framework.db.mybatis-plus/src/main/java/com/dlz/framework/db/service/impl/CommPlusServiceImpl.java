@@ -9,6 +9,7 @@ import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.framework.db.cache.MyBeanPostProcessor;
 import com.dlz.framework.db.service.ICommPlusService;
+import com.dlz.framework.util.system.Reflections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -72,7 +73,8 @@ public class CommPlusServiceImpl implements ICommPlusService {
         return ((BaseMapper<T>) getMapper(clazz)).deleteByMap(columnMap);
     }
 
-    public <T> int remove(Wrapper<T> queryWrapper, Class<T> clazz) {
+    public <T> int remove(Wrapper<T> queryWrapper) {
+        Class<T> clazz = (Class<T>)Reflections.getClassGenricType(queryWrapper.getClass(),0);
         return ((BaseMapper<T>) getMapper(clazz)).delete(queryWrapper);
     }
 
@@ -112,7 +114,8 @@ public class CommPlusServiceImpl implements ICommPlusService {
         return ((BaseMapper<T>) getMapper(clazz)).selectByMap(columnMap);
     }
 
-    public <T> T getOne(Wrapper<T> queryWrapper, Class<T> clazz, boolean throwEx) {
+    public <T> T getOne(Wrapper<T> queryWrapper, boolean throwEx) {
+        Class<T> clazz = (Class<T>)Reflections.getClassGenricType(queryWrapper.getClass(),0);
         if (throwEx) {
             return ((BaseMapper<T>) getMapper(clazz)).selectOne(queryWrapper);
         }
@@ -120,16 +123,19 @@ public class CommPlusServiceImpl implements ICommPlusService {
 
     }
 
-    public <T> int count(Wrapper<T> queryWrapper, Class<T> clazz) {
+    public <T> int count(Wrapper<T> queryWrapper) {
+        Class<T> clazz = (Class<T>)Reflections.getClassGenricType(queryWrapper.getClass(),0);
         return SqlHelper.retCount(((BaseMapper<T>) getMapper(clazz)).selectCount(queryWrapper));
     }
 
-    public <T> List<T> list(Wrapper<T> queryWrapper, Class<T> clazz) {
+    public <T> List<T> list(Wrapper<T> queryWrapper) {
+        Class<T> clazz = (Class<T>)Reflections.getClassGenricType(queryWrapper.getClass(),0);
         return ((BaseMapper<T>) getMapper(clazz)).selectList(queryWrapper);
 
     }
 
-    public <T> List<Map<String, Object>> listMaps(Wrapper<T> queryWrapper, Class<T> clazz) {
+    public <T> List<Map<String, Object>> listMaps(Wrapper<T> queryWrapper) {
+        Class<T> clazz = (Class<T>)Reflections.getClassGenricType(queryWrapper.getClass(),0);
         return ((BaseMapper<T>) getMapper(clazz)).selectMaps(queryWrapper);
     }
 }
