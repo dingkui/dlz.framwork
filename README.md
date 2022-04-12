@@ -30,6 +30,7 @@
 >  5.2.2
 
 * `[增加功能模块]`  dlz.framework.db.mybatis-plus
+* `[功能修改]`  dlz.framework.db.mybatis-plus 去掉部分接口非必要的 class参数
 * `[依赖包升级]`  spring.boot 2.1.0 → 2.3.12
 * `[依赖包升级]`  依赖包优化
 ```xml
