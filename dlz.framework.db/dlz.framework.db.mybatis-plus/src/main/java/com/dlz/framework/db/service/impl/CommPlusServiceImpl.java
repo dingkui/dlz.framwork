@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -138,4 +140,11 @@ public class CommPlusServiceImpl implements ICommPlusService {
         Class<T> clazz = (Class<T>)Reflections.getClassGenricType(queryWrapper.getClass(),0);
         return ((BaseMapper<T>) getMapper(clazz)).selectMaps(queryWrapper);
     }
+
+
+//    private <T> Class<T> getClazz(Wrapper<T> queryWrapper){
+//
+//    }
+
+
 }

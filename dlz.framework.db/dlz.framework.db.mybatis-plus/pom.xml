@@ -5,13 +5,14 @@
 		<artifactId>dlz.framework.db</artifactId>
 		<version>5.2.2</version>
 	</parent>
+	<version>5.2.2.1</version>
 	<artifactId>dlz.framework.db.mybatis-plus</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus</artifactId>
-			<version>3.2.0</version>
+			<version>3.4.2</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

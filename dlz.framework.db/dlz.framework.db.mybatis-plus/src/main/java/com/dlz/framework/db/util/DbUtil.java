@@ -23,12 +23,12 @@ public class DbUtil {
         }
         if (bean != null) {
             TableInfo tableInfo = TableInfoHelper.getTableInfo(bean.getClass());
-            Object keyValue = ReflectionKit.getMethodValue(bean, tableInfo.getKeyProperty());
+            Object keyValue = ReflectionKit.getFieldValue(bean, tableInfo.getKeyProperty());
             if (StringUtils.isNotEmpty(keyValue)) {
                 queryWrapper.eq(tableInfo.getKeyColumn(), keyValue);
             } else {
                 for (TableFieldInfo field : tableInfo.getFieldList()) {
-                    Object value = ReflectionKit.getMethodValue(bean, field.getProperty());
+                    Object value = ReflectionKit.getFieldValue(bean, field.getProperty());
                     if (StringUtils.isNotEmpty(value)) {
                         queryWrapper.eq(field.getColumn(), value);
                     }

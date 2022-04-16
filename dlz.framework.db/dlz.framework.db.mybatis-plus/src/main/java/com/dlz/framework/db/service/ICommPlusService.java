@@ -57,7 +57,7 @@ public interface ICommPlusService{
         Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
         String keyProperty = tableInfo.getKeyProperty();
         Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
-        Object idVal = ReflectionKit.getMethodValue(cls, entity, tableInfo.getKeyProperty());
+        Object idVal = ReflectionKit.getFieldValue(entity, tableInfo.getKeyProperty());
         return StringUtils.checkValNull(idVal) || Objects.isNull(getById((Serializable) idVal,cls)) ? save(entity) : updateById(entity);
     }
 
