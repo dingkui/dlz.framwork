@@ -47,7 +47,7 @@ public class CommPlusServiceTest {
 	public void test2(){
 		LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(Dict::getDictStatus,1);
-		List<Dict> list = commPlusService.list(queryWrapper);
+		List<Dict> list = commPlusService.list(queryWrapper, Dict.class);
 		log.debug("re： {}",list);
 	}
 }

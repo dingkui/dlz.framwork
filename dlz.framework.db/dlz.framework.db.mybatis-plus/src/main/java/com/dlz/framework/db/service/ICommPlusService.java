@@ -34,10 +34,10 @@ public interface ICommPlusService{
      */
     <T> int removeById(Serializable id, Class<T> clazz) ;
     <T> int removeByMap(JSONMap columnMap, Class<T> clazz);
-    <T> int remove(Wrapper<T> queryWrapper);
+    <T> int remove(Wrapper<T> queryWrapper, Class<T> clazz);
     default <T> int remove(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return remove(new QueryWrapper<>(bean));
+        return remove(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
     }
     <T> int removeByIds(Collection<? extends Serializable> idList, Class<T> clazz);
 
@@ -65,27 +65,28 @@ public interface ICommPlusService{
     /**
      * 查询单条
      * @param queryWrapper
+     * @param clazz
      * @param throwEx
      * @param <T>
      * @return
      */
-    <T> T getOne(Wrapper<T> queryWrapper, boolean throwEx) ;
-    default <T>  T getOne(Wrapper<T> queryWrapper) {
-        return getOne(queryWrapper,true);
+    <T> T getOne(Wrapper<T> queryWrapper, Class<T> clazz, boolean throwEx) ;
+    default <T>  T getOne(Wrapper<T> queryWrapper, Class<T> clazz) {
+        return getOne(queryWrapper,clazz,true);
     }
     default <T> T getOne(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return getOne(new QueryWrapper<>(bean),true);
+        return getOne(new QueryWrapper<>(bean), (Class<T>)bean.getClass(),true);
     }
-    default <T>  T getFirst(Wrapper<T> queryWrapper) {
-        return getOne(queryWrapper,false);
+    default <T>  T getFirst(Wrapper<T> queryWrapper, Class<T> clazz) {
+        return getOne(queryWrapper,clazz,false);
     }
     default <T> T getFirst(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return getOne(new QueryWrapper<>(bean),false);
+        return getOne(new QueryWrapper<>(bean), (Class<T>)bean.getClass(),false);
     }
-    default <T> Map<String, Object> getMap(Wrapper<T> queryWrapper){
-        List<Map<String, Object>> maps = listMaps(queryWrapper);
+    default <T> Map<String, Object> getMap(Wrapper<T> queryWrapper, Class<T> clazz){
+        List<Map<String, Object>> maps = listMaps(queryWrapper, clazz);
         if(maps.size()==0){
             return null;
         }
@@ -94,10 +95,10 @@ public interface ICommPlusService{
     }
     default <T> Map<String, Object> getMap(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return getMap(new QueryWrapper<>(bean));
+        return getMap(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
     }
-    default <T> Map<String, Object> getFirstMap(Wrapper<T> queryWrapper) {
-        List<Map<String, Object>> maps = listMaps(queryWrapper);
+    default <T> Map<String, Object> getFirstMap(Wrapper<T> queryWrapper, Class<T> clazz) {
+        List<Map<String, Object>> maps = listMaps(queryWrapper, clazz);
         if(maps.size()==0){
             return null;
         }
@@ -105,28 +106,28 @@ public interface ICommPlusService{
     }
     default <T> Map<String, Object> getFirstMap(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return getFirstMap(new QueryWrapper<>(bean));
+        return getFirstMap(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
     }
     <T> T getById(Serializable id, Class<T> clazz) ;
 
 
     <T> List<T> listByIds(Collection<? extends Serializable> idList, Class<T> clazz) ;
     <T> List<T> listByMap(JSONMap columnMap, Class<T> clazz) ;
-    <T> List<T> list(Wrapper<T> queryWrapper);
+    <T> List<T> list(Wrapper<T> queryWrapper, Class<T> clazz);
     default <T> List<T> list(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return list(new QueryWrapper<>(bean));
+        return list(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
     }
-    <T> List<Map<String, Object>> listMaps(Wrapper<T> queryWrapper) ;
+    <T> List<Map<String, Object>> listMaps(Wrapper<T> queryWrapper, Class<T> clazz) ;
     default <T> List<Map<String, Object>> listMaps(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return listMaps(new QueryWrapper<>(bean));
+        return listMaps(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
     }
 
-    <T> int count(Wrapper<T> queryWrapper) ;
+    <T> int count(Wrapper<T> queryWrapper, Class<T> clazz) ;
     default <T> int count(T bean){
         Assert.notNull(bean, "error: bean can not be null");
-        return count(new QueryWrapper<>(bean));
+        return count(new QueryWrapper<>(bean), (Class<T>)bean.getClass());
     }
 
 }
