@@ -77,7 +77,7 @@ public class DbInfo {
             m_dbset.put(name, str);
         }
         if (log.isDebugEnabled()){
-            log.debug("dbsettinhs:" + m_dbset);
+            log.debug("dbsetting:" + m_dbset);
             log.debug("sqlList:" + m_sqlList);
         }
         initIng = false;
