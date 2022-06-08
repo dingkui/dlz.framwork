@@ -103,6 +103,11 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>${java.version}</source>
@@ -115,16 +120,6 @@
             </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>dlz-releases</id>
-            <url>http://219.138.246.50:28805/repository/dlz/</url>
-        </repository>
-        <snapshotRepository>
-            <id>dlz-napshots</id>
-            <url>http://219.138.246.50:28805/repository/dlz-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
     <repositories>
         <!--阿里云仓库-->
         <repository>
