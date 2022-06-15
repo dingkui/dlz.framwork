@@ -1,15 +1,14 @@
 package com.dlz.framework.db.cache;
 
+import com.dlz.comm.json.JSONMap;
 import com.dlz.framework.cache.service.AbstractCache;
 import com.dlz.framework.db.dao.IDlzDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-
 /**
  * 数据库表字段缓存
  */
-public class TableInfoCache extends AbstractCache<String, HashMap<String, Integer>> {
+public class TableInfoCache extends AbstractCache<String, JSONMap> {
 
     @Autowired
     IDlzDao dao;
@@ -17,8 +16,8 @@ public class TableInfoCache extends AbstractCache<String, HashMap<String, Intege
     public TableInfoCache() {
         super();
         dbOperator = new DbOperator() {
-            protected HashMap<String, Integer> getFromDb(String tableName) {
-                return dao.getTableColumsInfo(tableName);
+            protected JSONMap getFromDb(String tableName) {
+                return new JSONMap(dao.getTableColumsInfo(tableName));
             }
         };
     }

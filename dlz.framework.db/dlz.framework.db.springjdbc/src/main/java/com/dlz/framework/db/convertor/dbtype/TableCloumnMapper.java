@@ -1,26 +1,20 @@
 package com.dlz.framework.db.convertor.dbtype;
 
+import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.db.cache.TableInfoCache;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
 import java.sql.Types;
-import java.util.Map;
 
-@Component
-@Lazy
-@Slf4j
 public class TableCloumnMapper extends ATableCloumnMapper {
 	@Autowired
 	TableInfoCache tableInfoCache;
 	@Override
 	public Object converObj4Db(String tableName, String clumnName, Object value) {
-		Map<String, Integer> map = tableInfoCache.get(tableName);
+		JSONMap map = tableInfoCache.get(tableName);
 		if (map != null) {
-			Integer dbClass = map.get(clumnName.toUpperCase());
+			Integer dbClass = map.getInt(clumnName.toUpperCase());
 			if(dbClass==null){
 				return value;
 			}
@@ -30,7 +24,7 @@ public class TableCloumnMapper extends ATableCloumnMapper {
 	}
 	@Override
 	public boolean isClumnExists(String tableName, String clumnName) {
-		Map<String, Integer> map = tableInfoCache.get(tableName);
+		JSONMap map = tableInfoCache.get(tableName);
 		if (map == null) {
 			return false;
 		}
