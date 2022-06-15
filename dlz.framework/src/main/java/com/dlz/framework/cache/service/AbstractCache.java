@@ -72,7 +72,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
         this.cacheName = cacheName.toLowerCase();
 
         if (cache == null) {
-            cache = SpringHolder.registerBean(CacheEhcahe.class);
+            cache = SpringHolder.getBean("dlzCache");
         }
         this.cache = cache;
 
