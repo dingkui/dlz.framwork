@@ -15,7 +15,14 @@ import com.dlz.framework.db.modal.ResultMap;
  * 
  */
 public class ConvertUtil {
-	static ATableCloumnMapper tableCloumnMapper= new ATableCloumnMapper(){
+	/**
+	 * 数据库字段名转换器
+	 */
+	public static AColumnNameConvertor columnMapper = new ColumnNameCamel();
+	/**
+	 * 数据库字段信息及内容转换
+	 */
+	public static ATableCloumnMapper tableCloumnMapper = new ATableCloumnMapper(){
 		@Override
 		public Object converObj4Db(String tableName, String clumnName, Object value) {
 			return value;
@@ -25,9 +32,8 @@ public class ConvertUtil {
 			return true;
 		}
 	};
-	public static void setTableCloumnCache(ATableCloumnMapper paraCover){
-		ConvertUtil.tableCloumnMapper =paraCover;
-	}
+
+
 	/**
 	 * 把传入的参数转换成数据库识别的参数
 	 * 主要用于postgresql类似的强制类型
@@ -71,7 +77,6 @@ public class ConvertUtil {
 	
 	/**
 	 * 将Map转换成bean中对应字段的Map
-	 * @param list
 	 * @author dk 2015-04-15
 	 * @return
 	 */
@@ -88,7 +93,6 @@ public class ConvertUtil {
 	
 	/**
 	 * 将Map转换成bean中对应字段的Map
-	 * @param list
 	 * @author dk 2015-04-15
 	 * @return
 	 */
@@ -109,7 +113,6 @@ public class ConvertUtil {
 	
 	/**
 	 * 将Map转换成bean
-	 * @param list
 	 * @author dk 2018-01-19
 	 * @return
 	 */
@@ -120,11 +123,11 @@ public class ConvertUtil {
 		return JacksonUtil.coverObj(getConveredMap(m, c), t);
 	}
 
-	public static AColumnNameConvertor columnMapper=new ColumnNameCamel();
 	public static String clumn2Str(String dbKey) {
 		return columnMapper.clumn2Str(dbKey);
 	}
 	public static String str2Clumn(String beanKey) {
 		return columnMapper.str2Clumn(beanKey);
 	}
+
 }

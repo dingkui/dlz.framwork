@@ -4,7 +4,7 @@ import com.dlz.framework.db.convertor.ConvertUtil;
 
 public abstract class ATableCloumnMapper {
     public ATableCloumnMapper() {
-        ConvertUtil.setTableCloumnCache(this);
+        ConvertUtil.tableCloumnMapper=this;
     }
     /**
      * 取得字段对应的类型
