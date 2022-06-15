@@ -3,9 +3,8 @@
 	<parent>
 		<groupId>com.dlz</groupId>
 		<artifactId>dlz.framework.db</artifactId>
-		<version>5.2.2</version>
+		<version>5.2.3</version>
 	</parent>
-	<version>5.2.2.1</version>
 	<artifactId>dlz.framework.db.mybatis-plus</artifactId>
 	<packaging>jar</packaging>
 	<dependencies>
