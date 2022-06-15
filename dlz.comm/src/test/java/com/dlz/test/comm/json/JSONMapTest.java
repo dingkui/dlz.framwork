@@ -7,11 +7,31 @@ import com.dlz.comm.util.ValUtil;
 import com.dlz.test.beans.AA;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class JSONMapTest {
 	@Test
 	public void test0(){
+		JSONMap paras = new JSONMap("a",new JSONMap("b",new JSONMap("c1","22","c2","221"),"b2",new JSONMap("c21","22","c22","221")));
+		System.out.println(paras);
+		String str = paras.getStr("a.b");
+		HashMap<String, Object> objectObjectHashMap = new HashMap<>();
+		objectObjectHashMap.put("d",1);
+		paras.set("a.b.c.d",objectObjectHashMap);
+		System.out.println(paras);
+	}
+	@Test
+	public void test01(){
+		JSONMap paras = new JSONMap("a",new JSONMap("b",new JSONMap("c1","22","c2","221"),"b2",new JSONMap("c21","22","c22","221")));
+		System.out.println(paras);
+		JSONMap p2=new JSONMap("{\"a\":{\"b2\":{\"c22\":\"221\",\"c21\":\"22\"},\"b\":{\"c1\":\"22\",\"c2\":\"221\"}}}");
+		JSONMap map = p2.getMap("a");
+		map.set("b.c1","999");
+//		HashMap<String, Object> objectObjectHashMap = new HashMap<>();
+//		objectObjectHashMap.put("d",1);
+//		paras.set("a.b",objectObjectHashMap);
+		System.out.println(p2);
 	}
 
 	@Test

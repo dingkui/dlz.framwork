@@ -1,5 +1,6 @@
 package com.dlz.comm.json;
 
+import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
@@ -87,15 +88,69 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 		return this;
 	}
 	/**
-	 * 
+	 * 层次替换
 	 * @param key
 	 * @param obj
+	 * @return
+	 */
+	public JSONMap set(String key,Object obj){
+		return set(key, obj,1);
+	}
+
+	/**
+	 * 按层次设定值 设定的对象需要是 JSONMap对象
+	 * @param key  如：a.b.c.d
+	 * @param value 要设定的值
+	 * @param joinMethod
+	 * 		0: 替换
+	 * 		1：合并
+	 * @return this
+	 */
+	public JSONMap set(String key,Object value,int joinMethod){
+		if(value==null){
+			return this;
+		}
+		int i = key.indexOf(".");
+		if(i>-1){
+			String key0 = key.substring(0, i);
+			String key1 = key.substring(i + 1);
+			Object o = this.get(key0);
+			if(o==null){
+				o = new JSONMap();
+				put(key0,o);
+			}
+			if (!(o instanceof JSONMap)) {
+				throw new SystemException("不支持的设定信息:" + o.getClass() + key.substring(i));
+			}
+			this.put(key0,((JSONMap)o).set(key1,value));
+		}else{
+			Object o = this.get(key);
+			if(o instanceof JSONMap){
+				if(!Map.class.isAssignableFrom(value.getClass())){
+					throw new SystemException("设定类型不一致:"+value.getClass()+"→"+o.getClass());
+				}else{
+					if(joinMethod==0){
+						put(key,value);
+					}else{
+						((JSONMap) o).putAll((Map)value);
+					}
+				}
+			}else{
+				put(key,value);
+			}
+		}
+		return this;
+	}
+	/**
+	 * 将值添加到JSONMap子值中
+	 * @param key 设定的key
+	 * @param obj 设定对象
 	 * @param joinMethod 
 	 * 		0:替换原有信息
 	 * 		1：加入到原有数组中
 	 * 		2：合并到原有数组中
 	 * 		3：把原有数据跟新数据构造新数组 
-	 * @return
+	 * @return this
 	 */
 	public JSONMap add(String key,Object obj,int joinMethod){
 		Object o=this.get(key);
