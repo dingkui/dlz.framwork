@@ -41,7 +41,7 @@ public class JSONMapTest {
 		System.out.println(paras.getBigDecimal("puid"));
 		paras.put("puid1", "123");
 		System.out.println(paras.getBigDecimal("puid1"));
-		paras.put("puid2", 123l);
+		paras.put("puid2", 123L);
 		System.out.println(paras.getBigDecimal("puid2"));
 		paras.put("puid3", "123.1");
 		System.out.println(paras.getBigDecimal("puid3"));
@@ -63,7 +63,7 @@ public class JSONMapTest {
 		System.out.println(paras.getBigDecimal("puid"));
 		paras.put("puid1", "123");
 		System.out.println(paras.getBigDecimal("puid1"));
-		paras.put("puid2", 123l);
+		paras.put("puid2", 123L);
 		System.out.println(paras.getBigDecimal("puid2"));
 		paras.put("puid3", "123.1");
 		System.out.println(paras.getBigDecimal("puid3"));
@@ -118,12 +118,12 @@ public class JSONMapTest {
 	public void test5(){
 		JSONMap paras = new JSONMap("{\"a\":[1,2,3],\"b\":{\"b\":1,\"a\":2}}");
 		System.out.println(paras.getList("a"));
-		System.out.println(paras.getArray("a"));
+		System.out.println(JacksonUtil.getJson(paras.getArray("a")));
 		System.out.println(paras.getList("b"));
 		
 		JSONMap c2=JacksonUtil.coverObj(paras, JSONMap.class);
 		System.out.println(c2.getList("a"));
-		System.out.println(c2.getArray("a"));
+		System.out.println(JacksonUtil.getJson(c2.getArray("a")));
 		System.out.println(c2.getList("b"));
 	}
 	
@@ -152,8 +152,8 @@ public class JSONMapTest {
 		a.add("l1", (new JSONList()).adds((new JSONMap()).add("l1_1", 1)).adds((new JSONMap()).add("l1_1", 2)));
 		a.add("l1", (new JSONList()).adds((new JSONMap()).add("l1_2", 3)).adds((new JSONMap()).add("l1_2", 4)).adds((new JSONMap()).add("l1_2", 5)),3);
 //		a.add("l1", (new JSONMap()).add("l1_2", 123).add("l1_2", 124));
-		System.out.println(a.toString());
-		System.out.println(b.toString());
+		System.out.println(a);
+		System.out.println(b);
 		System.out.println(b.getList("info.l1[1]"));
 		System.out.println(a.getStr("l1[1][1].l1_2"));
 		System.out.println(b.getStr("info.l1[1][-1].l1_2"));
@@ -177,7 +177,7 @@ public class JSONMapTest {
 	public void test9(){
 		String a="[\"a\",1]";
 		String[] c=ValUtil.getArrayObj(a, String.class,String[].class);
-		System.out.println(c);
+		System.out.println(JacksonUtil.getJson(c));
 
 
 		String[] c3=ValUtil.getArray(a, String.class);
@@ -190,7 +190,7 @@ public class JSONMapTest {
 	public void test10(){
 		String a="[\"a\",1]";
 		String[] c=ValUtil.getArray(a, String.class);
-		System.out.println(c);
+		System.out.println(JacksonUtil.getJson(c));
 		List<String> c2=ValUtil.getListObj(a, String.class);
 		System.out.println(c2.get(0));
 		System.out.println(c[1]);

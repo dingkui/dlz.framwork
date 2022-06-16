@@ -30,7 +30,7 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 		if(obj instanceof Map){
 			putAll((Map)obj);
 		}else {
-			String string=null;
+			String string;
 			if(obj instanceof CharSequence){
 				string=obj.toString().trim();
 			}else{
@@ -66,7 +66,7 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 	}
 	
 	public <T> Map<String,T> asMap(Class<T> objectClass){
-		return (Map<String,T>)(Object)this;
+		return (Map<String,T>)this;
 	}
 	public Map<String,JSONMap> asMap(){
 		return (Map<String,JSONMap>)(Object)this;
@@ -76,7 +76,7 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 	}
 	
 	public JSONMap clearEmptyProp(){
-		List<String> emputyKeys=new ArrayList<String>();
+		List<String> emputyKeys=new ArrayList<>();
 		for(Entry<String,Object> entry:this.entrySet()){
 			if(StringUtils.isEmpty(entry.getValue())){
 				emputyKeys.add(entry.getKey());
@@ -88,13 +88,14 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 		return this;
 	}
 	/**
-	 * 层次替换
-	 * @param key
-	 * @param obj
-	 * @return
+	 * 按层次设定值 设定的对象需要是 JSONMap对象
+	 * 采用合并方式
+	 * @param key 如：a.b.c.d
+	 * @param value 要设定的值
+	 * @return this
 	 */
-	public JSONMap set(String key,Object obj){
-		return set(key, obj,1);
+	public JSONMap set(String key,Object value){
+		return set(key, value,1);
 	}
 
 	/**

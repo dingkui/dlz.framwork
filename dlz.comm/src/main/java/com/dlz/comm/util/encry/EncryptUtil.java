@@ -16,7 +16,7 @@ public class EncryptUtil {
 	}
 	public static String simpleDecry(String codes) {
 		int l=codes.length()-1,i=l;
-		int e=Integer.valueOf(codes.substring(0,1));
+		int e=Integer.parseInt(codes.substring(0,1));
 		char[] output = new char[l];
 		while(i-->0) {
 			int ind=1+i*e;
@@ -45,15 +45,15 @@ public class EncryptUtil {
 			l++;
 		}
 		int i=l;
-		String output = "";
+		StringBuilder output = new StringBuilder();
 		while(i-->0 ) {
 			int ind=1+i*e;
 			if(ind>=l){
 				ind=ind%l;
 			}
-			output+=base64str.charAt(ind);
+			output.append(base64str.charAt(ind));
 		}
-		return e+output;
+		return e+output.toString();
 	}
 	
 	private static void test(String in){
@@ -87,10 +87,10 @@ public class EncryptUtil {
 	/**
 	 * 字符串加密以及解密函数
 	 *
-	 * @param string $string	原文或者密文
-	 * @param string $operation	操作(ENCODE | DECODE), 默认为 DECODE
-	 * @param string $key		密钥
-	 * @param int $expiry		密文有效期, 加密时候有效， 单位 秒，0 为永久有效
+	 * @param $string	原文或者密文
+	 * @param $operation	操作(ENCODE | DECODE), 默认为 DECODE
+	 * @param $key		密钥
+	 * @param $expiry		密文有效期, 加密时候有效， 单位 秒，0 为永久有效
 	 * @return string		处理后的 原文或者 经过 base64_encode 处理后的密文
 	 *
 	 * @example
@@ -122,7 +122,8 @@ public class EncryptUtil {
 		$key = Md5Util.md5($key);
 		String $keya = Md5Util.md5(substr($key, 0, 16));
 		String $keyb = Md5Util.md5(substr($key, 16, 16));
-		String $keyc = $ckey_length > 0? ($operation.equals("DECODE") ? substr($string, 0, $ckey_length): substr(Md5Util.md5(microtime()), -$ckey_length)) : "";
+//		String $keyc = $ckey_length > 0? ($operation.equals("DECODE") ? substr($string, 0, $ckey_length): substr(Md5Util.md5(microtime()), -$ckey_length)) : "";
+		String $keyc = $operation.equals("DECODE") ? substr($string, 0, $ckey_length): substr(Md5Util.md5(microtime()), -$ckey_length);
 
 		String $cryptkey = $keya + Md5Util.md5( $keya + $keyc);
 		int $key_length = $cryptkey.length();
@@ -165,8 +166,8 @@ public class EncryptUtil {
 
 		if($operation.equals("DECODE")) {
 			String $result = $result1.substring(0, $result1.length());
-			if((Integer.parseInt(substr($result.toString(), 0, 10)) == 0 || Long.parseLong(substr($result.toString(), 0, 10)) - time() > 0) && substr($result.toString(), 10, 16).equals( substr(Md5Util.md5(substr($result.toString(), 26)+ $keyb), 0, 16))) {
-				return substr($result.toString(), 26);
+			if((Integer.parseInt(substr($result, 0, 10)) == 0 || Long.parseLong(substr($result, 0, 10)) - time() > 0) && substr($result, 10, 16).equals( substr(Md5Util.md5(substr($result, 26)+ $keyb), 0, 16))) {
+				return substr($result, 26);
 			} else {
 				return "";
 			}
