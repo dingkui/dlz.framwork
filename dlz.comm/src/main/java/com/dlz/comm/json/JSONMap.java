@@ -6,6 +6,7 @@ import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * JSONMap
@@ -66,13 +67,14 @@ public class JSONMap extends HashMap<String,Object> implements IUniversalVals{
 	}
 	
 	public <T> Map<String,T> asMap(Class<T> objectClass){
-		return (Map<String,T>)this;
+		 this.forEach((key,value)-> this.put(key,ValUtil.getObj(value,objectClass)));
+		 return (Map<String,T>)this;
 	}
 	public Map<String,JSONMap> asMap(){
-		return (Map<String,JSONMap>)(Object)this;
+		return asMap(JSONMap.class);
 	}
 	public Map<String,JSONList> asMapList(){
-		return (Map<String,JSONList>)(Object)this;
+		return asMap(JSONList.class);
 	}
 	
 	public JSONMap clearEmptyProp(){

@@ -4,6 +4,7 @@ import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * JSONList
@@ -90,10 +91,10 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 	}
 	
 	public <T> List<T> asList(Class<T> objectClass){
-		return (List)this;
+		return this.stream().map(item->ValUtil.getObj(item,objectClass)).collect(Collectors.toList());
 	}
 	public List<JSONMap> asList(){
-		return (List)this;
+		return asList(JSONMap.class);
 	}
 	
 	public JSONMap getMap(int index){
