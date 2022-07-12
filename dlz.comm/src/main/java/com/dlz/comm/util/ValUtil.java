@@ -23,9 +23,9 @@ public class ValUtil {
         if (o instanceof BigDecimal) {
             return (BigDecimal) o;
         } else if (o instanceof Float) {
-            return new BigDecimal(o.doubleValue());
+            return new BigDecimal(o.toString());
         } else if (o instanceof Double) {
-            return new BigDecimal(o.doubleValue());
+            return new BigDecimal(o.toString());
         } else if (o instanceof Integer) {
             return new BigDecimal(o.intValue());
         } else if (o instanceof Long) {
