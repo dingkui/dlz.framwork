@@ -133,6 +133,9 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
                 return;
             }
             value = getFromCache(key);
+        }else{
+            //将数据更新到缓存
+            put(key,value);
         }
         if (value != null) {
             try {
