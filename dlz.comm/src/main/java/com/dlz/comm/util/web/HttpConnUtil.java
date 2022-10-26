@@ -1,6 +1,7 @@
 package com.dlz.comm.util.web;
 
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -35,11 +36,22 @@ public class HttpConnUtil {
         }
     }
 
-    public static HttpClient wrapClient(String host) {
-        HttpClientBuilder setConnectionManagerShared = HttpClientBuilder.create().setConnectionManager(cm).setConnectionManagerShared(true);
-        if (host.startsWith(HTTPS)) {
-            return setConnectionManagerShared.setSSLSocketFactory(sslsf).build();
+    public static HttpClient wrapClient(String host,RequestConfig requestConfig) {
+        HttpClientBuilder clientBuilder = HttpClientBuilder.create().setConnectionManager(cm).setConnectionManagerShared(true);
+        if(requestConfig != null){
+//            clientBuilder.setDefaultRequestConfig(RequestConfig.custom()
+//                    .setSocketTimeout(10000)
+//                    .setConnectTimeout(100)
+//                    .setConnectionRequestTimeout(100)
+//                    .build());
+            clientBuilder.setDefaultRequestConfig(requestConfig);
         }
-        return setConnectionManagerShared.build();
+        if (host.startsWith(HTTPS)) {
+            return clientBuilder.setSSLSocketFactory(sslsf).build();
+        }
+        return clientBuilder.build();
+    }
+    public static HttpClient wrapClient(String host) {
+        return wrapClient(host,null);
     }
 }

@@ -37,7 +37,7 @@ public class HttpUtil {
      */
     private static HttpResponse executeHttp(HttpRequestBase request,
                                             HttpRequestParam param) {
-        HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl());
+        HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl(),param.getRequestConfig());
         Map<String, String> headers = param.getHeaders();
         headers.forEach(request::addHeader);
         try {

@@ -6,6 +6,7 @@ import com.dlz.comm.util.web.handler.ResponseHandler;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.protocol.HttpClientContext;
 
 import java.util.HashMap;
@@ -33,6 +34,15 @@ public class HttpRequestParam<T> {
      * 使用payload
      */
     private String payload;
+    /**
+     * RequestConfig
+     * RequestConfig.custom()
+     *              .setSocketTimeout(10000)
+     *              .setConnectTimeout(100)
+     *              .setConnectionRequestTimeout(100)
+     *              .build()
+     */
+    private RequestConfig requestConfig = null;
 
     /**
      * 请求参数
@@ -50,8 +60,6 @@ public class HttpRequestParam<T> {
     private boolean showLog = false;
 
     private HttpClientContext localContext = new HttpClientContext();
-
-
 
     public static HttpRequestParam<String> createJsonReq(String url, Object para) {
         return createJsonReq(url, para, String.class);
