@@ -19,11 +19,11 @@
             <artifactId>dlz.framework</artifactId>
             <version>${dlz.framework.version}</version>
         </dependency>
-        <dependency>
-            <groupId>comlib.jdbc</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>comlib.jdbc</groupId>-->
+<!--            <artifactId>ojdbc14</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>c3p0</groupId>
             <artifactId>c3p0</artifactId>
