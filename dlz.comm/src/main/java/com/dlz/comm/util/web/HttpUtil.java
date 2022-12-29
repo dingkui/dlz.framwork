@@ -12,12 +12,16 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.dom4j.Document;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.Map;
 
@@ -37,7 +41,8 @@ public class HttpUtil {
      */
     private static HttpResponse executeHttp(HttpRequestBase request,
                                             HttpRequestParam param) {
-        HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl(),param.getRequestConfig());
+//        HttpClient httpClient = HttpConnUtil.wrapClient(param.getUrl(),param.getRequestConfig());
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         Map<String, String> headers = param.getHeaders();
         headers.forEach(request::addHeader);
         try {
@@ -58,6 +63,7 @@ public class HttpUtil {
                 ((HttpEntityEnclosingRequestBase) request).setEntity(entity);
             } else if (!param.getPara().isEmpty()) {
                 request.setURI(new URI(buildUrl(param.getUrl(), null, param.getPara(), param.getCharsetNameRequest())));
+//                request.setURI(buildUrI(param.getUrl(), null, param.getPara()));
             }
             return httpClient.execute(request, param.getLocalContext());
         } catch (Exception e) {
@@ -119,6 +125,17 @@ public class HttpUtil {
         return info;
     }
 
+
+    public static URI buildUrI(String host, String path, Map<String, Object> querys) throws URISyntaxException {
+        // 创建uri
+        URIBuilder builder = new URIBuilder(StringUtils.isEmpty(path)?host:(host+path));;
+        if (querys != null) {
+            for (String key : querys.keySet()) {
+                builder.addParameter(key, ValUtil.getStr(querys.get(key)));
+            }
+        }
+        return builder.build();
+    }
 
     public static String buildUrl(String host, String path, Map<String, Object> querys, String enc) throws UnsupportedEncodingException {
         StringBuilder sbUrl = new StringBuilder();
