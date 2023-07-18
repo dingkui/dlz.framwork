@@ -195,5 +195,20 @@ public class JSONMapTest {
 		System.out.println(c2.get(0));
 		System.out.println(c[1]);
 	}
+
+
+	@Test
+	public void test11(){
+		String a="{\"a\":\"1,2,3,4,5\"}";
+		List<String> a1 = new JSONMap(a).getListObj("a",String.class);
+		System.out.println(a1);
+	}
+
+	@Test
+	public void test12(){
+		String a="1,2,3,4,5";
+		List<Integer> listObj = ValUtil.getListObj(a, Integer.class);
+		System.out.println(listObj);
+	}
 }
 

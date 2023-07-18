@@ -3,6 +3,7 @@ package com.dlz.comm.json;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,13 +71,40 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals,IUnive
 				return;
 			}
 			if (!JacksonUtil.isJsonArray(string)) {
+				if(string.indexOf(",")>-1){
+					if (objectClass == String.class || objectClass==null) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(item.trim()));
+						return;
+					} else if (objectClass == Integer.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getInt(item.trim())));
+						return;
+					} else if (objectClass == Long.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getLong(item.trim())));
+						return;
+					} else if (objectClass == Date.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getDate(item.trim())));
+						return;
+					} else if (objectClass == BigDecimal.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getBigDecimal(item.trim())));
+						return;
+					} else if (objectClass == Float.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getFloat(item.trim())));
+						return;
+					} else if (objectClass == Double.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getDouble(item.trim())));
+						return;
+					} else if (objectClass == Boolean.class) {
+						Arrays.stream(string.split(",")).forEach(item -> this.add(ValUtil.getBoolean(item.trim())));
+						return;
+					}
+				}
 				throw new RuntimeException("参数不能转换成JSONList:" + string);
 			}
 
 			if (objectClass != null) {
 				this.addAll(JacksonUtil.readListValue(string, objectClass));
 			} else {
-				this.addAll((Collection)JacksonUtil.readValue(string, JSONList.class));
+				this.addAll(JacksonUtil.readValue(string, JSONList.class));
 			}
 		}
 	}
