@@ -24,7 +24,7 @@ public class DateUtil {
 		try {
 			return format.parse(dateStr);
 		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
+			log.error(ExceptionUtils.getStackTrace(e));
 		}
 		return null;
 	}

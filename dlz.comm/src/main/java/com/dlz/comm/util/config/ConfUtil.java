@@ -2,6 +2,7 @@ package com.dlz.comm.util.config;
 
 import com.dlz.comm.json.JSONList;
 import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,7 +88,7 @@ public class ConfUtil{
 				}
 			}
 		} catch (Exception e) {
-			log.error("读取配置文件出错", e);
+			log.error(ExceptionUtils.getStackTrace("读取配置文件出错",e));
 		}
 	}
 

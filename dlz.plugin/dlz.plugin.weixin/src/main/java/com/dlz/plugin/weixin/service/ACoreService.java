@@ -167,8 +167,7 @@ public abstract class ACoreService {
 				return getTextMsg(fromUserName, toUserName, "请通过菜单使用地址导航服务！");
 			}
 		} catch (Exception e) {
-			log.error("调用异常!");
-			log.error(e.getMessage(), e);
+			log.error(ExceptionUtils.getStackTrace("调用异常："+e.getMessage(), e));
 		}
 		return "操作未识别";
 	}

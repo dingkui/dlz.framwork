@@ -1,5 +1,6 @@
 package com.dlz.comm.util.encry;
 
+import com.dlz.comm.util.ExceptionUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
@@ -20,7 +21,7 @@ public class ByteUtil {
             }
             in.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         return caw.toCharArray();
     }
@@ -39,7 +40,7 @@ public class ByteUtil {
             }
             in.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         return caw.toCharArray();
     }
@@ -58,7 +59,7 @@ public class ByteUtil {
             }
             is.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         return baos.toByteArray();
     }
@@ -101,7 +102,7 @@ public class ByteUtil {
             os.write(data);
             os.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -113,7 +114,7 @@ public class ByteUtil {
             os.write(data);
             os.close();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 }

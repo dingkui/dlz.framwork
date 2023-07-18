@@ -144,7 +144,7 @@ public final class IOUtils {
         try {
             closeable.close();
         } catch (Exception exc) {
-            log.error("Unable to close resource: " + exc, exc);
+            log.error(ExceptionUtils.getStackTrace("Unable to close resource: " + exc,exc));
         }
     }
 }

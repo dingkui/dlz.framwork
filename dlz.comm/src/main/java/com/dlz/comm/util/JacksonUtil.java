@@ -132,9 +132,7 @@ public class JacksonUtil {
         try {
             return objectMapper.readValue(content, valueType);
         } catch (Exception e) {
-            log.error("JacksonUtil.readValue error,content:" + content);
-            log.error("JacksonUtil.readValue error,valueType:" + valueType);
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace("JacksonUtil.readValue error,content:" + content+" valueType:" + valueType,e));
             return null;
         }
     }

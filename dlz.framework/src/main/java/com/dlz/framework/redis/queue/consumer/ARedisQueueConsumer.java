@@ -70,7 +70,7 @@ public abstract class ARedisQueueConsumer<T> {
                     Thread.sleep(waitmillis);
                     log.info("this is retry ....");
                 } catch (InterruptedException e1) {
-                    log.error("thread sleep error!", e1);
+                    log.error(ExceptionUtils.getStackTrace("thread sleep error!",e1));
                 }
             }
             try {

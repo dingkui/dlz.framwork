@@ -1,6 +1,7 @@
 package com.dlz.framework.redis.queue.provider;
 
 import com.dlz.comm.exception.SystemException;
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.redis.JedisExecutor;
 import com.dlz.framework.redis.RedisKeyMaker;
@@ -40,7 +41,7 @@ public class RedisQueueProviderApiHandler extends ApiProxyHandler {
                 log.debug("同步发消息成功!{} -> {}", redisQueueName, json);
             } catch (Exception e) {
                 log.error("同步发消息失败!{} -> {}", redisQueueName, json);
-                log.error(e.getMessage(), e);
+                log.error(ExceptionUtils.getStackTrace(e));
             }
             return rId;
 //            try (Jedis jedis = jedisPool.getResource()) {

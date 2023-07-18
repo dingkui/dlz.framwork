@@ -3,6 +3,7 @@ package com.dlz.framework.db;
 import com.dlz.comm.exception.DbException;
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.ValUtil;
@@ -402,7 +403,7 @@ public class SqlUtil {
                     return value;
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e.getMessage(),e));
         }
         return value;
     }

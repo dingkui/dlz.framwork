@@ -36,7 +36,7 @@ public class TimerDispacher{
 				long delay=times*EVREY-new Date().getTime();
 				timer.schedule(task,delay<0?0:delay);
 			} catch (Exception e) {
-				log.error(e.getMessage(),e);;
+				log.error(ExceptionUtils.getStackTrace(e.getMessage(),e));;
 			}
 		}
 	}

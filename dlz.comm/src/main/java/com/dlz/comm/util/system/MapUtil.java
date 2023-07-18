@@ -1,5 +1,6 @@
 package com.dlz.comm.util.system;
 
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -176,7 +177,7 @@ public class MapUtil {
 			beanInfo = Introspector.getBeanInfo(clazz); // 获取类属性
 			obj = clazz.newInstance(); // 创建 JavaBean 对象
 		}catch(Exception e){
-			log.error(e.getMessage(),e);
+			log.error(ExceptionUtils.getStackTrace(e));
 			return null;
 		}
 		// 给 JavaBean 对象的属性赋值

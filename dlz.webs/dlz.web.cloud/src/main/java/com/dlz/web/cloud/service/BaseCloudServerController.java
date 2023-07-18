@@ -77,7 +77,7 @@ public class BaseCloudServerController {
 			writer.write(msg);
 			writer.flush();
 		} catch (IOException e) {
-			log.error(e.getMessage(), e);
+			log.error(ExceptionUtils.getStackTrace(e.getMessage(), e));
 		} finally {
 			if (writer != null)
 				writer.close();

@@ -32,7 +32,7 @@ public class QuartzJobFactory implements Job {
 				Reflections.getMethod(obj, scheduleJob.getExecuteMethod(),JSONMap.class).invoke(obj, para);
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+			log.error(ExceptionUtils.getStackTrace(e.getMessage(),e));
 		}
 	}
 }

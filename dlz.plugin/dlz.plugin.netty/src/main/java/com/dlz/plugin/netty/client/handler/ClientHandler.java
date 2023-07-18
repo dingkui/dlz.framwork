@@ -1,5 +1,6 @@
 package com.dlz.plugin.netty.client.handler;
 
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.plugin.netty.base.codec.ICoder;
 import com.dlz.plugin.netty.base.handler.BaseHandler;
 import com.dlz.plugin.netty.base.listener.ISocketListener;
@@ -37,14 +38,14 @@ public class ClientHandler extends BaseHandler {
             if(cause!=null) {
                 client.shutdownAndRetry(ctx.channel().remoteAddress().toString()+ cause.getMessage());
                 if(!(cause instanceof IOException)){
-                    log.error(cause.getMessage(),cause);
+                    log.error(ExceptionUtils.getStackTrace(cause.getMessage(),cause));
                 }
             }else{
                 client.shutdownAndRetry("异常重连");
             }
         }else{
             if(!(cause instanceof IOException)){
-                log.error(cause.getMessage(),cause);
+                log.error(ExceptionUtils.getStackTrace(cause.getMessage(),cause));
             }else{
                 log.error(cause.getMessage());
                 log.error(ctx.channel().remoteAddress().toString());

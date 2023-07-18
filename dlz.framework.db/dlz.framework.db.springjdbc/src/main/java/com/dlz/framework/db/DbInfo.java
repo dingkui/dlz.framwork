@@ -1,6 +1,7 @@
 package com.dlz.framework.db;
 
 import com.dlz.comm.exception.DbException;
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.db.enums.DbTypeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class DbInfo {
         try {
             init();
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e.getMessage(),e));
         }
     }
 
@@ -97,9 +98,9 @@ public class DbInfo {
                 }
             }
         } catch (FileNotFoundException e) {
-            log.error(file.getAbsolutePath() + " 文件找不到！", e);
+            log.error(ExceptionUtils.getStackTrace(file.getAbsolutePath() + " 文件找不到！",e));
         } catch (Exception e) {
-            log.error(file.getAbsolutePath() + " 加载异常！", e);
+            log.error(ExceptionUtils.getStackTrace(file.getAbsolutePath() + " 加载异常！",e));
         }
     }
 
@@ -111,13 +112,13 @@ public class DbInfo {
                 addSqlSetting(sql.attributeValue("sqlId"),sql.getData().toString());
             }
         } catch (DocumentException e) {
-            log.error(" 文件读取异常！", e);
+            log.error(ExceptionUtils.getStackTrace(" 文件读取异常！",e));
         } finally {
             if (is != null) {
                 try {
                     is.close();
                 } catch (IOException e) {
-                    log.error(" 文件关闭异常！", e);
+                    log.error(ExceptionUtils.getStackTrace(" 文件关闭异常！",e));
                 }
             }
         }
@@ -206,7 +207,7 @@ public class DbInfo {
         try {
             init();
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 }

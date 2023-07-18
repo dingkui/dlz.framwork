@@ -41,7 +41,7 @@ public class JobMethod {
             scheduler = sf.getScheduler();  
             scheduler.start();
         } catch (SchedulerException e) {  
-        	log.error(e.getMessage(), e);
+        	log.error(ExceptionUtils.getStackTrace(e));
         }  
 	}
 	/**
@@ -109,8 +109,7 @@ public class JobMethod {
 				scheduler.rescheduleJob(triggerKey, trigger);
 			}
 		} catch (SchedulerException e) {
-			log.error(job.toString());
-			log.error("任务初始化失败", e);
+			log.error(ExceptionUtils.getStackTrace("任务初始化失败:"+job.toString(),e));
 		}
 	}
 	/**
@@ -148,8 +147,7 @@ public class JobMethod {
 				scheduler.scheduleJob(jobDetail, triggerBuilder.withSchedule(scheduleBuilder).build());
 			}
 		} catch (SchedulerException e) {
-			log.error(job.toString());
-			log.error("任务初始化失败", e);
+			log.error(ExceptionUtils.getStackTrace("任务初始化失败:"+job.toString(),e));
 		}
 	}
 	
@@ -174,7 +172,7 @@ public class JobMethod {
 			}
 			return (ScheduleJob)jobDetail.getJobDataMap().get(QuartzJobFactory.JOB_KEY);
 		} catch (SchedulerException e) {
-			log.error("Task pause failed.", e);
+			log.error(ExceptionUtils.getStackTrace("Task pause failed.",e));
 		}
 		return null;
 	}
@@ -188,7 +186,7 @@ public class JobMethod {
 		try {
 			scheduler.pauseJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			log.error("Task pause failed.", e);
+			log.error(ExceptionUtils.getStackTrace(("Task pause failed.", e));
 		}
 	}
 
@@ -202,8 +200,7 @@ public class JobMethod {
 		try {
 			scheduler.resumeJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			log.error(scheduleJob.toString());
-			log.error("Task resume failed.", e);
+			log.error(ExceptionUtils.getStackTrace("Task resume failed:"+scheduleJob.toString(), e));
 		}
 	}
 
@@ -217,8 +214,7 @@ public class JobMethod {
 		try {
 			scheduler.deleteJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			log.error(scheduleJob.toString());
-			log.error("Task delete failed.", e);
+			log.error(ExceptionUtils.getStackTrace("Task delete failed:"+scheduleJob.toString(), e));
 		}
 	}
 
@@ -232,8 +228,7 @@ public class JobMethod {
 		try {
 			scheduler.triggerJob(getJobKey(scheduleJob));
 		} catch (SchedulerException e) {
-			log.error(scheduleJob.toString());
-			log.error("Task run failed.", e);
+			log.error(ExceptionUtils.getStackTrace("Task run failed："+scheduleJob.toString(),e));
 		}
 	}
 	

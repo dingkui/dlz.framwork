@@ -47,7 +47,20 @@ public class ExceptionUtils {
      * @return
      */
     public static String getStackTrace(final Throwable throwable) {
-        return new ExceptionUtils(throwable, true).getStackTrace();
+        return getStackTrace(null,throwable);
+    }
+
+    /**
+     * 只显示app相关的堆栈
+     * @param throwable
+     * @return
+     */
+    public static String getStackTrace(final String msg,final Throwable throwable) {
+        ExceptionUtils exceptionUtils = new ExceptionUtils(throwable, true);
+        if(msg!=null){
+            exceptionUtils.pw.println(msg);
+        }
+        return exceptionUtils.getStackTrace();
     }
 
     /**

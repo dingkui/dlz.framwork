@@ -1,9 +1,9 @@
 package com.dlz.framework.spring.scaner;
 
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.spring.scaner.IScaner.IScanerProcessor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.ScannedGenericBeanDefinition;
@@ -73,7 +73,7 @@ public class DlzSpringScaner {
 							}
 						}
 					} catch (Throwable ex) {
-						log.error(ex.getMessage() + " " + beanClassName, ex);
+						log.error(ExceptionUtils.getStackTrace(ex.getMessage() + " " + beanClassName,ex));
 					}
 				}
 			}

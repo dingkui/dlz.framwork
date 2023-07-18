@@ -1,9 +1,9 @@
 package com.dlz.framework.cache.service;
 
+import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.cache.ICache;
-import com.dlz.framework.cache.service.impl.CacheEhcahe;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.framework.util.system.Reflections;
 import lombok.extern.slf4j.Slf4j;
@@ -118,7 +118,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
         try {
             t = dbOperator.getFromDb(key);
         } catch (Exception e) {
-            log.error("从数据库加载缓存失败：" + getCacheName() + "." + key, e);
+            log.error(ExceptionUtils.getStackTrace("从数据库加载缓存失败：" + getCacheName() + "." + key,e));
         }
         return t;
     }
@@ -141,8 +141,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
             try {
                 dbOperator.saveToDb(key, value);
             } catch (Exception e) {
-                log.error("保存缓存到数据库失败：" + getCacheName());
-                log.error(e.getMessage(), e);
+                log.error(ExceptionUtils.getStackTrace("保存缓存到数据库失败：" + getCacheName(),e));
             }
         }
     }
@@ -163,7 +162,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
                 }
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
         return t;
     }
@@ -191,7 +190,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
         try {
             cache.put(cacheName, key, value, exp);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -202,7 +201,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
         try {
             cache.remove(cacheName, key);
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error(ExceptionUtils.getStackTrace(e));
         }
     }
 
