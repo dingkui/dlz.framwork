@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.dlz</groupId>
         <artifactId>dlz-dependencies</artifactId>
-        <version>5.2.5</version>
+        <version>5.2.6</version>
     </parent>
     <version>${dlz.framework.version}</version>
     <artifactId>dlz.comm</artifactId>
