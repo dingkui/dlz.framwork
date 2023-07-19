@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.dlz</groupId>
     <artifactId>dlz-dependencies</artifactId>
-    <version>5.2.5</version>
+    <version>5.2.5</version><!--RootVer-->
     <packaging>pom</packaging>
     <modules>
         <module>dlz.comm</module>
