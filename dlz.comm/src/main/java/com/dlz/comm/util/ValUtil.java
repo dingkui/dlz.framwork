@@ -337,4 +337,26 @@ public class ValUtil {
         }
         return JacksonUtil.coverObj(input, javaType);
     }
+
+    public static boolean isEmpty(Object cs) {
+        if (cs == null) {
+            return true;
+        }
+        if (cs instanceof Collection) {
+            return ((Collection) cs).isEmpty();
+        } else if (cs instanceof Map) {
+            return ((Map) cs).isEmpty();
+        } else if (cs.getClass().isArray()) {
+            return ((Object[]) cs).length == 0;
+        } else if (cs instanceof CharSequence) {
+            return ((CharSequence) cs).length() == 0;
+//        } else if (cs instanceof Date) {
+//            return false;
+//        } else if (cs instanceof Number) {
+//            return false;
+        } else {
+            return false;
+            // throw new IllegalArgumentException("检验空参数有误：" + cs.getClass());
+        }
+    }
 }
