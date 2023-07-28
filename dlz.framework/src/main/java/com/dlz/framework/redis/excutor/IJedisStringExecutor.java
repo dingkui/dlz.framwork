@@ -3,6 +3,7 @@ package com.dlz.framework.redis.excutor;
 import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.comm.util.system.SerializeUtil;
+import com.dlz.framework.redis.util.JedisKeyUtils;
 import com.fasterxml.jackson.databind.JavaType;
 import redis.clients.jedis.util.SafeEncoder;
 
@@ -24,11 +25,11 @@ public interface IJedisStringExecutor extends IJedisExecutor {
      * @return
      */
     default List<String> mget(String... keys) {
-        return excuteByJedis(j -> j.mget(SerializationUtils.getRedisKeyArray(keys)));
+        return excuteByJedis(j -> j.mget(JedisKeyUtils.getRedisKeyArray(keys)));
     }
 
     default String get(String key) {
-        return excuteByJedis(j -> j.get(SerializationUtils.getRedisKey(key)));
+        return excuteByJedis(j -> j.get(JedisKeyUtils.getRedisKey(key)));
     }
 
     /**
@@ -52,7 +53,7 @@ public interface IJedisStringExecutor extends IJedisExecutor {
      */
     default Boolean set(String key, String value, int seconds) {
         return excuteByJedis(j -> {
-            String key1 = SerializationUtils.getRedisKey(key);
+            String key1 = JedisKeyUtils.getRedisKey(key);
             j.set(key1, value);
             if (seconds > 0) {
                 j.expire(key1, seconds);
@@ -73,7 +74,7 @@ public interface IJedisStringExecutor extends IJedisExecutor {
         if (delta < 0) {
             throw new RuntimeException("递增因子必须大于0");
         }
-        return excuteByJedis(j -> j.incrBy(SerializationUtils.getRedisKey(key), delta));
+        return excuteByJedis(j -> j.incrBy(JedisKeyUtils.getRedisKey(key), delta));
     }
 
     /**
@@ -87,7 +88,7 @@ public interface IJedisStringExecutor extends IJedisExecutor {
         if (delta < 0) {
             throw new RuntimeException("递减因子必须大于0");
         }
-        return excuteByJedis(j -> j.decrBy(SerializationUtils.getRedisKey(key), delta));
+        return excuteByJedis(j -> j.decrBy(JedisKeyUtils.getRedisKey(key), delta));
     }
 
     // ===========getSo String中保存ObjectClasss,支持直接取得类型===========
@@ -96,12 +97,12 @@ public interface IJedisStringExecutor extends IJedisExecutor {
     }
 
     default Boolean setSo(String key, Serializable value, int second) {
-        return set(key, SerializationUtils.getValueStr(value), second);
+        return set(key, JedisKeyUtils.getValueStr(value), second);
     }
 
     default <T> T getSo(String key, JavaType javaType) {
         String value = get(key);
-        return SerializationUtils.getResult(value, javaType);
+        return JedisKeyUtils.getResult(value, javaType);
     }
 
     default <T> T getSo(String key) {
@@ -123,7 +124,7 @@ public interface IJedisStringExecutor extends IJedisExecutor {
 
     default Boolean setSe(String key, Serializable value, int seconds) {
         return excuteByJedis(j -> {
-            byte[] key1 = SafeEncoder.encode(SerializationUtils.getRedisKey(key));
+            byte[] key1 = SafeEncoder.encode(JedisKeyUtils.getRedisKey(key));
             j.set(key1, SerializeUtil.serialize(value));
             if (seconds > 0) {
                 j.expire(key1, seconds);
@@ -134,7 +135,7 @@ public interface IJedisStringExecutor extends IJedisExecutor {
 
     default Object getSe(String key) {
         return excuteByJedis(j -> {
-            byte[] key1 = SafeEncoder.encode(SerializationUtils.getRedisKey(key));
+            byte[] key1 = SafeEncoder.encode(JedisKeyUtils.getRedisKey(key));
             byte[] bytes = j.get(key1);
             if (bytes==null){
                 return null;

@@ -1,4 +1,4 @@
-package com.dlz.framework.redis.excutor;
+package com.dlz.framework.redis.util;
 
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.JacksonUtil;
@@ -12,7 +12,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class SerializationUtils {
+public class JedisKeyUtils {
     private static final String SPL = "$CLASS$";
     private static Map<String,JavaType> javaType_map=new Hashtable<>();
     public static JavaType getJavaType(String clazz) {

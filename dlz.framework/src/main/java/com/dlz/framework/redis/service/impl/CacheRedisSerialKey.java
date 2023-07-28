@@ -1,9 +1,8 @@
 package com.dlz.framework.redis.service.impl;
 
-import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
 import com.dlz.framework.redis.excutor.JedisExecutor;
-import com.dlz.framework.redis.excutor.SerializationUtils;
+import com.dlz.framework.redis.util.JedisKeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class CacheRedisSerialKey implements ICache {
 
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        return jedisExecutor.getSe(SerializationUtils.getKey(name,key),type);
+        return jedisExecutor.getSe(JedisKeyUtils.getKey(name,key),type);
 //        return jedisExecutor.excuteByJedis(j -> {
 //            final byte[] result = j.get(getRedisByteKey(name, key));
 //            if (result==null){
@@ -39,7 +38,7 @@ public class CacheRedisSerialKey implements ICache {
 
     @Override
     public void put(String name, Serializable key, Serializable value, int seconds) {
-        jedisExecutor.setSe(SerializationUtils.getKey(name, key),value,seconds);
+        jedisExecutor.setSe(JedisKeyUtils.getKey(name, key),value,seconds);
 //        jedisExecutor.excuteByJedis(j -> {
 //            byte[] key1 = getRedisByteKey(name, key);
 //            String set = j.set(key1, SerializeUtil.serialize(value));
@@ -52,14 +51,14 @@ public class CacheRedisSerialKey implements ICache {
 
     @Override
     public void remove(String name, Serializable key) {
-        jedisExecutor.del(SerializationUtils.getRedisKey(name, key));
-//        jedisExecutor.excuteByJedis(j -> j.del(SerializationUtils.getRedisByteKey(name, key)));
+        jedisExecutor.del(JedisKeyUtils.getRedisKey(name, key));
+//        jedisExecutor.excuteByJedis(j -> j.del(JedisKeyUtils.getRedisByteKey(name, key)));
     }
 
     @Override
     public void removeAll(String name) {
         jedisExecutor.excuteByJedis(j -> {
-            Set<String> keys = j.keys(SerializationUtils.getRedisKey(name+"*"));
+            Set<String> keys = j.keys(JedisKeyUtils.getRedisKey(name+"*"));
             j.del(keys.toArray(new String[keys.size()]));
             return true;
         });

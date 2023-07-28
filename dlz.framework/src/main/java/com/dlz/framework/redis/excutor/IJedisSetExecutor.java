@@ -1,5 +1,7 @@
 package com.dlz.framework.redis.excutor;
 
+import com.dlz.framework.redis.util.JedisKeyUtils;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,8 +20,8 @@ public interface IJedisSetExecutor extends IJedisExecutor {
      * @return
      */
     default Set<String> smembers(String key) {
-        Stream<String> stream = excuteByJedis(j -> j.smembers(SerializationUtils.getRedisKey(key))).stream();
-        return SerializationUtils.getClientKeyStream(stream).collect(Collectors.toSet());
+        Stream<String> stream = excuteByJedis(j -> j.smembers(JedisKeyUtils.getRedisKey(key))).stream();
+        return JedisKeyUtils.getClientKeyStream(stream).collect(Collectors.toSet());
     }
 
     /**
@@ -30,7 +32,7 @@ public interface IJedisSetExecutor extends IJedisExecutor {
      * @return true 存在 false不存在
      */
     default Boolean sHasKey(String key, String value) {
-        return excuteByJedis(j -> j.sismember(SerializationUtils.getRedisKey(key), value));
+        return excuteByJedis(j -> j.sismember(JedisKeyUtils.getRedisKey(key), value));
     }
 
     /**
@@ -42,7 +44,7 @@ public interface IJedisSetExecutor extends IJedisExecutor {
      */
     default long sSet(String key, int seconds, String... values) {
         return excuteByJedis(j -> {
-            String key1 = SerializationUtils.getRedisKey(key);
+            String key1 = JedisKeyUtils.getRedisKey(key);
             Long sadd = j.sadd(key1, values);
             if (seconds > 0) {
                 j.expire(key1, seconds);
@@ -59,7 +61,7 @@ public interface IJedisSetExecutor extends IJedisExecutor {
      * @return 成功个数
      */
     default long sSet(String key, String... values) {
-        return sSet(SerializationUtils.getRedisKey(key), 0, values);
+        return sSet(JedisKeyUtils.getRedisKey(key), 0, values);
     }
 
     /**
@@ -70,6 +72,6 @@ public interface IJedisSetExecutor extends IJedisExecutor {
      * @return 移除的个数
      */
     default Long setRemove(String key, String... values) {
-        return excuteByJedis(j -> j.srem(SerializationUtils.getRedisKey(key), values));
+        return excuteByJedis(j -> j.srem(JedisKeyUtils.getRedisKey(key), values));
     }
 }

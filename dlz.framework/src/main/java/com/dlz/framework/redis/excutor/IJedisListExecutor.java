@@ -1,5 +1,7 @@
 package com.dlz.framework.redis.excutor;
 
+import com.dlz.framework.redis.util.JedisKeyUtils;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,8 +21,8 @@ public interface IJedisListExecutor extends IJedisExecutor {
      * @return
      */
     default List<String> lGet(String key, long start, long end) {
-        Stream<String> t = excuteByJedis(j -> j.lrange(SerializationUtils.getRedisKey(key), start, end)).stream();
-        return SerializationUtils.getClientKeyStream(t).collect(Collectors.toList());
+        Stream<String> t = excuteByJedis(j -> j.lrange(JedisKeyUtils.getRedisKey(key), start, end)).stream();
+        return JedisKeyUtils.getClientKeyStream(t).collect(Collectors.toList());
     }
 
     /**
@@ -30,7 +32,7 @@ public interface IJedisListExecutor extends IJedisExecutor {
      * @return
      */
     default long llen(String key) {
-        return excuteByJedis(j -> j.llen(SerializationUtils.getRedisKey(key)));
+        return excuteByJedis(j -> j.llen(JedisKeyUtils.getRedisKey(key)));
     }
 
     /**
@@ -41,7 +43,7 @@ public interface IJedisListExecutor extends IJedisExecutor {
      * @return
      */
     default Object lGetIndex(String key, long index) {
-        return excuteByJedis(j -> j.lindex(SerializationUtils.getRedisKey(key), index));
+        return excuteByJedis(j -> j.lindex(JedisKeyUtils.getRedisKey(key), index));
     }
 
     /**
@@ -65,7 +67,7 @@ public interface IJedisListExecutor extends IJedisExecutor {
      */
     default Long lpush(String key, int seconds, String... value) {
         return excuteByJedis(j -> {
-            String key1 = SerializationUtils.getRedisKey(key);
+            String key1 = JedisKeyUtils.getRedisKey(key);
             Long lpush = j.lpush(key1, value);
             if (seconds > 0) {
                 j.expire(key1, seconds);
@@ -84,7 +86,7 @@ public interface IJedisListExecutor extends IJedisExecutor {
      * @return /
      */
     default Boolean lUpdateIndex(String key, long index, String value) {
-        excuteByJedis(j -> j.lset(SerializationUtils.getRedisKey(key), index, value));
+        excuteByJedis(j -> j.lset(JedisKeyUtils.getRedisKey(key), index, value));
         return true;
     }
 
@@ -97,6 +99,6 @@ public interface IJedisListExecutor extends IJedisExecutor {
      * @return 移除的个数
      */
     default long lRemove(String key, long count, String value) {
-        return excuteByJedis(j -> j.lrem(SerializationUtils.getRedisKey(key), count, value));
+        return excuteByJedis(j -> j.lrem(JedisKeyUtils.getRedisKey(key), count, value));
     }
 }
