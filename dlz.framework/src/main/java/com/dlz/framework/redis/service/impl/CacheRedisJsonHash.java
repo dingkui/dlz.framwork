@@ -2,7 +2,7 @@ package com.dlz.framework.redis.service.impl;
 
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
-import com.dlz.framework.redis.JedisExecutor;
+import com.dlz.framework.redis.excutor.JedisExecutor;
 import com.dlz.framework.redis.RedisKeyMaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +18,18 @@ import java.lang.reflect.Type;
  */
 @Slf4j
 public class CacheRedisJsonHash implements ICache {
-    @Autowired
-    RedisKeyMaker keyMaker;
+//    @Autowired
+//    RedisKeyMaker keyMaker;
     @Autowired
     JedisExecutor jedisExecutor;
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        return jedisExecutor.hgetObj(name,key,type);
+        return jedisExecutor.hgetSo(name, ValUtil.getStr(key),type);
     }
 
     @Override
     public void put(String name, Serializable key, Serializable value, int seconds) {
-        jedisExecutor.hsetObj(name, key, value,seconds);
+        jedisExecutor.hsetSo(name, ValUtil.getStr(key),  value, seconds);
     }
 
     @Override

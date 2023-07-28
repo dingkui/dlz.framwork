@@ -3,7 +3,7 @@ package com.dlz.framework.redis.queue.provider;
 import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.ValUtil;
-import com.dlz.framework.redis.JedisExecutor;
+import com.dlz.framework.redis.excutor.JedisExecutor;
 import com.dlz.framework.redis.RedisKeyMaker;
 import com.dlz.framework.redis.queue.annotation.AnnoRedisQueueProvider;
 import com.dlz.framework.spring.iproxy.ApiProxyHandler;
@@ -34,7 +34,7 @@ public class RedisQueueProviderApiHandler extends ApiProxyHandler {
             AnnoRedisQueueProvider redisQueueProvider = method.getDeclaredAnnotation(AnnoRedisQueueProvider.class);
             String queueName = redisQueueProvider.value();
             SystemException.notEmpty(queueName, () -> "生产者未配置队列名字:" + clas + "." + method.getName());
-            String redisQueueName = keyMaker.getKey(queueName);
+            String redisQueueName = keyMaker.getRedisKey(queueName);
             String json = ValUtil.getStr(args[0]);
             try {
                 rId = jedisExecutor.excuteByJedis(j -> j.rpush(redisQueueName, json));

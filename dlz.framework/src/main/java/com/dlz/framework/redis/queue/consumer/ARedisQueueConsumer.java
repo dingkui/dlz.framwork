@@ -47,7 +47,7 @@ public abstract class ARedisQueueConsumer<T> {
         }
         String queueName = annotation.value();
         SystemException.notEmpty(queueName, () -> "消费者未配置队列名字:" + this.getClass());
-        redisQueueName = keyMaker.getKey(queueName);
+        redisQueueName = keyMaker.getRedisKey(queueName);
 
         Type superClass = getClass().getGenericSuperclass();
         Type type = ((ParameterizedType) superClass).getActualTypeArguments()[0];
