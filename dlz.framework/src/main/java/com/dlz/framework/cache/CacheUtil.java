@@ -31,7 +31,7 @@ public class CacheUtil {
      *
      * @return Cache
      */
-    private static ICache getCache() {
+    public static ICache getCache() {
         if (cache == null) {
             cache = SpringHolder.getBean(ICache.class);
         }
@@ -56,13 +56,13 @@ public class CacheUtil {
     /**
      * 获取缓存
      */
-    public static <T extends Serializable> T get(String cacheName, String key, Callable<T> valueLoader) {
+    public static <T> T get(String cacheName, String key, Callable<T> valueLoader) {
         try {
             T re = getCache().get(cacheName, key, null);
             if (re == null && valueLoader != null) {
                 re = valueLoader.call();
                 if (re != null) {
-                    getCache().put(cacheName, key, re, -1);
+                    getCache().put(cacheName, key, (Serializable)re, -1);
                 }
             }
             return re;
