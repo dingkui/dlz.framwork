@@ -1,5 +1,6 @@
 package com.dlz.framework.cache.service.impl;
 
+import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
 import com.dlz.framework.holder.SpringHolder;
@@ -52,10 +53,14 @@ public class CacheEhcahe implements ICache {
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type tClass) {
         Element element = getCache(name).get(key);
-        if (element != null) {
-            return (T) element.getObjectValue();
+        if(element == null){
+            return null;
         }
-        return null;
+        Object obj = element.getObjectValue();
+        if(tClass != null){
+            return ValUtil.getObj(obj, JacksonUtil.getJavaType(tClass));
+        }
+        return (T) obj;
     }
 
     @Override
