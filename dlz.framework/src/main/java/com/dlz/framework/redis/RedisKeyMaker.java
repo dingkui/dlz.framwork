@@ -25,7 +25,7 @@ public class RedisKeyMaker {
     public void setEnvironment(Environment environment) {
         this.prefix = environment.getProperty("dlz.redis.prefix", prefix_auto);
         if (prefix.equals(prefix_auto)) {
-            prefix = environment.getProperty("spring.application.name", prefix_auto) + keySplit +
+            prefix = environment.getProperty("spring.application.name", prefix_auto) + "." +
                     environment.getProperty("spring.profiles.active", "dev");
         }
     }
