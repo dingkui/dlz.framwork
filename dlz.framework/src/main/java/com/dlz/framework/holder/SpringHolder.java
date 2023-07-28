@@ -1,16 +1,16 @@
 package com.dlz.framework.holder;
 
+import com.dlz.comm.exception.SystemException;
 import com.dlz.comm.util.StringUtils;
 import com.dlz.comm.util.encry.TraceUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Map;
@@ -134,6 +134,22 @@ public class SpringHolder {
         // register the bean
         getBeanDefinitionRegistry().registerBeanDefinition(toRegeistBeanId, definition);
         return (T) beanFactory.getBean(toRegeistBeanId);
+    }
+    /**
+     * 创建一个bean并执行autowired
+     *
+     * @param clazz     clazz
+     */
+    public static <T> T createBean(Class<T> clazz) {
+        try {
+            T bean = clazz.newInstance();
+            AutowiredAnnotationBeanPostProcessor autowiredProcessor = new AutowiredAnnotationBeanPostProcessor();
+            autowiredProcessor.setBeanFactory(beanFactory);
+            autowiredProcessor.processInjection(bean);
+            return bean;
+        } catch (Exception e) {
+            throw new SystemException(e.getMessage(),e);
+        }
     }
 
     /**
