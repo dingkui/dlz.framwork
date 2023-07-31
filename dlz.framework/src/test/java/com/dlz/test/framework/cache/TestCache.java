@@ -1,6 +1,7 @@
 package com.dlz.test.framework.cache;
 
 import com.dlz.comm.json.JSONMap;
+import com.dlz.comm.util.ValUtil;
 import com.dlz.comm.util.encry.TraceUtil;
 import com.dlz.framework.cache.CacheHolder;
 import com.dlz.framework.cache.CacheUtil;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TestCache extends BaseTest {
 	@Autowired
@@ -80,6 +82,24 @@ public class TestCache extends BaseTest {
 		System.out.println(CacheUtil.get("serialhash","xx1",()->new BeanTest("serialhash","xx1")));
 		System.out.println(CacheUtil.get("serialhash","xx2",()->new BeanTest("serialhash","xx2")));
 
+	}
+	@Test
+	public void t16(){
+		TraceUtil.setTraceId();
+		for (int i = 0; i < 100; i++) {
+			int finalI = i;
+			new Thread(()->{
+				for (int j = 0; j < 200; j++) {
+					bean.put("name"+j,"key"+ finalI,"xxxxx", 10+ValUtil.getInt(Math.random()*10000));
+//					bean.put("name"+j,"key"+ finalI,"xxxxx");
+				}
+			}).start();
+		}
+		try {
+			Thread.sleep(200000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 

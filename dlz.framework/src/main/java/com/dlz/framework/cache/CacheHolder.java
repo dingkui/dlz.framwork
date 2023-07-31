@@ -1,7 +1,7 @@
 package com.dlz.framework.cache;
 
 import com.dlz.comm.exception.SystemException;
-import com.dlz.framework.cache.service.impl.CacheEhcahe;
+import com.dlz.framework.cache.service.impl.MemoryCahe;
 import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +33,7 @@ public class CacheHolder {
         }
         ICache cache;
         if (cacheClass == null) {
-            cache = SpringHolder.registerBean(CacheEhcahe.class);
+            cache = SpringHolder.registerBean(MemoryCahe.class);
         } else {
             cache = SpringHolder.registerBean(cacheClass);
         }

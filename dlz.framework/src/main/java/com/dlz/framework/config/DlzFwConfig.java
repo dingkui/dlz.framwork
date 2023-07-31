@@ -2,10 +2,10 @@ package com.dlz.framework.config;
 
 import com.dlz.framework.cache.ICache;
 import com.dlz.framework.cache.aspect.CacheAspect;
-import com.dlz.framework.cache.service.impl.CacheEhcahe;
+import com.dlz.framework.cache.service.impl.MemoryCahe;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.redis.excutor.JedisExecutor;
 import com.dlz.framework.redis.RedisKeyMaker;
+import com.dlz.framework.redis.excutor.JedisExecutor;
 import com.dlz.framework.redis.queue.provider.RedisQueueProviderApiHandler;
 import com.dlz.framework.spring.iproxy.ApiProxyHandler;
 import com.dlz.framework.spring.iproxy.ApiScaner;
@@ -59,8 +59,8 @@ public class DlzFwConfig {
     @ConditionalOnMissingBean(name = "dlzCache")
 	@Lazy
     public ICache dlzCache() {
-    	log.info("default dlzCache init ...");
-        return new CacheEhcahe();
+    	log.info("default dlzCache init MemoryCahe...");
+        return new MemoryCahe();
     }
 
 	/**

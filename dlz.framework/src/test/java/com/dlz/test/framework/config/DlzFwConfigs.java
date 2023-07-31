@@ -15,13 +15,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Data
 public class DlzFwConfigs extends DlzFwConfig {
-    /**
-     * 缓存实现
-     * @return
-     */
-    @Bean(name = "dlzCache")
-    public CacheRedisJsonKey dlzCache() {
-        log.info("default dlzCache RedisJsonKey init ...");
-        return new CacheRedisJsonKey();
-    }
+//    /**
+//     * 缓存实现
+//     * @return
+//     */
+//    @Bean(name = "dlzCache")
+//    public CacheRedisJsonKey dlzCache() {
+//        log.info("default dlzCache RedisJsonKey init ...");
+//        return new CacheRedisJsonKey();
+//    }
 }
