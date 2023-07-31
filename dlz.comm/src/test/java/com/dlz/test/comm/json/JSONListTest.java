@@ -1,6 +1,7 @@
 package com.dlz.test.comm.json;
 
 import com.dlz.comm.json.JSONList;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class JSONListTest {
 	@Test
 	public void test0(){
@@ -19,7 +21,7 @@ public class JSONListTest {
 
 		JSONList objects = new JSONList(index);
 		objects.asList().forEach(item->{
-			System.out.println(item.getInt("index"));
+			log.info("{}",item.getInt("index"));
 		});
 
 	}
