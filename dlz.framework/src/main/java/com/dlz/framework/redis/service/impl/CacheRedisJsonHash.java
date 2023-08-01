@@ -4,6 +4,7 @@ import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.cache.ICache;
 import com.dlz.framework.redis.excutor.JedisExecutor;
 import com.dlz.framework.redis.RedisKeyMaker;
+import com.dlz.framework.redis.util.JedisKeyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,21 +25,21 @@ public class CacheRedisJsonHash implements ICache {
     JedisExecutor jedisExecutor;
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        return jedisExecutor.hgetSo(name, ValUtil.getStr(key),type);
+        return jedisExecutor.hgetSo(JedisKeyUtils.getRedisKey(name), ValUtil.getStr(key),type);
     }
 
     @Override
     public void put(String name, Serializable key, Serializable value, int seconds) {
-        jedisExecutor.hsetSo(name, ValUtil.getStr(key),  value, seconds);
+        jedisExecutor.hsetSo(JedisKeyUtils.getRedisKey(name), ValUtil.getStr(key),  value, seconds);
     }
 
     @Override
     public void remove(String name, Serializable key) {
-        jedisExecutor.hdel(name, ValUtil.getStr(key));
+        jedisExecutor.hdel(JedisKeyUtils.getRedisKey(name), ValUtil.getStr(key));
     }
 
     @Override
     public void removeAll(String name) {
-        jedisExecutor.del(name);
+        jedisExecutor.del(JedisKeyUtils.getRedisKey(name));
     }
 }

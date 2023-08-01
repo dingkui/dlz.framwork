@@ -59,7 +59,9 @@ public class CacheRedisSerialKey implements ICache {
     public void removeAll(String name) {
         jedisExecutor.excuteByJedis(j -> {
             Set<String> keys = j.keys(JedisKeyUtils.getRedisKey(name+"*"));
-            j.del(keys.toArray(new String[keys.size()]));
+            if(keys.size()>0){
+                j.del(keys.toArray(new String[keys.size()]));
+            }
             return true;
         });
     }

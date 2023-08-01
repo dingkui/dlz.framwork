@@ -5,6 +5,7 @@ import com.dlz.comm.util.system.SerializeUtil;
 import com.dlz.framework.cache.ICache;
 import com.dlz.framework.redis.RedisKeyMaker;
 import com.dlz.framework.redis.excutor.JedisExecutor;
+import com.dlz.framework.redis.util.JedisKeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.util.SafeEncoder;
 
@@ -31,7 +32,7 @@ public class CacheRedisSerialHash implements ICache {
 
     @Override
     public <T extends Serializable> T get(String name, Serializable key, Type type) {
-        return jedisExecutor.hgetSe(name,ValUtil.getStr(key),type);
+        return jedisExecutor.hgetSe(JedisKeyUtils.getRedisKey(name),ValUtil.getStr(key),type);
 //        return jedisExecutor.excuteByJedis(j -> {
 //            j.getClient().hget(getRedisByteKey(name), getByteKey(key));
 //            final byte[] result = j.getClient().getBinaryBulkReply();
@@ -48,7 +49,7 @@ public class CacheRedisSerialHash implements ICache {
 
     @Override
     public void put(String name, Serializable key, Serializable value, int seconds) {
-        jedisExecutor.hsetSe(name,ValUtil.getStr(key),value,0);
+        jedisExecutor.hsetSe(JedisKeyUtils.getRedisKey(name),ValUtil.getStr(key),value,0);
 //        jedisExecutor.excuteByJedis(j -> {
 //            byte[] key1 = getRedisByteKey(name);
 //            Long hset = j.hset(key1, getByteKey(key), SerializeUtil.serialize(value));
@@ -61,13 +62,13 @@ public class CacheRedisSerialHash implements ICache {
 
     @Override
     public void remove(String name, Serializable key) {
-        jedisExecutor.hdel(name,ValUtil.getStr(key));
+        jedisExecutor.hdel(JedisKeyUtils.getRedisKey(name),ValUtil.getStr(key));
 //        jedisExecutor.excuteByJedis(j -> j.hdel(getRedisByteKey(name), getByteKey(key)));
     }
 
     @Override
     public void removeAll(String name) {
-        jedisExecutor.del(name);
+        jedisExecutor.del(JedisKeyUtils.getRedisKey(name));
 //        jedisExecutor.excuteByJedis(j -> j.del(getRedisByteKey(name)));
     }
 
