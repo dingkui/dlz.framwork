@@ -53,30 +53,44 @@ public class DbInfo {
             return;
         }
         initIng = true;
-        dbConfig = ResourceBundle.getBundle(NAME_DB_CONFIG);
+        Map<String, String> conf=new HashMap<>();
+        try {
+            dbConfig = ResourceBundle.getBundle(NAME_DB_CONFIG);
+            for (Enumeration<String> enums = dbConfig.getKeys(); enums.hasMoreElements(); ) {
+                String name = enums.nextElement();
+                conf.put(name,dbConfig.getString(name).trim());
+            }
+        }catch (Exception e){
+            log.warn("db.properties read error,use defualt settings");
+            conf.put("dbtype","mysql");
+            conf.put("dbset.blob_charsetname","GBK");
+            conf.put("sqllist.sql.jar.*","1");
+        }
+
         loadRsources("framework/*");
         loadRsources("common/*");
         loadRsources("service/*/*");
-        for (Enumeration<String> enums = dbConfig.getKeys(); enums.hasMoreElements(); ) {
-            String name = enums.nextElement();
-            String str = dbConfig.getString(name).trim();
+        conf.forEach((name,str)->{
             if (STR_DBTYPE.equals(name)) {
                 dbtype = DbTypeEnum.valueOf(str.toUpperCase());
-                continue;
             }
             if ("1".equals(str)) {
                 if (name.startsWith(STR_SQL_FILE)) {
                     String path = name.substring(STR_SQL_FILE.length() - 1).replaceAll("\\.", "/") + ".sql";
                     readSqlPath(new File(Objects.requireNonNull(DbInfo.class.getClassLoader().getResource("sql/")).getPath() + path));
                 } else if (name.startsWith(STR_SQL_JAR)) {
-                    loadRsources(name.substring(STR_SQL_JAR.length()).replaceAll("\\.", "/"));
+                    try {
+                        loadRsources(name.substring(STR_SQL_JAR.length()).replaceAll("\\.", "/"));
+                    } catch (IOException e) {
+                        log.error(ExceptionUtils.getStackTrace(e));
+                    }
                 } else if (name.startsWith(STR_SQL_FOLDER)) {
                     String path = name.substring(STR_SQL_FOLDER.length() - 1).replaceAll("\\.", "/");
                     readSqlPath(new File(DbInfo.class.getClassLoader().getResource("sql/").getPath() + path));
                 }
             }
             m_dbset.put(name, str);
-        }
+        });
         if (log.isDebugEnabled()){
             log.debug("dbsetting:" + m_dbset);
             log.debug("sqlList:" + m_sqlList);

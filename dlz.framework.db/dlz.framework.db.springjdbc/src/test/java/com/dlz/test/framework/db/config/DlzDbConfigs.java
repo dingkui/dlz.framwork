@@ -33,7 +33,11 @@ public class DlzDbConfigs extends DlzDbConfig {
         return new IDlzDao(){
             @Override
             public List<ResultMap> getList(BaseParaMap paraMap) {
-                return new ArrayList<>();
+                ResultMap resultMap = new ResultMap();
+                resultMap.put("cnt",0);
+                List<ResultMap> resultMaps = new ArrayList<>();
+                resultMaps.add(resultMap);
+                return resultMaps;
             }
 
             @Override

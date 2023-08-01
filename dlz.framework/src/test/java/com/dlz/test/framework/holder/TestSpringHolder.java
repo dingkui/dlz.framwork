@@ -1,7 +1,5 @@
 package com.dlz.test.framework.holder;
 
-import com.dlz.comm.exception.SystemException;
-import com.dlz.comm.util.ExceptionUtils;
 import com.dlz.comm.util.encry.TraceUtil;
 import com.dlz.framework.holder.SpringHolder;
 import com.dlz.test.framework.BaseTest;
