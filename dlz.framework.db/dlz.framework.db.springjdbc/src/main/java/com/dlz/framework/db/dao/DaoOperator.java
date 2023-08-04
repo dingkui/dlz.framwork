@@ -5,7 +5,6 @@ import com.dlz.framework.db.modal.BaseParaMap;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.items.SqlItem;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -15,9 +14,12 @@ import java.util.List;
 
 @Slf4j
 public class DaoOperator implements IDlzDao {
-
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public DaoOperator(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     private ResultSetExtractor<List<ResultMap>> extractor = JdbcUtil::buildResultMapList;
 
     public List<ResultMap> getList(BaseParaMap paraMap) {

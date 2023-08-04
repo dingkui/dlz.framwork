@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "name": "dlz.db.helper",
+      "type": "com.dlz.framework.db.helper.config.HelperProperties"
+    }
+  ],
+  "properties": [
+  ],
+  "hints": [
+  ]
+}

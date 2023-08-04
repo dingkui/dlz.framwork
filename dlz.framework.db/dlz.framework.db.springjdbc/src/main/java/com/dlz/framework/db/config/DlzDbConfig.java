@@ -10,11 +10,13 @@ import com.dlz.framework.db.cache.TableInfoCache;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.db.service.impl.CommServiceImpl;
 import com.dlz.framework.db.dao.DaoOperator;
+import com.dlz.framework.holder.SpringHolder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Lazy;
@@ -29,6 +31,7 @@ import javax.sql.DataSource;
 @Slf4j
 @Getter
 @Setter
+@EnableConfigurationProperties({DlzDbProperties.class})
 public class DlzDbConfig {
     @Bean
     @Lazy
@@ -65,16 +68,16 @@ public class DlzDbConfig {
     @ConditionalOnMissingBean(name = "dlzDao")
     public IDlzDao dlzDao() {
         log.debug("default dlzDao init ...");
-        return new DaoOperator();
+        return new DaoOperator(SpringHolder.getBean(JdbcTemplate.class));
     }
 
     @Bean(name = "commService")
     @Lazy
     @DependsOn({"dbInfo"})
     @ConditionalOnMissingBean(name = "commService")
-    public ICommService commService() {
+    public ICommService commService(IDlzDao dao,DlzDbProperties dbProperties) {
         log.debug("default commService init ...");
-        return new CommServiceImpl();
+        return new CommServiceImpl(dao,dbProperties);
     }
 
     @Bean(name = "JdbcTemplate")

@@ -1,5 +1,7 @@
 server:
   port: 80021
+  ssl:
+    key-password:
 
 appname: dlz-framwork
 
@@ -30,5 +32,6 @@ spring:
 dlz:
   db:
     helper:
-      autoUpdate: true
       type: postgresql
+      auto-update: off
+

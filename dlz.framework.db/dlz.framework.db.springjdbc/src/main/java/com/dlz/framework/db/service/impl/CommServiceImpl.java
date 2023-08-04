@@ -5,6 +5,7 @@ import com.dlz.comm.util.JacksonUtil;
 import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.db.SqlUtil;
 import com.dlz.framework.db.config.DlzDbConfig;
+import com.dlz.framework.db.config.DlzDbProperties;
 import com.dlz.framework.db.convertor.ConvertUtil;
 import com.dlz.framework.db.dao.IDlzDao;
 import com.dlz.framework.db.modal.BaseParaMap;
@@ -12,6 +13,7 @@ import com.dlz.framework.db.modal.Page;
 import com.dlz.framework.db.modal.ResultMap;
 import com.dlz.framework.db.modal.items.SqlItem;
 import com.dlz.framework.db.service.ICommService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,17 +22,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
+@AllArgsConstructor
 public class CommServiceImpl implements ICommService {
-    @Autowired
     private IDlzDao dao;
-    @Value("${dlz.db.log.showResult:false}")
-    private boolean showResult;
-    @Value("${dlz.db.log.showKeySql:true}")
-    private boolean showKeySql;
-    @Value("${dlz.db.log.showRunSql:false}")
-    private boolean showRunSql;
-    @Value("${dlz.db.jdbcSql:false}")
-    private boolean jdbcSql;
+    private DlzDbProperties dbProperties;
 
     private void dealJdbc(BaseParaMap paraMap, int dealType) {
         SqlItem sqlItem = paraMap.getSqlItem();
@@ -49,18 +44,18 @@ public class CommServiceImpl implements ICommService {
                     break;
             }
 
-            if (showKeySql && log.isInfoEnabled()) {
+            if (dbProperties.isShowKeySql() && log.isInfoEnabled()) {
                 log.info("SqlKey:" + sqlItem.getSqlKey() + "[" + sqlItem.getSqlRun() + "]para:[" + paraMap.getPara() + "]");
             }
         }
 
-        if (jdbcSql) {
+        if (dbProperties.isJdbcSql()) {
             SqlUtil.dealParmToJdbc(paraMap);
         }
 
-        if (showKeySql && log.isInfoEnabled()) {
-            if (jdbcSql) {
-                if (showRunSql) {
+        if (dbProperties.isShowKeySql() && log.isInfoEnabled()) {
+            if (dbProperties.isJdbcSql()) {
+                if (dbProperties.isShowRunSql()) {
                     log.info("sql:" + SqlUtil.getRunSqlByJdbc(sqlItem.getSqlJdbc(), sqlItem.getSqlJdbcPara()));
                 } else {
                     log.info("JdbcSql:" + sqlItem.getSqlJdbc() + " paras:" + JacksonUtil.getJson(sqlItem.getSqlJdbcPara()));
@@ -77,7 +72,7 @@ public class CommServiceImpl implements ICommService {
         try {
             dealJdbc(paraMap, 1);
             int r = dao.updateSql(paraMap);
-            if (showResult && log.isInfoEnabled()) {
+            if (dbProperties.isShowResult() && log.isInfoEnabled()) {
                 log.info("result:" + r);
             }
             return r;
@@ -88,7 +83,6 @@ public class CommServiceImpl implements ICommService {
             throw new DbException(sqlItem.getSqlKey() + ":" + sqlItem.getSqlRun() + " para:" + paraMap.getPara(), 1003, e);
         }
     }
-
 
     @Override
     public int getCnt(BaseParaMap paraMap) {
