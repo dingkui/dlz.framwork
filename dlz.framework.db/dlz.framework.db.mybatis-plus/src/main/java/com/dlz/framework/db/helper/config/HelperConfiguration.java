@@ -12,6 +12,7 @@ import com.dlz.framework.db.helper.util.SqlHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -80,9 +81,10 @@ public class HelperConfiguration {
         return asyncTaskExecutor;
     }
 
-    @Bean
     @Lazy
-    public IDbOp dbOp(JdbcTemplate jdbcTemplate) {
+    @Bean(name = "dlzHelperDbOp")
+    @ConditionalOnMissingBean(name = "dlzHelperDbOp")
+    public IDbOp dlzHelperDbOp(JdbcTemplate jdbcTemplate) {
         log.info("DbOp init dbType is:" + properties.getType());
         if (properties.getType() == DbTypeEnum.SQLITE) {
             return new DbOpSqlite(jdbcTemplate);

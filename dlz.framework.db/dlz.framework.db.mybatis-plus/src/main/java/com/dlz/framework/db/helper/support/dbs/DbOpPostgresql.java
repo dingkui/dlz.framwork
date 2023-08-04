@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -40,7 +42,7 @@ public class DbOpPostgresql implements IDbOp {
     @Override
     public Set<String> getTableColumnNames(String tableName) {
         // 获取表所有字段
-        String sql = "SELECT column_name as name FROM information_schema.columns WHERE table_schema='public' AND table_name='" + tableName + "'";
+        String sql = "SELECT column_name as name FROM information_schema.columns WHERE table_schema='public' AND table_name='" + tableName.toLowerCase() + "'";
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql);
         Set<String> re = new HashSet();
         maps.forEach(item -> {
@@ -102,7 +104,7 @@ public class DbOpPostgresql implements IDbOp {
             return "int4";
         } else if (Number.class.isAssignableFrom(classs)) {
             return "numeric(12, 1)";
-        } else if (Date.class.isAssignableFrom(classs)) {
+        } else if (Date.class.isAssignableFrom(classs)||classs== LocalDateTime.class||classs== LocalDate.class) {
             return "date";
         }
         return "text";

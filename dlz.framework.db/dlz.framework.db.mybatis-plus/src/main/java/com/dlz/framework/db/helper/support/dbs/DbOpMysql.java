@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @AllArgsConstructor
@@ -87,7 +89,7 @@ public class DbOpMysql implements IDbOp {
             return "integer(12)";
         } else if (Number.class.isAssignableFrom(classs)) {
             return "numeric(12, 1)";
-        } else if (Date.class.isAssignableFrom(classs)) {
+        } else if (Date.class.isAssignableFrom(classs)||classs== LocalDateTime.class||classs== LocalDate.class) {
             return "date";
         }
         return "text";

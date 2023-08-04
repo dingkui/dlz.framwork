@@ -32,10 +32,15 @@ public class AsyncUtils {
 			Field[] fields = Reflections.getFields(clazz);
 			for (Field field : fields) {
 				String columnName=DbNameUtil.getDbClumnName(field);
-				// 创建字段
-				if (columnName!=null && !columnName.equalsIgnoreCase("id") && !columns.contains(columnName)) {
-					dbOp.createColumn(tableName,columnName,field);
+				if(columnName==null
+						|| columns.contains(columnName)
+						|| columnName.equalsIgnoreCase("id")
+						|| columnName.equalsIgnoreCase("SERIAL_VERSION_U_I_D")
+				){
+					continue;
 				}
+				// 创建字段
+				dbOp.createColumn(tableName,columnName,field);
 			}
 		}
 	}
