@@ -14,11 +14,17 @@ public class HelperProperties {
 	/**
 	 * 是否开启自动更新数据库，生产环境不应开启，可提高启动速度
 	 */
-	boolean autoUpdate=true;
+	boolean autoUpdate=false;
 	/**
 	 * 数据库类型
 	 */
-	DbTypeEnum type = DbTypeEnum.MSSQL;
-	int maxPoolSize=3;
-	int corePoolSize=1;
+	DbTypeEnum type = DbTypeEnum.MYSQL;
+	/**
+	 * 数据库更新最大线程数
+	 */
+	int maxPoolSize=50;
+	/**
+	 * 数据库类型
+	 */
+	int corePoolSize=2;
 }

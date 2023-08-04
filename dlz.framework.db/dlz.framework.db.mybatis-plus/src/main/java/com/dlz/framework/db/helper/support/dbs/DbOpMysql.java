@@ -42,6 +42,7 @@ public class DbOpMysql implements IDbOp {
         Set<String> re = new HashSet();
         maps.forEach(item -> {
             re.add(ValUtil.getStr(item.get("Field"), "").toUpperCase());
+            re.add(ValUtil.getStr(item.get("field"), "").toUpperCase());
         });
         return re;
     }
