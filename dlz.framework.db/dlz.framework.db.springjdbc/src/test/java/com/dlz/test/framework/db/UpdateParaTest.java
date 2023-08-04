@@ -1,7 +1,5 @@
 package com.dlz.test.framework.db;
 
-import com.dlz.framework.db.modal.Page;
-import com.dlz.framework.db.modal.ParaMap;
 import com.dlz.framework.db.modal.UpdateParaMap;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.test.framework.BaseTest;
@@ -24,6 +22,4 @@ public class UpdateParaTest extends BaseTest {
 		ump.addSetValue("room_id", 1);
 		commService.excuteSql(ump);
 	}
-
-
 }
