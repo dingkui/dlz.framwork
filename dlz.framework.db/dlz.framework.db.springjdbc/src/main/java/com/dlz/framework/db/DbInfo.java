@@ -61,7 +61,7 @@ public class DbInfo {
                 conf.put(name,dbConfig.getString(name).trim());
             }
         }catch (Exception e){
-            log.warn("db.properties read error,use defualt settings");
+            log.info("db.properties read error,use defualt settings");
             conf.put("dbtype","mysql");
             conf.put("dbset.blob_charsetname","GBK");
             conf.put("sqllist.sql.jar.*","1");
