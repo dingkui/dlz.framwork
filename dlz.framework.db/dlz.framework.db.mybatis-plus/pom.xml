@@ -19,6 +19,12 @@
 			<artifactId>dlz.framework.db.springjdbc</artifactId>
 			<version>${dlz.framework.version}</version>
 		</dependency>
+		<!-- PostgreSql -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<!--引入Swagger2依赖——结束 -->
 <!--		<dependency>-->
 <!--			<groupId>com.github.pagehelper</groupId>-->
