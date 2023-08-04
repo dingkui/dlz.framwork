@@ -5,8 +5,8 @@ import com.dlz.framework.cache.service.impl.MemoryCahe;
 import com.dlz.framework.holder.SpringHolder;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 缓存记录
@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Slf4j
 public class CacheHolder {
-    private static Map<String, ICache> CacheSet = new HashMap<>();
+    private static Map<String, ICache> CacheSet = new ConcurrentHashMap<>();
 
     public static void clearAll() {
         for (Map.Entry<String, ICache> deal : CacheSet.entrySet()) {
