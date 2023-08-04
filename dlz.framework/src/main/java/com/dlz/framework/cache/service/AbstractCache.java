@@ -51,7 +51,7 @@ public abstract class AbstractCache<KEY extends Serializable, T extends Serializ
     /**
      * 缓存处理器
      */
-    private ICache cache;
+    protected ICache cache;
     /**
      * 缓存对象
      */

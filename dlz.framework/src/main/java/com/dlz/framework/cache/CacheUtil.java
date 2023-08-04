@@ -14,15 +14,10 @@ import java.util.concurrent.Callable;
  */
 @Slf4j
 public class CacheUtil {
-    private static ICache cache;
-    public static void init(ICache c) {
+    private static Class<? extends ICache> cacheClass;
+    public static void init(Class<? extends ICache> c) {
         if (c != null) {
-            cache = c;
-        }
-    }
-    public static <T extends ICache> void init(Class<T> c) {
-        if (c != null) {
-            cache = SpringHolder.createBean(c);
+            cacheClass = c;
         }
     }
 
@@ -31,11 +26,8 @@ public class CacheUtil {
      *
      * @return Cache
      */
-    public static ICache getCache() {
-        if (cache == null) {
-            cache = SpringHolder.getBean(ICache.class);
-        }
-        return cache;
+    public static ICache getCache(String cacheName) {
+        return CacheHolder.get(cacheName,cacheClass);
     }
 
 
@@ -43,14 +35,14 @@ public class CacheUtil {
      * 获取缓存
      */
     public static Serializable get(String cacheName, String key) {
-        return getCache().get(cacheName, key, null);
+        return getCache(cacheName).get(cacheName, key, null);
     }
 
     /**
      * 获取缓存
      */
     public static <T> T get(String cacheName, String key, Class<T> type) {
-        return getCache().get(cacheName, key, type);
+        return getCache(cacheName).get(cacheName, key, type);
     }
 
     /**
@@ -58,11 +50,12 @@ public class CacheUtil {
      */
     public static <T> T get(String cacheName, String key, Callable<T> valueLoader) {
         try {
-            T re = getCache().get(cacheName, key, null);
+            ICache cache = getCache(cacheName);
+            T re = cache.get(cacheName, key, null);
             if (re == null && valueLoader != null) {
                 re = valueLoader.call();
                 if (re != null) {
-                    getCache().put(cacheName, key, (Serializable)re, -1);
+                    cache.put(cacheName, key, (Serializable)re, -1);
                 }
             }
             return re;
@@ -80,7 +73,7 @@ public class CacheUtil {
      * @param value     缓存值
      */
     public static void put(String cacheName, String key, Serializable value, int second) {
-        getCache().put(cacheName, key, value, second);
+        getCache(cacheName).put(cacheName, key, value, second);
     }
 
     /**
@@ -90,7 +83,7 @@ public class CacheUtil {
      * @param key       缓存键值
      */
     public static void evict(String cacheName, String key) {
-        getCache().remove(cacheName, key);
+        getCache(cacheName).remove(cacheName, key);
     }
 
     /**
@@ -99,6 +92,6 @@ public class CacheUtil {
      * @param cacheName 缓存名
      */
     public static void clear(String cacheName) {
-        getCache().removeAll(cacheName);
+        getCache(cacheName).removeAll(cacheName);
     }
 }

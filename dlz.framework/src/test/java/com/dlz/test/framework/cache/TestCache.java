@@ -102,5 +102,35 @@ public class TestCache extends BaseTest {
 		}
 	}
 
+	@Test
+	public void t17(){
+		TraceUtil.setTraceId();
+		System.out.println("111111111111111111");
+		System.out.println(bean);
+		System.out.println("222222222222222222");
+		System.out.println(SpringHolder.getBean(ICache.class));
+		CacheUtil.init(CacheRedisJsonKey.class);
+		System.out.println(CacheUtil.get("jsonkey","xx1",()->new BeanTest("jsonkey","xx1")));
+		System.out.println(CacheUtil.get("jsonkey","xx2",()->new BeanTest("jsonkey","xx2")));
+		System.out.println(SpringHolder.getBeans(ICache.class));
+		CacheUtil.init(CacheRedisJsonHash.class);
+		System.out.println(CacheUtil.get("jsonhash","xx1",()->new BeanTest("jsonhash","xx1")));
+		System.out.println(CacheUtil.get("jsonhash","xx2",()->new BeanTest("jsonhash","xx2")));
+
+		CacheUtil.init(CacheRedisSerialKey.class);
+		System.out.println(CacheUtil.get("serialkey","xx1",()->new BeanTest("serialkey","xx1")));
+		System.out.println(CacheUtil.get("serialkey","xx2",()->new BeanTest("serialkey","xx2")));
+
+		CacheUtil.init(CacheRedisSerialHash.class);
+		System.out.println(CacheUtil.get("serialhash","xx1",()->new BeanTest("serialhash","xx1")));
+		System.out.println(CacheUtil.get("serialhash","xx2",()->new BeanTest("serialhash","xx2")));
+		System.out.println(SpringHolder.getBeans(ICache.class));
+
+		CacheUtil.init(CacheRedisJsonKey.class);
+		System.out.println(CacheUtil.get("jsonkey2","xx1",()->new BeanTest("jsonkey","xx1")));
+		System.out.println(CacheUtil.get("jsonkey2","xx2",()->new BeanTest("jsonkey","xx2")));
+
+		System.out.println(SpringHolder.getBeans(ICache.class));
+	}
 
 }
