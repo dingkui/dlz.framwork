@@ -29,9 +29,13 @@ spring:
     #连接超时时间
     timeout: 5000
 
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml,classpath*:com/dlz/**/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.dlz.**.entity
+
 dlz:
   db:
     helper:
       type: postgresql
-      auto-update: off
-
+      auto-update: true

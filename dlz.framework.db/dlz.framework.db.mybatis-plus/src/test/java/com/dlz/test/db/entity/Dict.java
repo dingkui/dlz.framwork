@@ -1,4 +1,4 @@
-package com.dlz.test.service;
+package com.dlz.test.db.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;

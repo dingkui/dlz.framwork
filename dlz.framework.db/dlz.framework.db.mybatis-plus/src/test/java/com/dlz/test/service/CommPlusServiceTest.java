@@ -4,11 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dlz.framework.db.service.ICommPlusService;
 import com.dlz.framework.db.service.ICommService;
 import com.dlz.framework.holder.SpringHolder;
-import com.dlz.framework.util.system.Reflections;
+import com.dlz.test.db.entity.Dict;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Map;
@@ -19,17 +23,20 @@ import java.util.Map;
  * @author dk
  */
 @Slf4j
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class CommPlusServiceTest {
-	public static ICommService cs;
 	@Autowired
-	public static ICommPlusService commPlusService;
+	public  ICommService cs;
+	@Autowired
+	public  ICommPlusService commPlusService;
 	
-	@BeforeClass
-	public static void before() throws Exception {
-		SpringHolder.init();
-		cs=SpringHolder.getBean("commServiceImpl");
-		commPlusService=SpringHolder.getBean(ICommPlusService.class);
-	}
+//	@BeforeClass
+//	public static void before() throws Exception {
+//		SpringHolder.init();
+//		cs=SpringHolder.getBean("commServiceImpl");
+//		commPlusService=SpringHolder.getBean(ICommPlusService.class);
+//	}
 	@Test
 	public void test01(){
 		Map<String, Object> map = cs.getMap("select * from t_b_dict",false);
@@ -46,7 +53,7 @@ public class CommPlusServiceTest {
 	@Test
 	public void test2(){
 		LambdaQueryWrapper<Dict> queryWrapper = new LambdaQueryWrapper<>();
-		queryWrapper.eq(Dict::getDictStatus,1);
+		queryWrapper.eq(Dict::getDictStatus,"1");
 		List<Dict> list = commPlusService.list(queryWrapper, Dict.class);
 		log.debug("re： {}",list);
 	}
