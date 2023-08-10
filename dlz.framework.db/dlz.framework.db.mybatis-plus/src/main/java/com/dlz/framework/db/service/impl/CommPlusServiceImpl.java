@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.dlz.comm.json.JSONMap;
 import com.dlz.comm.util.StringUtils;
+import com.dlz.comm.util.ValUtil;
 import com.dlz.framework.db.cache.MyBeanPostProcessor;
 import com.dlz.framework.db.service.ICommPlusService;
 import lombok.extern.slf4j.Slf4j;
@@ -123,7 +124,7 @@ public class CommPlusServiceImpl implements ICommPlusService {
     }
 
     public <T> int count(Wrapper<T> queryWrapper, Class<T> clazz) {
-        return SqlHelper.retCount(((BaseMapper<T>) getMapper(clazz)).selectCount(queryWrapper));
+        return ValUtil.getInt(((BaseMapper<T>) getMapper(clazz)).selectCount(queryWrapper));
     }
 
     public <T> List<T> list(Wrapper<T> queryWrapper, Class<T> clazz) {
