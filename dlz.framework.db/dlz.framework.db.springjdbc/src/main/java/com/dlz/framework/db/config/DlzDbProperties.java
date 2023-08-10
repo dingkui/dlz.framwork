@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "dlz.db.jdbc")
+@ConfigurationProperties(prefix = "dlz.db")
 @Getter
 @Setter
 public class DlzDbProperties {
     /**
      * 是否启动jdbcSql
      */
-    private boolean jdbcSql;
+    private boolean jdbcSql=true;
     /**
      * 是否显示结果日志
      */
