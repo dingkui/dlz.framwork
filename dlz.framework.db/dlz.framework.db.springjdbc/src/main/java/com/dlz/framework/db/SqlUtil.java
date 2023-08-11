@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class SqlUtil {
-    private final static String BLOB_CHARSETNAME = "dbset.blob_charsetname";
     public final static String SU_STR_TABLE_NM = "SU_STR_TABLE_NM";
     public final static String SU_STR_UPDATE_KEYS = "SU_STR_UPDATE_KEYS";
 
@@ -66,7 +65,7 @@ public class SqlUtil {
 
 
     public static String getBlobCharsetname() {
-        return DbInfo.getDbset(BLOB_CHARSETNAME);
+        return DbInfo.getBlob_charsetname();
     }
 
     /**

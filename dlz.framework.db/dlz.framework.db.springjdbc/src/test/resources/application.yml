@@ -2,7 +2,6 @@ server:
   port: 80021
 
 appname: dlz-framwork-db
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,4 +28,5 @@ dlz:
       showRunSql: false
       showKeySql: true
     jdbcSql: true
+    use-db-sql: false
 
