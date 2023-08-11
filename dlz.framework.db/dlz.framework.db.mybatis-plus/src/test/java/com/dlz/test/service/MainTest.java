@@ -20,7 +20,7 @@ public class MainTest {
         System.out.println(DbUtil.getEntityClass(new QueryWrapper<>(bean)));
         System.out.println(DbUtil.getEntityClass(new LambdaQueryWrapper<>(Dict.class)));
         System.out.println(DbUtil.getEntityClass(DbUtil.mkWrapper(Dict.class)));
-        System.out.println(DbUtil.getEntityClass(DbUtil.mkLambdaWrapper(Dict.class)));
+        System.out.println(DbUtil.getEntityClass(DbUtil.lbWrapper(Dict.class)));
         System.out.println(DbUtil.getEntityClass(new LambdaQueryWrapper<Dict>(){}));
         System.out.println(DbUtil.getEntityClass(new QueryWrapper<Dict>(){}));
         System.out.println(DbUtil.getEntityClass(new QueryWrapper<Dict>()));
