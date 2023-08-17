@@ -1,28 +1,28 @@
 # 一些工具包
-## 特色工具包 
+## 特色工具包
 
 ### 对象转换工具类-ValUtil
 ```java
 //参数是任意Object
 Double aDouble = ValUtil.getDouble("3.35");
 //其中包含如下常用方法,覆盖常用的类型转换
-ValUtil.getBigDecimal(obj,defaultV);
-ValUtil.getDouble(obj,defaultV);
-ValUtil.getFloat(obj,defaultV);
-ValUtil.getInt(obj,defaultV);
-ValUtil.getLong(obj,defaultV);
-ValUtil.getArray(obj, clazz);
-ValUtil.getArray(obj,defaultV);
-ValUtil.getArrayObj(obj,clazz,clazzs);
-ValUtil.getList(obj,defaultV);
-ValUtil.getListObj(obj,clazz);
-ValUtil.getStr(obj,defaultV);
-ValUtil.getBoolean(obj,defaultV);
-ValUtil.getDate(obj);
-ValUtil.getDate(obj,format);
-ValUtil.getDateStr(obj);
-ValUtil.getDateStr(obj,format);
-ValUtil.getObj(obj,classs);
+        ValUtil.getBigDecimal(obj,defaultV);
+        ValUtil.getDouble(obj,defaultV);
+        ValUtil.getFloat(obj,defaultV);
+        ValUtil.getInt(obj,defaultV);
+        ValUtil.getLong(obj,defaultV);
+        ValUtil.getArray(obj, clazz);
+        ValUtil.getArray(obj,defaultV);
+        ValUtil.getArrayObj(obj,clazz,clazzs);
+        ValUtil.getList(obj,defaultV);
+        ValUtil.getListObj(obj,clazz);
+        ValUtil.getStr(obj,defaultV);
+        ValUtil.getBoolean(obj,defaultV);
+        ValUtil.getDate(obj);
+        ValUtil.getDate(obj,format);
+        ValUtil.getDateStr(obj);
+        ValUtil.getDateStr(obj,format);
+        ValUtil.getObj(obj,classs);
 ```
 
 ### 取值表达式
@@ -32,10 +32,10 @@ ValUtil.getObj(obj,classs);
 ```JSON
 {
   "info":{
-     "a":[
-        [{"b":1},{"c":2}],
-        [{"d":3},{"e":4},{"f":5}]
-     ]
+    "a":[
+      [{"b":1},{"c":2}],
+      [{"d":3},{"e":4},{"f":5}]
+    ]
   }
 }
 ```
@@ -49,7 +49,7 @@ info.a[1][2].f
 ```
 取出 **f** 取出f所在对象，使用如下表达式:
 ```javascript
-方式1：info.a[1][2]  
+方式1：info.a[1][2]
 方式2：info.a[1][-1]
 ```
 ####关于-1下标的说明：
@@ -57,10 +57,10 @@ info.a[1][2].f
 用法例子：
 ```java
 String data="{\"info\":{\"a\":[[{\"b\":1},{\"c\":2}],[{\"d\":3},{\"e\":4},{\"f\":5}]]}}";
-System.out.println("c的值："+JacksonUtil.at(data,"info.a[0][1].c"));
-System.out.println("f的值："+JacksonUtil.at(data,"info.a[1][2].f"));
-System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][2]"));
-System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][-1]"));
+        System.out.println("c的值："+JacksonUtil.at(data,"info.a[0][1].c"));
+        System.out.println("f的值："+JacksonUtil.at(data,"info.a[1][2].f"));
+        System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][2]"));
+        System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][-1]"));
 //c的值：2
 //f的值：5
 //f所在对象：{"f":5}
@@ -68,7 +68,7 @@ System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][-1]"));
 ```
 
 ### JSONMap用法
-### 构造方法
+#### 构造方法
 ```java
 	/**
 	 * 无参够着方法
@@ -181,4 +181,5 @@ System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][-1]"));
 		//输出：class java.lang.Integer:555
 	}
 ```
-
+### JSONList用法
+#### 构造方法和使用方法与JSONMap类似，构造参数需要是list型或数组类型对象

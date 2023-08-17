@@ -8,8 +8,8 @@
 4.其他一些组件
 </pre>
 
-### 组件
-#### 1.工具组件 [详细使用说明](./md/comm.md)
+## 组件
+### 1.工具组件 [详细使用说明](./md/comm.md)
 ```xml
 <dependency>
     <groupId>com.chan3d</groupId>
@@ -17,7 +17,7 @@
     <version>1.0.1-RELEASE</version>
 </dependency>
 ```
-#### 2.spring组件 [详细使用说明](./md/framework.md)
+### 2.spring组件 [详细使用说明](./md/framework.md)
 ```xml
 <dependency>
     <groupId>com.chan3d</groupId>
@@ -25,7 +25,7 @@
     <version>1.0.1-RELEASE</version>
 </dependency>
 ```
-#### 3.数据库操作组件 [详细使用说明](./md/framework.db.springjdbc.md)
+### 3.数据库操作组件 [详细使用说明](./md/framework.db.springjdbc.md)
 ```xml
 <dependency>
     <groupId>com.chan3d</groupId>
@@ -34,7 +34,7 @@
 </dependency>
 <dependency>
 ```
-#### 4.数据库mybatis-plus结合组件 [详细使用说明](./md/framework.db.mybatis-plus.md)
+### 4.数据库mybatis-plus结合组件 [详细使用说明](./md/framework.db.mybatis-plus.md)
 ```xml
 <dependency>
     <groupId>com.chan3d</groupId>
@@ -42,7 +42,7 @@
     <version>1.0.1-RELEASE</version>
 </dependency>
 ```
-#### 5.基于netty的websocket组件 [详细使用说明](./md/plugin.netty.md)
+### 5.基于netty的websocket组件 [详细使用说明](./md/plugin.netty.md)
 ```xml
 <dependency>
     <groupId>com.chan3d</groupId>
@@ -51,8 +51,9 @@
 </dependency>
 ```
 
-#### 更新记录
-[更多更新信息](./md/HIS.md)
+## 更新记录
+
+###最新更新记录
 >  5.2.2
 
 * `[增加功能模块]`  dlz.framework.db.mybatis-plus
@@ -96,4 +97,4 @@
 * `[增加功能]`httpUtil偶尔出现乱码的bug
 * `[增加功能]`JSONList格式校验支持[]
 * `[增加功能]`CacheAspect增强 $if:  $method, 支持key组合
-
+###[更多更新信息](./md/HIS.md)

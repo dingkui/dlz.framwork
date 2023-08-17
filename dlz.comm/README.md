@@ -68,7 +68,7 @@ System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][-1]"));
 ```
 
 ### JSONMap用法
-### 构造方法
+#### 构造方法
 ```java
 	/**
 	 * 无参够着方法
@@ -181,4 +181,5 @@ System.out.println("f所在对象："+JacksonUtil.at(data,"info.a[1][-1]"));
 		//输出：class java.lang.Integer:555
 	}
 ```
-
+### JSONList用法
+#### 构造方法和使用方法与JSONMap类似，构造参数需要是list型或数组类型对象
