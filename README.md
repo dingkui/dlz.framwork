@@ -1,30 +1,30 @@
 ## DLZ工具
 ```xml
 <dependency>
-    <groupId>com.dlz</groupId>
+    <groupId>com.chan3d</groupId>
     <artifactId>dlz.comm</artifactId>
-    <version>5.2.2</version>
+    <version>5.4.2</version>
 </dependency>
 <dependency>
-    <groupId>com.dlz</groupId>
+    <groupId>com.chan3d</groupId>
     <artifactId>dlz.framework</artifactId>
-    <version>5.2.2</version>
+    <version>5.4.2</version>
 </dependency>
 <dependency>
-    <groupId>com.dlz</groupId>
+    <groupId>com.chan3d</groupId>
     <artifactId>dlz.framework.db.springjdbc</artifactId>
-    <version>5.2.2</version>
+    <version>5.4.2</version>
     </dependency>
 <dependency>
 <dependency>
-    <groupId>com.dlz</groupId>
+    <groupId>com.chan3d</groupId>
     <artifactId>dlz.framework.db.mybatis-plus</artifactId>
-    <version>5.2.2</version>
+    <version>5.4.2</version>
 </dependency>
 <dependency>
-  <groupId>com.dlz</groupId>
+  <groupId>com.chan3d</groupId>
   <artifactId>dlz.plugin.netty</artifactId>
-  <version>5.2.2</version>
+  <version>5.4.2</version>
 </dependency>
 ```
 >  5.2.2
