@@ -3,28 +3,28 @@
 <dependency>
     <groupId>com.chan3d</groupId>
     <artifactId>dlz.comm</artifactId>
-    <version>5.4.2</version>
+    <version>1.0.1-RELEASE</version>
 </dependency>
 <dependency>
     <groupId>com.chan3d</groupId>
     <artifactId>dlz.framework</artifactId>
-    <version>5.4.2</version>
+    <version>1.0.1-RELEASE</version>
 </dependency>
 <dependency>
     <groupId>com.chan3d</groupId>
     <artifactId>dlz.framework.db.springjdbc</artifactId>
-    <version>5.4.2</version>
+    <version>1.0.1-RELEASE</version>
     </dependency>
 <dependency>
 <dependency>
     <groupId>com.chan3d</groupId>
     <artifactId>dlz.framework.db.mybatis-plus</artifactId>
-    <version>5.4.2</version>
+    <version>1.0.1-RELEASE</version>
 </dependency>
 <dependency>
   <groupId>com.chan3d</groupId>
   <artifactId>dlz.plugin.netty</artifactId>
-  <version>5.4.2</version>
+  <version>1.0.1-RELEASE</version>
 </dependency>
 ```
 >  5.2.2
