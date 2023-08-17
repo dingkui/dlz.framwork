@@ -5,18 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.chan3d</groupId>
     <artifactId>dlz-dependencies</artifactId>
-    <version>1.0.0-RELEASE</version><!--RootVer-->
+    <version>1.0.1-RELEASE</version><!--RootVer-->
     <packaging>pom</packaging>
     <modules>
         <module>dlz.comm</module>
         <module>dlz.framework</module>
         <module>dlz.framework.db</module>
+<!--        <module>dlz.webs</module>-->
         <module>dlz.plugin</module>
     </modules>
 
     <properties>
-        <dlz.fw.version>1.0.0-RELEASE</dlz.fw.version>
-
         <lombok.version>1.18.12</lombok.version>
 
         <java.version>1.8</java.version>
@@ -31,6 +30,8 @@
 
         <mybatis.version>3.4.0</mybatis.version>
         <mybatis-spring.version>2.0.2</mybatis-spring.version>
+        <dlz.fw.version>1.0.1-RELEASE</dlz.fw.version>
+        <dlz.comm.version>${dlz.fw.version}</dlz.comm.version>
     </properties>
     <dependencies>
         <dependency>
@@ -38,7 +39,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- logs -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -78,6 +78,7 @@
                 <artifactId>dlz.plugin.netty</artifactId>
                 <version>${dlz.fw.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -102,15 +103,6 @@
 
     <build>
         <plugins>
-            <!-- 打包时跳过测试 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -129,6 +121,73 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>
+            <!-- sonatype插件，发布使用-->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+
+            <!-- 生成java source.jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 生成java doc文档 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 工程文件自动签名-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
@@ -136,25 +195,33 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <!--阿里云仓库-->
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun-maven</name>
-            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
+    <scm>
+        <url>
+            https://gitee.com/dlz4/dlz.framwork
+        </url>
+        <connection>
+            scm:git@gitee.com:dlz4/dlz.framwork.git
+        </connection>
+        <developerConnection>
+            scm:git@gitee.com:dlz4/dlz.framwork.git
+        </developerConnection>
+    </scm>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>dingkui</name>
+            <email>dk1983@qq.com</email>
+            <organization>https://gitee.com/dlz4/dlz.framwork</organization>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+    <name>dlz</name>
+    <description>some tools</description>
+    <url>https://gitee.com/dlz4/dlz.framwork</url>
 </project>

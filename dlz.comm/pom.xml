@@ -4,9 +4,8 @@
     <parent>
         <groupId>com.chan3d</groupId>
         <artifactId>dlz-dependencies</artifactId>
-        <version>5.4.2</version>
+        <version>1.0.1-RELEASE</version>
     </parent>
-    <version>${dlz.framework.version}</version>
     <artifactId>dlz.comm</artifactId>
     <packaging>jar</packaging>
 

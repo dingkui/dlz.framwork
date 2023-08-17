@@ -1,4 +1,0 @@
-<ehcache>
-	<diskStore path="${user.dir}/caches" />
-	<defaultCache maxElementsInMemory="25600" eternal="true" overflowToDisk="true" />
-</ehcache>
