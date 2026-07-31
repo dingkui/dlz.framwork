@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.dlzio</groupId>
+        <artifactId>dlz-kit-parent</artifactId>
+        <version>6.7.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>dlz-kit-plugins</artifactId>
+    <packaging>pom</packaging>
+    <name>dlz-kit-plugins</name>
+    <description>Build aggregator for optional third-party DLZ integrations</description>
+    <modules>
+        <module>dlz-json-jackson</module>
+        <module>dlz-caller-mybatis</module>
+        <!-- dlz-kit-spring will be added when its implementation is ready. -->
+    </modules>
+</project>

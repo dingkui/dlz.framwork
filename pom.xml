@@ -2,11 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.dlzio</groupId>
-    <artifactId>dlz-kit</artifactId>
-    <name>dlz-kit</name>
-    <version>6.6.6</version>
-    <packaging>jar</packaging>
-    <description>像JavaScript一样在Java中“丝滑”操作JSON</description>
+    <artifactId>dlz-kit-parent</artifactId>
+    <name>dlz-kit-parent</name>
+    <version>6.7.0</version>
+    <packaging>pom</packaging>
+    <description>DLZ Kit multi-module parent</description>
     <url>https://github.com/dingkui/dlz-kit.git</url>
     <scm>
         <url>https://github.com/dingkui/dlz-kit</url>
@@ -23,8 +23,11 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jacoco.skip>true</jacoco.skip>
+        <spotbugs.skip>true</spotbugs.skip>
     </properties>
-    <dependencies>
+    <dependencyManagement>
+      <dependencies>
         <!--  jackson  -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -81,7 +84,8 @@
             <version>${jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+      </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
@@ -142,6 +146,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skip>${jacoco.skip}</skip>
+                </configuration>
             </plugin>
             <!--  spotbugs 静态分析（findbugs 继承者）  -->
             <plugin>
@@ -154,6 +161,7 @@
                     <failOnError>false</failOnError>
                     <htmlOutput>true</htmlOutput>
                     <xmlOutput>true</xmlOutput>
+                    <skip>${spotbugs.skip}</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -174,6 +182,10 @@
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>dlz-kit</module>
+        <module>plugins</module>
+    </modules>
     <licenses>
         <license>
             <name>Apache License 2.0</name>

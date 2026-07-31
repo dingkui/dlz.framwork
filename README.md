@@ -134,6 +134,8 @@ Integer amount = resp.getInt("data.order.amount");
 
 ## 文档
 
+- [模块化改造方案](docs/模块化改造方案.md)
+- [DLZ Caller 3 分钟启用](dlz-kit/docs/caller/QUICK_START.md)
 - [快速上手](docs/第01章-快速入门/1.2-五分钟上手.md)
 - [JSONMap 完整指南](docs/第02章-核心功能/2.1-JSONMap完整指南.md)
 - [ValUtil 类型转换](docs/第03章-工具类库/3.1-ValUtil-类型转换.md)
