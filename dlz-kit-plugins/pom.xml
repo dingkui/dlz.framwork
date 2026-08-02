@@ -6,7 +6,6 @@
         <groupId>top.dlzio</groupId>
         <artifactId>dlz-kit-parent</artifactId>
         <version>6.7.0</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>dlz-kit-plugins</artifactId>
     <packaging>pom</packaging>

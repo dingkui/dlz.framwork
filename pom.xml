@@ -184,7 +184,7 @@
     </build>
     <modules>
         <module>dlz-kit</module>
-        <module>plugins</module>
+        <module>dlz-kit-plugins</module>
     </modules>
     <licenses>
         <license>
