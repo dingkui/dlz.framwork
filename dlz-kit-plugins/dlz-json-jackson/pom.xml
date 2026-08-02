@@ -6,8 +6,7 @@
     <parent>
         <groupId>top.dlzio</groupId>
         <artifactId>dlz-kit-parent</artifactId>
-        <version>6.6.6</version>
-        <relativePath>../../pom.xml</relativePath>
+        <version>6.7.0</version>
     </parent>
 
     <artifactId>dlz-json-jackson</artifactId>

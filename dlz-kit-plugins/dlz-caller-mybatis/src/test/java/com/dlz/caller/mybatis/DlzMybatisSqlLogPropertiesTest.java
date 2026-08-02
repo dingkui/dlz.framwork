@@ -2,6 +2,7 @@ package com.dlz.caller.mybatis;
 
 import com.dlz.caller.DlzCallerResolver;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Properties;
 import org.junit.jupiter.api.Test;
 
@@ -46,5 +47,15 @@ class DlzMybatisSqlLogPropertiesTest {
         org.junit.jupiter.api.Assertions.assertEquals("source", properties.getCallerMdcKey());
         assertTrue(properties.getIgnoreCallerPackages().contains("com.example.http."));
         assertTrue(properties.getIgnoreCallerPackages().contains("com.example.rpc."));
+    }
+
+    @Test
+    void acceptsPluralIgnorePackagesPropertyBinding() {
+        DlzSqlLogProperties properties = new DlzSqlLogProperties();
+
+        properties.setIgnoreCallerPackages(new HashSet<>(Arrays.asList("com.example.persistence.")));
+
+        assertTrue(properties.getIgnoreCallerPackages().contains("com.dlz.caller."));
+        assertTrue(properties.getIgnoreCallerPackages().contains("com.example.persistence."));
     }
 }

@@ -1,6 +1,9 @@
 package com.dlz.caller.mybatis;
 
 import com.dlz.caller.DlzCallerProperties;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Properties;
 
 /**
@@ -9,6 +12,8 @@ import java.util.Properties;
  * <p>The property names match MyBatis plugin declarations. All options default to {@code true}
  * so registering the interceptor enables its complete diagnostic output.</p>
  */
+@Getter
+@Setter
 public class DlzSqlLogProperties extends DlzCallerProperties {
 
     /** Whether SQL logging is enabled. */
@@ -46,29 +51,4 @@ public class DlzSqlLogProperties extends DlzCallerProperties {
             }
         }
     }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public boolean isShowCaller() {
-        return showCaller;
-    }
-
-    public void setShowCaller(boolean showCaller) {
-        this.showCaller = showCaller;
-    }
-
-    public boolean isShowMapper() {
-        return showMapper;
-    }
-
-    public void setShowMapper(boolean showMapper) {
-        this.showMapper = showMapper;
-    }
-
 }
