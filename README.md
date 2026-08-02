@@ -4,7 +4,7 @@
 [![JDK](https://img.shields.io/badge/JDK-8%20%7C%2011%20%7C%2017%20%7C%2021-green.svg)]()
 [![Size](https://img.shields.io/badge/Size-~100KB-brightgreen.svg)]()
 [![Maven](https://img.shields.io/badge/Maven-top.dlzio:dlz-kit)](https://central.sonatype.com/artifact/top.dlzio/dlz-kit)
-[![codecov](https://codecov.io/gh/dingkui/dlz-db/graph/badge.svg?token=UDX6ZH1R0Q)](https://codecov.io/gh/dingkui/dlz-kit)
+[![codecov](https://codecov.io/gh/dingkui/dlz-kit/graph/badge.svg?token=IX0QS25K4X)](https://codecov.io/gh/dingkui/dlz-kit)
 
 ```java
 // 以前：10 行判空 + 强转，还可能 NPE
