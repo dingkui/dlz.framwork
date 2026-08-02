@@ -9,38 +9,31 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
-      fail-fast: false
       matrix:
         java: [ '8', '17', '21' ]
-    name: JDK ${{ matrix.java }}
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup JDK ${{ matrix.java }}
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: ${{ matrix.java }}
+          distribution: 'temurin'
           cache: maven
 
-      - name: Build & Test (verify)
-        run: mvn -B clean verify
+      # 这样写绝对万无一失，既显式调用了 jacoco，又合并了编译和测试
+      - name: Build, Test and Force Generate JaCoCo Report
+        run: mvn -B clean verify jacoco:report --file pom.xml
 
-      - name: Upload JaCoCo report
-        if: always()
-        uses: actions/upload-artifact@v4
+      # 硬伤修正：Codecov v4 版本现在【强行要求】必须提供 Token，不传会上传失败。
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
         with:
-          name: jacoco-jdk${{ matrix.java }}
-          path: target/site/jacoco/
-          if-no-files-found: warn
-
-      - name: Upload SpotBugs report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: spotbugs-jdk${{ matrix.java }}
-          path: |
-            target/spotbugsXml.xml
-            target/site/spotbugs.html
-          if-no-files-found: warn
+          token: ${{ secrets.CODECOV_TOKEN }} # 必须在 GitHub 仓库设置里配置这个 Secret
+          file: ./target/site/jacoco/jacoco.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
