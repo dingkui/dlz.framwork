@@ -15,7 +15,7 @@ String city = new JSONMap(response).getStr("data.user.profile.addresses[0].city"
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.6.6</version>
+    <version>6.7.0</version>
 </dependency>
 ```
 
@@ -80,18 +80,6 @@ Integer age = ValUtil.toInt(params.get("age"));              // 不抛异常，�
 Integer safe = ValUtil.toInt(params.get("age"), 0);          // 带默认值
 List<Integer> ids = ValUtil.toList(params.get("ids"), Integer.class); // "1,2,3" → [1,2,3]
 ```
-
----
-
-## 不是替代 Jackson，是 Jackson 之后的那层
-
-| 层 | 做的事 | 工具 |
-|----|--------|------|
-| 序列化层 | JSON 字符串 ↔ Java 对象 | Jackson / Gson |
-| **操作层** | 拿到对象后怎么读写、构建、转换 | **JSONMap / ValUtil** |
-
-Jackson 负责搬运，JSONMap 负责加工。两者互补，不冲突。
-
 ---
 
 ## AI 辅助开发
@@ -128,16 +116,15 @@ Integer amount = resp.getInt("data.order.amount");
 ## 项目状态
 
 - **JDK**：8 / 11 / 17 / 21
-- **依赖**：jackson-databind（你的项目大概率已有）
+- **依赖**：唯一依赖 slf4j（你的项目大概率已有）
 - **体积**：~100KB
 - **测试**：完整测试用例覆盖
 
 ## 文档
 
-- [模块化改造方案](docs/模块化改造方案.md)
-- [DLZ Caller 3 分钟启用](dlz-kit/docs/caller/QUICK_START.md)
 - [快速上手](docs/第01章-快速入门/1.2-五分钟上手.md)
 - [JSONMap 完整指南](docs/第02章-核心功能/2.1-JSONMap完整指南.md)
+- [DLZ Caller日志快速接入](docs/第02章-核心功能/2.5-Caller日志快速接入.md)
 - [ValUtil 类型转换](docs/第03章-工具类库/3.1-ValUtil-类型转换.md)
 - [@SetValue 注解映射](docs/第04章-高级特性/4.1-SetValue注解映射.md)
 - [有界宽容原则](docs/第04章-高级特性/4.4-有界宽容原则.md)
