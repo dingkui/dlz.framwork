@@ -38,6 +38,9 @@ public class DlzCallerProperties {
     public void setIgnoreCallerPackage(Set<String> ignoreCallerPackages) {
         addIgnoreCallerPackage(ignoreCallerPackages);
     }
+    public void setIgnoreCallerPackages(Set<String> ignoreCallerPackages) {
+        addIgnoreCallerPackage(ignoreCallerPackages);
+    }
     public void addIgnoreCallerPackage(Collection<String> ignoreCallerPackages) {
         if (ignoreCallerPackages == null) {
             return;
