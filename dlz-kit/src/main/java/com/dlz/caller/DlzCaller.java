@@ -23,8 +23,7 @@ public final class DlzCaller {
     }
 
     public static DlzCallerContext caller(int additionalFramesToSkip) {
-        String caller = DlzCallerResolver.resolve(properties, additionalFramesToSkip);
-        return DlzCallerContext.open(properties, caller);
+        return DlzCallerContext.open( DlzCallerResolver.resolve(properties, additionalFramesToSkip));
     }
 
     public static String setCaller() {

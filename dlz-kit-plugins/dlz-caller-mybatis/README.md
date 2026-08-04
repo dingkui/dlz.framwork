@@ -33,8 +33,7 @@ dlz:
         enabled: true
         show-caller: true
         show-mapper: true
-        inject-caller-mdc: true
-        caller-mdc-key: caller
+        inject-caller-mdc: false
         ignore-caller-packages:
           - com.example.persistence.
 ```
@@ -42,7 +41,7 @@ dlz:
 ## Logback配置
 
 ```xml
-<logger name="sql" level="DEBUG"/>
+<logger name="dlz-sql" level="DEBUG"/>
 ```
 
 ## 运行结果

@@ -25,13 +25,12 @@ import java.util.Properties;
  * are included in the emitted SQL.</p>
  */
 @Intercepts({
-        @Signature(type = StatementHandler.class, method = "query",
-                args = {Statement.class, ResultHandler.class}),
+        @Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
         @Signature(type = StatementHandler.class, method = "queryCursor", args = {Statement.class}),
         @Signature(type = StatementHandler.class, method = "update", args = {Statement.class})
 })
 public class DlzMybatisSqlLogInterceptor implements Interceptor {
-    private static final Logger LOG = LoggerFactory.getLogger("sql");
+    private static final Logger LOG = LoggerFactory.getLogger("dlz-sql");
     private final DlzSqlLogProperties properties;
 
     public DlzMybatisSqlLogInterceptor() {
@@ -54,8 +53,7 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
             long startTime = System.currentTimeMillis();
             String caller = (logSql && properties.isShowCaller()) || injectCallerMdc
                     ? DlzCallerResolver.resolve(properties) : "";
-            DlzCallerContext callerContext = injectCallerMdc
-                    ? DlzCallerContext.open(properties, caller) : null;
+            DlzCallerContext callerContext = injectCallerMdc ? DlzCallerContext.open(caller) : null;
             try {
                 return invocation.proceed();
             } finally {
@@ -64,15 +62,12 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
                         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
                         MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
                         BoundSql boundSql = statementHandler.getBoundSql();
-                        Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
-                        String mapper = properties.isShowMapper()
-                                ? DlzMybatisSqlLogFormatter.getMapper(metaObject) : "";
-
-                        String callerText = properties.isShowCaller() && !caller.isEmpty()
-                                ? caller + " " : "";
-                        LOG.debug("{}{} {}ms sql={}", callerText, mapper,
+                        Configuration config = (Configuration) metaObject.getValue("delegate.configuration");
+                        String mapper = properties.isShowMapper() ? DlzMybatisSqlLogFormatter.getMapper(metaObject) : "";
+                        String callerText = properties.isShowCaller() && !caller.isEmpty() ? caller + " " : "";
+                        LOG.debug("{}{} {}ms => {}", callerText, mapper,
                                 System.currentTimeMillis() - startTime,
-                                DlzMybatisSqlLogFormatter.toExecutableSql(configuration, boundSql));
+                                DlzMybatisSqlLogFormatter.toExecutableSql(config, boundSql));
                     }
                 } finally {
                     if (callerContext != null) {

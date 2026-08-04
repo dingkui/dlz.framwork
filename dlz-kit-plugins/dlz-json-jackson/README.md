@@ -11,7 +11,7 @@ Jackson is not present in the runtime dependency graph.
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.7.1</version>
+    <version>6.7.2</version>
 </dependency>
 ```
 
@@ -30,7 +30,7 @@ Bean mapping are required:
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-json-jackson</artifactId>
-    <version>6.7.1</version>
+    <version>6.7.2</version>
 </dependency>
 ```
 

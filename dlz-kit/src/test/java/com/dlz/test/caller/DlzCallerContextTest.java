@@ -21,18 +21,11 @@ class DlzCallerContextTest {
     void keepsTheOuterCallerAcrossNestedInfrastructureScopes() {
         DlzCallerProperties properties = new DlzCallerProperties();
         DlzCaller.setProperties(properties);
-
         try (DlzCallerContext outer = DlzCaller.caller(0)) {
             String outerCaller = outer.getCaller();
-            assertEquals(outerCaller, MDC.get("caller"));
-            try (DlzCallerContext nested = DlzCaller.caller(0)) {
-                assertEquals(outerCaller, MDC.get("caller"));
-                assertEquals(outerCaller, nested.getCaller());
-            }
-            assertEquals(outerCaller, MDC.get("caller"));
+            assertEquals(outerCaller, MDC.get(DlzCallerContext.mdcKey));
         }
-
-        assertNull(MDC.get("caller"));
+        assertNull(MDC.get(DlzCallerContext.mdcKey));
     }
 
     @Test

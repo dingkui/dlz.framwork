@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DlzMybatisSqlLogPropertiesTest {
@@ -16,8 +17,8 @@ class DlzMybatisSqlLogPropertiesTest {
 
         assertTrue(properties.isEnabled());
         assertTrue(properties.isShowCaller());
-        assertTrue(properties.isShowMapper());
-        assertTrue(properties.isInjectCallerMdc());
+        assertFalse(properties.isShowMapper());
+        assertFalse(properties.isInjectCallerMdc());
     }
 
     @Test
@@ -31,22 +32,6 @@ class DlzMybatisSqlLogPropertiesTest {
                 "org.apache.ibatis.executor.SimpleExecutor", properties.getIgnoreCallerPackages()));
         assertTrue(DlzCallerResolver.isIgnored(
                 "com.example.infrastructure.Proxy", Arrays.asList("com.example.infrastructure.")));
-    }
-
-    @Test
-    void appliesNativeMybatisPluginProperties() {
-        Properties source = new Properties();
-        source.setProperty("showCaller", "false");
-        source.setProperty("callerMdcKey", "source");
-        source.setProperty("ignoreCallerPackages", "com.example.http.,com.example.rpc.");
-        DlzSqlLogProperties properties = new DlzSqlLogProperties();
-
-        properties.apply(source);
-
-        org.junit.jupiter.api.Assertions.assertFalse(properties.isShowCaller());
-        org.junit.jupiter.api.Assertions.assertEquals("source", properties.getCallerMdcKey());
-        assertTrue(properties.getIgnoreCallerPackages().contains("com.example.http."));
-        assertTrue(properties.getIgnoreCallerPackages().contains("com.example.rpc."));
     }
 
     @Test

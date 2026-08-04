@@ -27,7 +27,7 @@ class DlzCallerTest {
     void setCallerMakesTheBusinessSourceAvailableToAnyUtilityLog() {
         String caller = DlzCaller.setCaller();
         try {
-            assertEquals(caller, MDC.get("caller"));
+            assertEquals(caller, MDC.get("dlz-caller"));
             assertTrue(caller.contains("DlzCallerTest.java"));
         } finally {
             DlzCaller.clearCaller();
@@ -39,7 +39,7 @@ class DlzCallerTest {
     void callerScopeCleansMdcAfterAUtilityCallFails() {
         try {
             try (DlzCallerContext context = DlzCaller.caller(0)) {
-                assertEquals(context.getCaller(), MDC.get("caller"));
+                assertEquals(context.getCaller(), MDC.get("dlz-caller"));
                 throw new IllegalStateException("simulated redis timeout");
             }
         } catch (IllegalStateException expected) {
