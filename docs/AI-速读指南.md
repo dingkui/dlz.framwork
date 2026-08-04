@@ -12,7 +12,7 @@ JSONMap 继承 HashMap，为 JSON 嵌套数据提供路径取值、自动类型�
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.7.0</version>
+    <version>6.7.1</version>
 </dependency>
 ```
 

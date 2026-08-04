@@ -1,9 +1,12 @@
 package com.dlz.caller;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
-/** Resolves the first application frame after skipping configured infrastructure packages. */
+/**
+ * Resolves the first application frame after skipping configured infrastructure packages.
+ */
 public final class DlzCallerResolver {
 
     private DlzCallerResolver() {
@@ -14,8 +17,7 @@ public final class DlzCallerResolver {
     }
 
     public static String resolve(DlzCallerProperties properties, int additionalFramesToSkip) {
-        Set<String> ignoredPackages = properties == null
-                ? null : properties.getIgnoreCallerPackages();
+        Set<String> ignoredPackages = new HashSet<>(properties.getIgnoreCallerPackages());
         int remainingFramesToSkip = Math.max(0, additionalFramesToSkip);
         StackTraceElement[] trace = new Throwable().getStackTrace();
         for (int index = 1; index < trace.length; index++) {
@@ -33,24 +35,20 @@ public final class DlzCallerResolver {
     }
 
     public static boolean isIgnored(String className, Collection<String> ignoredPackages) {
+        if (className.startsWith("com.dlz.caller")
+                || className.startsWith("java")
+                || className.startsWith("jdk")
+                || className.startsWith("sun")
+        ) {
+            return true;
+        }
         if (ignoredPackages != null) {
             for (String ignoredPackage : ignoredPackages) {
-                if (matchesIgnoredClassName(className, ignoredPackage)) {
+                if (className.startsWith(ignoredPackage)) {
                     return true;
                 }
             }
         }
-        return className.contains("CGLIB$")
-                || className.contains("$$Lambda$")
-                || className.contains("lambda$");
-    }
-
-    private static boolean matchesIgnoredClassName(String className, String ignoredPackage) {
-        if (ignoredPackage == null || ignoredPackage.trim().isEmpty()) {
-            return false;
-        }
-        String ignoredName = ignoredPackage.trim();
-        return ignoredName.endsWith(".")
-                ? className.startsWith(ignoredName) : className.equals(ignoredName);
+        return className.contains("CGLIB$") || className.contains("lambda$");
     }
 }

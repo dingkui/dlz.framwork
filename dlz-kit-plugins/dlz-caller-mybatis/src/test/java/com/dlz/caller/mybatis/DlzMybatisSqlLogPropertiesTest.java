@@ -18,12 +18,12 @@ class DlzMybatisSqlLogPropertiesTest {
         assertTrue(properties.isShowCaller());
         assertTrue(properties.isShowMapper());
         assertTrue(properties.isInjectCallerMdc());
-        assertTrue(properties.getIgnoreCallerPackages().contains("com.dlz.caller."));
     }
 
     @Test
     void honorsConfiguredCallerPackagePrefixes() {
         DlzSqlLogProperties properties = new DlzSqlLogProperties();
+        new DlzMybatisSqlLogInterceptor(properties);
 
         assertTrue(DlzCallerResolver.isIgnored(
                 "com.dlz.caller.mybatis.DlzMybatisSqlLogInterceptor", properties.getIgnoreCallerPackages()));
@@ -55,7 +55,6 @@ class DlzMybatisSqlLogPropertiesTest {
 
         properties.setIgnoreCallerPackages(new HashSet<>(Arrays.asList("com.example.persistence.")));
 
-        assertTrue(properties.getIgnoreCallerPackages().contains("com.dlz.caller."));
         assertTrue(properties.getIgnoreCallerPackages().contains("com.example.persistence."));
     }
 }

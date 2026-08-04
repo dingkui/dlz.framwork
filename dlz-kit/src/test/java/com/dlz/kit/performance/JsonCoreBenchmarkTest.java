@@ -36,8 +36,7 @@ class JsonCoreBenchmarkTest {
         long dlzWrite = runWriteDlz(dlzValue, iterations);
         long jacksonWrite = runWriteJackson(jacksonValue, iterations);
 
-        System.out.printf("DLZ JSON benchmark: %,d iterations, document=%d chars%n",
-                iterations, DOCUMENT.length());
+        System.out.printf("DLZ JSON benchmark: %,d iterations, document=%d chars%n", iterations, DOCUMENT.length());
         print("parse", dlzParse, jacksonParse, iterations);
         print("write", dlzWrite, jacksonWrite, iterations);
     }

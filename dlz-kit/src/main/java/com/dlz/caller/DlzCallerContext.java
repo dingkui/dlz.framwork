@@ -1,6 +1,5 @@
 package com.dlz.caller;
 
-import java.util.concurrent.Callable;
 import org.slf4j.MDC;
 
 /**

@@ -16,7 +16,7 @@ String city = new JSONMap(response).getStr("data.user.profile.addresses[0].city"
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.7.0</version>
+    <version>6.7.1</version>
 </dependency>
 ```
 

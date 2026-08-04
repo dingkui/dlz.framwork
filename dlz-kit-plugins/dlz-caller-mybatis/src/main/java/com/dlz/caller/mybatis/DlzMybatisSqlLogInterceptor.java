@@ -31,16 +31,19 @@ import java.util.Properties;
         @Signature(type = StatementHandler.class, method = "update", args = {Statement.class})
 })
 public class DlzMybatisSqlLogInterceptor implements Interceptor {
-
     private static final Logger LOG = LoggerFactory.getLogger("sql");
     private final DlzSqlLogProperties properties;
 
     public DlzMybatisSqlLogInterceptor() {
-        this(new DlzSqlLogProperties());
+        this(null);
     }
 
     public DlzMybatisSqlLogInterceptor(DlzSqlLogProperties properties) {
         this.properties = properties == null ? new DlzSqlLogProperties() : properties;
+        properties.addIgnoreCallerPackage("org.apache.ibatis");
+        properties.addIgnoreCallerPackage("org.mybatis");
+        properties.addIgnoreCallerPackage("org.springframework");
+        properties.addIgnoreCallerPackage("com.baomidou");
     }
 
     @Override
@@ -79,11 +82,6 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
             }
         }
         return invocation.proceed();
-    }
-
-    @Override
-    public void setProperties(Properties source) {
-        properties.apply(source);
     }
 
     public DlzSqlLogProperties getProperties() {

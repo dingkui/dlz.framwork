@@ -1,31 +1,21 @@
 package com.dlz.caller;
 
 import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Configuration shared by caller resolution and MDC injection.
  */
 @Getter
+@Setter
 public class DlzCallerProperties {
 
     private boolean injectCallerMdc = true;
     private String callerMdcKey = "caller";
-    private Set<String> ignoreCallerPackages = new HashSet<>(Arrays.asList(
-            "com.dlz.caller.",
-            "org.apache.ibatis.",
-            "org.mybatis.",
-            "com.baomidou.",
-            "org.springframework.",
-            "java.",
-            "javax.",
-            "jdk.",
-            "sun."
-    ));
+
+    private Set<String> ignoreCallerPackages = new HashSet<>();
 
     public void setCallerMdcKey(String callerMdcKey) {
         if (callerMdcKey != null && !callerMdcKey.trim().isEmpty()) {
@@ -34,18 +24,6 @@ public class DlzCallerProperties {
     }
     public void setInjectCallerMdc(boolean injectCallerMdc) {
         this.injectCallerMdc = injectCallerMdc;
-    }
-    public void setIgnoreCallerPackage(Set<String> ignoreCallerPackages) {
-        addIgnoreCallerPackage(ignoreCallerPackages);
-    }
-    public void setIgnoreCallerPackages(Set<String> ignoreCallerPackages) {
-        addIgnoreCallerPackage(ignoreCallerPackages);
-    }
-    public void addIgnoreCallerPackage(Collection<String> ignoreCallerPackages) {
-        if (ignoreCallerPackages == null) {
-            return;
-        }
-        this.ignoreCallerPackages.addAll(ignoreCallerPackages);
     }
 
     public void addIgnoreCallerPackage(String... packagePrefix) {
