@@ -166,7 +166,7 @@ Integer amount = resp.getInt("data.order.amount");
 - [@SetValue 注解映射](docs/第04章-高级特性/4.1-SetValue注解映射.md)
 - [有界宽容原则](docs/第04章-高级特性/4.4-有界宽容原则.md)
 - [性能测试报告](docs/第07章-附录/7.1-性能测试报告.md)
-- [AI 速读指南](docs/AI-速读指南.md)（给 AI 模型看的快速参考）
+- [AI 速读](docs/AI-速读.md)（给 AI 模型看的快速参考）
 
 ---
 
