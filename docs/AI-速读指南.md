@@ -12,7 +12,7 @@ JSONMap 继承 HashMap，为 JSON 嵌套数据提供路径取值、自动类型�
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.7.2</version>
+    <version>6.7.3</version>
 </dependency>
 ```
 
@@ -21,11 +21,11 @@ JSONMap 继承 HashMap，为 JSON 嵌套数据提供路径取值、自动类型�
 ## 构造
 
 ```java
-new JSONMap("{\"name\":\"张三\"}");                      // JSON 字符串
-new JSONMap(existingMap);                                  // 从 Map
-new JSONMap();                                             // 空对象
-new JSONMap("name", "张三", "age", 25);                    // 键值对
-new JSONMap(anyObject);                                    // 从 POJO（字段值拷贝）
+new JSONMap("{\"name\":\"张三\"}");     // JSON 字符串
+new JSONMap(existingMap);              // 从 Map
+new JSONMap();                         // 空对象
+new JSONMap("name", "张三", "age", 25); // 键值对
+new JSONMap(anyObject);                // 从 POJO（字段值拷贝）
 ```
 
 ---
@@ -138,81 +138,33 @@ list.getStr(-2);    // "b"
 
 ## DlzCaller — 日志调用者定位
 
-让 HttpClient、Redis、MyBatis 等公共组件的日志直接显示业务代码调用位置。
+公共组件日志直接显示业务代码位置。MDC key：`dlz-caller`。
 
 ```java
-import com.dlz.caller.DlzCaller;
-import com.dlz.caller.DlzCallerContext;
-
-// 推荐：try-with-resources 自动清理
-public class HttpClientUtil {
-    public HttpResult execute(HttpRequest request) {
-        try (DlzCallerContext ignored = DlzCaller.caller(0)) {
-            log.info("HTTP {} {}", request.getMethod(), request.getUrl());
-            return httpClient.execute(request);
-        }
-    }
+// 公共组件入口加一行
+try (DlzCallerContext ignored = DlzCaller.caller(0)) {
+    log.info("...");
 }
 
-// 旧代码：setCaller / clearCaller
-public HttpResult execute(HttpRequest request) {
-    DlzCaller.setCaller(1);
-    try {
-        log.info("HTTP {} {}", request.getMethod(), request.getUrl());
-        return httpClient.execute(request);
-    } finally {
-        DlzCaller.clearCaller();
-    }
-}
+// 启动时配置忽略包（跳过这些包找业务代码）
+DlzCaller.getProperties().addIgnoreCallerPackage("com.example.http.");
 ```
 
-配置忽略包（启动时一次配置）：
-```java
-DlzCaller.getProperties().addIgnoreCallerPackage(
-    "com.example.http.", "com.example.redis.", "com.example.rpc.");
-```
-
-日志格式（MDC key 是 `dlz-caller`）：
-```xml
-%X{dlz-caller}
-```
-
-效果：
-```text
-[(OrderService.java:86)] HttpClientUtil - HTTP POST /payments
-```
+效果：`[(OrderService.java:86)] HttpClientUtil - HTTP POST /payments`
 
 ---
 
 ## 内存缓存
 
-纯 JDK 实现，零额外依赖，支持过期和 getAndSet 模式。
+纯 JDK 实现，零依赖。
 
 ```java
-import com.dlz.kit.cache.CacheUtil;
-import com.dlz.kit.cache.MemoryCache;
-import com.dlz.kit.util.VAL;
-
 ICache cache = new MemoryCache();
-
-// 基本操作
-cache.put("user", "123", user, 3600);      // 1小时过期
-User user = cache.get("user", "123", User.class);
-cache.remove("user", "123");
-
-// 获取或设置（不存在时执行回调并缓存）
-User user = cache.getAndSet("user", "123", () -> {
-    return VAL.of(userMapper.selectById(123), 3600);
-});
-
-// 前缀查询（支持通配符*）
-Set<String> keys = cache.keys("user", "admin_*");
+cache.put("user", "123", user, 3600);           // 1小时过期
+User u = cache.get("user", "123", User.class);
+User u = cache.getAndSet("user", "123", () ->    // 不存在则加载
+    VAL.of(userMapper.selectById(123), 3600));
 ```
-
-过期规则：
-- `seconds > 0`：指定秒数后过期
-- `seconds = -1`：永不过期
-- 惰性过期 + 后台守护线程定期清理
 
 ---
 
