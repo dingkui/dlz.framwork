@@ -237,13 +237,13 @@ class ExceptionClassesTest {
     }
 
     @Nested
-    @DisplayName("BussinessException测试")
-    class BussinessExceptionTests {
+    @DisplayName("BusinessException测试")
+    class BusinessExceptionTests {
 
         @Test
         @DisplayName("基本构造不会重复注册错误码")
         void testConstruction() {
-            BussinessException ex = new BussinessException("business error");
+            BusinessException ex = new BusinessException("business error");
             assertEquals(3001, ex.getCode());
             assertEquals("业务异常", ex.getInfo());
         }
@@ -251,17 +251,17 @@ class ExceptionClassesTest {
         @Test
         @DisplayName("isTrue使用标准断言语义")
         void testIsTrue() {
-            assertThrows(BussinessException.class,
-                    () -> BussinessException.isTrue(false, "must be true"));
-            assertDoesNotThrow(() -> BussinessException.isTrue(true, "ok"));
+            assertThrows(BusinessException.class,
+                    () -> BusinessException.isTrue(false, "must be true"));
+            assertDoesNotThrow(() -> BusinessException.isTrue(true, "ok"));
         }
 
         @Test
         @DisplayName("Supplier仅在断言失败时求值")
         void testSupplier() {
-            assertThrows(BussinessException.class,
-                    () -> BussinessException.isTrue(false, () -> "lazy message"));
-            assertDoesNotThrow(() -> BussinessException.isTrue(true, () -> {
+            assertThrows(BusinessException.class,
+                    () -> BusinessException.isTrue(false, () -> "lazy message"));
+            assertDoesNotThrow(() -> BusinessException.isTrue(true, () -> {
                 throw new AssertionError("supplier should not be evaluated");
             }));
         }

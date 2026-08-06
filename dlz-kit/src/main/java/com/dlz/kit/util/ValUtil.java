@@ -222,7 +222,7 @@ public class ValUtil {
         return Arrays.asList(array);
     }
 
-    public static JSONList toListEmputy(Object input) {
+    public static JSONList toListEmpty(Object input) {
         return toList(input, new ArrayList());
     }
 

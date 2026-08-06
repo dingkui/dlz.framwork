@@ -42,7 +42,7 @@ JSONMap result = new JSONMap()
 
 ---
 
-## 三个核心能力
+## 五大核心能力
 
 ### 深层路径取值
 
@@ -81,6 +81,40 @@ Integer age = ValUtil.toInt(params.get("age"));              // 不抛异常，�
 Integer safe = ValUtil.toInt(params.get("age"), 0);          // 带默认值
 List<Integer> ids = ValUtil.toList(params.get("ids"), Integer.class); // "1,2,3" → [1,2,3]
 ```
+
+### Caller 日志诊断
+
+公共组件日志直接显示业务调用处，排查问题从"全局搜索"变"秒级定位"。
+
+```java
+// 在 HttpClient/Redis/MyBatis 等公共组件入口加一行
+try (DlzCallerContext ignored = DlzCaller.caller(0)) {
+    log.info("HTTP POST {}", url);
+}
+```
+
+日志从这样：
+```text
+INFO  HttpClientUtil - HTTP POST /payments
+```
+变成这样：
+```text
+INFO  [(OrderService.java:86)] HttpClientUtil - HTTP POST /payments
+```
+
+业务代码零侵入，支持嵌套调用、多层代理、MyBatis SQL 日志。
+
+### 超轻量内存缓存
+
+纯 JDK 实现，零额外依赖，getAndSet 一行搞定缓存模式。
+
+```java
+// 缓存不存在时自动加载，不用自己写 if-null-加载-缓存
+User user = cache.getAndSet("user", "123", () -> 
+    VAL.of(userMapper.selectById(123), 3600));
+```
+
+支持过期管理、通配符前缀查询、并发安全，可无缝切换到 Redis 等分布式实现。
 ---
 
 ## AI 辅助开发
@@ -117,9 +151,10 @@ Integer amount = resp.getInt("data.order.amount");
 ## 项目状态
 
 - **JDK**：8 / 17 / 21
-- **依赖**：唯一依赖 slf4j（你的项目大概率已有）
+- **依赖**：核心模块唯一依赖 slf4j（你的项目大概率已有）
 - **体积**：~100KB
 - **测试**：完整测试用例覆盖
+- **JSON 解析**：自研实现，零依赖 Jackson（Jackson 为可选插件）
 
 ## 文档
 
@@ -127,6 +162,7 @@ Integer amount = resp.getInt("data.order.amount");
 - [JSONMap 完整指南](docs/第02章-核心功能/2.1-JSONMap完整指南.md)
 - [DLZ Caller日志快速接入](docs/第02章-核心功能/2.5-Caller日志快速接入.md)
 - [ValUtil 类型转换](docs/第03章-工具类库/3.1-ValUtil-类型转换.md)
+- [Cache 缓存工具](docs/第03章-工具类库/3.6-Cache-缓存工具.md)
 - [@SetValue 注解映射](docs/第04章-高级特性/4.1-SetValue注解映射.md)
 - [有界宽容原则](docs/第04章-高级特性/4.4-有界宽容原则.md)
 - [性能测试报告](docs/第07章-附录/7.1-性能测试报告.md)

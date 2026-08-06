@@ -7,22 +7,22 @@ import java.util.function.Supplier;
 /**
  * BaseException for SDK
  */
-public class BussinessException extends BaseException {
+public class BusinessException extends BaseException {
 	/**
 	 * Serial version UID
 	 */
 	private static final long serialVersionUID = -5345825923487658213L;
 	private static final int DEFAULT_ERROR_CODE = 3001;
 
-	public BussinessException(String message, Throwable cause) {
+	public BusinessException(String message, Throwable cause) {
 		this(DEFAULT_ERROR_CODE, message, cause);
 	}
 
-	public BussinessException(String message) {
+	public BusinessException(String message) {
 		this(DEFAULT_ERROR_CODE, message, null);
 	}
 	
-	public BussinessException(int errorCode, String message, Throwable cause) {
+	public BusinessException(int errorCode, String message, Throwable cause) {
 		super(errorCode, message, cause);
 	}
 
@@ -35,7 +35,7 @@ public class BussinessException extends BaseException {
 	 */
 	public static void isTrue(boolean expression, String message) {
 		if (!expression) {
-			throw new BussinessException(message);
+			throw new BusinessException(message);
 		}
 	}
 	/**
@@ -47,7 +47,7 @@ public class BussinessException extends BaseException {
 	 */
 	public static void isTrue(boolean expression, Supplier<String> c) {
 		if (!expression) {
-			throw new BussinessException(c.get());
+			throw new BusinessException(c.get());
 		}
 	}
 

@@ -11,7 +11,7 @@ import java.util.zip.CheckedInputStream;
 /**
  * 查找重复的文件
  */
-public class DulplicateFiles {
+public class DuplicateFiles {
 	@Test
 	public void getFiles() throws Exception {
 		getFileInfo(new File("E:\\资料\\5工作资料\\新建文件夹"));

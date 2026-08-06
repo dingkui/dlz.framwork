@@ -136,10 +136,91 @@ list.getStr(-2);    // "b"
 
 ---
 
+## DlzCaller — 日志调用者定位
+
+让 HttpClient、Redis、MyBatis 等公共组件的日志直接显示业务代码调用位置。
+
+```java
+import com.dlz.caller.DlzCaller;
+import com.dlz.caller.DlzCallerContext;
+
+// 推荐：try-with-resources 自动清理
+public class HttpClientUtil {
+    public HttpResult execute(HttpRequest request) {
+        try (DlzCallerContext ignored = DlzCaller.caller(0)) {
+            log.info("HTTP {} {}", request.getMethod(), request.getUrl());
+            return httpClient.execute(request);
+        }
+    }
+}
+
+// 旧代码：setCaller / clearCaller
+public HttpResult execute(HttpRequest request) {
+    DlzCaller.setCaller(1);
+    try {
+        log.info("HTTP {} {}", request.getMethod(), request.getUrl());
+        return httpClient.execute(request);
+    } finally {
+        DlzCaller.clearCaller();
+    }
+}
+```
+
+配置忽略包（启动时一次配置）：
+```java
+DlzCaller.getProperties().addIgnoreCallerPackage(
+    "com.example.http.", "com.example.redis.", "com.example.rpc.");
+```
+
+日志格式（MDC key 是 `dlz-caller`）：
+```xml
+%X{dlz-caller}
+```
+
+效果：
+```text
+[(OrderService.java:86)] HttpClientUtil - HTTP POST /payments
+```
+
+---
+
+## 内存缓存
+
+纯 JDK 实现，零额外依赖，支持过期和 getAndSet 模式。
+
+```java
+import com.dlz.kit.cache.CacheUtil;
+import com.dlz.kit.cache.MemoryCache;
+import com.dlz.kit.util.VAL;
+
+ICache cache = new MemoryCache();
+
+// 基本操作
+cache.put("user", "123", user, 3600);      // 1小时过期
+User user = cache.get("user", "123", User.class);
+cache.remove("user", "123");
+
+// 获取或设置（不存在时执行回调并缓存）
+User user = cache.getAndSet("user", "123", () -> {
+    return VAL.of(userMapper.selectById(123), 3600);
+});
+
+// 前缀查询（支持通配符*）
+Set<String> keys = cache.keys("user", "admin_*");
+```
+
+过期规则：
+- `seconds > 0`：指定秒数后过期
+- `seconds = -1`：永不过期
+- 惰性过期 + 后台守护线程定期清理
+
+---
+
 ## 完整文档
 
 - [JSONMap 完整指南](第02章-核心功能/2.1-JSONMap完整指南.md)
 - [Caller 日志快速接入](第02章-核心功能/2.5-Caller日志快速接入.md)
 - [ValUtil 类型转换](第03章-工具类库/3.1-ValUtil-类型转换.md)
+- [Cache 缓存工具](第03章-工具类库/3.6-Cache-缓存工具.md)
 - [@SetValue 注解映射](第04章-高级特性/4.1-SetValue注解映射.md)
 - [有界宽容原则](第04章-高级特性/4.4-有界宽容原则.md)

@@ -31,7 +31,7 @@ public class ExceptionErrors {
 
     public static void addErrors(int code, String info) {
         if (errors.containsKey(code)) {
-            throw new SystemException("code is exsits:" + code);
+            throw new SystemException("code is exists:" + code);
         }
         errors.put(code, info);
     }
@@ -39,7 +39,7 @@ public class ExceptionErrors {
     public static String getInfo(int code) {
         String info = errors.get(code);
         if (info == null) {
-            throw new SystemException("code is no exsits:" + code);
+            throw new SystemException("code is no exists:" + code);
         }
         return info;
     }

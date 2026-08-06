@@ -235,7 +235,7 @@ class ValUtilTest {
             assertEquals("默认1", defaultResult.getStr(0));
             
             // 空列表测试
-            JSONList emptyList = ValUtil.toListEmputy(null);
+            JSONList emptyList = ValUtil.toListEmpty(null);
             assertNotNull(emptyList);
             assertTrue(emptyList.isEmpty());
         }

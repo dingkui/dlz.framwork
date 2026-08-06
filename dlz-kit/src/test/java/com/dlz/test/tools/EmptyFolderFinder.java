@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 删除指定目录下的所有空文件夹
  */
-public class EmputyFolderFinder {
+public class EmptyFolderFinder {
 	List<File> list = new ArrayList<File>();
 
 	// 得到某一目录下的所有文件夹
@@ -44,7 +44,7 @@ public class EmputyFolderFinder {
 
 	@Test
 	public void find() {
-		EmputyFolderFinder m = new EmputyFolderFinder();
+		EmptyFolderFinder m = new EmptyFolderFinder();
 		List<File> list = m.visitAll(new File("D:\\java\\svns\\erp\\erpgls"));
 		System.out.println(list.size());
 		m.removeNullFile(list);

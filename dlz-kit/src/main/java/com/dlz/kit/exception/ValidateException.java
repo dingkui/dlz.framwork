@@ -21,14 +21,14 @@ public class ValidateException extends BaseException {
 	/**
 	 * 默认错误码
 	 */
-	private static int DEFUALT_ERROR_CODE = 3003;
+	private static int DEFAULT_ERROR_CODE = 3003;
 	/**
 	 * 构造函数，使用指定消息
 	 * 
 	 * @param message 异常消息
 	 */
 	public ValidateException(String message) {
-		super(DEFUALT_ERROR_CODE, message);
+		super(DEFAULT_ERROR_CODE, message);
 	}
 	
 	/**

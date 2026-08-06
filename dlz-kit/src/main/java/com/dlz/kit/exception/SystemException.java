@@ -22,7 +22,7 @@ public class SystemException extends BaseException {
     /**
      * 默认错误码
      */
-    private static int DEFUALT_ERROR_CODE = 6001;
+    private static int DEFAULT_ERROR_CODE = 6001;
 
     /**
      * 构造函数，使用指定消息和异常原因
@@ -31,7 +31,7 @@ public class SystemException extends BaseException {
      * @param cause   异常原因
      */
     public SystemException(String message, Throwable cause) {
-        super(DEFUALT_ERROR_CODE, message, cause);
+        super(DEFAULT_ERROR_CODE, message, cause);
     }
 
     /**
@@ -40,7 +40,7 @@ public class SystemException extends BaseException {
      * @param message 异常消息
      */
     public SystemException(String message) {
-        super(DEFUALT_ERROR_CODE, message);
+        super(DEFAULT_ERROR_CODE, message);
     }
 
     /**
