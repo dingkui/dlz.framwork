@@ -1,6 +1,5 @@
 package com.dlz.kit.util;
 
-import com.dlz.kit.consts.Charsets;
 import com.dlz.kit.json.JSONList;
 import com.dlz.kit.json.JSONMap;
 import org.junit.jupiter.api.DisplayName;
@@ -8,10 +7,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -196,9 +193,9 @@ class ValUtilTest {
         @Test
         @DisplayName("字节数组转换测试")
         void testByteArrayToStr() {
-            byte[] bytes = "测试中文".getBytes(Charsets.UTF_8);
+            byte[] bytes = "测试中文".getBytes(StandardCharsets.UTF_8);
             assertEquals("测试中文", ValUtil.toStr(bytes));
-            assertEquals("测试中文", ValUtil.toStr(bytes, Charsets.UTF_8));
+            assertEquals("测试中文", ValUtil.toStr(bytes, StandardCharsets.UTF_8));
         }
     }
 

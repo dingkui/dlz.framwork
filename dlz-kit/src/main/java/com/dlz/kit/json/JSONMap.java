@@ -50,10 +50,13 @@ public class JSONMap extends LinkedHashMap<String, Object> implements IUniversal
      */
     public JSONMap(CharSequence obj) {
         super();
-        if(obj == null || obj.length()==0) {
+        if(obj == null || obj.toString().trim().length()==0) {
             return;
         }
-        String str = obj.toString();
+        String str = obj.toString().trim();
+        if(str.length()==0) {
+            return;
+        }
         try {
             putAll(Json.parseObject(str, JsonOptions.JSON_OPTIONS_LENIENT));
         } catch (JsonException e) {

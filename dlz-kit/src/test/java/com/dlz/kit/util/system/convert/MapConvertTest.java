@@ -1,6 +1,8 @@
 package com.dlz.kit.util.system.convert;
 
 import com.dlz.kit.exception.SystemException;
+import com.dlz.kit.json.core.JsonParseException;
+import com.dlz.kit.util.system.ConvertUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,18 +13,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("MapConvert测试")
 class MapConvertTest {
 
-    private final MapConvert converter = new MapConvert();
 
     @Test
     @DisplayName("convert null返回null")
     void testConvertNull() {
-        assertNull(converter.convert(null, TestBean.class, null));
+        assertNull(ConvertUtil.convert(null, TestBean.class, null));
     }
 
     @Test
     @DisplayName("convert 非Map输入返回null")
     void testConvertNonMap() {
-        assertNull(converter.convert("string", TestBean.class, null));
+        assertThrows(Exception.class,()-> ConvertUtil.convert("string", TestBean.class));
+
     }
 
     @Test
@@ -31,7 +33,7 @@ class MapConvertTest {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "test");
         map.put("age", 25);
-        TestBean result = converter.convert(map, TestBean.class, null);
+        TestBean result = ConvertUtil.convert(map, TestBean.class, null);
         assertNotNull(result);
         assertEquals("test", result.name);
         assertEquals(25, result.age);
@@ -42,7 +44,7 @@ class MapConvertTest {
     void testConvertMapToSameMap() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("key", "value");
-        HashMap result = converter.convert(map, HashMap.class, null);
+        HashMap result = ConvertUtil.convert(map, HashMap.class, null);
         assertNotNull(result);
         assertEquals("value", result.get("key"));
     }
@@ -52,15 +54,14 @@ class MapConvertTest {
     void testConvertMapToArrayThrows() {
         Map<String, Object> map = new HashMap<>();
         assertThrows(SystemException.class, () ->
-                converter.convert(map, Object[].class, null));
+                ConvertUtil.convert(map, Object[].class, null));
     }
 
     @Test
     @DisplayName("convert Map转List抛异常")
     void testConvertMapToListThrows() {
         Map<String, Object> map = new HashMap<>();
-        assertThrows(SystemException.class, () ->
-                converter.convert(map, ArrayList.class, null));
+        assertThrows(SystemException.class, () -> ConvertUtil.convert(map, ArrayList.class, null));
     }
 
     @Test
@@ -68,20 +69,20 @@ class MapConvertTest {
     void testConvertMapToBeanWithConsumer() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "original");
-        TestBean result = converter.convert(map, TestBean.class, bean -> bean.name = "modified");
+        TestBean result = ConvertUtil.convert(map, TestBean.class, bean -> bean.name = "modified");
         assertEquals("modified", result.name);
     }
 
     @Test
     @DisplayName("convertList null返回null")
     void testConvertListNull() {
-        assertNull(converter.convertList(null, Map.class, TestBean.class, null));
+        assertEquals(0, ConvertUtil.convertList(null, Map.class).size());
     }
 
     @Test
     @DisplayName("convertList 空列表返回空")
     void testConvertListEmpty() {
-        List result = converter.convertList(new ArrayList<>(), Map.class, TestBean.class, null);
+        List result = ConvertUtil.convertList(new ArrayList<>(), Map.class);
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -90,7 +91,7 @@ class MapConvertTest {
     @DisplayName("convertList 非Map类型返回null")
     void testConvertListNonMapSource() {
         List<String> input = Arrays.asList("a", "b");
-        assertNull(converter.convertList(input, String.class, TestBean.class, null));
+        assertThrows(JsonParseException.class, () -> ConvertUtil.convertList(input, TestBean.class));
     }
 
     @Test
@@ -105,7 +106,7 @@ class MapConvertTest {
         m2.put("age", 2);
         input.add(m1);
         input.add(m2);
-        List<TestBean> result = converter.convertList(input, Map.class, TestBean.class, null);
+        List<TestBean> result = ConvertUtil.convertList(input, TestBean.class);
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals("first", result.get(0).name);

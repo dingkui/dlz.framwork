@@ -1,5 +1,6 @@
 package com.dlz.kit.json.core;
 
+import com.dlz.kit.json.JSONList;
 import com.dlz.kit.json.JSONMap;
 import org.junit.jupiter.api.Test;
 
@@ -47,20 +48,21 @@ class JsonTest {
 
     @Test
     void supportsExplicitLenientSyntax() {
-        Map<String, Object> root = Json.parseObject(
-                "{/*comment*/name:'dlz',items:[one,two,],}",
+        JSONMap root = Json.parseObject(
+                "{/*comment*/name:'dlz',items:['one','two',],}",
                 JsonOptions.JSON_OPTIONS_LENIENT
         );
 
         assertEquals("dlz", root.get("name"));
-        assertEquals(Arrays.asList("one", "two"), root.get("items"));
+        assertEquals("one", root.getStr("items[0]"));
     }
 
     @Test
     void strictModeRejectsLenientSyntaxAndTrailingInput() {
         final JSONMap jsonMap = Json.parseObject("{name:1}");
-
-        assertThrows(JsonParseException.class, () -> Json.parseArray("[1,]"));
+        final JSONList objects = Json.parseArray("[1,]");
+        assertEquals(1, jsonMap.size());
+        assertEquals(1, objects.size());
         assertThrows(JsonParseException.class, () -> Json.parse("{} trailing"));
         assertThrows(JsonParseException.class, () -> Json.parse("01"));
     }

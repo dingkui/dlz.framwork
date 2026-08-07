@@ -1,6 +1,8 @@
 package com.dlz.kit.util;
 
 import com.dlz.kit.json.JSONMap;
+import com.dlz.kit.util.beans.TestBean;
+import com.dlz.kit.util.system.ConvertUtil;
 import com.dlz.kit.util.system.annotation.SetValue;
 import com.dlz.test.beans.SourceBean;
 import com.dlz.test.beans.TargetBean;
@@ -40,31 +42,31 @@ class BeanUtilTest {
             TestBean bean = new TestBean();
             
             // 直接属性访问
-            String name = BeanUtil.getValue(bean, "name", false);
+            String name = ValUtil.at(bean, "name");
             assertEquals("测试名称", name);
-            
-            Integer age = BeanUtil.getValue(bean, "age", false);
+
+            Integer age = ValUtil.at(bean, "age");
             assertEquals(Integer.valueOf(25), age);
-            
+
             // Map访问
             Map<String, Object> map = new HashMap<>();
             map.put("key1", "值1");
             map.put("key2", 123);
-            assertEquals("值1", BeanUtil.getValue(map, "key1", false));
-            assertEquals(Integer.valueOf(123), BeanUtil.getValue(map, "key2", false));
-            
+            assertEquals("值1", ValUtil.at(map, "key1"));
+            assertEquals(Integer.valueOf(123), ValUtil.at(map, "key2"));
+
             // List访问
             List<String> list = Arrays.asList("元素1", "元素2", "元素3");
-            assertEquals("元素2", BeanUtil.getValue(list, "1", false));
-            
+            assertEquals("元素2", ValUtil.at(list, "[1]"));
+
             // JSON字符串访问
             String json = "{\"name\":\"JSON测试\",\"nested\":{\"value\":999}}";
-            assertEquals("JSON测试", BeanUtil.getValue(json, "name", false));
-            assertEquals(Integer.valueOf(999), BeanUtil.getValue(json, "nested.value", false));
-            
+            assertEquals("JSON测试", ValUtil.at(json, "name"));
+            assertEquals(Integer.valueOf(999), ValUtil.at(json, "nested.value"));
+
             // 数组访问
             String[] array = {"数组元素1", "数组元素2"};
-            assertEquals("数组元素1", BeanUtil.getValue(array, "0", false));
+            assertEquals("数组元素1", ValUtil.at(array, "[0]"));
         }
 
         @Test
@@ -73,63 +75,30 @@ class BeanUtilTest {
             TestBean bean = new TestBean();
             
             // 设置简单属性
-            BeanUtil.setValue(bean, "name", "新名称", false);
+            ValUtil.set(bean, "name", "新名称", false);
             assertEquals("新名称", bean.getName());
             
-            BeanUtil.setValue(bean, "age", 30, false);
+            ValUtil.set(bean, "age", 30, false);
             assertEquals(30, bean.getAge());
             
             // Map设置
             Map<String, Object> map = new HashMap<>();
-            BeanUtil.setValue(map, "newKey", "新值", false);
+            ValUtil.set(map, "newKey", "新值", false);
             assertEquals("新值", map.get("newKey"));
             
             // List设置
             List<String> list = new ArrayList<>(Arrays.asList("元素1", "元素2"));
-            BeanUtil.setValue(list, "1", "修改的元素", false);
+            ValUtil.set(list, "1", "修改的元素", false);
             assertEquals("修改的元素", list.get(1));
             
             // JSON字符串设置
             String json = "{\"name\":\"原始名称\"}";
-            String newJson = (String) BeanUtil.setValue(json, "name", "修改名称", false);
+            String newJson = (String) ValUtil.set(json, "name", "修改名称", false);
             JSONMap resultMap = new JSONMap(newJson);
             assertEquals("修改名称", resultMap.getStr("name"));
         }
     }
 
-    @Nested
-    @DisplayName("集合操作测试")
-    class CollectionOperationTests {
-
-        @Test
-        @DisplayName("join方法测试")
-        void testJoin() {
-            // Map join
-            Map<String, Object> targetMap = new HashMap<>();
-            targetMap.put("existing", "已存在");
-            
-            Map<String, Object> sourceMap = new HashMap<>();
-            sourceMap.put("newKey", "新值");
-            sourceMap.put("another", "另一个值");
-
-            BeanUtil.join(sourceMap, targetMap);
-            assertEquals(3, targetMap.size());
-            assertEquals("已存在", targetMap.get("existing"));
-            assertEquals("新值", targetMap.get("newKey"));
-            assertEquals("另一个值", targetMap.get("another"));
-            
-            // List join
-            List<String> targetList = new ArrayList<>();
-            targetList.add("已存在元素");
-            
-            List<String> sourceList = Arrays.asList("新元素1", "新元素2");
-            BeanUtil.join(sourceList, targetList);
-            assertEquals(3, targetList.size());
-            assertEquals("已存在元素", targetList.get(0));
-            assertEquals("新元素1", targetList.get(1));
-            assertEquals("新元素2", targetList.get(2));
-        }
-    }
 
     @Nested
     @DisplayName("对象拷贝测试")
@@ -138,23 +107,17 @@ class BeanUtilTest {
         @DisplayName("普通对象拷贝测试")
         void testCopy() {
             SourceBean source = new SourceBean();
-            TargetBean target = new TargetBean();
-            
-            TargetBean result = BeanUtil.copyAsTarget(source, target, false);
-            
+            TargetBean result = ConvertUtil.convert( source, TargetBean.class);
+
             assertEquals("源名称", result.getName());
             assertEquals(30, result.getAge());
-            assertSame(target, result);
         }
 
         @Test
         @DisplayName("JSONMap对象拷贝测试")
         void testCopyToJSONMap() {
             SourceBean source = new SourceBean();
-            JSONMap target = new JSONMap();
-
-            BeanUtil.copyAsSource(source, target, false);
-            
+            JSONMap target = ConvertUtil.convert( source, JSONMap.class);
             assertEquals("源名称", target.getStr("name"));
             assertEquals(Integer.valueOf(30), target.getInt("age"));
             assertEquals("test@example.com", target.getStr("email"));
@@ -165,35 +128,23 @@ class BeanUtilTest {
     @Nested
     @DisplayName("复制测试")
     class CopyTests {
-
-        @Data
-        class TestBean {
-            private String name = "测试名称";
-            @SetValue("info")
-            private String xx;
-            @SetValue("info")
-            private String xx2;
-        }
-
         @Test
         @DisplayName("bean to map方法测试")
-        void testcopyAsSource() {
+        public void testcopyAsSource() {
             TestBean bean = new TestBean();
             bean.setXx("xx");
             bean.setXx2("xx2");
-            JSONMap target = new JSONMap();
-            BeanUtil.copyAsSource(bean, target,false);
+            JSONMap target = ConvertUtil.convert(bean, JSONMap.class);
             assertEquals("{\"name\":\"测试名称\",\"info\":{\"xx\":\"xx\",\"xx2\":\"xx2\"}}", target.toString());
         }
 
         @Test
         @DisplayName("map to bean 方法测试")
         void testGetValue() {
-            TestBean bean = new TestBean();
-            JSONMap target = new JSONMap("{\"name\":\"测试名称\",\"info\":{\"xx\":\"xx\",\"xx2\":\"xx2\"}}");
-            BeanUtil.copyAsTarget(target, bean,false);
-            assertEquals("xx", bean.xx);
-            assertEquals("xx2", bean.xx2);
+            JSONMap source = new JSONMap("{\"name\":\"测试名称\",\"info\":{\"xx\":\"xx\",\"xx2\":\"xx2\"}}");
+            TestBean target = ConvertUtil.convert(source, TestBean.class);
+            assertEquals("xx", target.getXx());
+            assertEquals("xx2", target.getXx2());
         }
     }
 }

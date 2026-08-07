@@ -6,7 +6,7 @@
 
 ## 是什么
 
-JSONMap 继承 HashMap，为 JSON 嵌套数据提供路径取值、自动类型转换、链式构建能力。
+JSONMap 继承 LinkedHashMap，为 JSON 嵌套数据提供路径取值、自动类型转换、链式构建能力。
 
 ```xml
 <dependency>
@@ -66,7 +66,7 @@ map.put("a.b.c", 1);    // 不解析路径，直接作为键名 → {"a.b.c":1}
 map.add("tags", "x");   // 追加到数组，自动创建数组
 ```
 
-set 是路径模式，put 是 HashMap 原语。构造嵌套结构用 set。
+set 是路径模式，put 是 Map 原语。构造嵌套结构用 set。
 
 ---
 
@@ -90,7 +90,7 @@ ValUtil.toList("1,2,3", Integer.class)  // → [1,2,3]
 
 ---
 
-## @SetValue 注解 — 扁平 Bean ↔ 嵌套 JSON
+## ConvertUtil — 类型转换 + @SetValue 注解
 
 ```java
 public class User {
@@ -102,16 +102,24 @@ public class User {
 }
 
 // 扁平 Bean → 嵌套 JSON
-User user = getUser();
-JSONMap target = new JSONMap();
-BeanUtil.copyAsSource(user, target, false);
+JSONMap json = ConvertUtil.convert(user, JSONMap.class);
 // → {"name":"张三","ext_info":{"phone":"138xxx","address":"上海"}}
 
 // 嵌套 JSON → 扁平 Bean
-User user = BeanUtil.copyAsTarget(source, User.class);
+User user = ConvertUtil.convert(json, User.class);
+
+// 批量转换
+List<User> users = ConvertUtil.convertList(list, User.class);
 ```
 
-`copyAsSource(source, target, true)`：第三个参数 true 表示只复制有 @SetValue 的字段。
+ConvertUtil 在 Bean ↔ Map 转换时自动识别 `@SetValue` 注解。详见 [4.1](第04章-高级特性/4.1-SetValue注解映射.md)。
+
+### ValUtil 路径操作
+
+```java
+ValUtil.at(obj, "a.b.c[1]");            // 路径取值（Map/Bean/List/数组通用）
+ValUtil.set(obj, "a.b.c", value, false); // 路径设值
+```
 
 ---
 

@@ -32,7 +32,7 @@ public final class Json {
      * @return 解析后的 Java 对象（可能是 Map / List / String / Number / Boolean / null）
      */
     public static Object parse(String json) {
-        return parse(json, JsonOptions.JSON_OPTIONS_LENIENT);
+        return parse(json, JsonOptions.JSON_OPTIONS_STRICT);
     }
 
     /**

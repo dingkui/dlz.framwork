@@ -278,7 +278,11 @@ public class Reflections {
      * @return 运行时异常
      */
     public static RuntimeException convertReflectionExceptionToUnchecked(Exception e) {
-        if (e instanceof IllegalAccessException || e instanceof IllegalArgumentException
+        if (e instanceof InstantiationException) {
+            // 常见于：目标类是抽象类/接口，或非 static 内部类（需要外部实例才能实例化）
+            return SystemException.build("无法通过无参构造器实例化该类，请确认它不是抽象类/接口/非static内部类: "
+                    + e.getMessage(), e);
+        } else if (e instanceof IllegalAccessException || e instanceof IllegalArgumentException
                 || e instanceof NoSuchMethodException) {
             return SystemException.build(e);
         } else if (e instanceof InvocationTargetException) {

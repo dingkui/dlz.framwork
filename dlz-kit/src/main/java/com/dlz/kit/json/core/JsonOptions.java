@@ -70,7 +70,7 @@ public final class JsonOptions {
             .enable(JsonFeature.ALLOW_COMMENTS) // 允许注释
             .enable(JsonFeature.ALLOW_SINGLE_QUOTES)// 允许单引号
             .enable(JsonFeature.ALLOW_UNQUOTED_KEYS)// 允许裸键
-            .enable(JsonFeature.ALLOW_UNQUOTED_STRING_VALUES)// 允许裸值
+//            .enable(JsonFeature.ALLOW_UNQUOTED_STRING_VALUES)// 允许裸值
             .enable(JsonFeature.ALLOW_TRAILING_COMMA)// 允许尾随逗号
             .enable(JsonFeature.WRITE_NULLS)// 输出 null 字段
             .build();

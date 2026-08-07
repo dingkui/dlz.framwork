@@ -139,7 +139,7 @@ public class FieldReflections {
                 declaredFields = searchType.getDeclaredFields();
                 Arrays.stream(declaredFields).forEach(field -> {
                     String fieldName = field.getName();
-                    if(!Modifier.isStatic(field.getModifiers()) && !caheMap.containsKey(fieldName)){
+                    if(fieldName.indexOf("$")==-1 && !Modifier.isStatic(field.getModifiers()) && !caheMap.containsKey(fieldName)){
                         caheMap.put(fieldName, field);
                         makeAccessible(field);
                     }

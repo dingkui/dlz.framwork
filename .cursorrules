@@ -10,7 +10,7 @@ dlz-kit 是一个轻量级 Java 工具库（~100KB，唯一依赖 slf4j），核
 - DlzCaller — 公共组件日志显示业务调用方位置
 - ValUtil — 安全的类型转换（有界宽容原则）
 - MemoryCache — 超轻量内存缓存
-- 丰富工具类：BeanUtil、DateUtil、StringUtils 等
+- 丰富工具类：ConvertUtil、DateUtil、StringUtils 等
 
 Maven 依赖：
 ```xml
@@ -63,7 +63,7 @@ map.put("a.b.c", 1);    // 不解析路径，直接作为键名 → {"a.b.c":1}
 map.add("tags", "x");   // 追加到数组，自动创建数组
 ```
 
-**重要区分：set 是路径模式，put 是 HashMap 原语。构造嵌套结构用 set。**
+**重要区分：set 是路径模式，put 是 Map 原语。构造嵌套结构用 set。**
 
 ### JSONList
 
@@ -134,6 +134,8 @@ ValUtil.toBigDecimal(obj);
 ValUtil.toBoolean(obj);
 ValUtil.toList("1,2,3", Integer.class); // → [1,2,3]
 ValUtil.toObj(map, User.class);         // Map → Bean
+ValUtil.at(obj, "a.b.c[1]");            // 路径取值（Map/Bean/List/数组通用）
+ValUtil.set(obj, "a.b.c", value, false); // 路径设值
 ```
 
 ---
@@ -163,7 +165,7 @@ Set<String> keys = cache.keys("user", "admin_*");
 
 ## @SetValue 注解：扁平 Bean ↔ 嵌套 JSON
 
-当 Bean 字段与 JSON 结构不一致时（比如数据库 JSON 字段、Excel 导入导出），使用 `@SetValue` 注解配合 `BeanUtil` 做双向映射。
+当 Bean 字段与 JSON 结构不一致时（比如数据库 JSON 字段、Excel 导入导出），使用 `@SetValue` 注解配合 `ConvertUtil` 做双向映射。
 
 ```java
 public class User {
@@ -175,11 +177,14 @@ public class User {
 }
 
 // 扁平 Bean → 嵌套 JSON
-BeanUtil.copyAsSource(user, target, false);
+JSONMap json = ConvertUtil.convert(user, JSONMap.class);
 // → {"name":"张三","ext_info":{"phone":"...","address":"..."}}
 
 // 嵌套 JSON → 扁平 Bean
-User user = BeanUtil.copyAsTarget(source, User.class);
+User user = ConvertUtil.convert(json, User.class);
+
+// 批量转换
+List<User> users = ConvertUtil.convertList(list, User.class);
 ```
 
 ---
@@ -196,6 +201,6 @@ JSONMap 适合：API 响应处理、动态构建请求、配置管理、表单�
 
 ## 完整文档
 
-- AI 速读指南：docs/AI-速读指南.md
+- AI 速读指南：docs/AI-速读.md
 - 官方文档：docs/00-文档导航.md
 - GitHub：https://github.com/dingkui/dlz-kit
