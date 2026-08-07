@@ -1197,7 +1197,7 @@ class JSONMapTest {
             assertEquals(1,paras.getList("b").size());
 
             paras.set("c[3]",1);
-            assertEquals("{\"a\":[1,2,3],\"b\":{\"a\":2,\"b\":1},\"c\":[null,null,null,1]}",paras.toString());
+            assertEquals("{\"a\":[1,2,3],\"b\":{\"b\":1,\"a\":2},\"c\":[null,null,null,1]}",paras.toString());
         }
 
         /**
@@ -1263,7 +1263,9 @@ class JSONMapTest {
             // 验证JSON字符串可以被解析为Map并获取属性
             assertEquals("1", list.getMap(0).getStr("b"));
             assertEquals("2", list.getMap(0).getStr("a"));
-
+            assertEquals("1", list.getStr("[0].b"));
+            assertEquals("2", list.getStr("[1].a"));
+            assertEquals("1", list.getStr("[2].b1"));
         }
 
         /**

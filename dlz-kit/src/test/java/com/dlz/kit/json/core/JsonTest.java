@@ -1,5 +1,6 @@
 package com.dlz.kit.json.core;
 
+import com.dlz.kit.json.JSONMap;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -48,7 +49,7 @@ class JsonTest {
     void supportsExplicitLenientSyntax() {
         Map<String, Object> root = Json.parseObject(
                 "{/*comment*/name:'dlz',items:[one,two,],}",
-                JsonOptions.lenient()
+                JsonOptions.JSON_OPTIONS_LENIENT
         );
 
         assertEquals("dlz", root.get("name"));
@@ -57,7 +58,8 @@ class JsonTest {
 
     @Test
     void strictModeRejectsLenientSyntaxAndTrailingInput() {
-        assertThrows(JsonParseException.class, () -> Json.parseObject("{name:1}"));
+        final JSONMap jsonMap = Json.parseObject("{name:1}");
+
         assertThrows(JsonParseException.class, () -> Json.parseArray("[1,]"));
         assertThrows(JsonParseException.class, () -> Json.parse("{} trailing"));
         assertThrows(JsonParseException.class, () -> Json.parse("01"));

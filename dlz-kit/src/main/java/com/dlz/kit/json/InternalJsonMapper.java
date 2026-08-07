@@ -35,7 +35,7 @@ public final class InternalJsonMapper implements JsonMapper {
 
     @Override
     public String write(Object value) {
-        return Json.stringify(toJsonValue(value, new IdentityHashMap<Object, Boolean>()), WRITE_OPTIONS);
+        return Json.stringify(toJsonValue(value, new IdentityHashMap<>()), WRITE_OPTIONS);
     }
 
     @Override
@@ -49,11 +49,11 @@ public final class InternalJsonMapper implements JsonMapper {
         }
         String text = value.toString().trim();
         if (text.startsWith("{") || text.startsWith("[") || text.startsWith("\"")) {
-            Object parsed = Json.parse(text, JsonOptions.lenient());
+            Object parsed = Json.parse(text, JsonOptions.JSON_OPTIONS_LENIENT);
             if (parsed instanceof CharSequence) {
                 String nested = parsed.toString().trim();
                 if (nested.startsWith("{") || nested.startsWith("[")) {
-                    return Json.parse(nested, JsonOptions.lenient());
+                    return Json.parse(nested, JsonOptions.JSON_OPTIONS_LENIENT);
                 }
             }
             return parsed;

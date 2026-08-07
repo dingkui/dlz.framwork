@@ -7,14 +7,14 @@ import com.dlz.kit.util.VAL;
 import com.dlz.test.beans.ChildEntity;
 import com.dlz.test.beans.TestEntity;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * FieldReflections 工具类单元测试
@@ -28,7 +28,7 @@ public class FieldReflectionsTest {
     private TestEntity testEntity;
     private ChildEntity childEntity;
     
-    @Before
+    @BeforeEach
     public void setUp() {
         testEntity = new TestEntity("张三", 25, true);
         childEntity = new ChildEntity("李四", 30, false, "子类字段", 95.5);
@@ -41,11 +41,11 @@ public class FieldReflectionsTest {
         
         // 通过字段获取值
         String name = FieldReflections.getValue(testEntity, nameField);
-        assertEquals("通过字段获取值应该正确", "张三", name);
+        assertEquals("张三", name, "通过字段获取值应该正确");
         
         // 测试null字段
         try {
-            FieldReflections.getValue(testEntity, null);
+            FieldReflections.getValue(testEntity, (Field)null);
             fail("null字段应该抛出异常");
         } catch (Exception e) {
             assertEquals("6001:[field is null]", e.getMessage());
@@ -56,24 +56,24 @@ public class FieldReflectionsTest {
     public void testGetValue_ByFieldName() {
         // 通过字段名获取值
         String name = FieldReflections.getValue(testEntity, "name", false);
-        assertEquals("通过字段名获取值应该正确", "张三", name);
+        assertEquals("张三", name, "通过字段名获取值应该正确");
         
         int age = FieldReflections.getValue(testEntity, "age", false);
-        assertEquals("获取int字段应该正确", 25, age);
+        assertEquals(25, age, "获取int字段应该正确");
         
         boolean active = FieldReflections.getValue(testEntity, "active", false);
-        assertTrue("获取boolean字段应该正确", active);
+        assertTrue(active, "获取boolean字段应该正确");
         
         // 测试忽略模式
         String nonExist = FieldReflections.getValue(testEntity, "nonExistField", true);
-        assertNull("忽略模式下不存在字段应返回null", nonExist);
+        assertNull(nonExist, "忽略模式下不存在字段应返回null");
         
         // 测试非忽略模式下的异常
         try {
             FieldReflections.getValue(testEntity, "nonExistField", false);
             fail("不存在字段且非忽略模式应该抛出异常");
         } catch (Exception e) {
-            assertTrue("应该抛出SystemException", e.getMessage().contains("NoSuchField"));
+            assertTrue(e.getMessage().contains("NoSuchField"), "应该抛出SystemException");
         }
         
         // 测试null对象
@@ -81,35 +81,34 @@ public class FieldReflectionsTest {
             FieldReflections.getValue(null, "name", false);
             fail("null对象且非忽略模式应该抛出异常");
         } catch (Exception e) {
-            assertTrue("应该抛出IllegalArgumentException", 
-                      e.getMessage().contains("Could not getValue"));
+            assertTrue(e.getMessage().contains("Could not getValue"), "应该抛出IllegalArgumentException");
         }
         
         // 测试null对象忽略模式
         Object nullResult = FieldReflections.getValue(null, "name", true);
-        assertNull("null对象忽略模式应返回null", nullResult);
+        assertNull(nullResult, "null对象忽略模式应返回null");
     }
     
     @Test
     public void testSetValue_ByFieldName() {
         // 设置字符串值
         boolean setResult1 = FieldReflections.setValue(testEntity, "name", "王五");
-        assertTrue("设置字符串值应该成功", setResult1);
-        assertEquals("设置后值应该正确", "王五", testEntity.getName());
+        assertTrue(setResult1, "设置字符串值应该成功");
+        assertEquals("王五", testEntity.getName(), "设置后值应该正确");
         
         // 设置数值值
         boolean setResult2 = FieldReflections.setValue(testEntity, "age", 30);
-        assertTrue("设置数值值应该成功", setResult2);
-        assertEquals("设置后值应该正确", 30, testEntity.getAge());
+        assertTrue(setResult2, "设置数值值应该成功");
+        assertEquals(30, testEntity.getAge(), "设置后值应该正确");
         
         // 设置布尔值
         boolean setResult3 = FieldReflections.setValue(testEntity, "active", false);
-        assertTrue("设置布尔值应该成功", setResult3);
-        assertFalse("设置后值应该正确", testEntity.isActive());
+        assertTrue(setResult3, "设置布尔值应该成功");
+        assertFalse(testEntity.isActive(), "设置后值应该正确");
         
         // 测试忽略模式
         boolean ignoreResult = FieldReflections.setValue(testEntity, "nonExistField", "value", true);
-        assertFalse("忽略模式下不存在字段应返回false", ignoreResult);
+        assertFalse(ignoreResult, "忽略模式下不存在字段应返回false");
 
 
         assertThrows(SystemException.class,()->FieldReflections.setValue(testEntity, "nonExistField", "value", false));
@@ -118,7 +117,7 @@ public class FieldReflectionsTest {
         
         // 测试null对象忽略模式
         boolean nullResult = FieldReflections.setValue(null, "name", "value", true);
-        assertFalse("null对象忽略模式应返回false", nullResult);
+        assertFalse(nullResult, "null对象忽略模式应返回false");
     }
     
     @Test
@@ -127,8 +126,8 @@ public class FieldReflectionsTest {
         
         // 通过字段设置值
         boolean setResult = FieldReflections.setValue(testEntity, nameField, "赵六");
-        assertTrue("通过字段设置值应该成功", setResult);
-        assertEquals("设置后值应该正确", "赵六", testEntity.getName());
+        assertTrue(setResult, "通过字段设置值应该成功");
+        assertEquals("赵六", testEntity.getName(), "设置后值应该正确");
         
         // 测试null字段
         try {
@@ -143,42 +142,42 @@ public class FieldReflectionsTest {
     public void testSetValue_Overload() {
         // 测试不带ignore参数的重载方法
         boolean setResult = FieldReflections.setValue(testEntity, "name", "孙七");
-        assertTrue("重载方法设置值应该成功", setResult);
-        assertEquals("设置后值应该正确", "孙七", testEntity.getName());
+        assertTrue(setResult, "重载方法设置值应该成功");
+        assertEquals("孙七", testEntity.getName(), "设置后值应该正确");
     }
     
     @Test
     public void testGetField() {
         // 通过对象获取字段
         Field nameField1 = FieldReflections.getField(testEntity, "name", false);
-        assertNotNull("应该能获取到字段", nameField1);
-        assertEquals("字段名应该正确", "name", nameField1.getName());
+        assertNotNull(nameField1, "应该能获取到字段");
+        assertEquals("name", nameField1.getName(), "字段名应该正确");
         
         // 通过类获取字段
         Field nameField2 = FieldReflections.getField(TestEntity.class, "name", false);
-        assertNotNull("应该能获取到字段", nameField2);
-        assertEquals("字段名应该正确", "name", nameField2.getName());
+        assertNotNull(nameField2, "应该能获取到字段");
+        assertEquals("name", nameField2.getName(), "字段名应该正确");
         
         // 测试继承字段
         Field childField = FieldReflections.getField(childEntity, "childField", false);
-        assertNotNull("应该能获取到子类字段", childField);
-        assertEquals("子类字段名应该正确", "childField", childField.getName());
+        assertNotNull(childField, "应该能获取到子类字段");
+        assertEquals("childField", childField.getName(), "子类字段名应该正确");
         
         // 测试父类字段
         Field parentField = FieldReflections.getField(childEntity, "name", false);
-        assertNotNull("应该能获取到父类字段", parentField);
-        assertEquals("父类字段名应该正确", "name", parentField.getName());
+        assertNotNull(parentField, "应该能获取到父类字段");
+        assertEquals("name", parentField.getName(), "父类字段名应该正确");
         
         // 测试忽略模式
         Field nonExistField = FieldReflections.getField(testEntity, "nonExistField", true);
-        assertNull("忽略模式下不存在字段应返回null", nonExistField);
+        assertNull(nonExistField, "忽略模式下不存在字段应返回null");
         
         // 测试非忽略模式下的异常
         try {
             FieldReflections.getField(testEntity, "nonExistField", false);
             fail("不存在字段且非忽略模式应该抛出异常");
         } catch (Exception e) {
-            assertTrue("应该抛出SystemException", e.getMessage().contains("NoSuchField"));
+            assertTrue(e.getMessage().contains("NoSuchField"), "应该抛出SystemException");
         }
     }
     
@@ -186,32 +185,32 @@ public class FieldReflectionsTest {
     public void testGetFieldsMap() {
         // 获取字段映射
         Map<String, Field> fieldsMap = FieldReflections.getFieldsMap(TestEntity.class);
-        assertNotNull("字段映射不应为null", fieldsMap);
+        assertNotNull(fieldsMap, "字段映射不应为null");
         
         // 验证包含的字段
-        assertTrue("应该包含name字段", fieldsMap.containsKey("name"));
-        assertTrue("应该包含age字段", fieldsMap.containsKey("age"));
-        assertTrue("应该包含active字段", fieldsMap.containsKey("active"));
-        assertFalse("不应该包含static字段", fieldsMap.containsKey("staticField"));
+        assertTrue(fieldsMap.containsKey("name"), "应该包含name字段");
+        assertTrue(fieldsMap.containsKey("age"), "应该包含age字段");
+        assertTrue(fieldsMap.containsKey("active"), "应该包含active字段");
+        assertFalse(fieldsMap.containsKey("staticField"), "不应该包含static字段");
         
         // 验证字段类型
-        assertEquals("name字段类型应该正确", String.class, fieldsMap.get("name").getType());
-        assertEquals("age字段类型应该正确", int.class, fieldsMap.get("age").getType());
-        assertEquals("active字段类型应该正确", boolean.class, fieldsMap.get("active").getType());
+        assertEquals(String.class, fieldsMap.get("name").getType(), "name字段类型应该正确");
+        assertEquals(int.class, fieldsMap.get("age").getType(), "age字段类型应该正确");
+        assertEquals(boolean.class, fieldsMap.get("active").getType(), "active字段类型应该正确");
         
         // 测试子类字段映射
         Map<String, Field> childFieldsMap = FieldReflections.getFieldsMap(ChildEntity.class);
-        assertTrue("子类应该包含父类字段", childFieldsMap.containsKey("name"));
-        assertTrue("子类应该包含自己的字段", childFieldsMap.containsKey("childField"));
-        assertTrue("子类应该包含自己的字段", childFieldsMap.containsKey("score"));
+        assertTrue(childFieldsMap.containsKey("name"), "子类应该包含父类字段");
+        assertTrue(childFieldsMap.containsKey("childField"), "子类应该包含自己的字段");
+        assertTrue(childFieldsMap.containsKey("score"), "子类应该包含自己的字段");
     }
     
     @Test
     public void testGetFields() {
         // 获取字段列表
         List<Field> fields = FieldReflections.getFields(TestEntity.class);
-        assertNotNull("字段列表不应为null", fields);
-        assertEquals("应该包含3个字段", 3, fields.size());
+        assertNotNull(fields, "字段列表不应为null");
+        assertEquals(3, fields.size(), "应该包含3个字段");
         
         // 验证字段顺序和内容
         boolean hasName = false, hasAge = false, hasActive = false;
@@ -222,40 +221,40 @@ public class FieldReflectionsTest {
                 case "active": hasActive = true; break;
             }
         }
-        assertTrue("应该包含name字段", hasName);
-        assertTrue("应该包含age字段", hasAge);
-        assertTrue("应该包含active字段", hasActive);
+        assertTrue(hasName, "应该包含name字段");
+        assertTrue(hasAge, "应该包含age字段");
+        assertTrue(hasActive, "应该包含active字段");
         
         // 测试子类字段列表
         List<Field> childFields = FieldReflections.getFields(ChildEntity.class);
-        assertTrue("子类字段数量应该大于等于父类", childFields.size() >= 3);
+        assertTrue(childFields.size() >= 3, "子类字段数量应该大于等于父类");
     }
     
     @Test
     public void testDecapitalize() {
         // 基本测试
-        assertEquals("首字母应该小写", "cat", FieldReflections.decapitalize("Cat"));
-        assertEquals("已经是小写应该保持", "cat", FieldReflections.decapitalize("cat"));
-        assertEquals("单字符应该小写", "a", FieldReflections.decapitalize("A"));
+        assertEquals("cat", FieldReflections.decapitalize("Cat"), "首字母应该小写");
+        assertEquals("cat", FieldReflections.decapitalize("cat"), "已经是小写应该保持");
+        assertEquals("a", FieldReflections.decapitalize("A"), "单字符应该小写");
         
         // 边界测试
-        assertNull("null应该返回null", FieldReflections.decapitalize(null));
-        assertEquals("空字符串应该保持", "", FieldReflections.decapitalize(""));
+        assertNull(FieldReflections.decapitalize(null), "null应该返回null");
+        assertEquals("", FieldReflections.decapitalize(""), "空字符串应该保持");
         
         // 全大写测试
-        assertEquals("全大写应该保持", "ABC", FieldReflections.decapitalize("ABC"));
-        assertEquals("混合大小写应该处理", "HTML", FieldReflections.decapitalize("HTML"));
+        assertEquals("ABC", FieldReflections.decapitalize("ABC"), "全大写应该保持");
+        assertEquals("HTML", FieldReflections.decapitalize("HTML"), "混合大小写应该处理");
     }
     
     @Test
     public void testMakeAccessible() throws NoSuchFieldException {
         // 获取私有字段
         Field privateField = TestEntity.class.getDeclaredField("name");
-        assertFalse("私有字段初始应该是不可访问的", privateField.isAccessible());
+        assertFalse(privateField.isAccessible(), "私有字段初始应该是不可访问的");
         
         // 设置可访问
         FieldReflections.makeAccessible(privateField);
-        assertTrue("私有字段应该变为可访问的", privateField.isAccessible());
+        assertTrue(privateField.isAccessible(), "私有字段应该变为可访问的");
         
         // 测试公共字段（应该不需要改变）
         Field publicField = TestEntity.class.getField("staticField");
@@ -268,15 +267,15 @@ public class FieldReflectionsTest {
         // 测试方法引用获取字段
         DlzFn<TestEntity, String> nameGetter = TestEntity::getName;
         VAL<Class<?>, Field> nameResult = FieldReflections.getFn(nameGetter);
-        assertNotNull("方法引用结果不应为null", nameResult);
-        assertEquals("类应该正确", TestEntity.class, nameResult.v1);
-        assertEquals("字段应该正确", "name", nameResult.v2.getName());
+        assertNotNull(nameResult, "方法引用结果不应为null");
+        assertEquals(TestEntity.class, nameResult.v1, "类应该正确");
+        assertEquals("name", nameResult.v2.getName(), "字段应该正确");
         
         // 测试boolean字段的方法引用
         DlzFn<TestEntity, Boolean> activeGetter = TestEntity::isActive;
         VAL<Class<?>, Field> activeResult = FieldReflections.getFn(activeGetter);
-        assertNotNull("boolean方法引用结果不应为null", activeResult);
-        assertEquals("字段应该正确", "active", activeResult.v2.getName());
+        assertNotNull(activeResult, "boolean方法引用结果不应为null");
+        assertEquals("active", activeResult.v2.getName(), "字段应该正确");
         
         // 测试lambda表达式（应该抛出异常）
         DlzFn<TestEntity, String> lambdaFn = entity -> entity.getName();
@@ -291,32 +290,32 @@ public class FieldReflectionsTest {
     public void testInheritanceFieldAccess() {
         // 测试子类访问父类字段
         String parentName = FieldReflections.getValue(childEntity, "name", false);
-        assertEquals("子类应该能访问父类字段", "李四", parentName);
+        assertEquals("李四", parentName, "子类应该能访问父类字段");
         
         // 测试子类自己的字段
         String childFieldValue = FieldReflections.getValue(childEntity, "childField", false);
-        assertEquals("子类应该能访问自己的字段", "子类字段", childFieldValue);
+        assertEquals("子类字段", childFieldValue, "子类应该能访问自己的字段");
         
         double score = FieldReflections.getValue(childEntity, "score", false);
-        assertEquals("double字段应该正确获取", 95.5, score, 0.001);
+        assertEquals(95.5, score, 0.001, "double字段应该正确获取");
         
         // 测试设置子类字段
         FieldReflections.setValue(childEntity, "childField", "新的子类值");
-        assertEquals("子类字段应该能正确设置", "新的子类值", childEntity.getChildField());
+        assertEquals("新的子类值", childEntity.getChildField(), "子类字段应该能正确设置");
         
         FieldReflections.setValue(childEntity, "score", 88.8);
-        assertEquals("double字段应该能正确设置", 88.8, childEntity.getScore(), 0.001);
+        assertEquals(88.8, childEntity.getScore(), 0.001, "double字段应该能正确设置");
     }
     
     @Test
     public void testStaticFieldExclusion() {
         // 验证静态字段被排除
         Map<String, Field> fieldsMap = FieldReflections.getFieldsMap(TestEntity.class);
-        assertFalse("静态字段应该被排除", fieldsMap.containsKey("staticField"));
+        assertFalse(fieldsMap.containsKey("staticField"), "静态字段应该被排除");
         
         List<Field> fields = FieldReflections.getFields(TestEntity.class);
         boolean hasStatic = fields.stream().anyMatch(field -> "staticField".equals(field.getName()));
-        assertFalse("字段列表中不应该包含静态字段", hasStatic);
+        assertFalse(hasStatic, "字段列表中不应该包含静态字段");
     }
     
     @Test
@@ -325,7 +324,7 @@ public class FieldReflectionsTest {
         Field field1 = FieldReflections.getField(testEntity, "name", false);
         Field field2 = FieldReflections.getField(testEntity, "name", false);
         
-        assertSame("相同字段应该来自缓存", field1, field2);
+        assertSame(field1, field2, "相同字段应该来自缓存");
         
         // 测试方法引用缓存
         DlzFn<TestEntity, String> getter1 = TestEntity::getName;
@@ -336,7 +335,7 @@ public class FieldReflectionsTest {
         
         // 注意：由于是不同的lambda实例，可能不会命中缓存
         // 这里主要是测试不抛异常
-        assertNotNull("方法引用结果不应为null", result1);
-        assertNotNull("方法引用结果不应为null", result2);
+        assertNotNull(result1, "方法引用结果不应为null");
+        assertNotNull(result2, "方法引用结果不应为null");
     }
 }

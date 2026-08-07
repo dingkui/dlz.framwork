@@ -53,6 +53,12 @@ public class FieldReflections {
         }
         return getValue(obj, field);
     }
+    /**
+     * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
+     */
+    public static <T> T getValue(final Object obj, final String fieldName) {
+        return getValue(obj, fieldName,true);
+    }
 
     /**
      * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.

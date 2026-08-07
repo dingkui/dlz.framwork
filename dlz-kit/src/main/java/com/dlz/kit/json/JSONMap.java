@@ -1,18 +1,13 @@
 package com.dlz.kit.json;
 
 import com.dlz.kit.exception.SystemException;
-import com.dlz.kit.json.core.Json;
-import com.dlz.kit.json.core.JsonException;
-import com.dlz.kit.json.core.JsonFeature;
-import com.dlz.kit.json.core.JsonOptions;
-import com.dlz.kit.json.core.JsonPathParser;
-import com.dlz.kit.json.core.JsonPathPart;
+import com.dlz.kit.json.core.*;
 import com.dlz.kit.util.JsonUtil;
 import com.dlz.kit.util.StringUtils;
 import com.dlz.kit.util.ValUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,17 +18,11 @@ import java.util.Map;
  *
  * @author dk 2017-06-15
  */
-public class JSONMap extends HashMap<String, Object> implements IUniversalVals {
+public class JSONMap extends LinkedHashMap<String, Object> implements IUniversalVals {
     /**
      * 序列化版本UID
      */
     private static final long serialVersionUID = 7554800764909179290L;
-    private static final JsonOptions COMPATIBLE_JSON_OPTIONS = JsonOptions.builder()
-            .enable(JsonFeature.ALLOW_UNQUOTED_KEYS)
-            .enable(JsonFeature.ALLOW_SINGLE_QUOTES)
-            .enable(JsonFeature.WRITE_NULLS)
-            .build();
-
     /**
      * 无参构造函数
      */
@@ -46,20 +35,12 @@ public class JSONMap extends HashMap<String, Object> implements IUniversalVals {
      *
      * @param obj 源对象，可以是Map或其他对象
      */
-    public JSONMap(Object obj) {
+    public JSONMap(Map obj) {
         super();
         if(obj == null) {
             return;
         }
-        if(obj instanceof Map) {
-            putAll((Map) obj);
-        } else {
-            String string = JsonUtil.getJson(obj);
-            if(string == null) {
-                return;
-            }
-            putAll(JsonUtil.readValue(string));
-        }
+        putAll(obj);
     }
 
     /**
@@ -69,94 +50,32 @@ public class JSONMap extends HashMap<String, Object> implements IUniversalVals {
      */
     public JSONMap(CharSequence obj) {
         super();
-        if(obj == null) {
-            return;
-        }
-        String str = removeComments(obj,true);
-        if(str.length()==0) {
-            return;
-        }
-        try {
-            putAll(normalizeMap(Json.parseObject(str, COMPATIBLE_JSON_OPTIONS)));
-        } catch (JsonException e) {
-            throw new SystemException("参数不能转换成JSONMap:" + str);
-        }
-    }
-
-    /**
-     * 使用字符序列构造JSONMap
-     *
-     * @param obj 字符序列，必须是有效的JSON字符串
-     */
-    public JSONMap(CharSequence obj,boolean removeComments) {
-        super();
         if(obj == null || obj.length()==0) {
             return;
         }
-        String str = removeComments(obj,removeComments);
+        String str = obj.toString();
         try {
-            putAll(normalizeMap(Json.parseObject(str, COMPATIBLE_JSON_OPTIONS)));
+            putAll(Json.parseObject(str, JsonOptions.JSON_OPTIONS_LENIENT));
         } catch (JsonException e) {
             throw new SystemException("参数不能转换成JSONMap:" + str);
         }
     }
-
-
-    private static String removeComments(CharSequence obj,boolean removeComments) {
-        String json = obj.toString().trim();
-        if(!removeComments){
-            return json;
+    /**
+     * 使用对象构造JSONMap
+     *
+     * @param obj 源对象，可以是Map或其他对象
+     */
+    public JSONMap(Object obj) {
+        super();
+        if(obj == null) {
+            return;
         }
-
-        char[] chars = json.toCharArray();
-        int len = chars.length;
-        StringBuilder result = new StringBuilder(len);
-        boolean inString = false;
-
-        for (int i = 0; i < len; i++) {
-            char c = chars[i];
-
-            if (inString) {
-                result.append(c);
-                if (c == '\\' && i + 1 < len) {
-                    result.append(chars[++i]);
-                } else if (c == '"') {
-                    inString = false;
-                }
-                continue;
-            }
-
-            if (c == '"') {
-                inString = true;
-                result.append(c);
-            } else if (c == '/' && i + 1 < len) {
-                char next = chars[i + 1];
-                if (next == '/') {
-                    i += 2;
-                    while (i < len && chars[i] != '\n' && chars[i] != '\r') {
-                        i++;
-                    }
-                    if (i < len) {
-                        result.append(chars[i]);
-                    }
-                    i--;
-                } else if (next == '*') {
-                    i += 2;
-                    while (i + 1 < len && !(chars[i] == '*' && chars[i + 1] == '/')) {
-                        i++;
-                    }
-                    i++;
-                } else {
-                    result.append(c);
-                }
-            } else {
-                result.append(c);
-            }
+        String string = JsonUtil.getJson(obj);
+        if(string == null) {
+            return;
         }
-
-        return result.toString();
+        putAll(JsonUtil.readValue(string));
     }
-
 
     /**
      * 使用键值对构造JSONMap
@@ -192,34 +111,20 @@ public class JSONMap extends HashMap<String, Object> implements IUniversalVals {
     /**
      * 创建JSONMap实例
      *
+     * @param map 源JSON数据
+     * @return JSONMap实例
+     */
+    public static JSONMap make(Map map) {
+        return new JSONMap(map);
+    }
+    /**
+     * 创建JSONMap实例
+     *
      * @param json 源JSON数据
      * @return JSONMap实例
      */
     public static JSONMap read(String json) {
         return new JSONMap(json);
-    }
-
-    private static Map<String, Object> normalizeMap(Map<String, Object> source) {
-        Map<String, Object> result = new HashMap<>();
-        source.forEach((key, value) -> result.put(key, normalizeJsonValue(value)));
-        return result;
-    }
-
-    static Object normalizeJsonValue(Object value) {
-        if (value instanceof JSONMap || value instanceof JSONList) {
-            return value;
-        }
-        if (value instanceof Map) {
-            JSONMap map = new JSONMap();
-            ((Map<?, ?>) value).forEach((key, item) -> map.put(String.valueOf(key), normalizeJsonValue(item)));
-            return map;
-        }
-        if (value instanceof List) {
-            JSONList list = new JSONList();
-            ((List<?>) value).forEach(item -> list.add(normalizeJsonValue(item)));
-            return list;
-        }
-        return value;
     }
 
     /**
@@ -242,7 +147,7 @@ public class JSONMap extends HashMap<String, Object> implements IUniversalVals {
      */
     public JSONMap clearEmptyProp() {
         List<String> emptyKeys = new ArrayList<>();
-        for(Entry<String, Object> entry : this.entrySet()) {
+        for(Map.Entry<String,Object> entry : this.entrySet()) {
             if(StringUtils.isEmpty(entry.getValue())) {
                 emptyKeys.add(entry.getKey());
             }

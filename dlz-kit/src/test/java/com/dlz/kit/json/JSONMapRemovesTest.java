@@ -1,7 +1,7 @@
 package com.dlz.kit.json;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * JSONMap.removes() 方法测试用例
@@ -19,9 +19,9 @@ public class JSONMapRemovesTest {
 
         map.removes("age");
 
-        assertNull("age应该被删除", map.at("age"));
-        assertEquals("name应该还存在", "张三", map.at("name"));
-        assertEquals("city应该还存在", "北京", map.at("city"));
+        assertNull(map.at("age"), "age应该被删除");
+        assertEquals("张三", map.at("name"), "name应该还存在");
+        assertEquals("北京", map.at("city"), "city应该还存在");
     }
 
     @Test
@@ -35,10 +35,10 @@ public class JSONMapRemovesTest {
 
         map.removes("user.profile.city");
 
-        assertNull("user.profile.city应该被删除", map.at("user.profile.city"));
-        assertEquals("user.name应该还存在", "李四", map.at("user.name"));
-        assertEquals("user.age应该还存在", Integer.valueOf(30), map.at("user.age"));
-        assertEquals("user.profile.country应该还存在", "中国", map.at("user.profile.country"));
+        assertNull(map.at("user.profile.city"), "user.profile.city应该被删除");
+        assertEquals("李四", map.at("user.name"), "user.name应该还存在");
+        assertEquals(Integer.valueOf(30), map.at("user.age"), "user.age应该还存在");
+        assertEquals("中国", map.at("user.profile.country"), "user.profile.country应该还存在");
     }
 
     @Test
@@ -51,9 +51,9 @@ public class JSONMapRemovesTest {
 
         map.removes("a.b.c.d.e.f");
 
-        assertNull("a.b.c.d.e.f应该被删除", map.at("a.b.c.d.e.f"));
-        assertEquals("a.b.c.d.e.g应该还存在", "另一个值", map.at("a.b.c.d.e.g"));
-        assertEquals("a.b.x应该还存在", "其他值", map.at("a.b.x"));
+        assertNull(map.at("a.b.c.d.e.f"), "a.b.c.d.e.f应该被删除");
+        assertEquals("另一个值", map.at("a.b.c.d.e.g"), "a.b.c.d.e.g应该还存在");
+        assertEquals("其他值", map.at("a.b.x"), "a.b.x应该还存在");
     }
 
     @Test
@@ -66,9 +66,9 @@ public class JSONMapRemovesTest {
 
         map.removes("items[1]");
 
-        assertEquals("items[0]应该还存在", "第一项", map.at("items[0]"));
-        assertEquals("删除后items[1]应该是原来的items[2]", "第三项", map.at("items[1]"));
-        assertNull("items[2]应该不存在了", map.at("items[2]"));
+        assertEquals("第一项", map.at("items[0]"), "items[0]应该还存在");
+        assertEquals("第三项", map.at("items[1]"), "删除后items[1]应该是原来的items[2]");
+        assertNull(map.at("items[2]"), "items[2]应该不存在了");
     }
 
     @Test
@@ -82,10 +82,10 @@ public class JSONMapRemovesTest {
 
         map.removes("matrix[0][1]");
 
-        assertEquals("matrix[0][0]应该还存在", "A", map.at("matrix[0][0]"));
-        assertNull("matrix[0][1]应该被删除", map.at("matrix[0][1]"));
-        assertEquals("matrix[1][0]应该还存在", "C", map.at("matrix[1][0]"));
-        assertEquals("matrix[1][1]应该还存在", "D", map.at("matrix[1][1]"));
+        assertEquals("A", map.at("matrix[0][0]"), "matrix[0][0]应该还存在");
+        assertNull(map.at("matrix[0][1]"), "matrix[0][1]应该被删除");
+        assertEquals("C", map.at("matrix[1][0]"), "matrix[1][0]应该还存在");
+        assertEquals("D", map.at("matrix[1][1]"), "matrix[1][1]应该还存在");
     }
 
     @Test
@@ -99,10 +99,10 @@ public class JSONMapRemovesTest {
 
         map.removes("users[0].age");
 
-        assertEquals("users[0].name应该还存在", "用户1", map.at("users[0].name"));
-        assertNull("users[0].age应该被删除", map.at("users[0].age"));
-        assertEquals("users[1].name应该还存在", "用户2", map.at("users[1].name"));
-        assertEquals("users[1].age应该还存在", Integer.valueOf(25), map.at("users[1].age"));
+        assertEquals("用户1", map.at("users[0].name"), "users[0].name应该还存在");
+        assertNull(map.at("users[0].age"), "users[0].age应该被删除");
+        assertEquals("用户2", map.at("users[1].name"), "users[1].name应该还存在");
+        assertEquals(Integer.valueOf(25), map.at("users[1].age"), "users[1].age应该还存在");
     }
 
     @Test
@@ -116,14 +116,10 @@ public class JSONMapRemovesTest {
 
         map.removes("company.departments[0].employees[0].salary");
 
-        assertEquals("员工A的名字应该还存在", "员工A", 
-                map.at("company.departments[0].employees[0].name"));
-        assertNull("员工A的薪资应该被删除", 
-                map.at("company.departments[0].employees[0].salary"));
-        assertEquals("员工B的名字应该还存在", "员工B", 
-                map.at("company.departments[0].employees[1].name"));
-        assertEquals("部门名称应该还存在", "技术部", 
-                map.at("company.departments[0].name"));
+        assertEquals("员工A", map.at("company.departments[0].employees[0].name"), "员工A的名字应该还存在");
+        assertNull(map.at("company.departments[0].employees[0].salary"), "员工A的薪资应该被删除");
+        assertEquals("员工B", map.at("company.departments[0].employees[1].name"), "员工B的名字应该还存在");
+        assertEquals("技术部", map.at("company.departments[0].name"), "部门名称应该还存在");
     }
 
     @Test
@@ -139,8 +135,8 @@ public class JSONMapRemovesTest {
         map.removes("items[10]");
 
         // 原有数据应该不受影响
-        assertEquals("name应该还存在", "测试", map.at("name"));
-        assertEquals("age应该还存在", Integer.valueOf(30), map.at("age"));
+        assertEquals("测试", map.at("name"), "name应该还存在");
+        assertEquals(Integer.valueOf(30), map.at("age"), "age应该还存在");
     }
 
     @Test
@@ -153,9 +149,9 @@ public class JSONMapRemovesTest {
 
         map.removes("items[-1]"); // 删除最后一项
 
-        assertEquals("items[0]应该还存在", "第一项", map.at("items[0]"));
-        assertEquals("items[1]应该还存在", "第二项", map.at("items[1]"));
-        assertNull("items[2]应该被删除", map.at("items[2]"));
+        assertEquals("第一项", map.at("items[0]"), "items[0]应该还存在");
+        assertEquals("第二项", map.at("items[1]"), "items[1]应该还存在");
+        assertNull(map.at("items[2]"), "items[2]应该被删除");
     }
 
     @Test
@@ -169,11 +165,11 @@ public class JSONMapRemovesTest {
 
         map.removes("user");
 
-        assertNull("user对象应该被完全删除", map.at("user"));
-        assertNull("user.name应该不存在", map.at("user.name"));
-        assertNull("user.age应该不存在", map.at("user.age"));
-        assertNull("user.profile.city应该不存在", map.at("user.profile.city"));
-        assertEquals("other应该还存在", "其他数据", map.at("other"));
+        assertNull(map.at("user"), "user对象应该被完全删除");
+        assertNull(map.at("user.name"), "user.name应该不存在");
+        assertNull(map.at("user.age"), "user.age应该不存在");
+        assertNull(map.at("user.profile.city"), "user.profile.city应该不存在");
+        assertEquals("其他数据", map.at("other"), "other应该还存在");
     }
 
     @Test
@@ -186,9 +182,9 @@ public class JSONMapRemovesTest {
 
         map.removes("items");
 
-        assertNull("items数组应该被完全删除", map.at("items"));
-        assertNull("items[0]应该不存在", map.at("items[0]"));
-        assertEquals("name应该还存在", "测试", map.at("name"));
+        assertNull(map.at("items"), "items数组应该被完全删除");
+        assertNull(map.at("items[0]"), "items[0]应该不存在");
+        assertEquals("测试", map.at("name"), "name应该还存在");
     }
 
     @Test
@@ -203,10 +199,10 @@ public class JSONMapRemovesTest {
         map.removes("a")
            .removes("c");
 
-        assertNull("a应该被删除", map.at("a"));
-        assertEquals("b应该还存在", "值B", map.at("b"));
-        assertNull("c应该被删除", map.at("c"));
-        assertEquals("d应该还存在", "值D", map.at("d"));
+        assertNull(map.at("a"), "a应该被删除");
+        assertEquals("值B", map.at("b"), "b应该还存在");
+        assertNull(map.at("c"), "c应该被删除");
+        assertEquals("值D", map.at("d"), "d应该还存在");
     }
 
     @Test
@@ -217,10 +213,10 @@ public class JSONMapRemovesTest {
 
         map.removes("profile.city");
 
-        assertNull("profile.city应该被删除", map.at("profile.city"));
-        assertEquals("name应该还存在", "李四", map.at("name"));
-        assertEquals("age应该还存在", Integer.valueOf(30), map.at("age"));
-        assertEquals("profile.country应该还存在", "中国", map.at("profile.country"));
+        assertNull(map.at("profile.city"), "profile.city应该被删除");
+        assertEquals("李四", map.at("name"), "name应该还存在");
+        assertEquals(Integer.valueOf(30), map.at("age"), "age应该还存在");
+        assertEquals("中国", map.at("profile.country"), "profile.country应该还存在");
     }
 
     @Test
@@ -234,22 +230,22 @@ public class JSONMapRemovesTest {
         map.removes("items[1]");
         map.set("items[1]", "新项目2");
 
-        assertEquals("items[0]应该是项目1", "项目1", map.at("items[0]"));
-        assertEquals("items[1]应该是新项目2", "新项目2", map.at("items[1]"));
+        assertEquals("项目1", map.at("items[0]"), "items[0]应该是项目1");
+        assertEquals("新项目2", map.at("items[1]"), "items[1]应该是新项目2");
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testRemoveEmptyKey() {
         // 测试删除空键（应该抛出异常）
         JSONMap map = new JSONMap();
-        map.removes("");
+        assertThrows(Exception.class, () -> map.removes(""));
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testRemoveNullKey() {
         // 测试删除null键（应该抛出异常）
         JSONMap map = new JSONMap();
-        map.removes(null);
+        assertThrows(Exception.class, () -> map.removes(null));
     }
 
     @Test
@@ -264,9 +260,9 @@ public class JSONMapRemovesTest {
 
         map.removes("data[0].users[0].roles[0]");
 
-        assertEquals("roles[1]应该变成roles[0]", "编辑", map.at("data[0].users[0].roles[0]"));
-        assertEquals("用户A的名字应该还存在", "用户A", map.at("data[0].users[0].name"));
-        assertEquals("用户B的名字应该还存在", "用户B", map.at("data[0].users[1].name"));
+        assertEquals("编辑", map.at("data[0].users[0].roles[0]"), "roles[1]应该变成roles[0]");
+        assertEquals("用户A", map.at("data[0].users[0].name"), "用户A的名字应该还存在");
+        assertEquals("用户B", map.at("data[0].users[1].name"), "用户B的名字应该还存在");
     }
 
     @Test
@@ -280,15 +276,15 @@ public class JSONMapRemovesTest {
         map.removes("level1.level2.level3.value1");
 
         // 验证父级对象仍然存在
-        assertNotNull("level1应该还存在", map.at("level1"));
-        assertNotNull("level1.level2应该还存在", map.at("level1.level2"));
-        assertNotNull("level1.level2.level3应该还存在", map.at("level1.level2.level3"));
+        assertNotNull(map.at("level1"), "level1应该还存在");
+        assertNotNull(map.at("level1.level2"), "level1.level2应该还存在");
+        assertNotNull(map.at("level1.level2.level3"), "level1.level2.level3应该还存在");
         
         // 验证删除的值不存在
-        assertNull("level1.level2.level3.value1应该被删除", map.at("level1.level2.level3.value1"));
+        assertNull(map.at("level1.level2.level3.value1"), "level1.level2.level3.value1应该被删除");
         
         // 验证其他值还存在
-        assertEquals("level1.level2.level3.value2应该还存在", "值2", map.at("level1.level2.level3.value2"));
-        assertEquals("level1.level2.other应该还存在", "其他", map.at("level1.level2.other"));
+        assertEquals("值2", map.at("level1.level2.level3.value2"), "level1.level2.level3.value2应该还存在");
+        assertEquals("其他", map.at("level1.level2.other"), "level1.level2.other应该还存在");
     }
 }

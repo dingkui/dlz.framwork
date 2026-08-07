@@ -12,7 +12,11 @@
     <artifactId>dlz-json-jackson</artifactId>
     <name>dlz-json-jackson</name>
     <description>Optional Jackson interoperability for DLZ JSON APIs</description>
-
+    <properties>
+        <jacoco.skip>false</jacoco.skip>
+        <spotbugs.skip>false</spotbugs.skip>
+        <jackson.version>2.17.3</jackson.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>top.dlzio</groupId>
@@ -22,6 +26,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

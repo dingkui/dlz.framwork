@@ -4,14 +4,7 @@ import com.dlz.kit.exception.SystemException;
 import com.dlz.kit.json.InternalJsonMapper;
 import com.dlz.kit.json.JSONList;
 import com.dlz.kit.json.JSONMap;
-import com.dlz.kit.json.core.JsonException;
-import com.dlz.kit.json.core.JsonMapper;
-import com.dlz.kit.json.core.JsonPath;
-import com.dlz.kit.json.core.JsonPathParser;
-import com.dlz.kit.json.core.JsonPathPart;
-import com.dlz.kit.json.core.JsonPathResolver;
-import com.dlz.kit.json.core.JsonText;
-import com.dlz.kit.json.core.JsonTypes;
+import com.dlz.kit.json.core.*;
 
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;

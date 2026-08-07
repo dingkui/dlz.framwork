@@ -1,9 +1,6 @@
 package com.dlz.kit.json;
 
-import com.dlz.kit.json.core.Json;
-import com.dlz.kit.json.core.JsonException;
-import com.dlz.kit.json.core.JsonOptions;
-import com.dlz.kit.json.core.JsonText;
+import com.dlz.kit.json.core.*;
 import com.dlz.kit.util.JsonUtil;
 import com.dlz.kit.util.ValUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +21,7 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals, IUniv
      * 序列化版本UID
      */
     private static final long serialVersionUID = 7554800764909179290L;
+
 
     /**
      * 构造函数，指定初始容量
@@ -190,8 +188,7 @@ public class JSONList extends ArrayList<Object> implements IUniversalVals, IUniv
             if(objectClass != null) {
                 this.addAll(JsonUtil.readListValue(str, objectClass));
             } else {
-                Json.parseArray(str, JsonOptions.lenient())
-                        .forEach(item -> this.add(JSONMap.normalizeJsonValue(item)));
+                this.addAll(Json.parseArray(str));
             }
         }
     }

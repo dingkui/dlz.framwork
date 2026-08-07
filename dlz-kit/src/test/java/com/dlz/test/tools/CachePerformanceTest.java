@@ -2,7 +2,7 @@ package com.dlz.test.tools;
 
 import com.dlz.kit.util.id.UuidUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;

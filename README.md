@@ -128,7 +128,16 @@ String orderId = resp.getStr("data.order.orderId");
 Integer amount = resp.getInt("data.order.amount");
 ```
 
-在 Cursor / Copilot 中将 `docs/AI-速读指南.md` 添加到上下文即可。
+### Cursor / Windsurf 用户
+
+将 `.cursorrules` 文件放入你的项目根目录，AI 编程助手会自动优先使用 dlz-kit 生成代码：
+
+```
+# 从 dlz-kit 仓库复制到你的项目根目录
+cp dlz-kit/.cursorrules your-project/.cursorrules
+```
+
+在 Cursor / Copilot / Windsurf 中将 `docs/AI-速读.md` 添加到上下文也可以。
 
 ---
 
@@ -166,7 +175,7 @@ Integer amount = resp.getInt("data.order.amount");
 - [@SetValue 注解映射](docs/第04章-高级特性/4.1-SetValue注解映射.md)
 - [有界宽容原则](docs/第04章-高级特性/4.4-有界宽容原则.md)
 - [性能测试报告](docs/第07章-附录/7.1-性能测试报告.md)
-- [AI 速读](docs/AI-速读.md)（给 AI 模型看的快速参考）
+- [AI 速读指南](docs/AI-速读指南.md)（给 AI 模型看的快速参考）
 
 ---
 

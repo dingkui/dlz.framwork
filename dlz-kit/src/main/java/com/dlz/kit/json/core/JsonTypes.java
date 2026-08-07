@@ -5,15 +5,30 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-/** JDK-only helpers for describing generic JSON target types. */
+/**
+ * 仅依赖 JDK 反射 API 的泛型类型描述工具。
+ *
+ * <p>用于在不引入 Jackson/Gson 等库的前提下，构造参数化类型（如 {@code List<String>}、
+ * {@code Map<String, Foo>}），便于在解码时携带完整泛型信息。</p>
+ */
 public final class JsonTypes {
+    /** 工具类禁止实例化。 */
     private JsonTypes() {
     }
 
+    /** 构造 {@code List<T>} 类型。 */
     public static Type listOf(Type elementType) {
         return parameterized(List.class, elementType);
     }
 
+    /**
+     * 构造一个参数化类型对象。
+     *
+     * @param rawType      原始类型（如 List.class、Map.class）
+     * @param typeArguments 实际类型参数，至少一个且不能为 null
+     * @return 代表该参数化类型的 {@link Type}
+     * @throws IllegalArgumentException 参数为空或含 null 时抛出
+     */
     public static Type parameterized(Type rawType, Type... typeArguments) {
         if (rawType == null) {
             throw new IllegalArgumentException("rawType must not be null");
@@ -30,6 +45,7 @@ public final class JsonTypes {
         return new SimpleParameterizedType(rawType, arguments);
     }
 
+    /** 轻量 {@link ParameterizedType} 实现，持有原始类型与实际类型参数。 */
     private static final class SimpleParameterizedType implements ParameterizedType {
         private final Type rawType;
         private final Type[] typeArguments;
