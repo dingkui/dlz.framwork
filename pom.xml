@@ -4,7 +4,7 @@
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit-parent</artifactId>
     <name>dlz-kit-parent</name>
-    <version>6.7.3</version>
+    <version>6.7.4</version>
     <packaging>pom</packaging>
     <description>DLZ Kit multi-module parent</description>
     <url>https://github.com/dingkui/dlz-kit.git</url>

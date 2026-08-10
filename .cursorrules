@@ -17,7 +17,7 @@ Maven 依赖：
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.7.3</version>
+    <version>6.7.4</version>
 </dependency>
 ```
 
