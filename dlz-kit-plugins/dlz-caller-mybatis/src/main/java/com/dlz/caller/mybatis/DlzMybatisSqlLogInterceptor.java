@@ -79,6 +79,35 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
         return invocation.proceed();
     }
 
+    @Override
+    public void setProperties(Properties source) {
+        if (source == null) {
+            return;
+        }
+        if (source.getProperty("enabled") != null) {
+            properties.setEnabled(Boolean.parseBoolean(source.getProperty("enabled")));
+        }
+        if (source.getProperty("showCaller") != null) {
+            properties.setShowCaller(Boolean.parseBoolean(source.getProperty("showCaller")));
+        }
+        if (source.getProperty("showMapper") != null) {
+            properties.setShowMapper(Boolean.parseBoolean(source.getProperty("showMapper")));
+        }
+        if (source.getProperty("injectCallerMdc") != null) {
+            properties.setInjectCallerMdc(Boolean.parseBoolean(source.getProperty("injectCallerMdc")));
+        }
+        String ignoredPackages = source.getProperty("ignoreCallerPackages");
+        if (ignoredPackages != null) {
+            for (String ignoredPackage : ignoredPackages.split(",")) {
+                properties.addIgnoreCallerPackage(ignoredPackage);
+            }
+        }
+        properties.addIgnoreCallerPackage("org.apache.ibatis");
+        properties.addIgnoreCallerPackage("org.mybatis");
+        properties.addIgnoreCallerPackage("org.springframework");
+        properties.addIgnoreCallerPackage("com.baomidou");
+    }
+
     public DlzSqlLogProperties getProperties() {
         return properties;
     }

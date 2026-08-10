@@ -3,7 +3,7 @@ package com.dlz.caller;
 import org.slf4j.MDC;
 
 /**
- * Thread-bound caller scope. The previous MDC value is preserved across nested scopes.
+ * Thread-bound caller scope managed via MDC.
  */
 public final class DlzCallerContext implements AutoCloseable {
     public static final String mdcKey="dlz-caller";
