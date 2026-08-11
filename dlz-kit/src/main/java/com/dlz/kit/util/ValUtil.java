@@ -369,7 +369,7 @@ public class ValUtil {
         return DateUtil.format(date, format);
     }
 
-    public static Map<Class<?>, Function<Object, ?>> CONVERTS_NATIVE = new HashMap<>();
+    public static final Map<Class<?>, Function<Object, ?>> CONVERTS_NATIVE = new HashMap<>();
 
     static {
         CONVERTS_NATIVE.put(String.class, ValUtil::toStr);

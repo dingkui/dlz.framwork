@@ -40,10 +40,11 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
 
     public DlzMybatisSqlLogInterceptor(DlzSqlLogProperties properties) {
         this.properties = properties == null ? new DlzSqlLogProperties() : properties;
-        properties.addIgnoreCallerPackage("org.apache.ibatis");
-        properties.addIgnoreCallerPackage("org.mybatis");
-        properties.addIgnoreCallerPackage("org.springframework");
-        properties.addIgnoreCallerPackage("com.baomidou");
+        // 统一使用 this.properties（已处理 null），避免对原始参数解引用导致 NPE
+        this.properties.addIgnoreCallerPackage("org.apache.ibatis");
+        this.properties.addIgnoreCallerPackage("org.mybatis");
+        this.properties.addIgnoreCallerPackage("org.springframework");
+        this.properties.addIgnoreCallerPackage("com.baomidou");
     }
 
     @Override
