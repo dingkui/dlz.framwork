@@ -66,6 +66,9 @@ public final class InternalJsonMapper implements JsonMapper {
                 || value instanceof Boolean || value instanceof Character || value instanceof Enum) {
             return value;
         }
+        if (value instanceof Class) {
+            return ((Class<?>) value).getName();
+        }
         if (value instanceof Date) {
             return DateUtil.DATETIME.format((Date) value);
         }
@@ -100,6 +103,12 @@ public final class InternalJsonMapper implements JsonMapper {
                     result.add(toJsonValue(Array.get(value, i), visiting));
                 }
                 return result;
+            }
+            // JDK 内部类型（java.*/javax.*/jdk.*）不做反射，避免 JDK17+ 强封装下
+            // setAccessible 失败（如 java.lang.Class.componentType），直接转字符串。
+            // 注意：必须在 Map/Iterable/数组分支之后判断，否则 java.util 的集合实现会被误拦截。
+            if (isJdkInternalType(value.getClass())) {
+                return String.valueOf(value);
             }
             Map<String, Object> result = new LinkedHashMap<String, Object>();
             for (Field field : fieldsOf(value.getClass())) {
@@ -201,6 +210,19 @@ public final class InternalJsonMapper implements JsonMapper {
         } catch (ReflectiveOperationException e) {
             throw new SystemException("JSON bean conversion failed: " + targetType.getName(), e);
         }
+    }
+
+    /**
+     * 判断类名是否属于 JDK 内部包（java./javax./jdk.）。
+     * <p>这些类型的私有字段在 JDK 17+ 强封装下不能 setAccessible，直接转字符串避免异常。</p>
+     */
+    private static boolean isJdkInternalType(Class<?> type) {
+        if (type == null) {
+            return false;
+        }
+        String name = type.getName();
+        return name.startsWith("java.") || name.startsWith("javax.")
+                || name.startsWith("jdk.") || name.startsWith("sun.");
     }
 
     private static List<Field> fieldsOf(Class<?> type) {
