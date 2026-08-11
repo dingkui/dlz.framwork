@@ -17,6 +17,9 @@ public final class DlzCaller {
             properties = callerProperties;
         }
     }
+    public static DlzCallerProperties getProperties() {
+        return properties;
+    }
 
     public static MdcContext open(String resolvedCaller) {
         return MdcContext.open(MDC_KEY_DLZ_CALLER, resolvedCaller);
