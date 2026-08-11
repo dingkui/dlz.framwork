@@ -88,7 +88,7 @@ List<Integer> ids = ValUtil.toList(params.get("ids"), Integer.class); // "1,2,3"
 
 ```java
 // 在 HttpClient/Redis/MyBatis 等公共组件入口加一行
-try (DlzCallerContext ignored = DlzCaller.caller(0)) {
+try (MdcContext ignored = DlzCaller.caller(0)) {
     log.info("HTTP POST {}", url);
 }
 ```

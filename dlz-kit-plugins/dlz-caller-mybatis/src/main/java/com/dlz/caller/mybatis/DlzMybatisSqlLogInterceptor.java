@@ -1,7 +1,8 @@
 package com.dlz.caller.mybatis;
 
-import com.dlz.caller.DlzCallerContext;
+import com.dlz.caller.DlzCaller;
 import com.dlz.caller.DlzCallerResolver;
+import com.dlz.kit.mdc.MdcContext;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
@@ -53,7 +54,7 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
             long startTime = System.currentTimeMillis();
             String caller = (logSql && properties.isShowCaller()) || injectCallerMdc
                     ? DlzCallerResolver.resolve(properties) : "";
-            DlzCallerContext callerContext = injectCallerMdc ? DlzCallerContext.open(caller) : null;
+            MdcContext callerContext = injectCallerMdc ? DlzCaller.open(caller) : null;
             try {
                 return invocation.proceed();
             } finally {

@@ -1,55 +1,32 @@
 package com.dlz.caller;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import com.dlz.kit.mdc.MdcContext;
 
-/** High-frequency facade for adding caller information to infrastructure logs. */
+/**
+ * High-frequency facade for adding caller information to infrastructure logs.
+ */
 public final class DlzCaller {
-
     private static volatile DlzCallerProperties properties = new DlzCallerProperties();
-    private static final ThreadLocal<Deque<DlzCallerContext>> CONTEXTS = ThreadLocal.withInitial(() -> new ArrayDeque<>());
+    public static final String MDC_KEY_DLZ_CALLER = "dlz-caller";
 
     private DlzCaller() {
     }
 
-    public static DlzCallerProperties getProperties() {
-        return properties;
-    }
-
     public static void setProperties(DlzCallerProperties callerProperties) {
-        if(callerProperties!=null){
+        if (callerProperties != null) {
             properties = callerProperties;
         }
     }
 
-    public static DlzCallerContext caller(int additionalFramesToSkip) {
-        return DlzCallerContext.open( DlzCallerResolver.resolve(properties, additionalFramesToSkip));
+    public static MdcContext open(String resolvedCaller) {
+        return MdcContext.open(MDC_KEY_DLZ_CALLER, resolvedCaller);
     }
 
-    public static String setCaller() {
-        return setCaller(0);
+    public static MdcContext caller(int additionalFramesToSkip) {
+        return open(DlzCallerResolver.resolve(properties, additionalFramesToSkip));
     }
 
-    /**
-     * Sets the caller for legacy try/finally usage.
-     *
-     * @param additionalFramesToSkip additional non-framework wrapper frames to skip
-     */
-    public static String setCaller(int additionalFramesToSkip) {
-        DlzCallerContext context = caller(additionalFramesToSkip);
-        CONTEXTS.get().push(context);
-        return context.getCaller();
-    }
-
-    public static void clearCaller() {
-        Deque<DlzCallerContext> contexts = CONTEXTS.get();
-        if (contexts.isEmpty()) {
-            CONTEXTS.remove();
-            return;
-        }
-        contexts.pop().close();
-        if (contexts.isEmpty()) {
-            CONTEXTS.remove();
-        }
+    public static MdcContext caller() {
+        return caller(0);
     }
 }

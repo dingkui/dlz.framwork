@@ -1,8 +1,9 @@
 package com.dlz.test.caller;
 
 import com.dlz.caller.DlzCaller;
-import com.dlz.caller.DlzCallerContext;
+import com.dlz.caller.DlzCaller;
 import com.dlz.caller.DlzCallerProperties;
+import com.dlz.kit.mdc.MdcContext;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,30 +17,11 @@ class DlzCallerTest {
         DlzCaller.setProperties(new DlzCallerProperties());
     }
 
-
-    @AfterEach
-    void resetGlobalContext() {
-        MDC.clear();
-        DlzCaller.clearCaller();
-    }
-
-    @Test
-    void setCallerMakesTheBusinessSourceAvailableToAnyUtilityLog() {
-        String caller = DlzCaller.setCaller();
-        try {
-            assertEquals(caller, MDC.get("dlz-caller"));
-            assertTrue(caller.contains("DlzCallerTest.java"));
-        } finally {
-            DlzCaller.clearCaller();
-        }
-        assertNull(MDC.get("caller"));
-    }
-
     @Test
     void callerScopeCleansMdcAfterAUtilityCallFails() {
         try {
-            try (DlzCallerContext context = DlzCaller.caller(0)) {
-                assertEquals(context.getCaller(), MDC.get("dlz-caller"));
+            try (MdcContext context = DlzCaller.caller(0)) {
+                assertEquals(context.get(), MDC.get(DlzCaller.MDC_KEY_DLZ_CALLER));
                 throw new IllegalStateException("simulated redis timeout");
             }
         } catch (IllegalStateException expected) {
@@ -47,5 +29,29 @@ class DlzCallerTest {
         }
 
         assertNull(MDC.get("caller"));
+    }
+
+    @Test
+    void keepsTheOuterCallerAcrossNestedInfrastructureScopes() {
+        DlzCallerProperties properties = new DlzCallerProperties();
+        DlzCaller.setProperties(properties);
+        try (MdcContext outer = DlzCaller.caller(0)) {
+            String outerCaller = outer.get();
+            assertEquals(outerCaller, MDC.get(DlzCaller.MDC_KEY_DLZ_CALLER));
+        }
+        assertNull(MDC.get(DlzCaller.MDC_KEY_DLZ_CALLER));
+    }
+
+    @Test
+    void preservesAnExistingBusinessCaller() {
+        MDC.put("caller", "(Controller.java:20)");
+        DlzCallerProperties properties = new DlzCallerProperties();
+        DlzCaller.setProperties(properties);
+
+        try (MdcContext ignored = DlzCaller.caller(0)) {
+            assertEquals("(Controller.java:20)", MDC.get("caller"));
+        }
+
+        assertEquals("(Controller.java:20)", MDC.get("caller"));
     }
 }
