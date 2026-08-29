@@ -25,4 +25,7 @@ Thumbs.db
 *.war
 *.ear
 /target
-#/articles
+# Local-only development documents and content drafts
+/.local-docs/
+/articles/
+/.codebuddy/

@@ -1,6 +1,6 @@
 # JSONMap — Java 嵌套数据操作，一行到位
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![JDK](https://img.shields.io/badge/JDK-8%20%7C%2011%20%7C%2017%20%7C%2021-green.svg)]()
 [![Size](https://img.shields.io/badge/Size-~100KB-brightgreen.svg)]()
 [![Maven](https://img.shields.io/badge/Maven-top.dlzio:dlz-kit)](https://central.sonatype.com/artifact/top.dlzio/dlz-kit)
@@ -31,7 +31,7 @@ JSONMap data = new JSONMap("{\"user\":{\"name\":\"张三\",\"age\":\"25\"}}");
 // 深层取值——路径不存在返回 null，不会 NPE
 String name = data.getStr("user.name");          // "张三"
 Integer age = data.getInt("user.age");            // 25（自动从字符串转）
-List<Integer> ids = data.getList("user.ids", Integer.class); // 空返回空列表
+List<Integer> ids = data.getList("user.ids", Integer.class); // 缺失时返回 null
 
 // 构建嵌套结构——中间层级自动创建
 JSONMap result = new JSONMap()
@@ -77,7 +77,7 @@ JSONMap req = new JSONMap()
 数据来源（前端表单、数据库、第三方 API）的类型不可控时，不用到处 try-catch。
 
 ```java
-Integer age = ValUtil.toInt(params.get("age"));              // 不抛异常，返回 null 或正确值
+Integer age = ValUtil.toInt(params.get("age"));              // 缺失返回 null；非法内容抛 NumberFormatException
 Integer safe = ValUtil.toInt(params.get("age"), 0);          // 带默认值
 List<Integer> ids = ValUtil.toList(params.get("ids"), Integer.class); // "1,2,3" → [1,2,3]
 ```
@@ -137,7 +137,7 @@ Integer amount = resp.getInt("data.order.amount");
 cp dlz-kit/.cursorrules your-project/.cursorrules
 ```
 
-在 Cursor / Copilot / Windsurf 中将 `docs/AI-速读.md` 添加到上下文也可以。
+在 Cursor / Copilot / Windsurf 中将 `docs/5.AI辅助/dlz-kit-速读.md` 添加到上下文也可以。
 
 ---
 
@@ -162,21 +162,25 @@ cp dlz-kit/.cursorrules your-project/.cursorrules
 - **JDK**：8 / 17 / 21
 - **依赖**：核心模块唯一依赖 slf4j（你的项目大概率已有）
 - **体积**：~100KB
-- **测试**：完整测试用例覆盖
+- **测试**：JUnit 5 测试套件，覆盖核心行为（不等同于覆盖率承诺）
 - **JSON 解析**：自研实现，零依赖 Jackson（Jackson 为可选插件）
 
 ## 文档
 
-- [快速上手](docs/第01章-快速入门/1.2-五分钟上手.md)
-- [JSONMap 完整指南](docs/第02章-核心功能/2.1-JSONMap完整指南.md)
-- [DLZ Caller日志快速接入](docs/第02章-核心功能/2.5-Caller日志快速接入.md)
-- [ValUtil 类型转换](docs/第03章-工具类库/3.1-ValUtil-类型转换.md)
-- [Cache 缓存工具](docs/第03章-工具类库/3.6-Cache-缓存工具.md)
-- [@SetValue 注解映射](docs/第04章-高级特性/4.1-SetValue注解映射.md)
-- [有界宽容原则](docs/第04章-高级特性/4.4-有界宽容原则.md)
-- [性能测试报告](docs/第07章-附录/7.1-性能测试报告.md)
-- [AI 速读指南](docs/AI-速读.md)（给 AI 模型看的快速参考）
+- [快速上手](docs/2.快速开始/2.2-JSONMap五分钟上手.md)
+- [JSONMap 完整指南](docs/3.使用指南/3.1-JSONMap完整指南.md)
+- [DLZ Caller日志快速接入](docs/3.使用指南/3.6-Caller-MDC与Trace.md)
+- [ValUtil 类型转换](docs/3.使用指南/3.4-ValUtil类型转换.md)
+- [Cache 缓存工具](docs/3.使用指南/3.9-缓存ICache与MemoryCache.md)
+- [@SetValue 注解映射](docs/3.使用指南/3.10-SetValue注解映射.md)
+- [有界宽容原则](docs/3.使用指南/3.13-有界宽容原则.md)
+- [测试与基准维护](docs/8.维护者文档/8.4-测试与基准维护.md)
+- [AI 速读指南](docs/5.AI辅助/dlz-kit-速读.md)（给 AI 模型看的快速参考）
 
 ---
+
+## 许可证
+
+本项目采用 [Apache License 2.0](LICENSE)，具体条款以仓库根目录的 `LICENSE` 文件为准。
 
 如果觉得有用，点个 ⭐ 让更多人看到。

@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * JSON映射类
  *
- * 继承HashMap<String, Object>，实现了IUniversalVals接口，提供便捷的JSON数据操作功能
+ * 继承LinkedHashMap<String, Object>，实现了IUniversalVals接口，提供便捷的JSON数据操作功能
  *
  * @author dk 2017-06-15
  */

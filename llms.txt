@@ -1,0 +1,10 @@
+# dlz-kit 文档路由
+
+- 人类入口：`docs/README.md`
+- AI 编码契约：`docs/5.AI辅助/dlz-kit-速读.md`
+- 公共 API：`docs/6.参考手册/6.1-公共API.md`
+- 事实来源：`docs/8.维护者文档/8.2-事实来源.md`
+- 验证方式：`TESTING.md`
+- 许可证：`LICENSE`
+
+模块选择：核心使用 `top.dlzio:dlz-kit`；Jackson 互操作使用 `top.dlzio:dlz-json-jackson`；MyBatis SQL 日志使用 `top.dlzio:dlz-caller-mybatis`。当前版本为 6.7.4，编译目标 Java 8。

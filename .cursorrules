@@ -91,7 +91,6 @@ list.asList(User.class); // 转 Bean 列表
 
 ```java
 import com.dlz.caller.DlzCaller;
-import com.dlz.caller.DlzCaller;
 
 // 推荐：try-with-resources 自动清理
 public HttpResult execute(HttpRequest request) {

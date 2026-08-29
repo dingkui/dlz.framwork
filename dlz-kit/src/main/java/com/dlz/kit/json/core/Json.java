@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * <p>本类提供了一组静态工具方法，用于把 JSON 文本解析成 Java 对象（{@link Map}、{@link List} 等），
  * 或者把 Java 对象序列化（stringify）成 JSON 文本。所有解析/序列化行为均通过 {@link JsonOptions} 控制。
- * 默认使用 {@link JsonOptions#strict()}（严格模式）。</p>
+ * `parse(String)` 默认使用严格模式；`parseObject`、`parseArray` 和 `stringify` 的无选项重载使用宽松模式。</p>
  *
  * <p>典型用法：
  * <pre>
@@ -46,7 +46,7 @@ public final class Json {
         return new JsonParser(json, requireOptions(options)).parse();
     }
 
-    /** 严格模式：解析 JSON 对象（根必须是 {@code {...}}）。 */
+    /** 默认宽松模式：解析 JSON 对象（根必须是 {@code {...}}）。 */
     @SuppressWarnings("unchecked")
     public static JSONMap parseObject(String json) {
         return parseObject(json, JsonOptions.JSON_OPTIONS_LENIENT);
@@ -67,7 +67,7 @@ public final class Json {
         return (JSONMap) value;
     }
 
-    /** 严格模式：解析 JSON 数组（根必须是 {@code [...]}）。 */
+    /** 默认宽松模式：解析 JSON 数组（根必须是 {@code [...]}）。 */
     public static JSONList parseArray(String json) {
         return parseArray(json, JsonOptions.JSON_OPTIONS_LENIENT);
     }
@@ -88,7 +88,7 @@ public final class Json {
         return (JSONList) value;
     }
 
-    /** 严格模式：把 Java 对象序列化（stringify）为 JSON 文本。 */
+    /** 默认宽松模式：把 Java 对象序列化（stringify）为 JSON 文本。 */
     public static String stringify(Object value) {
         return stringify(value, JsonOptions.JSON_OPTIONS_LENIENT);
     }
