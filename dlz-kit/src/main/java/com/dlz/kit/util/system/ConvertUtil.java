@@ -23,14 +23,11 @@ public class ConvertUtil {
         if (input == null) {
             return null;
         }
-        if (tClass.isInstance(input)) {
-            return (T) input;
-        }
-
         T re = null;
-        if (tClass.isArray()) {
-//            return (T) ValUtil.toArray(input);
-            return convertToArray(input, tClass);
+        if (tClass.isInstance(input)) {
+            re = (T) input;
+        } else if (tClass.isArray()) {
+            re = convertToArray(input, tClass);
         } else if (Map.class.isAssignableFrom(tClass)) {
             re = convertToMap(input, tClass);
         } else if (Collection.class.isAssignableFrom(tClass)) {
