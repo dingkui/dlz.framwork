@@ -66,7 +66,7 @@ public class ConvertUtil {
         if (input instanceof Map) {
             re.putAll((Map) input);
         } else {
-            JSONMap reTmp = new JSONMap(); // 创建 Map 对象
+            JSONMap reTmp = new JSONMap(); // 创建 JSONMap 对象
             final List<Field> fields = FieldReflections.getFields(input.getClass());
             fields.stream().forEach(field -> {
                 SetValue annotation = field.getAnnotation(SetValue.class);
@@ -138,46 +138,19 @@ public class ConvertUtil {
         if (CharSequence.class.isInstance(input)) {
             input = Json.parseObject(input.toString());
         }
-        T re = Reflections.newInstance(tClass); // 创建 Map 对象
+        T re = Reflections.newInstance(tClass); // 创建 Bean 对象
         final List<Field> targetFields = FieldReflections.getFields(tClass);
-        if (input instanceof Map) {
-            JSONMap reTmp = new JSONMap(input); // 创建 Map 对象
-            targetFields.parallelStream().forEach(field -> {
-                SetValue annotation = field.getAnnotation(SetValue.class);
-                String name = field.getName();
-                String sourceName = name;
-                if (annotation != null && !"".equals(annotation.value())) {
-                    sourceName = annotation.value() + "." + name;
-                }
-                Object value = reTmp.getObj(sourceName, field.getType());
-                if (value != null) {
-                    FieldReflections.setValue(re, field, value);
-                }
-            });
-        } else {
-            final Object bean = input;
-            final Map<String, Field> inputFields = FieldReflections
-                    .getFields(bean.getClass())
-                    .stream()
-                    .collect(Collectors.toMap(Field::getName, f -> f));
-            targetFields.parallelStream().forEach(field -> {
-                SetValue annotation = field.getAnnotation(SetValue.class);
-                String name = field.getName();
-                Field inputField = inputFields.get(name);
-                if (inputField == null) {
-                    return;
-                }
-                Object value = FieldReflections.getValue(bean, inputField);
-                if (value == null) {
-                    return;
-                }
-                if (annotation != null && !"".equals(annotation.value())) {
-                    value = ValUtil.at(value, annotation.value());
-                }
-                if (value != null) {
-                    FieldReflections.setValue(re, field, value);
-                }
-            });
+        JSONMap map = input instanceof Map ? new JSONMap(input) : null;
+        for (Field field : targetFields) {
+            SetValue annotation = field.getAnnotation(SetValue.class);
+            String sourceName = field.getName();
+            if (annotation != null && !annotation.value().isEmpty()) {
+                sourceName = annotation.value() + "." + sourceName;
+            }
+            Object value = map != null ? map.getObj(sourceName, field.getType()) : ValUtil.at(input, sourceName);
+            if (value != null) {
+                FieldReflections.setValue(re, field, value);
+            }
         }
         return re;
     }

@@ -492,7 +492,7 @@ public class ValUtil {
         if (re instanceof CharSequence) {
             return new JSONMap(re.toString()).get(field);
         }
-        return FieldReflections.getValue(re, FieldReflections.getField(re.getClass(), field, true));
+        return FieldReflections.getValue(re, field, true);
     }
 
     /**
