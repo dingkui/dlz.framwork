@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent><groupId>top.dlzio</groupId><artifactId>dlz-kit-plugins</artifactId><version>6.7.5</version></parent>
+  <artifactId>dlz-caller-mybatis-spring-boot-starter</artifactId>
+  <name>DLZ Caller MyBatis Spring Boot Starter</name>
+  <description>Automatic caller SQL logging for existing MyBatis and MyBatis-Plus Boot 2/3 applications</description>
+  <properties>
+    <boot.version>2.6.12</boot.version>
+    <mybatis.version>3.5.10</mybatis.version>
+    <slf4j.version>1.7.36</slf4j.version>
+    <logback.version>1.2.13</logback.version>
+    <mybatis.starter.version>2.2.2</mybatis.starter.version>
+    <mybatis.starter.group>org.mybatis.spring.boot</mybatis.starter.group>
+    <mybatis.starter.artifact>mybatis-spring-boot-starter</mybatis.starter.artifact>
+  </properties>
+  <dependencyManagement><dependencies>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-dependencies</artifactId><version>${boot.version}</version><type>pom</type><scope>import</scope></dependency>
+  </dependencies></dependencyManagement>
+  <dependencies>
+    <dependency><groupId>top.dlzio</groupId><artifactId>dlz-caller-mybatis</artifactId><version>${project.version}</version></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-autoconfigure</artifactId><optional>true</optional></dependency>
+    <dependency><groupId>org.mybatis</groupId><artifactId>mybatis</artifactId><version>${mybatis.version}</version><scope>provided</scope></dependency>
+    <dependency><groupId>org.springframework.boot</groupId><artifactId>spring-boot-starter-test</artifactId><scope>test</scope></dependency>
+    <dependency><groupId>${mybatis.starter.group}</groupId><artifactId>${mybatis.starter.artifact}</artifactId><version>${mybatis.starter.version}</version><scope>test</scope></dependency>
+    <dependency><groupId>com.h2database</groupId><artifactId>h2</artifactId><scope>test</scope></dependency>
+  </dependencies>
+  <profiles>
+    <profile><id>boot3</id><properties><mybatis.version>3.5.17</mybatis.version>
+      <boot.version>3.3.13</boot.version><slf4j.version>2.0.16</slf4j.version><logback.version>1.5.18</logback.version><mybatis.starter.version>3.0.4</mybatis.starter.version>
+    </properties></profile>
+    <profile><id>plus2</id><properties><mybatis.version>3.5.16</mybatis.version>
+      <mybatis.starter.group>com.baomidou</mybatis.starter.group><mybatis.starter.artifact>mybatis-plus-boot-starter</mybatis.starter.artifact><mybatis.starter.version>3.5.7</mybatis.starter.version>
+    </properties></profile>
+    <profile><id>plus3</id><properties><mybatis.version>3.5.16</mybatis.version>
+      <boot.version>3.3.13</boot.version><slf4j.version>2.0.16</slf4j.version><logback.version>1.5.18</logback.version>
+      <mybatis.starter.group>com.baomidou</mybatis.starter.group><mybatis.starter.artifact>mybatis-plus-spring-boot3-starter</mybatis.starter.artifact><mybatis.starter.version>3.5.7</mybatis.starter.version>
+    </properties></profile>
+  </profiles>
+</project>

@@ -35,6 +35,13 @@ class DlzMybatisSqlLogPropertiesTest {
     }
 
     @Test
+    void skipsJava8AndModernJdkProxyFrames() {
+        assertTrue(DlzCallerResolver.isIgnored("com.sun.proxy.$Proxy51", java.util.Collections.emptySet()));
+        assertTrue(DlzCallerResolver.isIgnored("jdk.proxy2.$Proxy51", java.util.Collections.emptySet()));
+        assertFalse(DlzCallerResolver.isIgnored("example.OrderService", java.util.Collections.emptySet()));
+    }
+
+    @Test
     void acceptsPluralIgnorePackagesPropertyBinding() {
         DlzSqlLogProperties properties = new DlzSqlLogProperties();
 

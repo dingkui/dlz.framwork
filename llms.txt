@@ -7,4 +7,4 @@
 - 验证方式：`TESTING.md`
 - 许可证：`LICENSE`
 
-模块选择：核心使用 `top.dlzio:dlz-kit`；Jackson 互操作使用 `top.dlzio:dlz-json-jackson`；MyBatis SQL 日志使用 `top.dlzio:dlz-caller-mybatis`。当前版本为 6.7.4，编译目标 Java 8。
+模块选择：核心使用 `top.dlzio:dlz-kit`；Jackson 互操作使用 `top.dlzio:dlz-json-jackson`；MyBatis SQL 日志使用 `top.dlzio:dlz-caller-mybatis`。当前版本为 6.7.5，编译目标 Java 8。

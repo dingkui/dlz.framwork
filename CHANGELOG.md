@@ -3,6 +3,14 @@
 
 ---
 
+## v6.7.5
+
+- 修复 JDK 8 动态代理栈帧遮挡真实业务调用位置的问题。
+- 修复 MyBatis SQL 日志等诊断异常干扰业务结果、覆盖原数据库异常的问题。
+- 新增 dlz-caller-mybatis-spring-boot-starter，兼容 Boot 2/3、MyBatis/MyBatis-Plus 标准自动配置。
+- Starter 默认 INFO 输出，无需手动 Bean；支持 YAML、自定义配置和拦截器 Bean、禁用。基础插件保留 DEBUG 默认值。
+- 增加异常回归与真实 H2 查询自动装配测试，更新接入文档。
+
 ## v6.7.4
 
 - 新增 DlzCaller 日志诊断框架（ThreadLocal + MDC + 栈帧解析）

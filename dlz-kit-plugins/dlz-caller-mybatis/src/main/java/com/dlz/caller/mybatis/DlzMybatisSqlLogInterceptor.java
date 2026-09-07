@@ -3,6 +3,8 @@ package com.dlz.caller.mybatis;
 import com.dlz.caller.DlzCaller;
 import com.dlz.caller.DlzCallerResolver;
 import com.dlz.kit.mdc.MdcContext;
+import com.dlz.kit.util.VAL;
+import lombok.AllArgsConstructor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.plugin.Interceptor;
@@ -16,11 +18,13 @@ import org.apache.ibatis.session.ResultHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.sql.Statement;
 import java.util.Properties;
 
 /**
- * Logs the final SQL sent by MyBatis to JDBC, including bound parameter values and caller.
+ * Logs diagnostic SQL with parameter values and the application caller.
  *
  * <p>Register this interceptor after SQL-rewriting plugins so pagination and similar rewrites
  * are included in the emitted SQL.</p>
@@ -49,42 +53,81 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        boolean logSql = properties.isEnabled() && LOG.isDebugEnabled();
+        boolean logSql = properties.isEnabled() && (properties.getLogLevel() == DlzSqlLogProperties.LogLevel.INFO
+                ? LOG.isInfoEnabled() : LOG.isDebugEnabled());;
         boolean injectCallerMdc = properties.isEnabled() && properties.isInjectCallerMdc();
-        if (logSql || injectCallerMdc) {
-            long startTime = System.currentTimeMillis();
-            String caller = (logSql && properties.isShowCaller()) || injectCallerMdc
-                    ? DlzCallerResolver.resolve(properties) : "";
-            MdcContext callerContext = injectCallerMdc ? DlzCaller.open(caller) : null;
+        String caller = "";
+        MdcContext callerContext = null;
+        try {
+            if ((logSql && properties.isShowCaller()) || injectCallerMdc) {
+                caller = DlzCallerResolver.resolve(properties);
+                if (injectCallerMdc) {
+                    callerContext = DlzCaller.open(caller);
+                }
+            }
+        } catch (Exception | LinkageError diagnosticFailure) {
+            // Diagnostic setup must never prevent the business operation from executing.
+            return invocation.proceed();
+        }
+        long startTime = System.nanoTime();
+        try {
+            return invocation.proceed();
+        } finally {
             try {
-                return invocation.proceed();
-            } finally {
-                try {
-                    if (logSql) {
-                        StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-                        MetaObject metaObject = SystemMetaObject.forObject(statementHandler);
-                        BoundSql boundSql = statementHandler.getBoundSql();
-                        Configuration config = (Configuration) metaObject.getValue("delegate.configuration");
-                        String mapper = properties.isShowMapper() ? DlzMybatisSqlLogFormatter.getMapper(metaObject) : "";
-                        String callerText = properties.isShowCaller() && !caller.isEmpty() ? caller + " " : "";
-                        LOG.debug("{}{} {}ms => {}", callerText, mapper,
-                                System.currentTimeMillis() - startTime,
-                                DlzMybatisSqlLogFormatter.toExecutableSql(config, boundSql));
+                if (logSql) {
+                    SqlLogDetails val = getSqlLogDetails(invocation, caller);
+                    long elapsedMillis = (System.nanoTime() - startTime) / 1_000_000;
+                    if (properties.getLogLevel() == DlzSqlLogProperties.LogLevel.INFO) {
+                        LOG.info("{}{} {}ms => {}", val.caller, val.mapper, elapsedMillis, val.sql);
+                    } else {
+                        LOG.debug("{}{} {}ms => {}", val.caller, val.mapper, elapsedMillis, val.sql);
                     }
-                } finally {
-                    if (callerContext != null) {
+                }
+            } catch (Exception | LinkageError diagnosticFailure) {
+                // Preserve the result/database exception. The same logger may itself be broken.
+            } finally {
+                if (callerContext != null) {
+                    try {
                         callerContext.close();
+                    } catch (Exception | LinkageError diagnosticFailure) {
+                        // MDC cleanup is diagnostic-only too.
                     }
                 }
             }
         }
-        return invocation.proceed();
+    }
+    @AllArgsConstructor
+    class SqlLogDetails {
+        final String caller;
+        final String mapper;
+        final String sql;
+    }
+    private SqlLogDetails getSqlLogDetails(Invocation invocation, String caller){
+        StatementHandler handler = (StatementHandler) invocation.getTarget();
+        StatementHandler metadataHandler = handler;
+        while (Proxy.isProxyClass(metadataHandler.getClass())) {
+            InvocationHandler proxyHandler = Proxy.getInvocationHandler(metadataHandler);
+            if (!(proxyHandler instanceof org.apache.ibatis.plugin.Plugin)) {
+                break;
+            }
+            metadataHandler = (StatementHandler) SystemMetaObject.forObject(proxyHandler).getValue("target");
+        }
+        MetaObject metaObject = SystemMetaObject.forObject(metadataHandler);
+        BoundSql boundSql = handler.getBoundSql();
+        Configuration config = (Configuration) metaObject.getValue("delegate.configuration");
+        String mapper = properties.isShowMapper() ? DlzMybatisSqlLogFormatter.getMapper(metaObject) : "";
+        String callerText = properties.isShowCaller() && !caller.isEmpty() ? caller + " " : "";
+        String sql = DlzMybatisSqlLogFormatter.toExecutableSql(config, boundSql);
+        return new SqlLogDetails(callerText, mapper, sql);
     }
 
     @Override
     public void setProperties(Properties source) {
         if (source == null) {
             return;
+        }
+        if (source.getProperty("logLevel") != null) {
+            properties.setLogLevel(DlzSqlLogProperties.LogLevel.valueOf(source.getProperty("logLevel").trim().toUpperCase(java.util.Locale.ROOT)));
         }
         if (source.getProperty("enabled") != null) {
             properties.setEnabled(Boolean.parseBoolean(source.getProperty("enabled")));

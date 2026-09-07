@@ -1,0 +1,45 @@
+{
+  "groups": [
+    {
+      "name": "dlz.caller.mybatis.sql-log",
+      "type": "com.dlz.caller.mybatis.DlzSqlLogProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "dlz.caller.mybatis.sql-log.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable automatic SQL logging registration.",
+      "defaultValue": true
+    },
+    {
+      "name": "dlz.caller.mybatis.sql-log.log-level",
+      "type": "com.dlz.caller.mybatis.DlzSqlLogProperties$LogLevel",
+      "description": "SQL logger level: INFO or DEBUG.",
+      "defaultValue": "INFO"
+    },
+    {
+      "name": "dlz.caller.mybatis.sql-log.show-caller",
+      "type": "java.lang.Boolean",
+      "description": "Include application source location.",
+      "defaultValue": true
+    },
+    {
+      "name": "dlz.caller.mybatis.sql-log.show-mapper",
+      "type": "java.lang.Boolean",
+      "description": "Include mapped statement identifier.",
+      "defaultValue": false
+    },
+    {
+      "name": "dlz.caller.mybatis.sql-log.inject-caller-mdc",
+      "type": "java.lang.Boolean",
+      "description": "Inject caller into MDC during statement execution.",
+      "defaultValue": false
+    },
+    {
+      "name": "dlz.caller.mybatis.sql-log.ignore-caller-packages",
+      "type": "java.util.Set<java.lang.String>",
+      "description": "Additional caller package prefixes to skip."
+    }
+  ]
+}

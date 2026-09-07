@@ -39,6 +39,7 @@ public final class DlzCallerResolver {
                 || className.startsWith("java")
                 || className.startsWith("jdk")
                 || className.startsWith("sun")
+                || className.startsWith("com.sun.proxy.")
                 || className.startsWith("org.springframework")
         ) {
             return true;

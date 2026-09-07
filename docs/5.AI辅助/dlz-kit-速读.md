@@ -7,7 +7,7 @@
 - `top.dlzio:dlz-kit`：核心 JSON、转换、缓存、Caller 和通用工具；核心运行时不依赖 Jackson。
 - `top.dlzio:dlz-json-jackson`：可选 Jackson 互操作，入口为 `com.dlz.kit.json.jackson.JacksonUtil`。
 - `top.dlzio:dlz-caller-mybatis`：可选 MyBatis SQL 日志插件，需要手动注册拦截器/配置。
-- 当前版本：`6.7.4`；编译目标 Java 8。
+- 当前版本：`6.7.5`；编译目标 Java 8。
 
 ## 首选 API
 

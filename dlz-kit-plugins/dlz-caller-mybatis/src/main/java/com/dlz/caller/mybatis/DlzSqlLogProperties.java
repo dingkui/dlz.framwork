@@ -4,17 +4,20 @@ import com.dlz.caller.DlzCallerProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Properties;
+
 
 /**
  * Configuration for {@link DlzMybatisSqlLogInterceptor}.
  *
- * <p>The property names match MyBatis plugin declarations. All options default to {@code true}
- * so registering the interceptor enables its complete diagnostic output.</p>
  */
 @Getter
 @Setter
 public class DlzSqlLogProperties extends DlzCallerProperties {
+
+    public enum LogLevel { DEBUG, INFO }
+
+    /** Standalone plugin retains DEBUG; the starter defaults to INFO. */
+    private LogLevel logLevel = LogLevel.DEBUG;
 
     /** Whether SQL logging is enabled. */
     private boolean enabled = true;

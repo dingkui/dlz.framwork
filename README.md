@@ -16,7 +16,7 @@ String city = new JSONMap(response).getStr("data.user.profile.addresses[0].city"
 <dependency>
     <groupId>top.dlzio</groupId>
     <artifactId>dlz-kit</artifactId>
-    <version>6.7.4</version>
+    <version>6.7.5</version>
 </dependency>
 ```
 
@@ -184,3 +184,7 @@ cp dlz-kit/.cursorrules your-project/.cursorrules
 本项目采用 [Apache License 2.0](LICENSE)，具体条款以仓库根目录的 `LICENSE` 文件为准。
 
 如果觉得有用，点个 ⭐ 让更多人看到。
+
+## MyBatis / MyBatis-Plus 调用者日志
+
+Boot 2 / Boot 3 应用添加 `top.dlzio:dlz-caller-mybatis-spring-boot-starter:6.7.5` 即可自动输出带调用位置的 SQL 诊断日志，支持自定义配置与 Bean。见 [Starter 使用指南](dlz-kit-plugins/dlz-caller-mybatis-spring-boot-starter/README.md)。
