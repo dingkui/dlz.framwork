@@ -103,6 +103,9 @@ public class MemoryCache implements ICache {
      */
     @Override
     public void put(String name, Serializable key, Serializable value, int seconds) {
+        if (value == null) {
+            throw new IllegalArgumentException("缓存值不能为 null");
+        }
         long expireAtMillis = seconds > 0
                 ? System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(seconds)
                 : Element.NEVER_EXPIRES;
