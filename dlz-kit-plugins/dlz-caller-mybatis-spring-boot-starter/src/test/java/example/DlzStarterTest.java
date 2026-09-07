@@ -24,7 +24,7 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.beans.Statement;
+import java.sql.Statement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -64,12 +64,13 @@ class DlzStarterTest {
         runner.run(context -> {
             assertThat(context).hasNotFailed().hasSingleBean(DlzMybatisSqlLogInterceptor.class);
             DlzMybatisSqlLogInterceptor plugin = context.getBean(DlzMybatisSqlLogInterceptor.class);
-            assertThat(plugin.getProperties().getLogLevel()).isEqualTo(DlzSqlLogProperties.LogLevel.INFO);
             SqlSessionFactory factory = context.getBean(SqlSessionFactory.class);
             assertThat(factory.getConfiguration().getInterceptors().stream()
                     .filter(DlzMybatisSqlLogInterceptor.class::isInstance).count()).isEqualTo(1);
             factory.getConfiguration().addMapper(ProbeMapper.class);
             Logger logger = (Logger) LoggerFactory.getLogger("dlz-sql");
+            ch.qos.logback.classic.Level previous = logger.getLevel();
+            logger.setLevel(ch.qos.logback.classic.Level.DEBUG);
             ListAppender<ILoggingEvent> appender = new ListAppender<>();
             appender.start();
             logger.addAppender(appender);
@@ -77,9 +78,10 @@ class DlzStarterTest {
                 assertThat(session.getMapper(ProbeMapper.class).answer()).isEqualTo(42);
                 assertThat(appender.list).anySatisfy(event -> {
                     assertThat(event.getFormattedMessage()).contains("select 42", "DlzStarterTest.java:");
-                    assertThat(event.getLevel().toString()).isEqualTo("INFO");
+                    assertThat(event.getLevel().toString()).isEqualTo("DEBUG");
                 });
             } finally {
+                logger.setLevel(previous);
                 logger.detachAppender(appender);
                 appender.stop();
             }
@@ -88,14 +90,12 @@ class DlzStarterTest {
 
     @Test
     void bindsCustomSettings() {
-        runner.withPropertyValues("dlz.caller.mybatis.sql-log.log-level=DEBUG",
-                        "dlz.caller.mybatis.sql-log.show-mapper=true",
+        runner.withPropertyValues("dlz.caller.mybatis.sql-log.show-mapper=true",
                         "dlz.caller.mybatis.sql-log.show-caller=false",
                         "dlz.caller.mybatis.sql-log.ignore-caller-packages[0]=example.dao.")
                 .run(context -> {
                     assertThat(context).hasNotFailed();
                     DlzSqlLogProperties p = context.getBean(DlzSqlLogProperties.class);
-                    assertThat(p.getLogLevel()).isEqualTo(DlzSqlLogProperties.LogLevel.DEBUG);
                     assertThat(p.isShowMapper()).isTrue();
                     assertThat(p.isShowCaller()).isFalse();
                     assertThat(p.getIgnoreCallerPackages()).contains("example.dao.", "org.apache.ibatis");

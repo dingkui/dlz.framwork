@@ -1,0 +1,16 @@
+name: starter-compatibility
+on: [push, pull_request]
+jobs:
+  consumers:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        profile: [boot3, plus2, plus3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - run: mvn -B -pl dlz-kit-plugins/dlz-caller-mybatis-spring-boot-starter -am test -P${{ matrix.profile }} -Dspotbugs.skip=true -Djacoco.skip=true

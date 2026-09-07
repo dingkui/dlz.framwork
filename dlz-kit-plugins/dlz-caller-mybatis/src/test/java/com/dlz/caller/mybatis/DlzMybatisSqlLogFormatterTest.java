@@ -25,7 +25,7 @@ class DlzMybatisSqlLogFormatterTest {
         BoundSql boundSql = new BoundSql(configuration,
                 "select  *\nfrom user where id = ? and name = ? and marker = 'two  spaces ?' -- ?", mappings, parameters);
 
-        assertEquals("select * from user where id = 7 and name = 'O''Reilly' and marker = 'two  spaces ?' -- ?",
+        assertEquals("select * from user where id = 7 and name = 'O''Reilly' and marker = 'two  spaces ?'",
                 DlzMybatisSqlLogFormatter.toExecutableSql(configuration, boundSql));
     }
 
@@ -39,5 +39,16 @@ class DlzMybatisSqlLogFormatterTest {
 
         assertEquals("select * from user where id = 42",
                 DlzMybatisSqlLogFormatter.toExecutableSql(configuration, boundSql));
+    }
+    @Test
+    void removesLineCommentsToKeepOneLineAndBindsFollowingParameters() {
+        Configuration configuration = new Configuration();
+        for (String newline : Arrays.asList("\n", "\r\n", "\r")) {
+            BoundSql boundSql = new BoundSql(configuration,
+                    "select 1 -- leave ? unchanged" + newline + "  where id = ?",
+                    Arrays.asList(new ParameterMapping.Builder(configuration, "id", Integer.class).build()), 7);
+            assertEquals("select 1 where id = 7",
+                    DlzMybatisSqlLogFormatter.toExecutableSql(configuration, boundSql));
+        }
     }
 }

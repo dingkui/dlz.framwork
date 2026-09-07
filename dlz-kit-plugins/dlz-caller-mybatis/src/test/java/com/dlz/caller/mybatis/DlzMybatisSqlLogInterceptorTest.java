@@ -14,6 +14,15 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DlzMybatisSqlLogInterceptorTest {
+    private ch.qos.logback.classic.Level originalLevel;
+    @org.junit.jupiter.api.BeforeEach void enableDiagnosticLogging() {
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("dlz-sql");
+        originalLevel = logger.getLevel();
+        logger.setLevel(ch.qos.logback.classic.Level.DEBUG);
+    }
+    @org.junit.jupiter.api.AfterEach void restoreDiagnosticLogging() {
+        ((ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger("dlz-sql")).setLevel(originalLevel);
+    }
     public static class Handler implements StatementHandler {
         public final Delegate delegate = new Delegate();
         int executions;
@@ -45,7 +54,6 @@ class DlzMybatisSqlLogInterceptorTest {
     }
     private Object execute(Handler handler) throws Throwable {
         DlzSqlLogProperties properties = new DlzSqlLogProperties();
-        properties.setLogLevel(DlzSqlLogProperties.LogLevel.INFO);
         properties.setInjectCallerMdc(true);
         return new DlzMybatisSqlLogInterceptor(properties).intercept(new Invocation(handler,
                 StatementHandler.class.getMethod("update", Statement.class), new Object[]{null}));
@@ -75,10 +83,71 @@ class DlzMybatisSqlLogInterceptorTest {
                 throw new IllegalStateException("caller failed");
             }
         };
-        properties.setLogLevel(DlzSqlLogProperties.LogLevel.INFO);
         Handler handler = new Handler();
         assertEquals(7, new DlzMybatisSqlLogInterceptor(properties).intercept(new Invocation(handler,
                 StatementHandler.class.getMethod("update", Statement.class), new Object[]{null})));
         assertEquals(1, handler.executions);
+    }
+
+    @Test void traceAddsDetailsToOneSqlEventAndRespectsShowCaller() throws Throwable {
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)
+                org.slf4j.LoggerFactory.getLogger("dlz-sql");
+        ch.qos.logback.classic.Level previous = logger.getLevel();
+        ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent> appender =
+                new ch.qos.logback.core.read.ListAppender<>();
+        appender.start();
+        logger.addAppender(appender);
+        try {
+            Handler handler = new Handler() {
+                @Override public BoundSql getBoundSql() {
+                    return new BoundSql(delegate.configuration, "select 42", Collections.emptyList(), null);
+                }
+            };
+            DlzSqlLogProperties p = new DlzSqlLogProperties();
+            DlzMybatisSqlLogInterceptor interceptor = new DlzMybatisSqlLogInterceptor(p);
+            logger.setLevel(ch.qos.logback.classic.Level.TRACE);
+            interceptor.intercept(new Invocation(handler, StatementHandler.class.getMethod("update", Statement.class), new Object[]{null}));
+            assertEquals(1, appender.list.size());
+            String message = appender.list.get(0).getFormattedMessage();
+            assertTrue(message.contains("select 42 | caller-path:"));
+            assertTrue(message.contains("DlzMybatisSqlLogInterceptor.intercept"));
+            assertFalse(message.contains("DlzCallerResolver.resolve"));
+
+            appender.list.clear();
+            logger.setLevel(ch.qos.logback.classic.Level.DEBUG);
+            interceptor.intercept(new Invocation(handler, StatementHandler.class.getMethod("update", Statement.class), new Object[]{null}));
+            assertEquals(1, appender.list.size());
+            assertFalse(appender.list.get(0).getFormattedMessage().contains("caller-path:"));
+
+            appender.list.clear();
+            logger.setLevel(ch.qos.logback.classic.Level.TRACE);
+            p.setShowCaller(false);
+            interceptor.intercept(new Invocation(handler, StatementHandler.class.getMethod("update", Statement.class), new Object[]{null}));
+            assertEquals(1, appender.list.size());
+            assertFalse(appender.list.get(0).getFormattedMessage().contains("caller-path:"));
+
+            appender.list.clear();
+            p.setEnabled(false);
+            interceptor.intercept(new Invocation(handler, StatementHandler.class.getMethod("update", Statement.class), new Object[]{null}));
+            // Once registered, enabled is not a per-call switch; logging controls output.
+            assertEquals(1, appender.list.size());
+            assertEquals(4, handler.executions);
+            appender.list.clear();
+            logger.setLevel(ch.qos.logback.classic.Level.INFO);
+            DlzSqlLogProperties failOnCapture = new DlzSqlLogProperties() {
+                @Override public Set<String> getIgnoreCallerPackages() {
+                    fail("INFO must not capture the caller stack");
+                    return Collections.emptySet();
+                }
+            };
+            new DlzMybatisSqlLogInterceptor(failOnCapture).intercept(new Invocation(handler,
+                    StatementHandler.class.getMethod("update", Statement.class), new Object[]{null}));
+            assertTrue(appender.list.isEmpty());
+            assertEquals(5, handler.executions);
+        } finally {
+            logger.setLevel(previous);
+            logger.detachAppender(appender);
+            appender.stop();
+        }
     }
 }

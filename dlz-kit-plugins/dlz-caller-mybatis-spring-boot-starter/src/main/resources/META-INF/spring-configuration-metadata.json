@@ -13,12 +13,6 @@
       "defaultValue": true
     },
     {
-      "name": "dlz.caller.mybatis.sql-log.log-level",
-      "type": "com.dlz.caller.mybatis.DlzSqlLogProperties$LogLevel",
-      "description": "SQL logger level: INFO or DEBUG.",
-      "defaultValue": "INFO"
-    },
-    {
       "name": "dlz.caller.mybatis.sql-log.show-caller",
       "type": "java.lang.Boolean",
       "description": "Include application source location.",

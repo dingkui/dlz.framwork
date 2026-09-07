@@ -92,6 +92,17 @@ final class DlzMybatisSqlLogFormatter {
         boolean previousWhitespace = false;
         for (int index = 0; index < sql.length(); index++) {
             char current = sql.charAt(index);
+            if (state == SqlLexState.NORMAL && current == '-' && index + 1 < sql.length()
+                    && sql.charAt(index + 1) == '-') {
+                // Remove line comments before flattening; otherwise they swallow subsequent SQL.
+                while (index + 1 < sql.length() && sql.charAt(index + 1) != '\n'
+                        && sql.charAt(index + 1) != '\r') {
+                    index++;
+                }
+                if (!previousWhitespace) compactSql.append(' ');
+                previousWhitespace = true;
+                continue;
+            }
             state = state.next(sql, index);
             if (state == SqlLexState.NORMAL && Character.isWhitespace(current)) {
                 if (!previousWhitespace) {

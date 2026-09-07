@@ -22,9 +22,7 @@ public class DlzMybatisSqlLogAutoConfiguration {
     @ConditionalOnMissingBean
     @ConfigurationProperties(prefix = "dlz.caller.mybatis.sql-log")
     public DlzSqlLogProperties dlzSqlLogProperties() {
-        DlzSqlLogProperties properties = new DlzSqlLogProperties();
-        properties.setLogLevel(DlzSqlLogProperties.LogLevel.INFO);
-        return properties;
+        return new DlzSqlLogProperties();
     }
 
     @Bean

@@ -5,10 +5,13 @@
 
 ## v6.7.5
 
+- 压缩 SQL 前移除 -- 行注释，保留单行展示且避免后续参数被注释吞掉；耗时不再计入日志格式化，诊断关闭时直接执行原调用。
+- enabled 统一为注册阶段开关，拦截器运行时仅根据日志级别及诊断选项工作。
+- 增加 TRACE 按需定位详情，与 SQL 合并输出，复用一次抓栈，保留普通日志格式。
 - 修复 JDK 8 动态代理栈帧遮挡真实业务调用位置的问题。
 - 修复 MyBatis SQL 日志等诊断异常干扰业务结果、覆盖原数据库异常的问题。
 - 新增 dlz-caller-mybatis-spring-boot-starter，兼容 Boot 2/3、MyBatis/MyBatis-Plus 标准自动配置。
-- Starter 默认 INFO 输出，无需手动 Bean；支持 YAML、自定义配置和拦截器 Bean、禁用。基础插件保留 DEBUG 默认值。
+- Starter 无需手动 Bean；支持 YAML、自定义配置和拦截器 Bean、禁用。SQL 固定 DEBUG 输出，由日志框架控制，TRACE 附加定位详情。
 - 增加异常回归与真实 H2 查询自动装配测试，更新接入文档。
 
 ## v6.7.4

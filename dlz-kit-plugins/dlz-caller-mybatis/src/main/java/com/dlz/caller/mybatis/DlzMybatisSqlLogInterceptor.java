@@ -3,7 +3,6 @@ package com.dlz.caller.mybatis;
 import com.dlz.caller.DlzCaller;
 import com.dlz.caller.DlzCallerResolver;
 import com.dlz.kit.mdc.MdcContext;
-import com.dlz.kit.util.VAL;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -53,14 +52,26 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        boolean logSql = properties.isEnabled() && (properties.getLogLevel() == DlzSqlLogProperties.LogLevel.INFO
-                ? LOG.isInfoEnabled() : LOG.isDebugEnabled());;
-        boolean injectCallerMdc = properties.isEnabled() && properties.isInjectCallerMdc();
+        final boolean logSql = LOG.isDebugEnabled();
+        final boolean detailed = logSql && properties.isShowCaller() && LOG.isTraceEnabled();
+        final boolean injectCallerMdc = properties.isInjectCallerMdc();
+        if (!logSql && !injectCallerMdc) {
+            return invocation.proceed();
+        }
         String caller = "";
+        String callerPath = "";
         MdcContext callerContext = null;
         try {
             if ((logSql && properties.isShowCaller()) || injectCallerMdc) {
-                caller = DlzCallerResolver.resolve(properties);
+                DlzCallerResolver.CallerDetails location = DlzCallerResolver.resolveDetails(properties, detailed);
+                caller = location.getCaller();
+                if (detailed && !location.getSkippedFrames().isEmpty()) {
+                    StringBuilder path = new StringBuilder(" | caller-path: ").append(caller);
+                    for (int i = location.getSkippedFrames().size() - 1; i >= 0; i--) {
+                        path.append(" -> ").append(location.getSkippedFrames().get(i));
+                    }
+                    callerPath = path.toString();
+                }
                 if (injectCallerMdc) {
                     callerContext = DlzCaller.open(caller);
                 }
@@ -75,13 +86,9 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
         } finally {
             try {
                 if (logSql) {
-                    SqlLogDetails val = getSqlLogDetails(invocation, caller);
                     long elapsedMillis = (System.nanoTime() - startTime) / 1_000_000;
-                    if (properties.getLogLevel() == DlzSqlLogProperties.LogLevel.INFO) {
-                        LOG.info("{}{} {}ms => {}", val.caller, val.mapper, elapsedMillis, val.sql);
-                    } else {
-                        LOG.debug("{}{} {}ms => {}", val.caller, val.mapper, elapsedMillis, val.sql);
-                    }
+                    SqlLogDetails val = getSqlLogDetails(invocation, caller);
+                    LOG.debug("{}{} {}ms => {}{}", val.caller, val.mapper, elapsedMillis, val.sql, callerPath);
                 }
             } catch (Exception | LinkageError diagnosticFailure) {
                 // Preserve the result/database exception. The same logger may itself be broken.
@@ -97,7 +104,7 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
         }
     }
     @AllArgsConstructor
-    class SqlLogDetails {
+    private static class SqlLogDetails {
         final String caller;
         final String mapper;
         final String sql;
@@ -125,9 +132,6 @@ public class DlzMybatisSqlLogInterceptor implements Interceptor {
     public void setProperties(Properties source) {
         if (source == null) {
             return;
-        }
-        if (source.getProperty("logLevel") != null) {
-            properties.setLogLevel(DlzSqlLogProperties.LogLevel.valueOf(source.getProperty("logLevel").trim().toUpperCase(java.util.Locale.ROOT)));
         }
         if (source.getProperty("enabled") != null) {
             properties.setEnabled(Boolean.parseBoolean(source.getProperty("enabled")));

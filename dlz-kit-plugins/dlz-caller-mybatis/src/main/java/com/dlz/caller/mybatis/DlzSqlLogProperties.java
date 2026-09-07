@@ -14,12 +14,7 @@ import lombok.Setter;
 @Setter
 public class DlzSqlLogProperties extends DlzCallerProperties {
 
-    public enum LogLevel { DEBUG, INFO }
-
-    /** Standalone plugin retains DEBUG; the starter defaults to INFO. */
-    private LogLevel logLevel = LogLevel.DEBUG;
-
-    /** Whether SQL logging is enabled. */
+    /** Registration-time switch. Manual integrations must check it before registering the plugin. */
     private boolean enabled = true;
 
     /** Whether the application caller location is emitted. */
