@@ -6,6 +6,7 @@ import com.dlz.kit.json.core.Json;
 import com.dlz.kit.util.ValUtil;
 import com.dlz.kit.util.system.annotation.SetValue;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Consumer;
@@ -108,9 +109,11 @@ public class ConvertUtil {
      * @param <T>
      */
     private static <T> T convertToList(final Object input, final Class<T> tClass) {
-        Collection re = (Collection) Reflections.newInstance(tClass); // 创建 Map 对象
+        Collection re = (Collection) Reflections.newInstance(tClass); // 创建集合对象
         if (input.getClass().isArray()) {
-            re.addAll(Arrays.asList(input));
+            for (int i = 0; i < Array.getLength(input); i++) {
+                re.add(Array.get(input, i));
+            }
         }else if (Collection.class.isInstance(input)) {
             re.addAll(((Collection) input));
         }else if (input instanceof CharSequence){
